@@ -11,7 +11,7 @@ This roadmap evolves the existing Express + static dashboard lab into a stronger
 - Integer phases (1, 2, 3): Planned milestone work
 - Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-- [ ] **Phase 1: Dashboard CRUD Flow** - Make create, edit, and delete visible from the browser.
+- [x] **Phase 1: Dashboard CRUD Flow** - Make create, edit, and delete visible from the browser. (completed 2026-05-26)
 - [ ] **Phase 2: File Persistence** - Teach memory vs persistence with `data/users.json`.
 - [ ] **Phase 3: API Tests and Quality Fixes** - Add automated API confidence and resolve known low-risk debt.
 - [ ] **Phase 4: Learning Material Hardening** - Add glossary and keep docs/missions aligned with the working app.
@@ -45,7 +45,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-03: Document the dashboard CRUD flow and add or update the learner mission.
+- [x] 01-03: Document the dashboard CRUD flow and add or update the learner mission.
 
 ### Phase 2: File Persistence
 
@@ -139,7 +139,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Dashboard CRUD Flow | 2/3 | In Progress|  |
+| 1. Dashboard CRUD Flow | 3/3 | Complete   | 2026-05-26 |
 | 2. File Persistence | 0/3 | Not started | - |
 | 3. API Tests and Quality Fixes | 0/3 | Not started | - |
 | 4. Learning Material Hardening | 0/2 | Not started | - |

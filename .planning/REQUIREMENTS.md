@@ -13,7 +13,7 @@ Requirements for the current educational evolution. Each requirement maps to a r
 - [x] **DASH-02**: Learner can edit an existing user from the dashboard.
 - [x] **DASH-03**: Learner can delete a user from the dashboard with visible confirmation or feedback.
 - [x] **DASH-04**: Dashboard shows loading, success, and error states for CRUD operations.
-- [ ] **DASH-05**: Dashboard documentation and missions explain the browser-to-API mutation flow.
+- [x] **DASH-05**: Dashboard documentation and missions explain the browser-to-API mutation flow.
 
 ### Persistence
 
@@ -90,7 +90,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DASH-02 | Phase 1 | Complete |
 | DASH-03 | Phase 1 | Complete |
 | DASH-04 | Phase 1 | Complete |
-| DASH-05 | Phase 1 | Pending |
+| DASH-05 | Phase 1 | Complete |
 | PERS-01 | Phase 2 | Pending |
 | PERS-02 | Phase 2 | Pending |
 | PERS-03 | Phase 2 | Pending |
