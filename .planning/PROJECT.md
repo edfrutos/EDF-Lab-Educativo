@@ -21,10 +21,10 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ Practical missions guide learners through starting the API, starting the dashboard, inspecting JSON, breaking/fixing CORS, and improving the UI — existing
 - ✓ `NOTEBOOK.md` records decisions, real errors, and learning context — existing
 - ✓ Codebase map exists in `.planning/codebase/` for stack, architecture, structure, conventions, testing, integrations, and concerns — existing
+- ✓ Dashboard CRUD forms let beginners create, edit, and delete users from the browser with visible method/endpoint feedback — validated in Phase 01
 
 ### Active
 
-- [ ] Add dashboard CRUD forms so beginners can create, edit, and delete users from the browser, not only with curl.
 - [ ] Add persistence for users in `data/users.json` and explain memory vs persistence.
 - [ ] Add API tests for core endpoints and CRUD behavior.
 - [ ] Add a glossary of concepts for beginner learners.
@@ -61,9 +61,9 @@ The current roadmap sequence is accepted, with this priority order:
 
 The audience is the project owner and beginner students. The tone and implementation choices should therefore favor clarity, observability, executable examples, and explicit documentation over clever abstractions.
 
-Known current concerns from `.planning/codebase/CONCERNS.md`:
+Known current concerns from `.planning/codebase/CONCERNS.md` and Phase 01 execution:
 
-- `dashboard/index.html` still contains an old `express-api-demo` path in the offline help message.
+- The stale `express-api-demo` path in `dashboard/index.html` was corrected during Phase 01.
 - `api/package.json` still uses generic `test-project` metadata.
 - `npm test` intentionally fails because no test suite exists yet.
 - `nodemon` is installed but no `dev` script exposes it.
@@ -85,8 +85,8 @@ Known current concerns from `.planning/codebase/CONCERNS.md`:
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Keep the lab beginner-oriented | The stated audience is the project owner and beginner students | — Pending |
-| Prioritize dashboard CRUD before persistence/tests/glossary/quality/Docker/OpenAPI | Browser-based mutation makes the existing API behavior visible to learners before adding deeper infrastructure | — Pending |
-| Keep vanilla frontend for now | HTML/CSS/JS makes the data flow easier for beginners to inspect | — Pending |
+| Prioritize dashboard CRUD before persistence/tests/glossary/quality/Docker/OpenAPI | Browser-based mutation makes the existing API behavior visible to learners before adding deeper infrastructure | Validated in Phase 01 |
+| Keep vanilla frontend for now | HTML/CSS/JS makes the data flow easier for beginners to inspect | Validated in Phase 01 |
 | Allow frameworks later | Future phases may benefit from framework concepts once the fundamentals are established | — Pending |
 | Treat docs, missions, and roadmap as source-of-intent | The user identified `docs/`, `missions/`, and `ROADMAP.md` as the project direction | — Pending |
 
@@ -108,4 +108,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-26 after initialization*
+*Last updated: 2026-05-26 after Phase 01 completion*
