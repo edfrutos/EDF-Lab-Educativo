@@ -10,8 +10,8 @@ Requirements for the current educational evolution. Each requirement maps to a r
 ### Dashboard CRUD
 
 - [x] **DASH-01**: Learner can create a user from the dashboard using the existing API.
-- [ ] **DASH-02**: Learner can edit an existing user from the dashboard.
-- [ ] **DASH-03**: Learner can delete a user from the dashboard with visible confirmation or feedback.
+- [x] **DASH-02**: Learner can edit an existing user from the dashboard.
+- [x] **DASH-03**: Learner can delete a user from the dashboard with visible confirmation or feedback.
 - [x] **DASH-04**: Dashboard shows loading, success, and error states for CRUD operations.
 - [ ] **DASH-05**: Dashboard documentation and missions explain the browser-to-API mutation flow.
 
@@ -87,8 +87,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | DASH-01 | Phase 1 | Complete |
-| DASH-02 | Phase 1 | Pending |
-| DASH-03 | Phase 1 | Pending |
+| DASH-02 | Phase 1 | Complete |
+| DASH-03 | Phase 1 | Complete |
 | DASH-04 | Phase 1 | Complete |
 | DASH-05 | Phase 1 | Pending |
 | PERS-01 | Phase 2 | Pending |

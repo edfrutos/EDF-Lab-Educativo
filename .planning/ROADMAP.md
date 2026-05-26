@@ -41,7 +41,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02: Implement create/edit/delete interactions in vanilla JavaScript.
+- [x] 01-02: Implement create/edit/delete interactions in vanilla JavaScript.
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
@@ -139,7 +139,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Dashboard CRUD Flow | 1/3 | In Progress|  |
+| 1. Dashboard CRUD Flow | 2/3 | In Progress|  |
 | 2. File Persistence | 0/3 | Not started | - |
 | 3. API Tests and Quality Fixes | 0/3 | Not started | - |
 | 4. Learning Material Hardening | 0/2 | Not started | - |
