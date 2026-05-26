@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Users Dashboard | Demo API Express</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Frontend externo independiente</p>
+          <h1>Panel de usuarios conectado a una API Express</h1>
+          <p class="hero-text">
+            Esta página consume los endpoints de la carpeta <strong>api</strong>
+            para demostrar cómo un frontend real obtiene datos JSON desde un backend Node.js.
+          </p>
+        </div>
+
+        <div class="connection-card" id="connection-card">
+          <span class="status-dot" id="status-dot" aria-hidden="true"></span>
+          <div>
+            <p class="connection-label">Estado de conexión</p>
+            <p class="connection-value" id="connection-value">Comprobando API...</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="Acciones del panel">
+        <div>
+          <p class="small-label">API base</p>
+          <code id="api-base-url">http://localhost:3100</code>
+        </div>
+        <button type="button" id="reload-button">Recargar datos</button>
+      </section>
+
+      <section class="grid">
+        <article class="card">
+          <header class="card-header">
+            <div>
+              <p class="small-label">Endpoint</p>
+              <h2>GET /health</h2>
+            </div>
+          </header>
+          <div class="metric">
+            <span>Estado</span>
+            <strong id="health-status">-</strong>
+          </div>
+          <div class="metric">
+            <span>Última comprobación</span>
+            <strong id="health-timestamp">-</strong>
+          </div>
+          <p class="hint">
+            Este endpoint sirve para comprobar que el backend está vivo y respondiendo.
+          </p>
+        </article>
+
+        <article class="card">
+          <header class="card-header">
+            <div>
+              <p class="small-label">Endpoint</p>
+              <h2>GET /</h2>
+            </div>
+          </header>
+          <p class="api-message" id="api-message">-</p>
+          <div class="metric">
+            <span>Versión</span>
+            <strong id="api-version">-</strong>
+          </div>
+          <div>
+            <p class="small-label">Endpoints anunciados</p>
+            <ul class="endpoint-list" id="endpoint-list"></ul>
+          </div>
+        </article>
+      </section>
+
+      <section class="card users-card">
+        <header class="card-header users-header">
+          <div>
+            <p class="small-label">Endpoint</p>
+            <h2>GET /users</h2>
+          </div>
+          <p class="hint">Datos recibidos desde Express y ordenados por nombre en el backend.</p>
+        </header>
+
+        <form class="user-form" id="user-form">
+          <div class="user-form-header">
+            <div>
+              <h3 id="user-form-title">Gestionar usuarios</h3>
+              <p class="hint">
+                Crea un usuario nuevo o edita uno existente desde el mismo formulario.
+              </p>
+            </div>
+            <p class="mode-message" id="form-mode-message"></p>
+          </div>
+
+          <div class="form-grid">
+            <label class="field-group" for="user-name-input">
+              <span>Nombre</span>
+              <input id="user-name-input" name="name" type="text" autocomplete="name" required />
+            </label>
+
+            <label class="field-group" for="user-email-input">
+              <span>Email</span>
+              <input id="user-email-input" name="email" type="email" autocomplete="email" required />
+            </label>
+
+            <div class="form-actions">
+              <button type="submit" id="user-submit-button">Crear usuario</button>
+              <button type="button" class="secondary-button" id="cancel-edit-button" hidden>
+                Cancelar edición
+              </button>
+            </div>
+          </div>
+
+          <p class="mutation-feedback" id="mutation-feedback" aria-live="polite"></p>
+        </form>
+
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <tr>
+                <td colspan="4">Cargando usuarios...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="card explanation-card">
+        <h2>Qué demuestra este proyecto</h2>
+        <ol>
+          <li>El backend Express expone datos JSON mediante endpoints HTTP.</li>
+          <li>Este frontend independiente llama a esos endpoints con <code>fetch()</code>.</li>
+          <li>Los datos recibidos se transforman en interfaz visual: estado, versión y tabla de usuarios.</li>
+          <li>Si apagas la API, el panel muestra un error de conexión.</li>
+        </ol>
+      </section>
+
+      <section class="error-box" id="error-box" hidden>
+        <h2>No se ha podido conectar con la API</h2>
+        <p id="error-message"></p>
+        <p>
+          Asegúrate de arrancar el backend con:
+        </p>
+        <pre><code>cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+PORT=3100 npm start</code></pre>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
