@@ -37,7 +37,7 @@ This roadmap evolves the existing Express + static dashboard lab into a stronger
 Plans:
 **Wave 1**
 
-- [ ] 01-01: Correct stale dashboard help text and prepare UI structure for user mutations.
+- [x] 01-01: Correct stale dashboard help text and prepare UI structure for user mutations.
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -139,7 +139,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Dashboard CRUD Flow | 0/3 | Not started | - |
+| 1. Dashboard CRUD Flow | 1/3 | In Progress|  |
 | 2. File Persistence | 0/3 | Not started | - |
 | 3. API Tests and Quality Fixes | 0/3 | Not started | - |
 | 4. Learning Material Hardening | 0/2 | Not started | - |

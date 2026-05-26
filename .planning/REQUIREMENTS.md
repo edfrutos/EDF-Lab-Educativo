@@ -9,10 +9,10 @@ Requirements for the current educational evolution. Each requirement maps to a r
 
 ### Dashboard CRUD
 
-- [ ] **DASH-01**: Learner can create a user from the dashboard using the existing API.
+- [x] **DASH-01**: Learner can create a user from the dashboard using the existing API.
 - [ ] **DASH-02**: Learner can edit an existing user from the dashboard.
 - [ ] **DASH-03**: Learner can delete a user from the dashboard with visible confirmation or feedback.
-- [ ] **DASH-04**: Dashboard shows loading, success, and error states for CRUD operations.
+- [x] **DASH-04**: Dashboard shows loading, success, and error states for CRUD operations.
 - [ ] **DASH-05**: Dashboard documentation and missions explain the browser-to-API mutation flow.
 
 ### Persistence
@@ -44,7 +44,7 @@ Requirements for the current educational evolution. Each requirement maps to a r
 - [ ] **QUAL-01**: API package metadata reflects the educational lab instead of generic test-project values.
 - [ ] **QUAL-02**: Development script with Nodemon exists if retained as a dependency.
 - [ ] **QUAL-03**: User ID parsing rejects partial numeric strings such as `1abc`.
-- [ ] **QUAL-04**: Stale project paths in dashboard help text are corrected.
+- [x] **QUAL-04**: Stale project paths in dashboard help text are corrected.
 - [ ] **QUAL-05**: Validation commands are documented and runnable.
 
 ### Advanced Learning
@@ -86,10 +86,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| DASH-01 | Phase 1 | Pending |
+| DASH-01 | Phase 1 | Complete |
 | DASH-02 | Phase 1 | Pending |
 | DASH-03 | Phase 1 | Pending |
-| DASH-04 | Phase 1 | Pending |
+| DASH-04 | Phase 1 | Complete |
 | DASH-05 | Phase 1 | Pending |
 | PERS-01 | Phase 2 | Pending |
 | PERS-02 | Phase 2 | Pending |
@@ -109,7 +109,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QUAL-01 | Phase 3 | Pending |
 | QUAL-02 | Phase 3 | Pending |
 | QUAL-03 | Phase 3 | Pending |
-| QUAL-04 | Phase 1 | Pending |
+| QUAL-04 | Phase 1 | Complete |
 | QUAL-05 | Phase 3 | Pending |
 | ADV-01 | Phase 5 | Pending |
 | ADV-02 | Phase 5 | Pending |
