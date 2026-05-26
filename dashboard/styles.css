@@ -349,6 +349,29 @@ button:focus-visible {
   color: var(--danger);
 }
 
+.row-action-button {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--primary-dark);
+  padding: 8px 12px;
+  font-size: 0.85rem;
+}
+
+.row-action-button:hover {
+  background: var(--surface-soft);
+  box-shadow: none;
+}
+
+.row-action-button--delete {
+  border-color: rgba(220, 38, 38, 0.3);
+  color: var(--danger);
+}
+
+.row-action-button--delete:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+
 .table-wrapper {
   overflow-x: auto;
   border: 1px solid var(--border);
@@ -438,7 +461,13 @@ tbody tr:hover td {
     flex-direction: column;
   }
 
-  .form-actions button {
+  .row-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-actions button,
+  .row-actions button {
     width: 100%;
   }
 

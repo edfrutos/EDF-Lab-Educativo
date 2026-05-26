@@ -1,4 +1,6 @@
 const API_BASE_URL = 'http://localhost:3100';
+let currentUsers = [];
+let editingUserId = null;
 
 const elements = {
   apiBaseUrl: document.getElementById('api-base-url'),
@@ -25,6 +27,8 @@ const elements = {
 elements.apiBaseUrl.textContent = API_BASE_URL;
 elements.reloadButton.addEventListener('click', loadDashboardData);
 elements.userForm.addEventListener('submit', handleUserFormSubmit);
+elements.cancelEditButton.addEventListener('click', resetUserForm);
+elements.usersTableBody.addEventListener('click', handleUsersTableClick);
 
 loadDashboardData();
 
@@ -83,9 +87,12 @@ function renderApiInfo(apiInfo) {
 
 function renderUsers(users) {
   if (!Array.isArray(users) || users.length === 0) {
+    currentUsers = [];
     elements.usersTableBody.innerHTML = '<tr><td colspan="4">No hay usuarios disponibles.</td></tr>';
     return;
   }
+
+  currentUsers = users;
 
   elements.usersTableBody.replaceChildren(
     ...users.map((user) => {
@@ -101,7 +108,25 @@ function renderUsers(users) {
       emailCell.textContent = user.email;
 
       const actionsCell = document.createElement('td');
-      actionsCell.textContent = '-';
+      const actions = document.createElement('div');
+      actions.className = 'row-actions';
+
+      const editButton = document.createElement('button');
+      editButton.type = 'button';
+      editButton.className = 'row-action-button row-action-button--edit';
+      editButton.dataset.action = 'edit';
+      editButton.dataset.userId = user.id;
+      editButton.textContent = 'Editar';
+
+      const deleteButton = document.createElement('button');
+      deleteButton.type = 'button';
+      deleteButton.className = 'row-action-button row-action-button--delete';
+      deleteButton.dataset.action = 'delete';
+      deleteButton.dataset.userId = user.id;
+      deleteButton.textContent = 'Eliminar';
+
+      actions.append(editButton, deleteButton);
+      actionsCell.append(actions);
 
       row.append(idCell, nameCell, emailCell, actionsCell);
       return row;
@@ -119,19 +144,96 @@ async function handleUserFormSubmit(event) {
   clearMutationFeedback();
 
   try {
-    await fetchJson('/users', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ name, email })
+    const isEditing = editingUserId !== null;
+
+    if (isEditing) {
+      await fetchJson(`/users/${editingUserId}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email })
+      });
+    } else {
+      await fetchJson('/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email })
+      });
+    }
+
+    const successFeedback = isEditing
+      ? 'PUT /users/:id -> usuario actualizado'
+      : 'POST /users -> usuario creado';
+
+    resetUserForm();
+    showMutationFeedback(successFeedback, 'success');
+    await loadDashboardData();
+  } catch (error) {
+    showMutationFeedback(getMutationErrorMessage(error), 'error');
+  } finally {
+    setUserFormLoading(false);
+  }
+}
+
+function handleUsersTableClick(event) {
+  const button = event.target.closest('button[data-action]');
+
+  if (!button) {
+    return;
+  }
+
+  const userId = Number.parseInt(button.dataset.userId, 10);
+  const user = currentUsers.find((candidate) => candidate.id === userId);
+
+  if (!user) {
+    showMutationFeedback('No se ha podido encontrar el usuario seleccionado.', 'error');
+    return;
+  }
+
+  if (button.dataset.action === 'edit') {
+    startEditingUser(user);
+  }
+
+  if (button.dataset.action === 'delete') {
+    deleteUser(user.id);
+  }
+}
+
+function startEditingUser(user) {
+  editingUserId = user.id;
+  elements.userNameInput.value = user.name;
+  elements.userEmailInput.value = user.email;
+  elements.userSubmitButton.textContent = 'Guardar cambios';
+  elements.cancelEditButton.textContent = 'Cancelar edición';
+  elements.formModeMessage.textContent = `Editando usuario ${user.id}`;
+  elements.cancelEditButton.hidden = false;
+  clearMutationFeedback();
+  elements.userNameInput.focus();
+}
+
+async function deleteUser(userId) {
+  const shouldDelete = confirm('¿Seguro que quieres eliminar este usuario?');
+
+  if (!shouldDelete) {
+    return;
+  }
+
+  setUserFormLoading(true);
+  clearMutationFeedback();
+
+  try {
+    await fetchJson(`/users/${userId}`, {
+      method: 'DELETE'
     });
 
     resetUserForm();
-    showMutationFeedback('POST /users -> usuario creado', 'success');
+    showMutationFeedback('DELETE /users/:id -> usuario eliminado', 'success');
     await loadDashboardData();
   } catch (error) {
-    showMutationFeedback('No se ha podido completar la operación. Revisa la API y vuelve a intentarlo.', 'error');
+    showMutationFeedback(getMutationErrorMessage(error), 'error');
   } finally {
     setUserFormLoading(false);
   }
@@ -175,12 +277,22 @@ function hideError() {
 
 function resetUserForm() {
   elements.userForm.reset();
+  editingUserId = null;
+  elements.userSubmitButton.textContent = 'Crear usuario';
   elements.formModeMessage.textContent = '';
+  elements.cancelEditButton.hidden = true;
 }
 
 function setUserFormLoading(isLoading) {
   elements.userSubmitButton.disabled = isLoading;
-  elements.userSubmitButton.textContent = isLoading ? 'Guardando...' : 'Crear usuario';
+  elements.cancelEditButton.disabled = isLoading;
+
+  if (isLoading) {
+    elements.userSubmitButton.textContent = 'Guardando...';
+    return;
+  }
+
+  elements.userSubmitButton.textContent = editingUserId === null ? 'Crear usuario' : 'Guardar cambios';
 }
 
 function showMutationFeedback(message, type) {
@@ -191,4 +303,8 @@ function showMutationFeedback(message, type) {
 function clearMutationFeedback() {
   elements.mutationFeedback.textContent = '';
   elements.mutationFeedback.className = 'mutation-feedback';
+}
+
+function getMutationErrorMessage(error) {
+  return `No se ha podido completar la operación. Revisa la API y vuelve a intentarlo. ${error.message}`;
 }
