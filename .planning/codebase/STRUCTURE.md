@@ -1,0 +1,138 @@
+# Codebase Structure
+
+**Analysis Date:** 2026-05-26
+
+## Directory Layout
+
+```txt
+EDF-Lab-Educativo/
+├── api/                 # Express backend and npm package files
+├── dashboard/           # Static HTML/CSS/JS frontend
+├── docs/                # Conceptual learning documentation
+├── missions/            # Guided practical exercises
+├── .github/             # Editor and assistant instructions
+├── .agents/             # Local agent/skill configuration
+├── .planning/           # GSD planning artifacts
+├── AGENTS.md            # Project working rules and roles
+├── README.md            # Main setup and project overview
+├── NOTEBOOK.md          # Living diary of decisions, errors, and learning
+├── ROADMAP.md           # Existing educational roadmap
+├── CHANGELOG.md         # Project change history
+└── skills-lock.json     # Skills metadata lockfile
+```
+
+## Directory Purposes
+
+**api/**
+- Purpose: Backend API used to teach Express, REST, validation, JSON, and CORS.
+- Contains: `index.js`, `package.json`, `package-lock.json`, `README.md`, and installed `node_modules/`.
+- Key files: `api/index.js` for runtime behavior; `api/README.md` for API-specific documentation.
+- Subdirectories: `api/node_modules/` is dependency output and should not guide architecture.
+
+**dashboard/**
+- Purpose: Frontend consumer used to teach `fetch()`, loading/error state, and rendering JSON.
+- Contains: `index.html`, `styles.css`, and `app.js`.
+- Key files: `dashboard/app.js` for data flow; `dashboard/index.html` for DOM hooks.
+- Subdirectories: none.
+
+**docs/**
+- Purpose: Conceptual explanations for architecture, startup, API, dashboard, CORS, debugging, and challenges.
+- Contains: Numbered Markdown chapters such as `docs/03-api-express.md`.
+- Key files: `docs/00-indice.md` as index, `docs/02-puesta-en-marcha.md` for setup.
+- Subdirectories: none.
+
+**missions/**
+- Purpose: Hands-on learner missions with objective, steps, expected result, and extra challenge.
+- Contains: Numbered Markdown exercises.
+- Key files: `missions/01-arrancar-api.md`, `missions/03-consumir-json.md`, `missions/05-mejorar-dashboard.md`.
+- Subdirectories: none.
+
+**.planning/**
+- Purpose: GSD project planning and codebase intelligence.
+- Contains: generated planning files and `.planning/codebase/*.md`.
+- Key files: this codebase map.
+- Subdirectories: `codebase/`.
+
+## Key File Locations
+
+**Entry Points:**
+- `api/index.js` - Express app setup, routes, helpers, and server startup.
+- `dashboard/index.html` - Browser entry point for the dashboard.
+- `dashboard/app.js` - Frontend runtime logic and API calls.
+
+**Configuration:**
+- `api/package.json` - npm scripts and dependencies.
+- `api/package-lock.json` - locked dependency graph.
+- `.gitignore` - Git ignore rules.
+- `AGENTS.md` - Project-specific collaboration and documentation rules.
+
+**Core Logic:**
+- `api/index.js` - All backend logic.
+- `dashboard/app.js` - All frontend behavior.
+- `dashboard/styles.css` - Full dashboard visual design.
+
+**Testing:**
+- No test files currently exist.
+- `api/package.json` has a placeholder failing `test` script.
+
+**Documentation:**
+- `README.md` - Main project overview and startup commands.
+- `api/README.md` - Endpoint documentation and executable curl examples.
+- `NOTEBOOK.md` - Historical decisions and real errors.
+- `docs/` - Conceptual learning material.
+- `missions/` - Practical learner tasks.
+
+## Naming Conventions
+
+**Files:**
+- Lowercase/kebab-case for documentation files in `docs/` and `missions/`.
+- Conventional uppercase names for root docs: `README.md`, `NOTEBOOK.md`, `ROADMAP.md`, `AGENTS.md`, `CHANGELOG.md`.
+- Simple lowercase JavaScript entry files: `api/index.js`, `dashboard/app.js`.
+
+**Directories:**
+- Lowercase descriptive names: `api/`, `dashboard/`, `docs/`, `missions/`.
+- Number prefixes in docs and missions preserve learning order.
+
+**Special Patterns:**
+- Mission files should include objective, steps, expected result, and extra challenge.
+- Notebook entries document real decisions, errors, fixes, and learning.
+- API examples should remain executable against `http://localhost:3100`.
+
+## Where to Add New Code
+
+**New API Endpoint:**
+- Primary code: `api/index.js`.
+- Documentation: `api/README.md` and relevant `docs/*.md`.
+- Mission: add or update a file in `missions/` if the concept is learner-facing.
+
+**New Dashboard Feature:**
+- Markup: `dashboard/index.html`.
+- Behavior: `dashboard/app.js`.
+- Styling: `dashboard/styles.css`.
+- Documentation: `docs/04-dashboard-fetch.md` and a mission when appropriate.
+
+**New Conceptual Lesson:**
+- Explanation: `docs/NN-topic.md`.
+- Index update: `docs/00-indice.md`.
+- Practice: matching `missions/NN-topic.md` if executable.
+
+**New Tests:**
+- API tests: likely under `api/` once a test framework is selected.
+- Documentation should explain how to run them before adding broad test infrastructure.
+
+## Special Directories
+
+**api/node_modules/**
+- Purpose: Installed npm dependencies.
+- Source: Generated by `npm install`.
+- Committed: Should not be committed; treat as generated dependency output.
+
+**.planning/**
+- Purpose: GSD workflow artifacts and codebase intelligence.
+- Source: Generated by GSD commands.
+- Committed: Intended to be committed when `commit_docs` is true.
+
+---
+
+*Structure analysis: 2026-05-26*
+*Update when directory structure changes*
