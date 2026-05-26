@@ -24,13 +24,6 @@
 
 ## Known Bugs
 
-**Old project path in dashboard error help:**
-- Symptoms: When the dashboard cannot connect to the API, it tells users to `cd /Users/edefrutos/Desktop/express-api-demo/api`.
-- Trigger: API unavailable and dashboard error panel becomes visible.
-- Workaround: Use the correct path from `README.md`: `/Users/edefrutos/Desktop/EDF-Lab-Educativo/api`.
-- Root cause: Documentation sync missed `dashboard/index.html`.
-- Fix approach: Update the hardcoded path in `dashboard/index.html`.
-
 **Loose ID parsing accepts partial numeric strings:**
 - Symptoms: `parseUserId('1abc')` returns `1`.
 - Trigger: Requesting routes like `/users/1abc`.
@@ -122,12 +115,6 @@
 - Current workaround: curl examples and manual validation.
 - Blocks: Reliable refactoring and CI.
 - Implementation complexity: Low to medium with Supertest or Node's built-in test runner.
-
-**Dashboard CRUD forms:**
-- Problem: The API supports mutation routes, but the dashboard only reads.
-- Current workaround: Use curl for `POST`, `PUT`, and `DELETE`.
-- Blocks: Teaching full frontend-to-backend mutation flow.
-- Implementation complexity: Medium.
 
 ## Test Coverage Gaps
 
