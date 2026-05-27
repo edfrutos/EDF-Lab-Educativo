@@ -1,14 +1,25 @@
+const { readFile, writeFile, mkdir } = require('fs/promises');
+const path = require('path');
 const express = require('express');
 const cors = require('cors');
 const _ = require('lodash');
 
+const DATA_DIR  = path.join(__dirname, 'data');
+const DATA_FILE = path.join(DATA_DIR, 'users.json');
+
+const SEED_DATA = {
+  users: [
+    { id: 1, name: 'John Doe',   email: 'john@example.com' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
+  ],
+  nextId: 3
+};
+
 const app = express();
 const PORT = process.env.PORT || 3000;
-let users = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-];
-let nextUserId = 3;
+
+let users      = [];
+let nextUserId = 0;
 
 // Middleware
 app.use(cors());
@@ -40,6 +51,38 @@ function validateUserPayload(body) {
   }
 
   return null;
+}
+
+// ─── Persistencia ────────────────────────────────────────────────────────────
+
+async function saveUsersData(data) {
+  await mkdir(DATA_DIR, { recursive: true });
+  await writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+}
+
+async function loadUsers() {
+  try {
+    const raw  = await readFile(DATA_FILE, 'utf8');
+    const data = JSON.parse(raw);
+    users      = data.users;
+    nextUserId = data.nextId;
+  } catch (err) {
+    if (err instanceof SyntaxError) {
+      console.warn('[warn] data/users.json corrupto — restaurando semilla');
+      await saveUsersData(SEED_DATA);
+    } else if (err.code === 'ENOENT') {
+      console.info('[info] data/users.json no encontrado — creando con semilla');
+      await saveUsersData(SEED_DATA);
+    } else {
+      console.error('[error] No se pudo leer data/users.json:', err.message);
+    }
+    users      = [...SEED_DATA.users];
+    nextUserId = SEED_DATA.nextId;
+  }
+}
+
+async function saveUsers() {
+  await saveUsersData({ users, nextId: nextUserId });
 }
 
 // Routes
@@ -81,7 +124,7 @@ app.get('/users/:id', (req, res) => {
   res.json(user);
 });
 
-app.post('/users', (req, res) => {
+app.post('/users', async (req, res) => {
   const validationError = validateUserPayload(req.body);
 
   if (validationError) {
@@ -97,10 +140,19 @@ app.post('/users', (req, res) => {
   nextUserId += 1;
   users.push(user);
 
+  try {
+    await saveUsers();
+  } catch (err) {
+    users.pop();
+    nextUserId -= 1;
+    console.error('[error] saveUsers() falló en POST /users:', err.message);
+    return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
+  }
+
   res.status(201).json(user);
 });
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', async (req, res) => {
   const userId = parseUserId(req.params.id);
 
   if (userId === null) {
@@ -119,16 +171,25 @@ app.put('/users/:id', (req, res) => {
     return res.status(404).json({ error: 'Usuario no encontrado.' });
   }
 
+  const previousUser = { ...users[userIndex] };
   users[userIndex] = {
     id: userId,
     name: req.body.name.trim(),
     email: req.body.email.trim()
   };
 
+  try {
+    await saveUsers();
+  } catch (err) {
+    users[userIndex] = previousUser;
+    console.error('[error] saveUsers() falló en PUT /users/:id:', err.message);
+    return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
+  }
+
   res.json(users[userIndex]);
 });
 
-app.delete('/users/:id', (req, res) => {
+app.delete('/users/:id', async (req, res) => {
   const userId = parseUserId(req.params.id);
 
   if (userId === null) {
@@ -143,10 +204,15 @@ app.delete('/users/:id', (req, res) => {
 
   const [deletedUser] = users.splice(userIndex, 1);
 
-  res.json({
-    message: 'Usuario eliminado correctamente.',
-    user: deletedUser
-  });
+  try {
+    await saveUsers();
+  } catch (err) {
+    users.splice(userIndex, 0, deletedUser);
+    console.error('[error] saveUsers() falló en DELETE /users/:id:', err.message);
+    return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
+  }
+
+  res.json({ message: 'Usuario eliminado correctamente.', user: deletedUser });
 });
 
 app.get('/health', (req, res) => {
@@ -177,9 +243,16 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
 module.exports = app;
+
+async function startServer() {
+  await loadUsers();
+  app.listen(PORT, () => {
+    console.log(`Servidor arrancado en http://localhost:${PORT}`);
+  });
+}
+
+startServer().catch((err) => {
+  console.error('[error] No se pudo arrancar el servidor:', err);
+  process.exit(1);
+});
