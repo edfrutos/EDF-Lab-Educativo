@@ -65,9 +65,17 @@ Plans:
 
 Plans:
 
-- [ ] 02-01: Introduce `data/users.json` and safe load/save helpers.
-- [ ] 02-02: Wire CRUD routes to persistence while preserving current API responses.
-- [ ] 02-03: Document memory vs persistence and add backup/restart exercises.
+**Wave 1**
+
+- [ ] 02-01-PLAN.md — Introduce `api/data/users.json` and safe `loadUsers()`/`saveUsers()` helpers in `api/index.js`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 02-02-PLAN.md — Wire POST/PUT/DELETE routes to call `saveUsers()` with try/catch rollback, preserving current API response contracts
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
+- [ ] 02-03-PLAN.md — Document memory vs persistence conceptually (docs/08-memoria-vs-persistencia.md), add mission 05 (restart test) and mission 06 (corruption/recovery test)
 
 ### Phase 3: API Tests and Quality Fixes
 
@@ -140,7 +148,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Dashboard CRUD Flow | 3/3 | Complete    | 2026-05-26 |
-| 2. File Persistence | 0/3 | Not started | - |
+| 2. File Persistence | 0/3 | Planned     | - |
 | 3. API Tests and Quality Fixes | 0/3 | Not started | - |
 | 4. Learning Material Hardening | 0/2 | Not started | - |
 | 5. Advanced Contracts and Containers | 0/2 | Not started | - |
