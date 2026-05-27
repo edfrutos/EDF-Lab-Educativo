@@ -75,7 +75,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 02-03-PLAN.md — Document memory vs persistence conceptually (docs/08-memoria-vs-persistencia.md), add mission 05 (restart test) and mission 06 (corruption/recovery test)
+- [x] 02-03-PLAN.md — Document memory vs persistence conceptually (docs/08-memoria-vs-persistencia.md), add mission 05 (restart test) and mission 06 (corruption/recovery test)
 
 ### Phase 3: API Tests and Quality Fixes
 
