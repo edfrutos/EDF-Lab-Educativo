@@ -67,11 +67,11 @@ Plans:
 
 **Wave 1**
 
-- [ ] 02-01-PLAN.md — Introduce `api/data/users.json` and safe `loadUsers()`/`saveUsers()` helpers in `api/index.js`
+- [x] 02-01-PLAN.md — Introduce `api/data/users.json` and safe `loadUsers()`/`saveUsers()` helpers in `api/index.js`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-02-PLAN.md — Wire POST/PUT/DELETE routes to call `saveUsers()` with try/catch rollback, preserving current API response contracts
+- [x] 02-02-PLAN.md — Wire POST/PUT/DELETE routes to call `saveUsers()` with try/catch rollback, preserving current API response contracts
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
