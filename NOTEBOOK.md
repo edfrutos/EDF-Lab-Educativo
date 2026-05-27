@@ -6,6 +6,70 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 ---
 
+## 2026-05-27 · Auditoría de situación del repositorio
+
+### Contexto
+
+Revisión completa del estado del repositorio al inicio de una nueva sesión de trabajo.
+
+### Estado verificado de Phase 01
+
+Todo lo implementado en Phase 01 está funcionando correctamente:
+
+- `node --check api/index.js` → OK
+- `node --check dashboard/app.js` → OK
+- `npm audit --audit-level=high` → 0 vulnerabilidades
+
+El dashboard CRUD completo opera correctamente: formulario compartido crear/editar, botones Editar/Eliminar por fila, feedback método+endpoint, confirm() nativo antes de DELETE, estados loading/online/offline/error.
+
+### Anomalía detectada: git tracking incompleto
+
+El repositorio tiene un desfase importante entre lo que existe en disco y lo que está en git:
+
+**Archivos trackeados (comprometidos):**
+
+```txt
+.planning/          ← toda la planificación GSD
+AGENTS.md
+NOTEBOOK.md
+dashboard/app.js
+dashboard/index.html    ← con cambios sin commit
+dashboard/styles.css    ← con cambios sin commit
+docs/04-dashboard-fetch.md
+missions/05-mejorar-dashboard.md
+```
+
+**Archivos sin trackear (nunca comprometidos):**
+
+```txt
+api/                ← ⚠️ TODO el backend Express
+docs/00-03, 05-07   ← 6 de 7 capítulos de documentación
+missions/01-04      ← 4 de 5 misiones
+README.md
+ROADMAP.md
+CHANGELOG.md
+CLAUDE.md
+.gitignore
+```
+
+Esto significa que si alguien clona el repositorio solo recibe el frontend y la planificación, pero no la API. El backend completo existe en disco pero nunca se ha commiteado.
+
+### Aprendizaje
+
+Separar el trabajo de planificación (commits GSD) del trabajo de código puede dejar archivos de código en disco sin llegar a git. Conviene hacer un commit de estado completo antes de iniciar una nueva fase para tener un snapshot limpio y reproducible.
+
+### Acción recomendada antes de Phase 02
+
+Hacer un commit que incluya todos los archivos sin trackear relevantes:
+
+```bash
+git add api/ docs/ missions/ README.md ROADMAP.md CHANGELOG.md CLAUDE.md .gitignore
+git add dashboard/index.html dashboard/styles.css
+git commit -m "chore: commit full project snapshot before phase 02"
+```
+
+---
+
 ## 2026-05-23 · Nacimiento del laboratorio
 
 ### Contexto
@@ -192,6 +256,26 @@ Para principiantes, el feedback `METODO endpoint -> resultado` es más útil que
 node --check dashboard/app.js
 rg -n "POST /users|PUT /users/:id|DELETE /users/:id" dashboard docs missions NOTEBOOK.md
 ```
+
+### Problema real: caché del navegador en el dashboard
+
+Durante la revisión visual se veía el HTML nuevo, pero no aparecían los botones `Editar` y `Eliminar`, y el formulario no usaba el layout esperado.
+
+Diagnóstico:
+
+```txt
+index.html actualizado
+app.js/styles.css antiguos en caché del navegador
+```
+
+Solución aplicada:
+
+```html
+<link rel="stylesheet" href="./styles.css?v=phase-01-crud" />
+<script src="./app.js?v=phase-01-crud"></script>
+```
+
+Aprendizaje: en proyectos estáticos, el navegador puede reutilizar CSS o JS anteriores aunque el HTML ya haya cambiado. Añadir una versión en la URL del asset fuerza la recarga sin introducir herramientas nuevas.
 
 ---
 

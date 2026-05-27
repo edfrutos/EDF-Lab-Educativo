@@ -2,6 +2,20 @@
 
 **Analysis Date:** 2026-05-26
 
+## Git Tracking Gap ⚠️ (discovered 2026-05-27)
+
+**Untracked critical files:**
+- Issue: `api/` (entire backend), `docs/` chapters 00-03/05-07, `missions/` 01-04, `README.md`, `ROADMAP.md`, `CHANGELOG.md`, `CLAUDE.md`, and `.gitignore` have never been committed to git.
+- Additionally: `dashboard/index.html` and `dashboard/styles.css` have uncommitted modifications.
+- Why: GSD planning commits (`.planning/` + specific phase files) proceeded separately from app code commits.
+- Impact: A fresh clone of the repo yields only the frontend JS, planning artifacts, and two docs files — no backend, no most docs, no most missions.
+- Fix approach: Commit a full project snapshot before starting Phase 2:
+  ```bash
+  git add api/ docs/ missions/ README.md ROADMAP.md CHANGELOG.md CLAUDE.md .gitignore
+  git add dashboard/index.html dashboard/styles.css
+  git commit -m "chore: commit full project snapshot before phase 02"
+  ```
+
 ## Tech Debt
 
 **Generic package metadata:**

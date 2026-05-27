@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: planning
-last_updated: "2026-05-26T18:25:15.831Z"
-last_activity: 2026-05-26
+last_updated: "2026-05-27T15:52:00.000Z"
+last_activity: 2026-05-27
 progress:
   total_phases: 5
   completed_phases: 1
@@ -82,6 +82,17 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-26T18:25:15.824Z
-Stopped at: Phase 01 complete (3/3) — ready to discuss Phase 2
+Last session: 2026-05-27T15:52:00.000Z
+Stopped at: Phase 01 verified complete. Full codebase loaded into claude-mem. Status report generated. Ready to plan Phase 2.
 Resume file: None
+
+## Git Tracking Note
+
+⚠️ Several important files are untracked and not yet committed:
+- `api/` — entire backend (index.js, package.json, README.md, node_modules/)
+- `docs/` — chapters 00-03, 05-07 (only 04-dashboard-fetch.md is tracked)
+- `missions/` — missions 01-04 (only 05-mejorar-dashboard.md is tracked)
+- Root: `README.md`, `ROADMAP.md`, `CHANGELOG.md`, `CLAUDE.md`, `.gitignore`
+- `dashboard/index.html` and `dashboard/styles.css` — tracked but have uncommitted changes
+
+Before starting Phase 2, consider committing all untracked files so the repo is a complete snapshot.

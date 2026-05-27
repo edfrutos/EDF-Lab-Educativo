@@ -1,0 +1,55 @@
+# CHANGELOG
+
+Registro de cambios relevantes del laboratorio.
+
+---
+
+## 0.2.0 · API CRUD y sincronizacion documental
+
+### Añadido
+
+- Endpoints `GET /users/:id`, `POST /users`, `PUT /users/:id` y `DELETE /users/:id`.
+- Endpoints auxiliares `GET /about` y `GET /time`.
+- Validacion basica de `:id`, `name` y `email`.
+- Ejemplos ejecutables con `curl` para lectura, creacion, actualizacion, borrado y errores.
+
+### Documentado
+
+- Estado real de Fase 1, Fase 2 y parte de Fase 3 en `ROADMAP.md`.
+- README interno de la API actualizado al proyecto `EDF-Lab-Educativo`.
+- Rutas locales corregidas desde `express-api-demo` a `EDF-Lab-Educativo`.
+- Proximas misiones del dashboard conectadas con `/about`, `/time` y CRUD.
+
+### Pendiente
+
+- Crear formularios en el dashboard para consumir `POST`, `PUT` y `DELETE`.
+- Añadir persistencia en `data/users.json`.
+- Añadir tests de API.
+
+---
+
+## 0.1.0 · Laboratorio base
+
+### Añadido
+
+- API Express con endpoints `GET /`, `GET /users` y `GET /health`.
+- Dashboard externo en HTML, CSS y JavaScript.
+- Consumo de la API con `fetch()`.
+- CORS en la API.
+- Estructura global inicial.
+- Documentación educativa base.
+- `NOTEBOOK.md`, `ROADMAP.md`, `AGENTS.md` y `CHANGELOG.md`.
+- Carpetas `docs/` y `missions/`.
+
+### Corregido
+
+- Error inicial de sintaxis en `index.js`.
+- Vulnerabilidades altas asociadas a versión antigua de Nodemon.
+- Conflicto de puerto usando `3100` para la API.
+- Conflicto de entorno Node/npm mediante `nvm`.
+
+### Decisiones
+
+- Mantener frontend vanilla para reducir complejidad.
+- Usar `3100` para API y `5173` para dashboard.
+- Usar `NOTEBOOK.md` como diario vivo del aprendizaje.
