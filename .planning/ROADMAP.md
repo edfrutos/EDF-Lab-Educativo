@@ -122,8 +122,13 @@ Plans:
 
 Plans:
 
-- [ ] 04-01: Add the glossary and connect it to the documentation index.
-- [ ] 04-02: Audit docs, missions, README, ROADMAP, and NOTEBOOK for synchronization.
+**Wave 1**
+
+- [ ] 04-01-PLAN.md — Create docs/09-glosario.md with 4 thematic blocks (D-01: backend/HTTP/API, frontend/browser, persistence/tests, environment tools)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 04-02-PLAN.md — Rename missions 05→06 and 06→07, update cross-references in docs/08-memoria-vs-persistencia.md, create docs/10-tests.md, complete docs/00-indice.md with entries 08/09/10, append 3 NOTEBOOK entries
 
 ### Phase 5: Advanced Contracts and Containers
 
