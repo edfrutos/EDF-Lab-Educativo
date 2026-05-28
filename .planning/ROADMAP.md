@@ -97,12 +97,12 @@ Plans:
 
 **Wave 1**
 
-- [ ] 03-01-PLAN.md — Prepare api/index.js: DATA_FILE configurable via env var, require.main guard, parseUserId fix
+- [x] 03-01-PLAN.md — Prepare api/index.js: DATA_FILE configurable via env var, require.main guard, parseUserId fix
 
 **Wave 2** *(blocked on Wave 1 completion — plans 02 and 03 run in parallel)*
 
-- [ ] 03-02-PLAN.md — Install supertest, create users.test.json fixture, write full api/index.test.js suite (node:test + supertest)
-- [ ] 03-03-PLAN.md — Update api/package.json metadata and scripts, complete api/README.md validation section, document parseUserId fix in NOTEBOOK.md
+- [x] 03-02-PLAN.md — Install supertest, create users.test.json fixture, write full api/index.test.js suite (node:test + supertest)
+- [x] 03-03-PLAN.md — Update api/package.json metadata and scripts, complete api/README.md validation section, document parseUserId fix in NOTEBOOK.md
 
 ### Phase 4: Learning Material Hardening
 
