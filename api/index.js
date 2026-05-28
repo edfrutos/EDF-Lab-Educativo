@@ -4,8 +4,10 @@ const express = require('express');
 const cors = require('cors');
 const _ = require('lodash');
 
-const DATA_DIR  = path.join(__dirname, 'data');
-const DATA_FILE = path.join(DATA_DIR, 'users.json');
+const DATA_DIR       = path.join(__dirname, 'data');
+const DATA_FILE_PATH = process.env.DATA_FILE
+  ? path.resolve(process.env.DATA_FILE)
+  : path.join(DATA_DIR, 'users.json');
 
 const SEED_DATA = {
   users: [
@@ -57,12 +59,12 @@ function validateUserPayload(body) {
 
 async function saveUsersData(data) {
   await mkdir(DATA_DIR, { recursive: true });
-  await writeFile(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
+  await writeFile(DATA_FILE_PATH, JSON.stringify(data, null, 2), 'utf8');
 }
 
 async function loadUsers() {
   try {
-    const raw  = await readFile(DATA_FILE, 'utf8');
+    const raw  = await readFile(DATA_FILE_PATH, 'utf8');
     const data = JSON.parse(raw);
     users      = data.users;
     nextUserId = data.nextId;
