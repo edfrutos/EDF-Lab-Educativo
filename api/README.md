@@ -258,19 +258,37 @@ El codigo HTTP explica el resultado de la operacion:
 
 ---
 
-## Validaciones recomendadas
+## Comprobaciones y tests
 
-Comprobar sintaxis:
+Estos comandos comprueban la calidad del código. Ejecútalos desde `api/`.
+
+**Sintaxis** — detecta errores de parseo JavaScript sin ejecutar el servidor:
 
 ```bash
 node --check index.js
 ```
 
-Revisar vulnerabilidades de nivel alto:
+**Seguridad** — revisa vulnerabilidades conocidas en las dependencias:
 
 ```bash
 npm audit --audit-level=high
 ```
+
+**Tests automáticos** — ejecuta la suite de tests sobre todos los endpoints:
+
+```bash
+npm test
+```
+
+Resultado esperado: todos los tests en verde. El proceso termina solo (sin Ctrl+C).
+
+**Desarrollo con recarga automática** — arranca el servidor y lo reinicia al guardar cambios:
+
+```bash
+npm run dev
+```
+
+Útil durante el desarrollo: evita tener que parar y volver a arrancar manualmente.
 
 ---
 

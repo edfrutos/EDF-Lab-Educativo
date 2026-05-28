@@ -356,3 +356,59 @@ Esto permite enseñar:
 ### Aprendizaje
 
 Una API educativa gana mucho valor cuando no solo expone datos, sino que también permite modificarlos con un contrato simple y observable.
+
+
+---
+
+## Fase 3 — Fix: parseUserId rechazaba mal los IDs con prefijo numérico
+
+**Fecha:** 2026-05-28
+**Archivo:** `api/index.js` función `parseUserId()`
+
+### Error encontrado
+
+`Number.parseInt('1abc', 10)` devuelve `1` — acepta el prefijo numérico y descarta el resto.
+Esto hacía que `GET /users/1abc` no devolviera 400 sino que buscaba el usuario con id=1.
+
+### Comportamiento incorrecto
+
+```bash
+# Antes del fix:
+curl http://localhost:3100/users/1abc
+# → 200 { id: 1, name: 'John Doe', ... }  ← debería ser 400
+```
+
+### Fix aplicado
+
+```javascript
+// ANTES (bug):
+function parseUserId(value) {
+  const id = Number.parseInt(value, 10);  // '1abc' → 1
+  return Number.isInteger(id) ? id : null;
+}
+
+// DESPUÉS (fix):
+function parseUserId(value) {
+  // Number.parseInt('1abc', 10) devuelve 1 — acepta prefijo numérico.
+  // Number('1abc') devuelve NaN — rechaza cualquier carácter no numérico.
+  const id = Number(value);
+  return Number.isInteger(id) && id > 0 ? id : null;
+}
+```
+
+### Aprendizaje
+
+`Number.parseInt` está diseñado para parsear texto con unidades (`parseInt('10px')` → 10). Para validar que un string ES un entero puro, `Number()` es más estricto: convierte el string completo o devuelve `NaN`.
+
+La condición `id > 0` también rechaza `0` como ID válido, lo que es correcto porque los IDs empiezan en 1.
+
+### Tests que documentan el fix
+
+```bash
+# Desde api/
+npm test
+# Los tres casos están en la suite "Validación de IDs":
+# ✓ GET /users/1abc responde 400
+# ✓ GET /users/0 responde 400
+# ✓ GET /users/abc responde 400
+```
