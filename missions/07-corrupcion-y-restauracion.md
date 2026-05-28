@@ -1,4 +1,4 @@
-# Misión 06: corrupción y restauración
+# Misión 07: corrupción y restauración
 
 ## Objetivo
 

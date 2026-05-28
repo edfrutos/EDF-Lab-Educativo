@@ -125,7 +125,7 @@ PORT=3100 npm start
 curl -s http://localhost:3100/users
 ```
 
-Sigue los pasos detallados en la **Misión 05: Restart y Persistencia**.
+Sigue los pasos detallados en la **Misión 06: Restart y Persistencia**.
 
 ### Observar la recuperación ante corrupción
 
@@ -138,7 +138,7 @@ curl -s http://localhost:3100/users
 # Resultado: los dos usuarios semilla
 ```
 
-Sigue los pasos detallados en la **Misión 06: Corrupción y Restauración**.
+Sigue los pasos detallados en la **Misión 07: Corrupción y Restauración**.
 
 ---
 
