@@ -247,6 +247,8 @@ app.use((err, req, res, next) => {
 });
 
 module.exports = app;
+// Exportado para tests: permite a beforeEach recargar el estado en memoria desde el fixture
+module.exports.loadUsers = loadUsers;
 
 async function startServer() {
   await loadUsers();
