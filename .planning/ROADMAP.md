@@ -95,9 +95,14 @@ Plans:
 
 Plans:
 
-- [ ] 03-01: Choose and add the smallest useful API test approach.
-- [ ] 03-02: Cover existing and persistence-backed route behavior with tests.
-- [ ] 03-03: Clean package metadata, dev script, ID validation, and validation docs.
+**Wave 1**
+
+- [ ] 03-01-PLAN.md — Prepare api/index.js: DATA_FILE configurable via env var, require.main guard, parseUserId fix
+
+**Wave 2** *(blocked on Wave 1 completion — plans 02 and 03 run in parallel)*
+
+- [ ] 03-02-PLAN.md — Install supertest, create users.test.json fixture, write full api/index.test.js suite (node:test + supertest)
+- [ ] 03-03-PLAN.md — Update api/package.json metadata and scripts, complete api/README.md validation section, document parseUserId fix in NOTEBOOK.md
 
 ### Phase 4: Learning Material Hardening
 
@@ -149,6 +154,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 |-------|----------------|--------|-----------|
 | 1. Dashboard CRUD Flow | 3/3 | Complete    | 2026-05-26 |
 | 2. File Persistence | 0/3 | Planned     | - |
-| 3. API Tests and Quality Fixes | 0/3 | Not started | - |
+| 3. API Tests and Quality Fixes | 0/3 | Planned | - |
 | 4. Learning Material Hardening | 0/2 | Not started | - |
 | 5. Advanced Contracts and Containers | 0/2 | Not started | - |
