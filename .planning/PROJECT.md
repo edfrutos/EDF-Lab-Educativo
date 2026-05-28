@@ -22,10 +22,9 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ `NOTEBOOK.md` records decisions, real errors, and learning context — existing
 - ✓ Codebase map exists in `.planning/codebase/` for stack, architecture, structure, conventions, testing, integrations, and concerns — existing
 - ✓ Dashboard CRUD forms let beginners create, edit, and delete users from the browser with visible method/endpoint feedback — validated in Phase 01
+- ✓ Users persist across API restarts via `api/data/users.json`; memory vs persistence explained with before/after diagram and two executable missions — validated in Phase 02
 
 ### Active
-
-- [ ] Add persistence for users in `data/users.json` and explain memory vs persistence.
 - [ ] Add API tests for core endpoints and CRUD behavior.
 - [ ] Add a glossary of concepts for beginner learners.
 - [ ] Improve quality tooling only where it adds clear educational value.
@@ -34,7 +33,7 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 ### Out of Scope
 
 - Full production authentication — not needed for the current beginner-focused API/data-flow lab.
-- Database-first architecture — defer until file persistence has taught the simpler memory vs persistence concept.
+- Database-first architecture — file persistence (Phase 02) established the memory vs persistence concept; SQLite/PostgreSQL deferred to a future advanced phase.
 - Frontend frameworks in the near term — keep HTML, CSS, and JavaScript vanilla until a framework has clear teaching value.
 - Production deployment hardening — local learning remains the first target.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
@@ -87,6 +86,9 @@ Known current concerns from `.planning/codebase/CONCERNS.md` and Phase 01 execut
 | Keep the lab beginner-oriented | The stated audience is the project owner and beginner students | — Pending |
 | Prioritize dashboard CRUD before persistence/tests/glossary/quality/Docker/OpenAPI | Browser-based mutation makes the existing API behavior visible to learners before adding deeper infrastructure | Validated in Phase 01 |
 | Keep vanilla frontend for now | HTML/CSS/JS makes the data flow easier for beginners to inspect | Validated in Phase 01 |
+| Use `fs/promises` + zero new dependencies for persistence | Built-in Node.js module; teaches the concept without adding complexity | Validated in Phase 02 |
+| Include `api/data/users.json` in git | Ensures a fresh clone works immediately; seed data is fictional (no PII) | Validated in Phase 02 |
+| `module.exports = app` before `startServer()` | Express pattern; prevents test-runner import issues | Validated in Phase 02 |
 | Allow frameworks later | Future phases may benefit from framework concepts once the fundamentals are established | — Pending |
 | Treat docs, missions, and roadmap as source-of-intent | The user identified `docs/`, `missions/`, and `ROADMAP.md` as the project direction | — Pending |
 
@@ -108,4 +110,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-26 after Phase 01 completion*
+*Last updated: 2026-05-28 after Phase 02 completion*
