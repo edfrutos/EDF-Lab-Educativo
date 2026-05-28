@@ -412,3 +412,144 @@ npm test
 # ✓ GET /users/0 responde 400
 # ✓ GET /users/abc responde 400
 ```
+
+---
+
+## Fase 3 — Fix: loadUsers() necesario en beforeEach cuando no hay startServer()
+
+**Fecha:** 2026-05-28
+**Archivo:** `api/index.test.js` — función `beforeEach` (líneas 29-34) + `api/index.js` (línea 251)
+
+### Error encontrado
+
+Al importar `api/index.js` para los tests con `require('./index.js')`, el guard
+`require.main === module` impide que `startServer()` se ejecute. Esto significa que
+`loadUsers()` nunca se llama al importar el módulo, y el array `users[]` arranca vacío.
+El primer test que pedía `GET /users` devolvía `[]` en lugar de los 2 usuarios del fixture.
+
+### Fix aplicado
+
+```javascript
+// ANTES (sin exportar loadUsers — los tests no podían recargar el estado):
+module.exports = app;
+
+// DESPUÉS (loadUsers exportado explícitamente):
+module.exports = app;
+module.exports.loadUsers = loadUsers;
+```
+
+Y en el test:
+
+```javascript
+beforeEach(async () => {
+  // Arrange: restaurar fixture limpio antes de cada test y recargar estado en memoria.
+  // Necesario porque users[] es un array en memoria; sin startServer() el array está vacío.
+  await writeFile(TEST_FILE, JSON.stringify(TEST_SEED, null, 2), 'utf8');
+  await app.loadUsers();  // ← esto es lo que carga users[] desde el fixture
+});
+```
+
+### Aprendizaje
+
+Cuando un módulo tiene estado en memoria (un array global como `users[]`), los tests deben
+tener una forma de restaurar ese estado antes de cada caso. Exportar funciones de setup
+(`loadUsers`) es el patrón estándar para esto en Node.js.
+
+### Tests que documentan el fix
+
+```bash
+# Desde api/
+npm test
+# Todos los tests de GET /users y mutaciones dependen de beforeEach para tener datos válidos.
+```
+
+---
+
+## Fase 3 — Decisión: guard require.main === module en api/index.js
+
+**Fecha:** 2026-05-28
+**Archivo:** `api/index.js` — bloque condicional final (líneas 260-265)
+
+### Contexto
+
+Los tests importan `api/index.js` con `require('./index.js')`.
+Si el servidor arrancara al ser importado, el test runner abriría un puerto real
+(3100) y `loadUsers()` leería del archivo de producción `data/users.json`
+en lugar del fixture de tests `data/users.test.json`.
+
+### Decisión aplicada
+
+```javascript
+// Sin el guard (problema): el servidor arranca SIEMPRE que alguien haga require('./index.js')
+startServer();  // ← esto se ejecutaría al importar para tests
+
+// Con el guard (solución): el servidor solo arranca cuando el archivo se ejecuta directamente
+if (require.main === module) {
+  startServer().catch((err) => {
+    console.error('[error] No se pudo arrancar el servidor:', err);
+    process.exit(1);
+  });
+}
+```
+
+### Aprendizaje
+
+`require.main === module` es `true` cuando Node.js ejecuta el archivo directamente
+(`node index.js`), y `false` cuando otro módulo lo importa (`require('./index.js')`).
+Este patrón es habitual en cualquier módulo que deba funcionar tanto como programa
+independiente como como librería importable.
+
+```bash
+# Verificar que index.js se puede importar sin arrancar el servidor:
+node -e "const app = require('./api/index.js'); console.log('importado sin servidor')"
+```
+
+---
+
+## 2026-05-27 · Observación: los datos en memoria desaparecen al reiniciar la API
+
+### Contexto
+
+Durante la Fase 2, antes de implementar la persistencia en archivo, el estado de la
+API vivía únicamente en un array JavaScript en RAM (`let users = [...]`). Esta es
+la configuración que verá cualquier alumno al clonar el proyecto por primera vez.
+
+### Lo observado
+
+```bash
+# 1. Arrancar la API
+cd api && PORT=3100 npm start
+
+# 2. Crear un usuario
+curl -s -X POST http://localhost:3100/users \
+  -H 'Content-Type: application/json' \
+  -d '{"name":"Alumno Prueba","email":"prueba@example.com"}'
+# → { "id": 3, "name": "Alumno Prueba", ... }
+
+# 3. Parar la API (Ctrl+C) y volver a arrancar
+PORT=3100 npm start
+
+# 4. Pedir la lista de usuarios
+curl -s http://localhost:3100/users
+# → Solo aparecen John Doe y Jane Smith — el usuario creado ha desaparecido.
+```
+
+Este comportamiento es el punto de partida de la Fase 2: motivar por qué existe la
+persistencia en archivo.
+
+### Aprendizaje
+
+El estado de un proceso Node.js no persiste entre ejecuciones. Cuando el proceso
+termina, la RAM se libera y con ella todos los arrays y objetos que vivían en memoria.
+Para que los datos sobrevivan a un reinicio es necesario escribirlos en un medio
+persistente (un archivo, una base de datos).
+
+Ver la solución implementada en `docs/08-memoria-vs-persistencia.md`.
+
+---
+
+## Criterio para nuevas entradas
+
+**NOTEBOOK = errores reales + decisiones no obvias.** Si algo te sorprendió, causó un bug, o requirió una decisión que no es evidente leyendo el código, va aquí.
+
+**docs/ = conceptos enseñables desde cero.** Si necesitas explicar un concepto a alguien que no ha visto el problema, escribe un documento en `docs/`.

@@ -13,6 +13,9 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 5. [`05-cors-explicado.md`](./05-cors-explicado.md) para comprender la frontera entre ambos.
 6. [`06-debugging.md`](./06-debugging.md) para resolver problemas típicos.
 7. [`07-retos.md`](./07-retos.md) para ampliar el proyecto.
+8. [`08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md) para entender cómo persisten los datos entre reinicios.
+9. [`09-glosario.md`](./09-glosario.md) para consultar los términos clave del laboratorio.
+10. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API.
 
 ## Documentos
 
@@ -36,3 +39,12 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 
 7. [`07-retos.md`](./07-retos.md)  
    Propone ejercicios para extender el laboratorio paso a paso.
+
+8. [`08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md)  
+   Explica la diferencia entre estado en memoria y estado en disco, con ejemplos ejecutables.
+
+9. [`09-glosario.md`](./09-glosario.md)  
+   Define los términos clave del laboratorio organizados en cuatro bloques temáticos.
+
+10. [`10-tests.md`](./10-tests.md)  
+    Explica la suite de tests de la API: cómo ejecutarla, leer el output y añadir un test nuevo.
