@@ -23,9 +23,11 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ Codebase map exists in `.planning/codebase/` for stack, architecture, structure, conventions, testing, integrations, and concerns — existing
 - ✓ Dashboard CRUD forms let beginners create, edit, and delete users from the browser with visible method/endpoint feedback — validated in Phase 01
 - ✓ Users persist across API restarts via `api/data/users.json`; memory vs persistence explained with before/after diagram and two executable missions — validated in Phase 02
+- ✓ `npm test` from `api/` runs 12 automated API checks (health, users, CRUD, validation, ID edge cases) with node:test + supertest; all pass; `parseUserId` rejects partial strings like `1abc` — validated in Phase 03
+- ✓ `api/package.json` metadata and scripts match the educational lab (`name`, `description`, `author`, `keywords`, `dev` script, `test` script) — validated in Phase 03
+- ✓ Validation commands documented for learners in `api/README.md` and `parseUserId` fix captured in `NOTEBOOK.md` — validated in Phase 03
 
 ### Active
-- [ ] Add API tests for core endpoints and CRUD behavior.
 - [ ] Add a glossary of concepts for beginner learners.
 - [ ] Improve quality tooling only where it adds clear educational value.
 - [ ] Add Docker and OpenAPI/Swagger later as advanced learning material.
@@ -60,13 +62,13 @@ The current roadmap sequence is accepted, with this priority order:
 
 The audience is the project owner and beginner students. The tone and implementation choices should therefore favor clarity, observability, executable examples, and explicit documentation over clever abstractions.
 
-Known current concerns from `.planning/codebase/CONCERNS.md` and Phase 01 execution:
+Known current concerns: none blocking. Previously noted issues all resolved through Phases 01–03:
 
-- The stale `express-api-demo` path in `dashboard/index.html` was corrected during Phase 01.
-- `api/package.json` still uses generic `test-project` metadata.
-- `npm test` intentionally fails because no test suite exists yet.
-- `nodemon` is installed but no `dev` script exposes it.
-- `parseUserId()` currently uses `Number.parseInt`, so partial numeric strings like `1abc` can be accepted as `1`.
+- ~~Stale `express-api-demo` path in `dashboard/index.html`~~ — corrected in Phase 01.
+- ~~`api/package.json` generic `test-project` metadata~~ — updated to `edf-lab-api` in Phase 03.
+- ~~`npm test` intentionally fails (no suite)~~ — 12/12 tests pass in Phase 03.
+- ~~`nodemon` installed but no `dev` script~~ — `npm run dev` added in Phase 03.
+- ~~`parseUserId()` accepts `1abc` as `1`~~ — fixed with `Number()` in Phase 03, documented in NOTEBOOK.md.
 
 ## Constraints
 
@@ -91,6 +93,10 @@ Known current concerns from `.planning/codebase/CONCERNS.md` and Phase 01 execut
 | `module.exports = app` before `startServer()` | Express pattern; prevents test-runner import issues | Validated in Phase 02 |
 | Allow frameworks later | Future phases may benefit from framework concepts once the fundamentals are established | — Pending |
 | Treat docs, missions, and roadmap as source-of-intent | The user identified `docs/`, `missions/`, and `ROADMAP.md` as the project direction | — Pending |
+| Use `node:test` + `supertest` for API tests | Built-in runner (no new dependency) + minimal HTTP assertion library; educationally transparent | Validated in Phase 03 |
+| Single test file `api/index.test.js` with AAA pattern | Easier for beginners to read than scattered spec files; comment-annotated Arrange-Act-Assert sections | Validated in Phase 03 |
+| `DATA_FILE` env var + `beforeEach` fixture isolation | Prevents test cross-contamination without a test framework; teaches env-var config pattern | Validated in Phase 03 |
+| Fix `parseUserId` with `Number()` instead of `parseInt` | `Number('1abc')` → `NaN` rejects partial strings; documented as a real learnable bug in NOTEBOOK.md | Validated in Phase 03 |
 
 ## Evolution
 
@@ -110,4 +116,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-28 after Phase 02 completion*
+*Last updated: 2026-05-28 after Phase 03 completion*
