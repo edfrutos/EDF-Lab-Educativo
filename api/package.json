@@ -1,12 +1,16 @@
 {
-  "name": "test-project",
+  "name": "edf-lab-api",
   "version": "1.0.0",
-  "description": "A simple test project",
+  "description": "API REST educativa para EDF Lab — enseña Express, JSON y CRUD a principiantes",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev":   "nodemon index.js",
+    "test":  "node --test index.test.js --test-force-exit"
   },
+  "keywords": ["educativo", "express", "rest-api", "crud", "node"],
+  "author": "edefrutos",
+  "license": "MIT",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^4.18.2",
@@ -15,12 +19,5 @@
   "devDependencies": {
     "nodemon": "^3.1.14",
     "supertest": "^7.2.2"
-  },
-  "keywords": [
-    "test",
-    "demo",
-    "nodejs"
-  ],
-  "author": "Test Author",
-  "license": "MIT"
+  }
 }
