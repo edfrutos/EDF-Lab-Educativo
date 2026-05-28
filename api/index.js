@@ -32,9 +32,10 @@ function getSortedUsers() {
 }
 
 function parseUserId(value) {
-  const id = Number.parseInt(value, 10);
-
-  return Number.isInteger(id) ? id : null;
+  // Number.parseInt('1abc', 10) devuelve 1 — acepta prefijo numérico.
+  // Number('1abc') devuelve NaN — rechaza cualquier carácter no numérico.
+  const id = Number(value);
+  return Number.isInteger(id) && id > 0 ? id : null;
 }
 
 function findUserIndexById(id) {
@@ -254,7 +255,9 @@ async function startServer() {
   });
 }
 
-startServer().catch((err) => {
-  console.error('[error] No se pudo arrancar el servidor:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  startServer().catch((err) => {
+    console.error('[error] No se pudo arrancar el servidor:', err);
+    process.exit(1);
+  });
+}
