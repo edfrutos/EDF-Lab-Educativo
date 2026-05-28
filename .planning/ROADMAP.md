@@ -124,7 +124,7 @@ Plans:
 
 **Wave 1**
 
-- [ ] 04-01-PLAN.md — Create docs/09-glosario.md with 4 thematic blocks (D-01: backend/HTTP/API, frontend/browser, persistence/tests, environment tools)
+- [x] 04-01-PLAN.md — Create docs/09-glosario.md with 4 thematic blocks (D-01: backend/HTTP/API, frontend/browser, persistence/tests, environment tools)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -160,5 +160,5 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5
 | 1. Dashboard CRUD Flow | 3/3 | Complete | 2026-05-26 |
 | 2. File Persistence | 3/3 | Complete | 2026-05-28 |
 | 3. API Tests and Quality Fixes | 3/3 | Complete | 2026-05-28 |
-| 4. Learning Material Hardening | 0/2 | Not started | - |
+| 4. Learning Material Hardening | 1/2 | In Progress|  |
 | 5. Advanced Contracts and Containers | 0/2 | Not started | - |
