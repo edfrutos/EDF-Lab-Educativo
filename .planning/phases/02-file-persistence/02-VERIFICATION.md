@@ -1,8 +1,8 @@
 ---
 phase: 02-file-persistence
 verified: 2026-05-28T10:36:00Z
-status: human_needed
-score: 4/5
+status: passed
+score: 5/5
 overrides_applied: 0
 human_verification:
   - test: "Arrancar la API (PORT=3100 npm start en api/), crear un usuario vía POST, parar la API con Ctrl+C, volver a arrancarla y comprobar que GET /users devuelve el usuario creado."
