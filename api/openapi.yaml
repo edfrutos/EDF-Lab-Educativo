@@ -1,0 +1,336 @@
+openapi: "3.0.3"
+info:
+  title: EDF Lab API
+  description: API REST educativa del laboratorio EDF — enseña Express, JSON y CRUD.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3100
+    description: Servidor de desarrollo local
+
+paths:
+  /:
+    get:
+      summary: Información general de la API
+      responses:
+        "200":
+          description: Metadatos y lista de endpoints disponibles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Welcome to the Test Project API"
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  endpoints:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - "GET /"
+                      - "GET /health"
+                      - "GET /users"
+                      - "GET /users/:id"
+                      - "POST /users"
+                      - "PUT /users/:id"
+                      - "DELETE /users/:id"
+                      - "GET /about"
+                      - "GET /time"
+
+  /health:
+    get:
+      summary: Comprobar estado del servidor
+      responses:
+        "200":
+          description: Servidor en funcionamiento
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "healthy"
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-05-29T11:00:00.000Z"
+
+  /users:
+    get:
+      summary: Obtener lista de usuarios
+      responses:
+        "200":
+          description: Lista de usuarios ordenada por nombre
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+
+    post:
+      summary: Crear un nuevo usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+            example:
+              name: "Carlos López"
+              email: "carlos@example.com"
+      responses:
+        "201":
+          description: Usuario creado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Payload inválido (name o email ausente o vacío)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                name_faltante:
+                  summary: Campo name ausente o vacío
+                  value:
+                    error: 'El campo "name" es obligatorio y debe ser texto.'
+                email_faltante:
+                  summary: Campo email ausente o vacío
+                  value:
+                    error: 'El campo "email" es obligatorio y debe ser texto.'
+        "500":
+          description: Error al guardar los datos en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "No se pudo persistir el cambio. Comprueba los permisos del archivo."
+
+  /users/{id}:
+    get:
+      summary: Obtener un usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: ID inválido (no es un número entero positivo)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: 'El parámetro ":id" debe ser un número entero.'
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "Usuario no encontrado."
+
+    put:
+      summary: Actualizar un usuario existente
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+            example:
+              name: "Carlos López Actualizado"
+              email: "carlos.nuevo@example.com"
+      responses:
+        "200":
+          description: Usuario actualizado correctamente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: ID inválido o payload incorrecto
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                id_invalido:
+                  summary: ID no es un número entero
+                  value:
+                    error: 'El parámetro ":id" debe ser un número entero.'
+                name_faltante:
+                  summary: Campo name ausente o vacío
+                  value:
+                    error: 'El campo "name" es obligatorio y debe ser texto.'
+                email_faltante:
+                  summary: Campo email ausente o vacío
+                  value:
+                    error: 'El campo "email" es obligatorio y debe ser texto.'
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "Usuario no encontrado."
+        "500":
+          description: Error al guardar los datos en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "No se pudo persistir el cambio. Comprueba los permisos del archivo."
+
+    delete:
+      summary: Eliminar un usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        "200":
+          description: Usuario eliminado correctamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Usuario eliminado correctamente."
+                  user:
+                    $ref: "#/components/schemas/User"
+        "400":
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: 'El parámetro ":id" debe ser un número entero.'
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "Usuario no encontrado."
+        "500":
+          description: Error al guardar los datos en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: "No se pudo persistir el cambio. Comprueba los permisos del archivo."
+
+  /about:
+    get:
+      summary: Información sobre el laboratorio
+      responses:
+        "200":
+          description: Descripción del proyecto educativo
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: "Express API Demo Learning Lab"
+                  description:
+                    type: string
+                    example: "Laboratorio educativo para aprender API REST, fetch(), JSON y CORS."
+                  frontend:
+                    type: string
+                    example: "dashboard/"
+                  backend:
+                    type: string
+                    example: "api/"
+
+  /time:
+    get:
+      summary: Obtener la hora actual del servidor
+      responses:
+        "200":
+          description: Timestamp ISO 8601 del momento actual
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  now:
+                    type: string
+                    format: date-time
+                    example: "2026-05-29T11:00:00.000Z"
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: "John Doe"
+        email:
+          type: string
+          example: "john@example.com"
+
+    UserInput:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          example: "Carlos López"
+        email:
+          type: string
+          example: "carlos@example.com"
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Usuario no encontrado."
