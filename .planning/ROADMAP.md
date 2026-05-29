@@ -147,8 +147,10 @@ Plans:
 
 Plans:
 
-- [ ] 05-01: Add OpenAPI/Swagger documentation for the Express API.
-- [ ] 05-02: Add Docker-based local execution as an optional advanced path.
+**Wave 1** *(plans 01 and 02 run in parallel — no shared files)*
+
+- [ ] 05-01-PLAN.md — Create api/openapi.yaml (OpenAPI 3.0.3, 9 endpoints), docs/11-openapi.md, missions/08-explorar-openapi.md, update docs/00-indice.md
+- [ ] 05-02-PLAN.md — Create api/Dockerfile (node:22-alpine), api/.dockerignore, add docker:build/docker:start scripts to api/package.json, create docs/12-docker.md, missions/09-arrancar-con-docker.md
 
 ## Progress
 
