@@ -16,6 +16,8 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 8. [`08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md) para entender cómo persisten los datos entre reinicios.
 9. [`09-glosario.md`](./09-glosario.md) para consultar los términos clave del laboratorio.
 10. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API.
+11. [`11-openapi.md`](./11-openapi.md) para entender el contrato formal de la API. *(avanzado, opcional)*
+12. [`12-docker.md`](./12-docker.md) para arrancar la API en un contenedor Docker. *(avanzado, opcional)*
 
 ## Documentos
 
@@ -48,3 +50,14 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 
 10. [`10-tests.md`](./10-tests.md)  
     Explica la suite de tests de la API: cómo ejecutarla, leer el output y añadir un test nuevo.
+
+11. [`11-openapi.md`](./11-openapi.md) *(avanzado, opcional)*  
+    Explica qué es OpenAPI, cómo leer el YAML de la spec y por qué los equipos usan contratos formales.
+
+12. [`12-docker.md`](./12-docker.md) *(avanzado, opcional)*  
+    Explica qué es Docker, qué es una imagen y cómo arrancar la API en un contenedor local.
+
+## Misiones avanzadas *(opcionales)*
+
+- [`missions/08-explorar-openapi.md`](../missions/08-explorar-openapi.md) — Explora la spec OpenAPI en VS Code y Swagger Editor online. *(avanzado, opcional)*
+- [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md) — Construye la imagen Docker y arranca la API en un contenedor. *(avanzado, opcional)*
