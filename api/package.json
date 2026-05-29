@@ -4,9 +4,11 @@
   "description": "API REST educativa para EDF Lab — enseña Express, JSON y CRUD a principiantes",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "dev":   "nodemon index.js",
-    "test":  "node --test index.test.js --test-force-exit"
+    "start":        "node index.js",
+    "dev":          "nodemon index.js",
+    "test":         "node --test index.test.js --test-force-exit",
+    "docker:build": "docker build -t edf-lab-api .",
+    "docker:start": "docker run --rm -p 3100:3100 --name edf-lab-api edf-lab-api"
   },
   "keywords": ["educativo", "express", "rest-api", "crud", "node"],
   "author": "edefrutos",
