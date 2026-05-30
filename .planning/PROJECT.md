@@ -27,6 +27,17 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 
 </details>
 
+## Current Milestone: v1.2 Docker Compose
+
+**Goal:** Teach multi-container orchestration with Docker Compose, keeping the backend → JSON → dashboard flow intact while persisting SQLite data across container restarts.
+
+**Target features:**
+- `docker-compose.yml` orchestrating API + dashboard with a single command
+- Dashboard served via nginx container on port 5173
+- SQLite volume mount so `users.db` survives container restarts
+- Root-level compose scripts (`compose:up`, `compose:down`) alongside existing `npm start` path
+- Updated docs and a new mission explaining Compose vs single-container Docker
+
 ## Current State (v1.1 shipped 2026-05-30)
 
 **Stack:** Express + `node:sqlite` + static vanilla dashboard  
@@ -34,15 +45,13 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Tests:** 16/16 API tests (`npm test` in `api/`)  
 **Docs:** 13 conceptual docs + Mission 10 (SQLite); see `docs/00-indice.md`
 
-## Next Milestone Goals (v1.2 — not yet planned)
+## Next Milestone Goals (v1.3+ — not yet planned)
 
 Candidates deferred from earlier planning:
 
-- Docker Compose (API + dashboard)
 - Frontend framework comparison (React/Vue) after vanilla flow is solid
 - PostgreSQL as next persistence step after SQLite concepts land
-
-Run `/gsd-new-milestone` to formalize v1.2 scope.
+- Production authentication when a learning phase explicitly teaches auth
 
 ## Requirements
 
@@ -71,10 +80,12 @@ Run `/gsd-new-milestone` to formalize v1.2 scope.
 
 ### Active
 
-- [ ] Docker Compose multi-container setup — candidate v1.2
-- [ ] Frontend framework comparison (React/Vue) — candidate v1.2+
+- [ ] Docker Compose orchestrates API + dashboard containers — v1.2
+- [ ] SQLite volume mount documented for Docker persistence — v1.2
+- [ ] Compose docs, mission, and NOTEBOOK entries — v1.2
+- [ ] Frontend framework comparison (React/Vue) — candidate v1.3+
 - [ ] Production authentication and deployment hardening — future advanced phase
-- [ ] PostgreSQL — after SQLite concepts are solid in practice
+- [ ] PostgreSQL — after SQLite and Compose concepts land in practice
 
 ### Out of Scope
 
@@ -139,7 +150,10 @@ Known resolved concerns (all fixed in v1.0):
 | Use `node:sqlite` over `better-sqlite3` for v1.1 | Zero deps; comparison documentary only | ✓ Good — v1.1 |
 | Raw SQL, no ORM | Transparent database layer for learners | ✓ Good — v1.1 |
 | `users.json` as seed/migration source only | Preserves Phase 2 learning path | ✓ Good — v1.1 |
-| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.2 |
+| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.3 |
+| Docker Compose over single-container only | Teaches orchestration after learners know Dockerfile basics | — Pending v1.2 |
+| nginx for dashboard container | Static files + simple config; no Node build step for dashboard | — Pending v1.2 |
+| Volume mount for SQLite in Compose | Connects container lesson to real persistence from v1.1 | — Pending v1.2 |
 
 ## Evolution
 
@@ -159,4 +173,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-30 after v1.1 milestone*
+*Last updated: 2026-05-30 after v1.2 milestone started*

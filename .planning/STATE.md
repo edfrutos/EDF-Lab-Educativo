@@ -1,16 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.1
-milestone_name: SQLite Persistence
-status: Awaiting next milestone
-last_updated: "2026-05-30T18:31:20.301Z"
-last_activity: 2026-05-30 — Milestone v1.1 completed and archived
+milestone: v1.2
+milestone_name: Docker Compose
+status: planning
+last_updated: "2026-05-30T22:20:00.000Z"
+last_activity: 2026-05-30 — Milestone v1.2 initialized (requirements + roadmap)
 progress:
   total_phases: 3
-  completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -20,35 +20,37 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-30)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Planning next milestone (v1.2) — run `/gsd-new-milestone`
+**Current focus:** Milestone v1.2 Docker Compose — Phase 9 next
 
 ## Current Position
 
-Phase: Milestone v1.1 complete
+Phase: Not started (ready for discuss/plan)
 Plan: —
-Status: Awaiting next milestone
-Last activity: 2026-05-30 — Milestone v1.1 completed and archived
+Status: Requirements and roadmap defined
+Last activity: 2026-05-30 — Milestone v1.2 initialized
 
 ## Performance Metrics
 
 **Velocity:**
 
-- v1.1 plans completed: 8 (6 implementation + 2 docs)
-- Milestone v1.1 closed: 2026-05-30
+- v1.1 milestone closed: 2026-05-30 (3 phases, 8 plans)
+- v1.2 milestone started: 2026-05-30
 
-## By Phase (v1.1 — complete)
+## By Phase (v1.2 — planning)
 
 | Phase | Plans | Status |
 |-------|-------|--------|
-| 06 | 3/3 | Complete |
-| 07 | 3/3 | Complete |
-| 08 | 2/2 | Complete |
+| 09 Compose Stack Foundation | 0/3 | Not started |
+| 10 SQLite Volume & Scripts | 0/2 | Not started |
+| 11 Compose Learning Material | 0/2 | Not started |
 
 ## Accumulated Context
 
 ### Decisions
 
-- v1.1 milestone complete: SQLite runtime, JSON seed, 16 tests, full learning material (doc 13, mission 10, NOTEBOOK).
+- v1.2 scope: Docker Compose (API + dashboard), SQLite volume persistence, learning material — deferred from v1.1 archive (INFRA-01/02).
+- nginx serves dashboard static files; existing `api/Dockerfile` reused for API service.
+- Host dev path (`npm start` + `python3 -m http.server`) remains primary; Compose is advanced/optional.
 
 ### Pending Todos
 
@@ -60,8 +62,9 @@ None active.
 
 ## Operator Next Steps
 
-- Start the next milestone with /gsd-new-milestone
+- `/gsd-discuss-phase 9` — gather context for Compose stack foundation
+- or `/gsd-plan-phase 9` — skip discussion, plan directly
 
 ## Session Continuity
 
-Resume file: `.planning/phases/08-database-learning-material/08-VERIFICATION.md`
+Resume file: `.planning/ROADMAP.md` (Phase 9)
