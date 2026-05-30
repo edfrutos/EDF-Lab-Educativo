@@ -17,15 +17,15 @@ Requirements for the SQLite Persistence milestone. Each maps to roadmap phases (
 
 ### Migration
 
-- [ ] **MIG-01**: Learner can migrate existing seed data from `users.json` into SQLite on first startup or via a documented script.
-- [ ] **MIG-02**: Documentation explains when JSON file persistence is enough vs when SQLite is appropriate.
-- [ ] **MIG-03**: `users.json` is retained as seed/migration source, not as the runtime store.
+- [x] **MIG-01**: Learner can migrate existing seed data from `users.json` into SQLite on first startup or via a documented script.
+- [x] **MIG-02**: Documentation explains when JSON file persistence is enough vs when SQLite is appropriate.
+- [x] **MIG-03**: `users.json` is retained as seed/migration source, not as the runtime store.
 
 ### API Tests
 
-- [ ] **TEST-01**: All 12 existing API tests pass against the SQLite-backed store.
-- [ ] **TEST-02**: Tests use an isolated SQLite database file per test run (no cross-test contamination).
-- [ ] **TEST-03**: Tests cover edge cases: empty database, duplicate email validation, invalid ID handling.
+- [x] **TEST-01**: All 12 existing API tests pass against the SQLite-backed store.
+- [x] **TEST-02**: Tests use an isolated SQLite database file per test run (no cross-test contamination).
+- [x] **TEST-03**: Tests cover edge cases: empty database, duplicate email validation, invalid ID handling.
 
 ### Learning Documentation
 
@@ -74,17 +74,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SQLITE-01 | Phase 6 | Pending |
-| SQLITE-02 | Phase 6 | Pending |
-| SQLITE-03 | Phase 6 | Pending |
-| SQLITE-04 | Phase 6 | Pending |
-| SQLITE-05 | Phase 6 | Pending |
-| MIG-01 | Phase 7 | Pending |
-| MIG-02 | Phase 7 | Pending |
-| MIG-03 | Phase 7 | Pending |
-| TEST-01 | Phase 7 | Pending |
-| TEST-02 | Phase 7 | Pending |
-| TEST-03 | Phase 7 | Pending |
+| SQLITE-01 | Phase 6 | Complete |
+| SQLITE-02 | Phase 6 | Complete |
+| SQLITE-03 | Phase 6 | Complete |
+| SQLITE-04 | Phase 6 | Complete |
+| SQLITE-05 | Phase 6 | Complete |
+| MIG-01 | Phase 7 | Complete |
+| MIG-02 | Phase 7 | Complete |
+| MIG-03 | Phase 7 | Complete |
+| TEST-01 | Phase 7 | Complete |
+| TEST-02 | Phase 7 | Complete |
+| TEST-03 | Phase 7 | Complete |
 | DOCS-01 | Phase 8 | Pending |
 | DOCS-02 | Phase 8 | Pending |
 | DOCS-03 | Phase 8 | Pending |

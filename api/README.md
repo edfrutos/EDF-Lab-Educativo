@@ -117,9 +117,27 @@ curl http://localhost:3100/users/abc
 
 ---
 
+---
+
+## Persistencia SQLite y migración desde JSON
+
+Los usuarios se guardan en **`data/users.db`** (SQLite via `node:sqlite`). Al arrancar con una base vacía, la API importa automáticamente los usuarios de **`data/users.json`** y muestra en consola:
+
+```txt
+Migrados 2 usuarios desde users.json
+```
+
+`users.json` es solo **fuente de semilla/migración**; el runtime no lo reescribe en cada CRUD. Si el JSON falta o está vacío, se inserta la semilla John/Jane. Si el JSON está corrupto, se restaura la semilla y la API sigue arrancando.
+
+Emails duplicados devuelven **409 Conflict** con el mensaje `Ya existe un usuario con ese email.`
+
+Variable opcional: `DB_FILE` apunta a otra ruta de base de datos (útil en tests).
+
+---
+
 ## Escritura de datos
 
-Los datos se guardan en memoria. Si reinicias la API, vuelven al estado inicial definido en `index.js`.
+Los datos persisten en SQLite. Si borras `data/users.db` y reinicias, se vuelve a migrar desde `users.json`.
 
 ### `POST /users`
 
