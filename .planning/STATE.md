@@ -4,7 +4,7 @@ milestone: v1.1
 milestone_name: SQLite Persistence
 status: executing
 last_updated: "2026-05-30T18:00:00.000Z"
-last_activity: 2026-05-30 — Phase 7 executed (3/3 plans)
+last_activity: 2026-05-30 — Phase 7 shipped PR #1
 progress:
   total_phases: 3
   completed_phases: 2
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-30)
 
 Phase: 7 of 8 (Migration & Test Confidence) — complete
 Plan: 3/3 complete
-Status: Phase 7 complete — awaiting UAT
+Status: Phase 7 shipped — PR #1 open
 Last activity: 2026-05-30 — Phase 7 executed (3/3 plans)
 
 Progress: [████░░░░░░] 38% (v1.1 milestone)
@@ -95,5 +95,6 @@ Resume file: .planning/phases/06-sqlite-persistence-layer/06-01-PLAN.md
 
 ## Operator Next Steps
 
-- UAT Phase 7: `/gsd-verify-work 7` or manual dashboard check
+- Merge PR #1: https://github.com/edfrutos/EDF-Lab-Educativo/pull/1
+- Complete UAT dashboard checks (07-UAT.md tests 1–3)
 - Discuss Phase 8: `/gsd-discuss-phase 8`
