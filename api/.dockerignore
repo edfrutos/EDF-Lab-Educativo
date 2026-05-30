@@ -36,3 +36,5 @@ node_modules
 .git
 *.test.js
 data/users.json
+data/users.db
+data/*.db

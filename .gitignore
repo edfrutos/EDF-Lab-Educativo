@@ -25,3 +25,6 @@ Icon?
 coverage/
 dist/
 build/
+
+# SQLite runtime (API)
+api/data/*.db

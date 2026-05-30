@@ -12,7 +12,7 @@ RUN npm ci --omit=dev
 # Copiar el resto del código fuente
 COPY . .
 
-# data/ debe ser escribible por node: loadUsers() crea users.json al arrancar
+# data/ debe ser escribible por node: initDb() crea users.db al arrancar
 # (excluido del contexto por .dockerignore — comportamiento efímero correcto).
 RUN mkdir -p data && chown -R node:node /usr/src/app
 

@@ -1,41 +1,29 @@
 'use strict';
 
 // ─── Setup ───────────────────────────────────────────────────────────────────
-// CRÍTICO: DATA_FILE debe asignarse ANTES del require de index.js.
+// CRÍTICO: DB_FILE debe asignarse ANTES del require de index.js.
 // Node.js cachea módulos en el primer require — si index.js se importa antes
-// de setear la variable, DATA_FILE_PATH quedará con el valor por defecto.
+// de setear la variable, la ruta SQLite quedará con el valor por defecto.
 
 const { describe, it, beforeEach, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
-const { writeFile, unlink } = require('fs/promises');
+const { unlink } = require('fs/promises');
 const path = require('path');
 
-const TEST_FILE = path.join(__dirname, 'data', 'users.test.json');
-process.env.DATA_FILE = TEST_FILE;
+const TEST_DB = path.join(__dirname, 'data', 'users.test.db');
+process.env.DB_FILE = TEST_DB;
 
 const app = require('./index.js');
 const request = require('supertest');
 
-// Semilla controlada: 2 usuarios conocidos, nextId=3.
-// NO se usa copyFile(users.json) porque ese archivo tiene 3 usuarios (estado Fase 2).
-const TEST_SEED = {
-  users: [
-    { id: 1, name: 'John Doe',   email: 'john@example.com' },
-    { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-  ],
-  nextId: 3
-};
-
 beforeEach(async () => {
-  // Arrange: restaurar fixture limpio antes de cada test y recargar estado en memoria.
-  // Necesario porque users[] es un array en memoria; sin startServer() el array está vacío.
-  await writeFile(TEST_FILE, JSON.stringify(TEST_SEED, null, 2), 'utf8');
-  await app.loadUsers();
+  // Arrange: base SQLite limpia antes de cada test; initDb() aplica schema + semilla.
+  await unlink(TEST_DB).catch(() => {});
+  await app.initDb();
 });
 
 afterEach(async () => {
-  // Cleanup: eliminar fixture tras cada test
-  await unlink(TEST_FILE).catch(() => {});
+  await unlink(TEST_DB).catch(() => {});
 });
 
 // ── GET /health ───────────────────────────────────────────────────────────────
@@ -56,14 +44,14 @@ describe('GET /health', () => {
 
 describe('GET /users', () => {
   it('responde 200 con array de usuarios ordenados por nombre', async () => {
-    // Arrange — fixture con John Doe (id=1) y Jane Smith (id=2)
+    // Arrange — semilla SQLite con John Doe (id=1) y Jane Smith (id=2)
     // Act
     const res = await request(app).get('/users');
     // Assert
     assert.equal(res.status, 200);
     assert.ok(Array.isArray(res.body), 'la respuesta debe ser un array');
     assert.equal(res.body.length, 2);
-    // getSortedUsers() aplica _.sortBy(users, 'name') — Jane precede a John
+    // ORDER BY name — Jane precede a John
     assert.equal(res.body[0].name, 'Jane Smith');
     assert.equal(res.body[1].name, 'John Doe');
   });
@@ -135,7 +123,7 @@ describe('PUT /users/:id', () => {
 
 describe('DELETE /users/:id', () => {
   it('elimina un usuario existente y responde 200 con mensaje y datos del usuario', async () => {
-    // Arrange — fixture tiene usuario con id=1 (John Doe)
+    // Arrange — semilla SQLite tiene usuario con id=1 (John Doe)
     // Act
     const res = await request(app).delete('/users/1');
     // Assert

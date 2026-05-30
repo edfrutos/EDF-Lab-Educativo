@@ -74,11 +74,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| SQLITE-01 | Phase 6 | Pending |
-| SQLITE-02 | Phase 6 | Pending |
-| SQLITE-03 | Phase 6 | Pending |
-| SQLITE-04 | Phase 6 | Pending |
-| SQLITE-05 | Phase 6 | Pending |
+| SQLITE-01 | Phase 6 | Complete |
+| SQLITE-02 | Phase 6 | Complete |
+| SQLITE-03 | Phase 6 | Complete |
+| SQLITE-04 | Phase 6 | Complete |
+| SQLITE-05 | Phase 6 | Complete |
 | MIG-01 | Phase 7 | Pending |
 | MIG-02 | Phase 7 | Pending |
 | MIG-03 | Phase 7 | Pending |
