@@ -2,41 +2,38 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-05-29T16:08:04.981Z"
-last_activity: 2026-05-29 -- Phase 5 planning complete
+status: Awaiting next milestone
+last_updated: "2026-05-30T11:04:26.541Z"
+last_activity: 2026-05-30 — Milestone v1.0 completed and archived
 progress:
   total_phases: 5
-  completed_phases: 4
+  completed_phases: 5
   total_plans: 13
-  completed_plans: 11
-  percent: 85
+  completed_plans: 13
+  percent: 100
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-26)
+See: .planning/PROJECT.md (updated 2026-05-30)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Phase 04 — Learning Material Hardening
+**Current focus:** Milestone v1.0 complete — all 5 phases executed
 
 ## Current Position
 
-Phase: 04 (Learning Material Hardening) — EXECUTING
-Plan: 1 of 2
-Status: Ready to execute
-Last activity: 2026-05-29 -- Phase 5 planning complete
-
-Progress: [██████████] 100%
+Phase: Milestone v1.0 complete
+Plan: —
+Status: Awaiting next milestone
+Last activity: 2026-05-30 — Milestone v1.0 completed and archived
 
 ## Performance Metrics
 
 **Velocity:**
 
-- Total plans completed: 9
+- Total plans completed: 13
 - Average duration: N/A
 - Total execution time: 0 hours
 
@@ -44,15 +41,16 @@ Progress: [██████████] 100%
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| Dashboard CRUD Flow | 0/3 | N/A | N/A |
-| 01 | 3 | - | - |
-| 02 | 3 | - | - |
-| 03 | 3 | - | - |
+| 01 | 3/3 | Complete | - |
+| 02 | 3/3 | Complete | - |
+| 03 | 3/3 | Complete | - |
+| 04 | 2/2 | Complete | - |
+| 05 | 2/2 | Complete | - |
 
 **Recent Trend:**
 
-- Last 5 plans: none
-- Trend: N/A
+- Last 5 plans: 05-01, 05-02, 04-02, 04-01, 03-03
+- Trend: Milestone complete
 
 ## Accumulated Context
 
@@ -61,9 +59,8 @@ Progress: [██████████] 100%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- Initialization: Audience is the project owner and beginner students.
-- Initialization: Priority order is dashboard CRUD, persistence, tests, glossary, quality, Docker/OpenAPI.
-- Initialization: Keep vanilla frontend now; frameworks are acceptable later when educationally useful.
+- Phase 05: OpenAPI manual YAML sin dependencias; Docker opcional con node:22-alpine; material avanzado marcado (avanzado, opcional) en índice.
+- Phase 04: Glosario en 4 bloques; misiones renumeradas 06/07; docs/10-tests.md con patrón AAA.
 
 ### Pending Todos
 
@@ -71,34 +68,30 @@ None yet.
 
 ### Blockers/Concerns
 
-None active. Previous concerns resolved:
-
-- ~~Current code has no automated test suite.~~ → 12/12 tests en verde (Phase 03)
-- ~~Dashboard offline help contains one stale project path.~~ → Corregido en Phase 01
-- ~~API package metadata still reflects the original test project.~~ → Actualizado en Phase 03
+None active.
 
 ## Deferred Items
 
+Items acknowledged and deferred at milestone close on 2026-05-30:
+
 | Category | Item | Status | Deferred At |
 |----------|------|--------|-------------|
+| uat_gaps | Phase 02: 02-HUMAN-UAT.md | verified (0 open scenarios) | Milestone v1.0 close |
 | Frameworks | Add frontend framework comparison | Deferred | Initialization |
 | Production | Authentication and deployment hardening | Deferred | Initialization |
 | Database | SQLite/PostgreSQL after file persistence | Deferred | Initialization |
+| Docker | Docker Compose multi-contenedor | Deferred | Phase 05 |
 
 ## Session Continuity
 
-Last session: 2026-05-29T11:12:39.271Z
-Stopped at: Phase 5 context gathered
-Resume file: .planning/phases/05-advanced-contracts-and-containers/05-CONTEXT.md
+Last session: 2026-05-29T19:45:00.000Z
+Stopped at: Phase 05 complete
+Resume file: none — milestone v1.0 complete
 
 ## Git Tracking Note
 
-⚠️ Several important files are untracked and not yet committed:
+Several important files remain untracked or uncommitted. Consider a milestone snapshot commit when ready.
 
-- `api/` — entire backend (index.js, package.json, README.md, node_modules/)
-- `docs/` — chapters 00-03, 05-07 (only 04-dashboard-fetch.md is tracked)
-- `missions/` — missions 01-04 (only 05-mejorar-dashboard.md is tracked)
-- Root: `README.md`, `ROADMAP.md`, `CHANGELOG.md`, `CLAUDE.md`, `.gitignore`
-- `dashboard/index.html` and `dashboard/styles.css` — tracked but have uncommitted changes
+## Operator Next Steps
 
-Before starting Phase 2, consider committing all untracked files so the repo is a complete snapshot.
+- Start the next milestone with /gsd-new-milestone
