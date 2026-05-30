@@ -252,36 +252,37 @@ fetch('http://localhost:3100/health')
 
 ### memoria vs disco
 
-**Memoria**: los datos viven en un array JavaScript mientras el proceso está activo. Al reiniciar el servidor, se pierden. **Disco**: los datos se escriben en un archivo JSON (`api/data/users.json`) y sobreviven a los reinicios.
+**Memoria**: los datos viven en un array JavaScript mientras el proceso está activo. Al reiniciar el servidor, se pierden. **Disco (v1.1)**: los datos persisten en SQLite (`api/data/users.db`) y sobreviven a los reinicios. El archivo `api/data/users.json` es solo **semilla/migración** cuando la base arranca vacía — no se reescribe en cada CRUD.
 
 ```bash
-# Comprobar el archivo de datos en disco
-cat api/data/users.json
+# Inspeccionar la base en disco (v1.1)
+sqlite3 api/data/users.db "SELECT id, name, email FROM users;"
 ```
 
-> Ver más: [`docs/08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md)
+> Ver más: [`docs/08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md), [`docs/13-sqlite.md`](./13-sqlite.md)
 
 ---
 
 ### fixture
 
-Conjunto de datos de prueba conocido y controlado que se carga antes de cada test para garantizar que todos los tests partan del mismo estado.
+Conjunto de datos de prueba conocido y controlado que se carga antes de cada test para garantizar que todos los tests parten del mismo estado. En v1.1 la suite usa una base SQLite aislada (`users.test.db`) recreada en cada `beforeEach` con `initDb()`.
 
 ```js
-// Fixture del laboratorio (api/index.test.js)
-const TEST_SEED = [
-  { id: 1, name: 'John Doe',  email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-];
+// Patrón en api/index.test.js (v1.1)
+process.env.DB_FILE = path.join(__dirname, 'data', 'users.test.db');
+beforeEach(async () => {
+  await unlink(TEST_DB).catch(() => {});
+  await app.initDb(); // schema + semilla John/Jane
+});
 ```
 
-> Ver más: [`docs/08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md)
+> Ver más: [`docs/10-tests.md`](./10-tests.md)
 
 ---
 
 ### suite de tests
 
-Conjunto de tests organizados que verifican el comportamiento de un sistema. En el laboratorio, la suite vive en `api/index.test.js` y cubre todos los endpoints con 12 casos.
+Conjunto de tests organizados que verifican el comportamiento de un sistema. En el laboratorio, la suite vive en `api/index.test.js` y cubre todos los endpoints con 16 casos.
 
 ```bash
 # Ejecutar la suite completa desde la carpeta api/

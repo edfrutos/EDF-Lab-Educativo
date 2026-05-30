@@ -10,7 +10,7 @@ Esta API sirve como base para aprender:
 - lectura de `req.body`,
 - validacion basica,
 - codigos HTTP,
-- CRUD en memoria,
+- CRUD con persistencia SQLite (`users.db`),
 - consumo desde un frontend separado.
 
 La API vive en:
