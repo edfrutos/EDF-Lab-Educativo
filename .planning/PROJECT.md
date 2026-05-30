@@ -10,6 +10,18 @@ The lab includes a working API with file persistence, a dashboard that performs 
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
+## Current Milestone: v1.1 SQLite Persistence
+
+**Goal:** Teach the evolution from JSON file persistence to SQLite, keeping the backend → JSON → dashboard flow intact and observable.
+
+**Target features:**
+- SQLite persistence layer in the API using `node:sqlite` (Node 22 built-in, zero npm deps)
+- Explicit SQL schema and documented queries (CREATE TABLE, CRUD operations)
+- Didactic migration path from `users.json` to SQLite
+- Updated API test suite for the database layer
+- New doc and mission explaining JSON vs SQLite and comparing `node:sqlite` vs `better-sqlite3`
+- API contract unchanged — dashboard continues to work without modification
+
 ## Requirements
 
 ### Validated
@@ -33,15 +45,17 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 
 ### Active
 
-- [ ] Frontend framework comparison (React/Vue) after vanilla flow is mastered — deferred from v1.0
-- [ ] SQLite or PostgreSQL persistence — after file persistence concept is solid
+- [ ] SQLite persistence replaces `users.json` as primary store — v1.1 milestone
+- [ ] SQL schema, migration, tests, and educational docs for database layer — v1.1
+- [ ] Frontend framework comparison (React/Vue) — deferred to v1.2+
 - [ ] Production authentication and deployment hardening — future advanced phase
 - [ ] Docker Compose multi-container setup — deferred from Phase 05
+- [ ] PostgreSQL — after SQLite concept is taught
 
 ### Out of Scope
 
 - Full production authentication — not needed for the current beginner-focused API/data-flow lab.
-- Database-first architecture — file persistence established the memory vs persistence concept; SQLite/PostgreSQL deferred.
+- PostgreSQL in v1.1 — SQLite teaches relational persistence first; PostgreSQL deferred to later milestone.
 - Frontend frameworks in the near term — keep HTML, CSS, and JavaScript vanilla until a framework has clear teaching value.
 - Production deployment hardening — local learning remains the first target.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
@@ -116,4 +130,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-30 after v1.0 milestone*
+*Last updated: 2026-05-30 — v1.1 milestone started*
