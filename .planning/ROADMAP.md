@@ -41,7 +41,12 @@
   4. Learner can point the API to a custom database file path via an environment variable.
   5. Learner confirms database access uses `node:sqlite` with zero new npm dependencies.
 
-**Plans**: TBD (~3 plans)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — schema.sql + db.js (initDb, CRUD helpers, seed-on-empty)
+- [ ] 06-02-PLAN.md — index.js refactor: routes delegate to db.js, preserve HTTP contract
+- [ ] 06-03-PLAN.md — tests, Docker/gitignore, end-to-end verification gate
 
 ### Phase 7: Migration & Test Confidence
 
@@ -82,7 +87,7 @@
 | 3. API Tests and Quality Fixes | v1.0 | 3/3 | Complete | 2026-05-28 |
 | 4. Learning Material Hardening | v1.0 | 2/2 | Complete | 2026-05-28 |
 | 5. Advanced Contracts and Containers | v1.0 | 2/2 | Complete | 2026-05-29 |
-| 6. SQLite Persistence Layer | v1.1 | 0/~3 | Not started | - |
+| 6. SQLite Persistence Layer | v1.1 | 0/3 | Planned | - |
 | 7. Migration & Test Confidence | v1.1 | 0/~3 | Not started | - |
 | 8. Database Learning Material | v1.1 | 0/~2 | Not started | - |
 
