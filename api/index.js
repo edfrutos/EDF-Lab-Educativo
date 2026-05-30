@@ -6,7 +6,8 @@ const {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  DuplicateEmailError
 } = require('./db');
 
 const app = express();
@@ -87,6 +88,9 @@ app.post('/users', async (req, res) => {
     const user = await createUser(req.body.name.trim(), req.body.email.trim());
     res.status(201).json(user);
   } catch (err) {
+    if (err instanceof DuplicateEmailError) {
+      return res.status(409).json({ error: err.message });
+    }
     console.error('[error] createUser() falló en POST /users:', err.message);
     return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
   }
@@ -115,6 +119,9 @@ app.put('/users/:id', async (req, res) => {
     const user = await updateUser(userId, req.body.name.trim(), req.body.email.trim());
     res.json(user);
   } catch (err) {
+    if (err instanceof DuplicateEmailError) {
+      return res.status(409).json({ error: err.message });
+    }
     console.error('[error] updateUser() falló en PUT /users/:id:', err.message);
     return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
   }

@@ -74,7 +74,7 @@ paths:
                   $ref: "#/components/schemas/User"
     post:
       summary: Crear un usuario
-      description: Crea un usuario nuevo y lo persiste en data/users.json.
+      description: Crea un usuario nuevo y lo persiste en la base de datos SQLite.
       requestBody:
         required: true
         content:
@@ -103,6 +103,14 @@ paths:
                   summary: Campo email vacío o ausente
                   value:
                     error: El campo "email" es obligatorio y debe ser texto.
+        "409":
+          description: Email duplicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Ya existe un usuario con ese email.
         "500":
           description: Error al persistir en disco
           content:
@@ -184,6 +192,14 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: Usuario no encontrado.
+        "409":
+          description: Email duplicado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Ya existe un usuario con ese email.
         "500":
           description: Error al persistir en disco
           content:
