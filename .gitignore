@@ -18,6 +18,9 @@ Icon?
 .vscode/
 .idea/
 
+# Agent worktrees (Cursor / Claude Code local)
+.claude/
+
 # Coverage / build output
 coverage/
 dist/
