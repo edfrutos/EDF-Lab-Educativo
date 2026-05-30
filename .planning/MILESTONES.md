@@ -1,5 +1,21 @@
 # Milestones
 
+## v1.1 SQLite Persistence (Shipped: 2026-05-30)
+
+**Phases completed:** 3 phases, 8 plans  
+**Timeline:** 2026-05-30 (single-day milestone execution)  
+**Audit:** `.planning/milestones/v1.1-MILESTONE-AUDIT.md` — 16/16 requirements, tech debt resolved at close
+
+**Key accomplishments:**
+
+- SQLite persistence: `api/db.js` + `schema.sql` with `node:sqlite`, zero new npm dependencies, `DB_FILE` env var
+- JSON→SQLite migration on cold start with preserved IDs and UNIQUE email constraint (HTTP 409)
+- Test suite expanded to 16/16 with isolated `users.test.db` per run
+- Learning material: `docs/13-sqlite.md`, Mission 10, NOTEBOOK entries for real SQLite integration errors
+- Dashboard unchanged — full CRUD UAT pass with SQLite backend
+
+---
+
 ## v1.0 Educational Lab MVP (Shipped: 2026-05-30)
 
 **Phases completed:** 5 phases, 13 plans, 12 tasks  

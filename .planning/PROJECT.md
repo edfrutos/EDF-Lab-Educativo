@@ -4,11 +4,14 @@
 
 EDF Lab Educativo is a hands-on learning lab for understanding a modern web flow with a separate Express backend and a static frontend dashboard. It is for the project owner and beginner students who need to see, run, break, debug, and document the path from backend endpoints to JSON responses to rendered browser UI.
 
-The lab includes a working API with file persistence, a dashboard that performs full CRUD with `fetch()`, 12 automated API tests, a beginner glossary, guided missions, OpenAPI contract documentation, and an optional Docker path — all organized as an educational progression.
+The lab includes a working API with **SQLite persistence** (`users.db`), a dashboard that performs full CRUD with `fetch()`, **16 automated API tests**, a beginner glossary, guided missions (including SQLite inspection), OpenAPI contract documentation, and an optional Docker path — all organized as an educational progression.
 
 ## Core Value
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
+
+<details>
+<summary>Previous milestone context (v1.1 planning — archived)</summary>
 
 ## Current Milestone: v1.1 SQLite Persistence
 
@@ -21,6 +24,25 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - Updated API test suite for the database layer
 - New doc and mission explaining JSON vs SQLite and comparing `node:sqlite` vs `better-sqlite3`
 - API contract unchanged — dashboard continues to work without modification
+
+</details>
+
+## Current State (v1.1 shipped 2026-05-30)
+
+**Stack:** Express + `node:sqlite` + static vanilla dashboard  
+**Persistence:** `api/data/users.db` (runtime), `api/data/users.json` (seed/migration only)  
+**Tests:** 16/16 API tests (`npm test` in `api/`)  
+**Docs:** 13 conceptual docs + Mission 10 (SQLite); see `docs/00-indice.md`
+
+## Next Milestone Goals (v1.2 — not yet planned)
+
+Candidates deferred from earlier planning:
+
+- Docker Compose (API + dashboard)
+- Frontend framework comparison (React/Vue) after vanilla flow is solid
+- PostgreSQL as next persistence step after SQLite concepts land
+
+Run `/gsd-new-milestone` to formalize v1.2 scope.
 
 ## Requirements
 
@@ -42,15 +64,17 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ Docs and missions synchronized with actual paths, ports, endpoints, and commands — v1.0 Phase 04
 - ✓ OpenAPI 3.0.3 spec documents all 9 API endpoints with literal error messages — v1.0 Phase 05
 - ✓ Optional Docker path (`docker:build`, `docker:start`) teaches containerized execution without replacing `npm start` — v1.0 Phase 05
+- ✓ SQLite persistence via `node:sqlite` with explicit `schema.sql` and `api/db.js` — v1.1 Phase 06
+- ✓ JSON→SQLite auto-migration on cold start; `users.json` retained as seed only — v1.1 Phase 07
+- ✓ 16 API tests with `DB_FILE` isolation; duplicate email 409; OpenAPI updated — v1.1 Phase 07
+- ✓ `docs/13-sqlite.md`, Mission 10, NOTEBOOK SQLite errors, glosario v1.1 updates — v1.1 Phase 08
 
 ### Active
 
-- [ ] SQLite persistence replaces `users.json` as primary store — v1.1 milestone
-- [ ] SQL schema, migration, tests, and educational docs for database layer — v1.1
-- [ ] Frontend framework comparison (React/Vue) — deferred to v1.2+
+- [ ] Docker Compose multi-container setup — candidate v1.2
+- [ ] Frontend framework comparison (React/Vue) — candidate v1.2+
 - [ ] Production authentication and deployment hardening — future advanced phase
-- [ ] Docker Compose multi-container setup — deferred from Phase 05
-- [ ] PostgreSQL — after SQLite concept is taught
+- [ ] PostgreSQL — after SQLite concepts are solid in practice
 
 ### Out of Scope
 
@@ -65,11 +89,13 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 The lab is organized around a learning route:
 
 - `docs/` explains the concepts in reading order (including glossary, tests, OpenAPI, Docker).
-- `missions/` provides executable practice (9 missions including advanced optional topics).
-- `ROADMAP.md` lists the educational evolution; v1.0 milestone complete.
+- `missions/` provides executable practice (10 missions including SQLite and advanced optional topics).
+- `ROADMAP.md` lists the educational evolution; v1.0 and v1.1 milestones complete.
 - `NOTEBOOK.md` captures real decisions, errors, and lessons.
-- `api/` contains the Express backend with file persistence, tests, OpenAPI spec, and Dockerfile.
+- `api/` contains the Express backend with SQLite persistence, tests, OpenAPI spec, and Dockerfile.
 - `dashboard/` contains the static frontend with full CRUD.
+
+**v1.1 milestone shipped 2026-05-30:** 3 phases, 8 plans, 16 API tests passing, UAT complete (Phase 7), milestone audit passed.
 
 **v1.0 milestone shipped 2026-05-30:** 5 phases, 13 plans, 12 API tests passing, UAT verified for Phase 05, security STRIDE verified.
 
@@ -110,7 +136,10 @@ Known resolved concerns (all fixed in v1.0):
 | Docker optional with node:22-alpine | Teaches containers without replacing simpler `npm start` path | ✓ Good — Phase 05 |
 | Advanced material marked `(avanzado, opcional)` in index | Core learning path stays unblocked | ✓ Good — Phase 05 |
 | Treat docs, missions, and roadmap as source-of-intent | User-identified direction for the project | ✓ Good — v1.0 |
-| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.1 |
+| Use `node:sqlite` over `better-sqlite3` for v1.1 | Zero deps; comparison documentary only | ✓ Good — v1.1 |
+| Raw SQL, no ORM | Transparent database layer for learners | ✓ Good — v1.1 |
+| `users.json` as seed/migration source only | Preserves Phase 2 learning path | ✓ Good — v1.1 |
+| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.2 |
 
 ## Evolution
 
@@ -130,4 +159,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-05-30 — v1.1 milestone started*
+*Last updated: 2026-05-30 after v1.1 milestone*

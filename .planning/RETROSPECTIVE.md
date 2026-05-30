@@ -49,6 +49,50 @@
 
 ---
 
+## Milestone: v1.1 — SQLite Persistence
+
+**Shipped:** 2026-05-30  
+**Phases:** 3 | **Plans:** 8
+
+### What Was Built
+
+- SQLite layer (`db.js`, `schema.sql`) with `node:sqlite` and `DB_FILE` configuration
+- Auto-migration from `users.json` on empty database; UNIQUE email → HTTP 409
+- 16-test suite with per-run DB isolation; dashboard CRUD unchanged
+- `docs/13-sqlite.md`, Mission 10, NOTEBOOK integration errors, glosario v1.1 alignment
+
+### What Worked
+
+- Phased split (persistence → migration/tests → docs) kept dashboard contract stable throughout
+- Deferred full MIG-02 doc to Phase 8 while Phase 7 shipped code + brief note — clean separation
+- Real UAT friction (EADDRINUSE, ExperimentalWarning) became NOTEBOOK curriculum
+
+### What Was Inefficient
+
+- Phase 6 shipped without VERIFICATION.md — caught at milestone audit, fixed retroactively
+- REQUIREMENTS.md checkboxes lagged until audit/close (recurring v1.0 lesson)
+- `milestone.complete` accomplishments extraction incomplete ("Plan:" placeholders)
+
+### Patterns Established
+
+- `users.json` = seed, `users.db` = runtime — dual-file mental model documented in doc 08 + 13
+- `initDb({ skipSeed: true })` for empty-database tests without learner-facing env vars
+- Milestone audit cleanup pass before archive when tech_debt status
+
+### Key Lessons
+
+1. Add VERIFICATION.md when phase executes, not only at audit
+2. Sync REQUIREMENTS checkboxes at each phase ship, not milestone close
+3. Docs phase (8) should follow code phase UAT within same milestone for coherent learner path
+
+### Cost Observations
+
+- Model mix: not tracked
+- Timeline: v1.1 executed primarily 2026-05-30 (same day as close)
+- Notable: docs-only Phase 8 chained after Phase 7 UAT in one session
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -56,12 +100,14 @@
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
 | v1.0 | ~5 | 5 | GSD phased execution with UAT + security gates |
+| v1.1 | ~2 | 3 | SQLite migration + docs; audit cleanup before archive |
 
 ### Cumulative Quality
 
 | Milestone | Tests | Coverage | Zero-Dep Additions |
 |-----------|-------|----------|-------------------|
 | v1.0 | 12 API tests | Manual UAT per phase | fs/promises, node:test, manual OpenAPI |
+| v1.1 | 16 API tests | Dashboard UAT 5/5 (Phase 7) | node:sqlite (built-in) |
 
 ### Top Lessons (Verified Across Milestones)
 
