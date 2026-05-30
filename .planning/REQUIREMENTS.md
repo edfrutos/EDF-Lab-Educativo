@@ -9,11 +9,11 @@ Requirements for the SQLite Persistence milestone. Each maps to roadmap phases (
 
 ### SQLite Persistence
 
-- [ ] **SQLITE-01**: API stores users in a SQLite database file instead of `data/users.json` as the primary store.
-- [ ] **SQLITE-02**: API uses `node:sqlite` (Node 22 built-in) with zero new npm dependencies for database access.
-- [ ] **SQLITE-03**: Explicit SQL schema defines a `users` table with `id`, `name`, and `email` columns.
-- [ ] **SQLITE-04**: All existing CRUD endpoints (`GET/POST/PUT/DELETE /users`) behave identically from the dashboard's perspective.
-- [ ] **SQLITE-05**: Database file path is configurable via environment variable (similar to `DATA_FILE` pattern).
+- [x] **SQLITE-01**: API stores users in a SQLite database file instead of `data/users.json` as the primary store.
+- [x] **SQLITE-02**: API uses `node:sqlite` (Node 22 built-in) with zero new npm dependencies for database access.
+- [x] **SQLITE-03**: Explicit SQL schema defines a `users` table with `id`, `name`, and `email` columns.
+- [x] **SQLITE-04**: All existing CRUD endpoints (`GET/POST/PUT/DELETE /users`) behave identically from the dashboard's perspective.
+- [x] **SQLITE-05**: Database file path is configurable via environment variable (similar to `DATA_FILE` pattern).
 
 ### Migration
 

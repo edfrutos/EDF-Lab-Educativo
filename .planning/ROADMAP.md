@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
-- 🚧 **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
+- ✅ **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30, audited 2026-05-30)
 
 ## Phases
 
