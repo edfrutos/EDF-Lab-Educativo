@@ -3,7 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
-- 🚧 **v1.1 SQLite Persistence** — Phases 6–8 (in progress)
+- 🚧 **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
 
 ## Phases
 
@@ -18,13 +18,13 @@
 
 </details>
 
-### 🚧 v1.1 SQLite Persistence (In Progress)
+### ✅ v1.1 SQLite Persistence (Phases 6–8) — SHIPPED 2026-05-30
 
 **Milestone Goal:** Teach the evolution from JSON file persistence to SQLite, keeping the backend → JSON → dashboard flow intact and observable.
 
-- [ ] **Phase 6: SQLite Persistence Layer** — Replace `users.json` runtime store with `node:sqlite` and explicit SQL schema
-- [ ] **Phase 7: Migration & Test Confidence** — JSON→SQLite migration path and SQLite-backed test suite
-- [ ] **Phase 8: Database Learning Material** — Docs, mission, driver comparison, and NOTEBOOK entries for SQLite
+- [x] **Phase 6: SQLite Persistence Layer** — Replace `users.json` runtime store with `node:sqlite` and explicit SQL schema
+- [x] **Phase 7: Migration & Test Confidence** — JSON→SQLite migration path and SQLite-backed test suite
+- [x] **Phase 8: Database Learning Material** — Docs, mission, driver comparison, and NOTEBOOK entries for SQLite
 
 ## Phase Details
 
@@ -81,7 +81,11 @@ Plans:
   4. Learner finds the new doc and mission entries listed in `docs/00-indice.md`.
   5. Real errors encountered during SQLite integration are recorded in `NOTEBOOK.md` for future learners.
 
-**Plans**: TBD (~2 plans)
+**Plans**: 2 plans
+
+Plans:
+- [x] 08-01-PLAN.md — docs/13-sqlite.md, update doc 08, indice, README, glosario
+- [x] 08-02-PLAN.md — mission 10, mission 06 notice, NOTEBOOK entries
 
 ## Progress
 
@@ -94,7 +98,7 @@ Plans:
 | 5. Advanced Contracts and Containers | v1.0 | 2/2 | Complete | 2026-05-29 |
 | 6. SQLite Persistence Layer | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
-| 8. Database Learning Material | v1.1 | 0/~2 | Not started | - |
+| 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
 
 **Execution order:** Phases execute in numeric order: 1 → 2 → … → 6 → 7 → 8
 

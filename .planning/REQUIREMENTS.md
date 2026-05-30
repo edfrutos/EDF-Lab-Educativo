@@ -29,11 +29,11 @@ Requirements for the SQLite Persistence milestone. Each maps to roadmap phases (
 
 ### Learning Documentation
 
-- [ ] **DOCS-01**: New doc explains SQLite concepts (schema, queries, `.db` file) with executable examples.
-- [ ] **DOCS-02**: New mission guides learners through inspecting the database, running migration, and verifying persistence across restarts.
-- [ ] **DOCS-03**: Doc section compares `node:sqlite` vs `better-sqlite3` with trade-offs (deps, sync/async, production use).
-- [ ] **DOCS-04**: `docs/00-indice.md` updated with new doc and mission entries.
-- [ ] **DOCS-05**: Relevant real errors during SQLite integration recorded in `NOTEBOOK.md`.
+- [x] **DOCS-01**: New doc explains SQLite concepts (schema, queries, `.db` file) with executable examples.
+- [x] **DOCS-02**: New mission guides learners through inspecting the database, running migration, and verifying persistence across restarts.
+- [x] **DOCS-03**: Doc section compares `node:sqlite` vs `better-sqlite3` with trade-offs (deps, sync/async, production use).
+- [x] **DOCS-04**: `docs/00-indice.md` updated with new doc and mission entries.
+- [x] **DOCS-05**: Relevant real errors during SQLite integration recorded in `NOTEBOOK.md`.
 
 ## v1.2 Requirements
 
@@ -85,11 +85,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TEST-01 | Phase 7 | Complete |
 | TEST-02 | Phase 7 | Complete |
 | TEST-03 | Phase 7 | Complete |
-| DOCS-01 | Phase 8 | Pending |
-| DOCS-02 | Phase 8 | Pending |
-| DOCS-03 | Phase 8 | Pending |
-| DOCS-04 | Phase 8 | Pending |
-| DOCS-05 | Phase 8 | Pending |
+| DOCS-01 | Phase 8 | Complete |
+| DOCS-02 | Phase 8 | Complete |
+| DOCS-03 | Phase 8 | Complete |
+| DOCS-04 | Phase 8 | Complete |
+| DOCS-05 | Phase 8 | Complete |
 
 **Coverage:**
 - v1.1 requirements: 16 total

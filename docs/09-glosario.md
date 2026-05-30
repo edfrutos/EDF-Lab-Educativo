@@ -395,3 +395,63 @@ curl -X POST http://localhost:3100/users \
 ```
 
 > Ver más: [`docs/06-debugging.md`](./06-debugging.md)
+
+---
+
+## Base de datos y persistencia
+
+### SQLite
+
+Motor de base de datos relacional embebido en un archivo `.db`. En este laboratorio, los usuarios viven en `api/data/users.db`.
+
+```bash
+sqlite3 api/data/users.db "SELECT id, name, email FROM users;"
+```
+
+> Ver más: [`docs/13-sqlite.md`](./13-sqlite.md)
+
+---
+
+### esquema (schema)
+
+Definición estructurada de tablas y columnas. En este repo está en `api/schema.sql` y se aplica al arrancar con `initDb()`.
+
+```sql
+-- Fragmento de api/schema.sql
+email TEXT NOT NULL UNIQUE
+```
+
+> Ver más: [`docs/13-sqlite.md`](./13-sqlite.md)
+
+---
+
+### prepared statement (consulta preparada)
+
+Consulta SQL con marcadores (`?`) que se compila una vez y se ejecuta con valores distintos. Reduce errores de concatenación y enseña buenas prácticas.
+
+```javascript
+// Patrón en api/db.js
+database.prepare('INSERT INTO users (name, email) VALUES (?, ?)').run(name, email);
+```
+
+> Ver más: [`docs/13-sqlite.md`](./13-sqlite.md)
+
+---
+
+### restricción UNIQUE
+
+Regla del esquema que impide valores duplicados en una columna. Si intentas insertar un email ya existente, SQLite falla y la API responde **409**.
+
+> Ver más: [`docs/13-sqlite.md`](./13-sqlite.md)
+
+---
+
+### migración (en este lab)
+
+Importación automática de filas desde `users.json` a SQLite cuando la tabla `users` está vacía al arrancar. No es un script manual: ocurre dentro de `initDb()`.
+
+```txt
+Migrados 2 usuarios desde users.json
+```
+
+> Ver más: [`docs/13-sqlite.md`](./13-sqlite.md), [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md)

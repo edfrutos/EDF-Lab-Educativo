@@ -133,6 +133,8 @@ Emails duplicados devuelven **409 Conflict** con el mensaje `Ya existe un usuari
 
 Variable opcional: `DB_FILE` apunta a otra ruta de base de datos (útil en tests).
 
+Guía didáctica ampliada: [`docs/13-sqlite.md`](../docs/13-sqlite.md). Misión práctica: [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md).
+
 ---
 
 ## Escritura de datos

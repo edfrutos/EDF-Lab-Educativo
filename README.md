@@ -71,6 +71,7 @@ http://localhost:5173
 - Qué es una API REST.
 - Cómo Express expone endpoints HTTP.
 - Cómo un frontend consume JSON con `fetch()`.
+- Cómo la API persiste usuarios en SQLite (`users.db`) y migra la semilla desde `users.json` — ver [`docs/13-sqlite.md`](./docs/13-sqlite.md).
 - Qué es CORS y por qué aparece al separar frontend/backend.
 - Cómo depurar errores de conexión, puertos y rutas.
 - Cómo documentar decisiones técnicas.

@@ -1,5 +1,7 @@
 # Misión 06: restart y persistencia
 
+> **Nota v1.1:** Esta misión describe el flujo histórico con **`users.json` como almacén en runtime** (Fase 2, v1.0). En la versión actual la persistencia usa **SQLite** (`api/data/users.db`). Para el recorrido actual sigue **[Misión 10: inspeccionar SQLite](./10-inspeccionar-sqlite.md)**.
+
 ## Objetivo
 
 Comprobar que los usuarios creados sobreviven un reinicio de la API, observando que el estado se lee desde `api/data/users.json` al arrancar.

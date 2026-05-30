@@ -1,8 +1,8 @@
 # Memoria vs Persistencia
 
-Cuando la API arranca, carga los usuarios desde `api/data/users.json`. Cada vez que creas, editas o borras un usuario, el archivo se actualiza inmediatamente. Si la API se reinicia, los datos siguen ahí porque están en disco, no solo en memoria.
+Este capítulo explica la diferencia entre guardar datos **solo en RAM** (memoria) y guardarlos **en disco** (persistencia). El laboratorio ha evolucionado: primero aprendimos JSON en disco; en **v1.1** el almacén en runtime es **SQLite** (`api/data/users.db`).
 
-Este capítulo explica la diferencia entre los dos comportamientos.
+> **v1.1:** Para el detalle de SQLite (esquema, consultas, inspección con `sqlite3`), lee [`13-sqlite.md`](./13-sqlite.md). Aquí mantenemos la idea general memoria vs disco.
 
 ---
 
@@ -30,120 +30,112 @@ Esto es útil para aprender, pero no para guardar trabajo real.
 
 ---
 
-## Después: estado en disco
+## Evolución v1.0: JSON en disco
 
-Ahora la API lee y escribe `api/data/users.json`:
+En la Fase 2 del laboratorio, la API leía y escribía `api/data/users.json` en cada mutación. Podías abrir el archivo con un editor o `cat` y ver el estado. Ese modelo enseñó **serialización a disco** con módulos nativos (`fs`).
+
+Ese enfoque sigue siendo válido didácticamente, pero el proyecto ya no usa JSON como almacén principal en runtime.
+
+---
+
+## Ahora (v1.1): SQLite en disco
+
+Los usuarios viven en **`api/data/users.db`**. Al arrancar:
 
 ```
 Arranque de la API
   │
   ▼
-loadUsers() lee api/data/users.json
-  ├── Archivo existe y es JSON válido
-  │     └── users ← data.users  |  nextUserId ← data.nextId
+initDb() abre users.db y aplica schema.sql
   │
-  ├── Archivo no existe (primera vez o borrado)
-  │     └── Crea el archivo con los datos semilla
-  │         [info] data/users.json no encontrado — creando con semilla
+  ├── Tabla vacía → importa desde users.json (semilla) o John/Jane
+  │     log: "Migrados N usuarios desde users.json"
   │
-  └── Archivo existe pero JSON inválido (corrupto)
-        └── Sobrescribe con la semilla y continúa
-            [warn] data/users.json corrupto — restaurando semilla
+  └── Tabla con datos → no sobrescribe (protege tu trabajo)
   │
   ▼
-app.listen(3100)  ← El servidor solo acepta conexiones después de cargar
+app.listen(3100)
 
 Mutación (POST / PUT / DELETE)
   │
   ▼
-El handler actualiza el array en memoria
+db.js ejecuta SQL (INSERT / UPDATE / DELETE)
   │
   ▼
-saveUsers() escribe api/data/users.json  ← inmediatamente, antes de responder
-  ├── Éxito → responde 201/200 al cliente
-  └── Error de escritura → revierte la mutación en memoria → responde 500
+Cambio persistido en users.db antes de responder al cliente
 ```
 
-### `api/data/users.json`
+### Dos archivos, dos roles
 
-El archivo es legible en cualquier momento. Mientras la API corre, puedes abrirlo con un editor o con `cat` y ver el estado actual:
+| Archivo | Rol en v1.1 |
+|---------|-------------|
+| `api/data/users.db` | **Runtime** — todas las lecturas y escrituras CRUD |
+| `api/data/users.json` | **Semilla/migración** — solo si la tabla está vacía al arrancar |
 
-```json
-{
-  "users": [
-    { "id": 1, "name": "John Doe", "email": "john@example.com" },
-    { "id": 2, "name": "Jane Smith", "email": "jane@example.com" }
-  ],
-  "nextId": 3
-}
-```
-
-El campo `nextId` guarda el siguiente ID a usar. Sin él, los IDs se repetirían tras un restart.
+`users.json` ya **no** se actualiza en cada POST o DELETE. Para ver el estado actual usa `sqlite3` o el dashboard, no `cat users.json`.
 
 ---
 
 ## Comparación directa
 
-| Situación | Sin persistencia | Con persistencia |
-|-----------|-----------------|-----------------|
-| Crear usuario, reiniciar API | El usuario desaparece | El usuario sigue ahí |
-| Abrir `api/data/users.json` | No existe | Muestra el estado actual |
-| Consola al arrancar | (silencio) | `[info]` o carga normal |
-| Archivo corrupto al arrancar | Error fatal / datos vacíos | Restaura semilla + `[warn]` |
+| Situación | Solo memoria | Persistencia (SQLite) |
+|-----------|--------------|------------------------|
+| Crear usuario, reiniciar API | Desaparece | Sigue en `users.db` |
+| Inspeccionar datos | Solo vía API/dashboard | `sqlite3 api/data/users.db "SELECT ..."` |
+| Reglas (email único) | Solo en código | Constraint `UNIQUE` + HTTP 409 |
+| Archivo legible con `cat` | N/A | `.db` es binario — usa `sqlite3` |
 
 ---
 
 ## Ejemplos ejecutables
 
-### Ver el archivo mientras la API corre
+### Ver datos en la base mientras la API corre
 
 ```bash
-# Terminal 1 — arrancar la API
+# Terminal 1
 cd api && PORT=3100 npm start
 
-# Terminal 2 — crear un usuario
+# Terminal 2 — crear usuario
 curl -s -X POST http://localhost:3100/users \
   -H 'Content-Type: application/json' \
   -d '{"name":"Alumno Test","email":"alumno@example.com"}'
 
-# Ver el archivo actualizado
-cat api/data/users.json
+# Inspeccionar SQLite (no cat del .db)
+sqlite3 api/data/users.db "SELECT id, name, email FROM users;"
 ```
 
 ### Comprobar persistencia tras restart
 
 ```bash
-# Crear un usuario (si no lo tienes ya del paso anterior)
 curl -s -X POST http://localhost:3100/users \
   -H 'Content-Type: application/json' \
   -d '{"name":"Alumno Persistente","email":"p@example.com"}'
 
-# Parar la API (Ctrl+C en Terminal 1) y arrancar de nuevo
+# Parar API (Ctrl+C) y arrancar de nuevo
 PORT=3100 npm start
 
-# El usuario sigue ahí
 curl -s http://localhost:3100/users
 ```
 
-Sigue los pasos detallados en la **Misión 06: Restart y Persistencia**.
+Sigue los pasos en **[`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md)** (v1.1).
 
-### Observar la recuperación ante corrupción
+> La **[Misión 06](../missions/06-restart-y-persistencia.md)** describe el flujo histórico con JSON (v1.0). Conserva valor didáctico, pero para el lab actual usa la Misión 10.
+
+### Observar migración desde JSON (cold start)
 
 ```bash
-# Parar la API, corromper el archivo y arrancar de nuevo
-echo "esto no es json válido" > api/data/users.json
-PORT=3100 npm start
-# En consola: [warn] data/users.json corrupto — restaurando semilla
-curl -s http://localhost:3100/users
-# Resultado: los dos usuarios semilla
+rm -f api/data/users.db
+cd api && PORT=3100 npm start
+# Consola: Migrados 2 usuarios desde users.json
 ```
-
-Sigue los pasos detallados en la **Misión 07: Corrupción y Restauración**.
 
 ---
 
 ## Resumen
 
-La persistencia en este laboratorio usa solo módulos incorporados de Node.js (`fs/promises` y `path`). No hay base de datos ni dependencias adicionales. El objetivo es que veas exactamente dónde y cuándo el estado en memoria se serializa a disco.
+- **Memoria:** rápida, volátil — desaparece al parar el proceso.
+- **Disco:** sobrevive reinicios — en v1.1 es SQLite, no reescritura constante de JSON.
+- **Siguiente lectura:** [`13-sqlite.md`](./13-sqlite.md) (esquema, consultas, comparativa de drivers).
+- **Práctica:** [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md).
 
-Cuando estés listo para persistencia más robusta (datos relacionales, consultas, concurrencia), el siguiente paso natural es SQLite o PostgreSQL — pero eso es para después de que este flujo sea familiar.
+Cuando domines este flujo, el paso natural en otros proyectos es PostgreSQL u ORMs — pero primero conviene que el circuito backend → JSON HTTP → dashboard te resulte transparente.

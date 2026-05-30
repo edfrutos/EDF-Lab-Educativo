@@ -6,6 +6,74 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 ---
 
+## 2026-05-30 · SQLite v1.1 — avisos y errores de integración
+
+### ExperimentalWarning al arrancar con node:sqlite
+
+**Síntoma:** Al ejecutar `PORT=3100 npm start` aparece en consola:
+
+```txt
+(node:XXXX) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+```
+
+**Causa:** Node.js 22 expone `node:sqlite` como API experimental. El laboratorio la usa a propósito (cero dependencias npm).
+
+**Solución:** En este lab puedes ignorar el aviso de forma segura. La API arranca y funciona con normalidad. Si desaparece en futuras versiones de Node, actualiza esta nota.
+
+**Aprendizaje:** “Experimental” en Node no significa que tu código falle; significa que la API puede cambiar entre versiones mayores. Para producción muchos equipos usan `better-sqlite3` o PostgreSQL — ver [`docs/13-sqlite.md`](docs/13-sqlite.md).
+
+---
+
+### EADDRINUSE en puerto 3100 (Docker + npm start)
+
+**Síntoma:** `Error: listen EADDRINUSE: address already in use :::3100` al hacer `npm start` en `api/`.
+
+**Causa:** Un contenedor Docker (`edf-lab-api`) u otra instancia de la API ya ocupa el puerto 3100 — habitual si probaste [`missions/09-arrancar-con-docker.md`](missions/09-arrancar-con-docker.md) y no paraste el contenedor.
+
+**Solución:**
+
+```bash
+docker ps
+docker stop edf-lab-api
+# o identifica el PID que usa 3100 y para ese proceso
+```
+
+**Aprendizaje:** Solo un proceso puede escuchar en un puerto. No mezcles Docker en 3100 y `npm start` local sin parar el primero.
+
+---
+
+### Migración cold start — log “Migrados N usuarios desde users.json”
+
+**Síntoma:** Tras borrar `api/data/users.db` y reiniciar, algunos alumnos no ven el mensaje de migración o la tabla parece vacía.
+
+**Causa:** La migración solo corre si `SELECT COUNT(*) FROM users` es 0 **después** de crear el esquema. Si la API no se reinició del todo o quedó un `.db` residual, no migra.
+
+**Solución:**
+
+```bash
+cd api
+rm -f data/users.db
+PORT=3100 npm start
+# Esperado: Migrados 2 usuarios desde users.json
+curl -s http://localhost:3100/users
+```
+
+**Aprendizaje:** `users.json` es semilla; `users.db` es runtime. Borrar solo el JSON no resetea SQLite.
+
+---
+
+### HTTP 409 — email duplicado (UNIQUE constraint)
+
+**Síntoma:** Crear un usuario con un email ya existente (p. ej. `john@example.com`) devuelve 409. El dashboard muestra un error genérico con “estado HTTP 409”.
+
+**Causa:** `schema.sql` define `email TEXT NOT NULL UNIQUE`. SQLite rechaza el INSERT; `db.js` lanza `DuplicateEmailError` y la ruta responde 409 con `Ya existe un usuario con ese email.`
+
+**Solución:** Usar un email distinto o editar el usuario existente. No es un fallo de CORS ni de conexión.
+
+**Aprendizaje:** Las reglas de integridad pueden vivir en la base, no solo en JavaScript. Ver UAT Fase 7 y [`docs/13-sqlite.md`](docs/13-sqlite.md).
+
+---
+
 ## 2026-05-27 · Auditoría de situación del repositorio
 
 ### Contexto
