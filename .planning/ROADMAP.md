@@ -64,9 +64,9 @@ Plans:
 **Plans**: 3 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — schema UNIQUE + db.js JSON migration + initDb({ skipSeed })
-- [ ] 07-02-PLAN.md — DuplicateEmailError, 409 routes, OpenAPI update
-- [ ] 07-03-PLAN.md — expanded tests, docs/10-tests.md, api/README.md, UAT gate
+- [x] 07-01-PLAN.md — schema UNIQUE + db.js JSON migration + initDb({ skipSeed })
+- [x] 07-02-PLAN.md — DuplicateEmailError, 409 routes, OpenAPI update
+- [x] 07-03-PLAN.md — expanded tests, docs/10-tests.md, api/README.md, UAT gate
 
 ### Phase 8: Database Learning Material
 
@@ -93,7 +93,7 @@ Plans:
 | 4. Learning Material Hardening | v1.0 | 2/2 | Complete | 2026-05-28 |
 | 5. Advanced Contracts and Containers | v1.0 | 2/2 | Complete | 2026-05-29 |
 | 6. SQLite Persistence Layer | v1.1 | 3/3 | Complete | 2026-05-30 |
-| 7. Migration & Test Confidence | v1.1 | 0/3 | Planned | - |
+| 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 8. Database Learning Material | v1.1 | 0/~2 | Not started | - |
 
 **Execution order:** Phases execute in numeric order: 1 → 2 → … → 6 → 7 → 8
