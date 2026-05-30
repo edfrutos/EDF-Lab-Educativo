@@ -172,3 +172,54 @@ describe('Validación de IDs', () => {
     assert.equal(res.body.error, 'El parámetro ":id" debe ser un número entero.');
   });
 });
+
+// ── Base de datos vacía ───────────────────────────────────────────────────────
+
+describe('Base de datos vacía', () => {
+  it('GET /users responde 200 con array vacío', async () => {
+    // Arrange — BD sin semilla
+    await unlink(TEST_DB).catch(() => {});
+    await app.initDb({ skipSeed: true });
+    // Act
+    const res = await request(app).get('/users');
+    // Assert
+    assert.equal(res.status, 200);
+    assert.ok(Array.isArray(res.body));
+    assert.equal(res.body.length, 0);
+  });
+});
+
+// ── Email duplicado ─────────────────────────────────────────────────────────────
+
+describe('Email duplicado', () => {
+  it('POST /users responde 409 si el email ya existe', async () => {
+    // Arrange — semilla incluye john@example.com
+    const payload = { name: 'Otro John', email: 'john@example.com' };
+    // Act
+    const res = await request(app).post('/users').send(payload);
+    // Assert
+    assert.equal(res.status, 409);
+    assert.equal(res.body.error, 'Ya existe un usuario con ese email.');
+  });
+
+  it('PUT /users/:id responde 409 si el email pertenece a otro usuario', async () => {
+    // Arrange — id=1 es John; jane@example.com pertenece a id=2
+    const payload = { name: 'John Doe', email: 'jane@example.com' };
+    // Act
+    const res = await request(app).put('/users/1').send(payload);
+    // Assert
+    assert.equal(res.status, 409);
+    assert.equal(res.body.error, 'Ya existe un usuario con ese email.');
+  });
+
+  it('PUT /users/:id responde 200 si mantiene su propio email', async () => {
+    // Arrange
+    const payload = { name: 'John Renombrado', email: 'john@example.com' };
+    // Act
+    const res = await request(app).put('/users/1').send(payload);
+    // Assert
+    assert.equal(res.status, 200);
+    assert.equal(res.body.name, 'John Renombrado');
+    assert.equal(res.body.email, 'john@example.com');
+  });
+});
