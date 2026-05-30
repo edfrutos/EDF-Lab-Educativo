@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.1
 milestone_name: SQLite Persistence
-status: executing
-last_updated: "2026-05-30T18:00:00.000Z"
-last_activity: 2026-05-30 — Phase 7 shipped PR #1
+status: planning
+last_updated: "2026-05-30T18:10:00.000Z"
+last_activity: 2026-05-30 — Phase 8 context gathered
 progress:
   total_phases: 3
   completed_phases: 2
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-30)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Phase 7 complete — Phase 8 Database Learning Material next
+**Current focus:** Phase 8 Database Learning Material — context ready for planning
 
 ## Current Position
 
-Phase: 7 of 8 (Migration & Test Confidence) — complete
-Plan: 3/3 complete
-Status: Phase 7 shipped — PR #1 open
-Last activity: 2026-05-30 — Phase 7 executed (3/3 plans)
+Phase: 8 of 8 (Database Learning Material) — context gathered
+Plan: 0/~2 planned
+Status: Ready for `/gsd-plan-phase 8`
+Last activity: 2026-05-30 — Phase 8 discuss complete (08-CONTEXT.md)
 
 Progress: [████░░░░░░] 38% (v1.1 milestone)
 
@@ -95,6 +95,6 @@ Resume file: .planning/phases/06-sqlite-persistence-layer/06-01-PLAN.md
 
 ## Operator Next Steps
 
-- Merge PR #1: https://github.com/edfrutos/EDF-Lab-Educativo/pull/1
-- Complete UAT dashboard checks (07-UAT.md tests 1–3)
-- Discuss Phase 8: `/gsd-discuss-phase 8`
+- Plan Phase 8: `/gsd-plan-phase 8`
+- Optional: `/gsd-plan-phase 8 --chain` for plan + execute
+- Resume file: `.planning/phases/08-database-learning-material/08-CONTEXT.md`
