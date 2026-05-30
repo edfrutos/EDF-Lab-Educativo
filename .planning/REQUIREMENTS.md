@@ -74,13 +74,28 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| *(populated by roadmapper)* | | |
+| SQLITE-01 | Phase 6 | Pending |
+| SQLITE-02 | Phase 6 | Pending |
+| SQLITE-03 | Phase 6 | Pending |
+| SQLITE-04 | Phase 6 | Pending |
+| SQLITE-05 | Phase 6 | Pending |
+| MIG-01 | Phase 7 | Pending |
+| MIG-02 | Phase 7 | Pending |
+| MIG-03 | Phase 7 | Pending |
+| TEST-01 | Phase 7 | Pending |
+| TEST-02 | Phase 7 | Pending |
+| TEST-03 | Phase 7 | Pending |
+| DOCS-01 | Phase 8 | Pending |
+| DOCS-02 | Phase 8 | Pending |
+| DOCS-03 | Phase 8 | Pending |
+| DOCS-04 | Phase 8 | Pending |
+| DOCS-05 | Phase 8 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 15 total
-- Mapped to phases: 0
-- Unmapped: 15 ⚠️
+- v1.1 requirements: 16 total
+- Mapped to phases: 16
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-05-30*
-*Last updated: 2026-05-30 after v1.1 milestone definition*
+*Last updated: 2026-05-30 after v1.1 roadmap creation*

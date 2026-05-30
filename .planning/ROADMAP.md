@@ -3,6 +3,7 @@
 ## Milestones
 
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
+- 🚧 **v1.1 SQLite Persistence** — Phases 6–8 (in progress)
 
 ## Phases
 
@@ -17,6 +18,61 @@
 
 </details>
 
+### 🚧 v1.1 SQLite Persistence (In Progress)
+
+**Milestone Goal:** Teach the evolution from JSON file persistence to SQLite, keeping the backend → JSON → dashboard flow intact and observable.
+
+- [ ] **Phase 6: SQLite Persistence Layer** — Replace `users.json` runtime store with `node:sqlite` and explicit SQL schema
+- [ ] **Phase 7: Migration & Test Confidence** — JSON→SQLite migration path and SQLite-backed test suite
+- [ ] **Phase 8: Database Learning Material** — Docs, mission, driver comparison, and NOTEBOOK entries for SQLite
+
+## Phase Details
+
+### Phase 6: SQLite Persistence Layer
+
+**Goal**: API stores users in SQLite while dashboard CRUD continues to work unchanged from the learner's perspective.
+**Depends on**: Phase 5 (v1.0 complete)
+**Requirements**: SQLITE-01, SQLITE-02, SQLITE-03, SQLITE-04, SQLITE-05
+**Success Criteria** (what must be TRUE):
+
+  1. Learner starts the API and user data persists in a `.db` file instead of `users.json` as the runtime store.
+  2. Learner can create, edit, and delete users from the dashboard with identical JSON responses and HTTP status codes as before.
+  3. Learner can read an explicit SQL schema defining a `users` table with `id`, `name`, and `email` columns.
+  4. Learner can point the API to a custom database file path via an environment variable.
+  5. Learner confirms database access uses `node:sqlite` with zero new npm dependencies.
+
+**Plans**: TBD (~3 plans)
+
+### Phase 7: Migration & Test Confidence
+
+**Goal**: Learners can migrate seed data from JSON to SQLite and trust the automated test suite against the database layer.
+**Depends on**: Phase 6
+**Requirements**: MIG-01, MIG-02, MIG-03, TEST-01, TEST-02, TEST-03
+**Success Criteria** (what must be TRUE):
+
+  1. Learner runs first startup or a documented migration script and seed users from `users.json` appear in SQLite.
+  2. Learner reads documentation explaining when JSON file persistence is enough vs when SQLite is appropriate.
+  3. Learner runs `npm test` from `api/` and all 12 existing API tests pass against the SQLite-backed store.
+  4. Learner sees tests use an isolated SQLite database per run with no cross-test contamination.
+  5. Learner finds tests covering empty database, duplicate email validation, and invalid ID handling; `users.json` remains as seed source only.
+
+**Plans**: TBD (~3 plans)
+
+### Phase 8: Database Learning Material
+
+**Goal**: Learners have guided documentation and missions to understand SQLite concepts in this lab.
+**Depends on**: Phase 7
+**Requirements**: DOCS-01, DOCS-02, DOCS-03, DOCS-04, DOCS-05
+**Success Criteria** (what must be TRUE):
+
+  1. Learner reads a new doc explaining SQLite concepts (schema, queries, `.db` file) with executable localhost examples.
+  2. Learner completes a mission that walks through inspecting the database, running migration, and verifying persistence across API restarts.
+  3. Learner can compare `node:sqlite` vs `better-sqlite3` trade-offs (dependencies, sync/async, production use) from a doc section.
+  4. Learner finds the new doc and mission entries listed in `docs/00-indice.md`.
+  5. Real errors encountered during SQLite integration are recorded in `NOTEBOOK.md` for future learners.
+
+**Plans**: TBD (~2 plans)
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -26,11 +82,10 @@
 | 3. API Tests and Quality Fixes | v1.0 | 3/3 | Complete | 2026-05-28 |
 | 4. Learning Material Hardening | v1.0 | 2/2 | Complete | 2026-05-28 |
 | 5. Advanced Contracts and Containers | v1.0 | 2/2 | Complete | 2026-05-29 |
+| 6. SQLite Persistence Layer | v1.1 | 0/~3 | Not started | - |
+| 7. Migration & Test Confidence | v1.1 | 0/~3 | Not started | - |
+| 8. Database Learning Material | v1.1 | 0/~2 | Not started | - |
 
-**Execution order:** Phases execute in numeric order: 1 → 2 → 3 → 4 → 5
+**Execution order:** Phases execute in numeric order: 1 → 2 → … → 6 → 7 → 8
 
-Full phase details archived in `.planning/milestones/v1.0-ROADMAP.md`.
-
-## Next Milestone
-
-Planning not started. Use `/gsd-new-milestone` to define v1.1 scope.
+Full v1.0 phase details archived in `.planning/milestones/v1.0-ROADMAP.md`.
