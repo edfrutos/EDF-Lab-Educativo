@@ -1,0 +1,320 @@
+openapi: "3.0.3"
+info:
+  title: EDF Lab API
+  description: API REST educativa del laboratorio EDF — enseña Express, JSON y CRUD.
+  version: "1.0.0"
+servers:
+  - url: http://localhost:3100
+    description: Servidor de desarrollo local
+paths:
+  /:
+    get:
+      summary: Información de la API
+      description: Devuelve mensaje de bienvenida, versión y lista de endpoints disponibles.
+      responses:
+        "200":
+          description: Información básica de la API
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - version
+                  - endpoints
+                properties:
+                  message:
+                    type: string
+                    example: Welcome to the Test Project API
+                  version:
+                    type: string
+                    example: "1.0.0"
+                  endpoints:
+                    type: array
+                    items:
+                      type: string
+                    example:
+                      - GET /
+                      - GET /health
+                      - GET /users
+  /health:
+    get:
+      summary: Comprobar estado del servidor
+      description: Endpoint de salud usado por el dashboard para verificar conectividad.
+      responses:
+        "200":
+          description: API operativa
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - status
+                  - timestamp
+                properties:
+                  status:
+                    type: string
+                    example: healthy
+                  timestamp:
+                    type: string
+                    format: date-time
+                    example: "2026-05-29T19:00:00.000Z"
+  /users:
+    get:
+      summary: Obtener lista de usuarios
+      description: Devuelve todos los usuarios ordenados alfabéticamente por nombre.
+      responses:
+        "200":
+          description: Lista de usuarios
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      summary: Crear un usuario
+      description: Crea un usuario nuevo y lo persiste en data/users.json.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "201":
+          description: Usuario creado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Datos de entrada inválidos
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                nameRequired:
+                  summary: Campo name vacío o ausente
+                  value:
+                    error: El campo "name" es obligatorio y debe ser texto.
+                emailRequired:
+                  summary: Campo email vacío o ausente
+                  value:
+                    error: El campo "email" es obligatorio y debe ser texto.
+        "500":
+          description: Error al persistir en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+  /users/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: Identificador numérico del usuario
+        schema:
+          type: integer
+          minimum: 1
+          example: 1
+    get:
+      summary: Obtener un usuario por ID
+      responses:
+        "200":
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: El parámetro ":id" debe ser un número entero.
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Usuario no encontrado.
+    put:
+      summary: Actualizar un usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserInput"
+      responses:
+        "200":
+          description: Usuario actualizado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: ID o payload inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                invalidId:
+                  summary: ID no numérico
+                  value:
+                    error: El parámetro ":id" debe ser un número entero.
+                nameRequired:
+                  summary: Campo name inválido
+                  value:
+                    error: El campo "name" es obligatorio y debe ser texto.
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Usuario no encontrado.
+        "500":
+          description: Error al persistir en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+    delete:
+      summary: Eliminar un usuario
+      responses:
+        "200":
+          description: Usuario eliminado
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - user
+                properties:
+                  message:
+                    type: string
+                    example: Usuario eliminado correctamente.
+                  user:
+                    $ref: "#/components/schemas/User"
+        "400":
+          description: ID inválido
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: El parámetro ":id" debe ser un número entero.
+        "404":
+          description: Usuario no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Usuario no encontrado.
+        "500":
+          description: Error al persistir en disco
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+  /about:
+    get:
+      summary: Información del laboratorio
+      description: Metadatos del proyecto educativo y rutas de frontend/backend.
+      responses:
+        "200":
+          description: Información del lab
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - name
+                  - description
+                  - frontend
+                  - backend
+                properties:
+                  name:
+                    type: string
+                    example: Express API Demo Learning Lab
+                  description:
+                    type: string
+                    example: Laboratorio educativo para aprender API REST, fetch(), JSON y CORS.
+                  frontend:
+                    type: string
+                    example: dashboard/
+                  backend:
+                    type: string
+                    example: api/
+  /time:
+    get:
+      summary: Hora actual del servidor
+      description: Devuelve la fecha y hora ISO 8601 del servidor.
+      responses:
+        "200":
+          description: Timestamp actual
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - now
+                properties:
+                  now:
+                    type: string
+                    format: date-time
+                    example: "2026-05-29T19:00:00.000Z"
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - id
+        - name
+        - email
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          example: 1
+        name:
+          type: string
+          example: John Doe
+        email:
+          type: string
+          example: john@example.com
+    UserInput:
+      type: object
+      required:
+        - name
+        - email
+      properties:
+        name:
+          type: string
+          example: Carlos López
+        email:
+          type: string
+          example: carlos@example.com
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: Usuario no encontrado.
