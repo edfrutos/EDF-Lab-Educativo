@@ -9,17 +9,17 @@ Requirements for the PostgreSQL Persistence milestone. Each maps to roadmap phas
 
 ### PostgreSQL Persistence
 
-- [ ] **PGSQL-01**: API stores users in PostgreSQL when `DATABASE_URL` is configured (runtime store).
-- [ ] **PGSQL-02**: API uses the `pg` npm package with parameterized queries (no string concatenation).
-- [ ] **PGSQL-03**: PostgreSQL schema defines a `users` table with `id`, `name`, and `email` (UNIQUE) matching the SQLite contract.
-- [ ] **PGSQL-04**: All existing CRUD endpoints behave identically from the dashboard's perspective (same JSON, same HTTP codes).
-- [ ] **PGSQL-05**: SQLite remains the default when `DATABASE_URL` is unset — host `npm start` path unchanged.
+- [x] **PGSQL-01**: API stores users in PostgreSQL when `DATABASE_URL` is configured (runtime store).
+- [x] **PGSQL-02**: API uses the `pg` npm package with parameterized queries (no string concatenation).
+- [x] **PGSQL-03**: PostgreSQL schema defines a `users` table with `id`, `name`, and `email` (UNIQUE) matching the SQLite contract.
+- [x] **PGSQL-04**: All existing CRUD endpoints behave identically from the dashboard's perspective (same JSON, same HTTP codes).
+- [x] **PGSQL-05**: SQLite remains the default when `DATABASE_URL` is unset — host `npm start` path unchanged.
 
 ### Compose Integration
 
-- [ ] **PGCOMPOSE-01**: `docker-compose.yml` adds a `postgres` service with a named volume for data persistence.
-- [ ] **PGCOMPOSE-02**: API service connects to Postgres via `DATABASE_URL` when running under Compose.
-- [ ] **PGCOMPOSE-03**: Learner can start the full stack (API + dashboard + Postgres) with `npm run compose:up`.
+- [x] **PGCOMPOSE-01**: `docker-compose.yml` adds a `postgres` service with a named volume for data persistence.
+- [x] **PGCOMPOSE-02**: API service connects to Postgres via `DATABASE_URL` when running under Compose.
+- [x] **PGCOMPOSE-03**: Learner can start the full stack (API + dashboard + Postgres) with `npm run compose:up`.
 
 ### Migration & Tests
 
@@ -70,14 +70,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| PGSQL-01 | Phase 12 | Pending |
-| PGSQL-02 | Phase 12 | Pending |
-| PGSQL-03 | Phase 12 | Pending |
-| PGSQL-04 | Phase 12 | Pending |
-| PGSQL-05 | Phase 12 | Pending |
-| PGCOMPOSE-01 | Phase 12 | Pending |
-| PGCOMPOSE-02 | Phase 12 | Pending |
-| PGCOMPOSE-03 | Phase 12 | Pending |
+| PGSQL-01 | Phase 12 | Complete |
+| PGSQL-02 | Phase 12 | Complete |
+| PGSQL-03 | Phase 12 | Complete |
+| PGSQL-04 | Phase 12 | Complete |
+| PGSQL-05 | Phase 12 | Complete |
+| PGCOMPOSE-01 | Phase 12 | Complete |
+| PGCOMPOSE-02 | Phase 12 | Complete |
+| PGCOMPOSE-03 | Phase 12 | Complete |
 | PGMIG-01 | Phase 13 | Pending |
 | PGMIG-02 | Phase 13 | Pending |
 | PGTEST-01 | Phase 13 | Pending |

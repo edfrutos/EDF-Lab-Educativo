@@ -42,7 +42,7 @@
 
 **Milestone Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database while keeping the backend → JSON → dashboard flow intact.
 
-- [ ] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service
+- [x] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service (completed 2026-05-31)
 - [ ] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note
 - [ ] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
 
@@ -64,11 +64,11 @@
 **Plans**: 3 plans in 2 waves
 
 **Wave 1** *(no dependencies)*
-- [ ] 12-01: Extract db-sqlite.js + pg dependency (PGSQL-05)
+- [x] 12-01: Extract db-sqlite.js + pg dependency (PGSQL-05)
 
 **Wave 2** *(blocked on Wave 1 / 12-02 chain)*
-- [ ] 12-02: schema.pg.sql + db-pg.js + router (PGSQL-01–04)
-- [ ] 12-03: Compose postgres service + E2E verification (PGCOMPOSE-01–03)
+- [x] 12-02: schema.pg.sql + db-pg.js + router (PGSQL-01–04)
+- [x] 12-03: Compose postgres service + E2E verification (PGCOMPOSE-01–03)
 
 **Cross-cutting constraints:**
 - SQLite remains default without DATABASE_URL (PGSQL-05)
@@ -120,7 +120,7 @@
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
-| 12. PostgreSQL Persistence Layer | v1.3 | 0/3 | Planned | — |
+| 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete    | 2026-05-31 |
 | 13. Migration & Test Confidence | v1.3 | 0/3 | Not started | — |
 | 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
 
