@@ -81,9 +81,9 @@ npm run compose:down
 
 Dashboard: http://localhost:5173 — API: http://localhost:3100
 
-SQLite persiste en `api/data/users.db` gracias al bind mount de Compose — ver [`docs/12-docker.md`](./docs/12-docker.md).
+SQLite persiste en `api/data/users.db` gracias al bind mount de Compose — ver [`docs/12-docker.md`](./docs/12-docker.md) y la guía completa [`docs/14-docker-compose.md`](./docs/14-docker-compose.md). Misión práctica: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md).
 
-El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`. La documentación completa de Compose llegará en una fase posterior.
+El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`.
 
 ---
 

@@ -19,6 +19,7 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 11. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API.
 12. [`11-openapi.md`](./11-openapi.md) para entender el contrato formal de la API. *(avanzado, opcional)*
 13. [`12-docker.md`](./12-docker.md) para arrancar la API en un contenedor Docker. *(avanzado, opcional)*
+14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard con Compose. *(avanzado, opcional)*
 
 ## Documentos
 
@@ -61,6 +62,9 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 13. [`12-docker.md`](./12-docker.md) *(avanzado, opcional)*  
     Explica qué es Docker, qué es una imagen y cómo arrancar la API en un contenedor local.
 
+14. [`14-docker-compose.md`](./14-docker-compose.md) *(avanzado, opcional)*  
+    Explica servicios, redes y volúmenes del stack Compose de este lab con ejemplos ejecutables.
+
 ## Misiones prácticas
 
 - [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md) — Inspecciona `users.db`, observa la migración desde JSON y verifica persistencia tras reinicio.
@@ -69,3 +73,4 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 
 - [`missions/08-explorar-openapi.md`](../missions/08-explorar-openapi.md) — Explora la spec OpenAPI en VS Code y Swagger Editor online. *(avanzado, opcional)*
 - [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md) — Construye la imagen Docker y arranca la API en un contenedor. *(avanzado, opcional)*
+- [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y persistencia SQLite. *(avanzado, opcional)*

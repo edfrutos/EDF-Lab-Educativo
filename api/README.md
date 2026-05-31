@@ -53,6 +53,23 @@ Resultado esperado:
 
 ---
 
+## Opcional: Docker Compose
+
+Desde la **raíz del repositorio** (no desde `api/`):
+
+```bash
+cd /Users/edefrutos/Desktop/EDF-Lab-Educativo
+npm run compose:up
+```
+
+Para parar: `npm run compose:down`.
+
+La API en Compose escucha en el mismo puerto **3100**. SQLite persiste en `api/data/users.db` gracias al bind mount `./api/data` — la misma ruta que usa `npm start`.
+
+Guía completa: [`docs/14-docker-compose.md`](../docs/14-docker-compose.md). Misión: [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md).
+
+---
+
 ## Endpoints actuales
 
 ```txt

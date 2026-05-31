@@ -456,3 +456,61 @@ Migrados 2 usuarios desde users.json
 ```
 
 > Ver más: [`docs/13-sqlite.md`](./13-sqlite.md), [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md)
+
+---
+
+## Docker y Compose
+
+### Docker Compose
+
+Herramienta que lee `docker-compose.yml` y arranca varios contenedores como un stack. En este lab orquesta `edf-lab-api` y `edf-lab-dashboard` con un solo comando.
+
+```bash
+# Desde la raíz del repo
+npm run compose:up
+npm run compose:down
+```
+
+> Ver más: [`docs/14-docker-compose.md`](./14-docker-compose.md)
+
+---
+
+### servicio (Compose)
+
+Un contenedor definido en `docker-compose.yml`. Este proyecto tiene dos: `edf-lab-api` (Express + SQLite) y `edf-lab-dashboard` (nginx con ficheros estáticos).
+
+```yaml
+services:
+  edf-lab-api:
+    build: ./api
+  edf-lab-dashboard:
+    build: ./dashboard
+```
+
+> Ver más: [`docs/14-docker-compose.md`](./14-docker-compose.md)
+
+---
+
+### bind mount
+
+Tipo de volumen que enlaza una carpeta del **host** con una ruta **dentro del contenedor**. En Compose, `./api/data:/usr/src/app/data` hace que `users.db` escrito en el contenedor aparezca en tu Mac.
+
+```yaml
+volumes:
+  - ./api/data:/usr/src/app/data
+```
+
+Contraste: un contenedor sin bind mount (Misión 09) pierde los datos al destruirse.
+
+> Ver más: [`docs/12-docker.md`](./12-docker.md), [`docs/14-docker-compose.md`](./14-docker-compose.md)
+
+---
+
+### volumen efímero vs persistente
+
+| Tipo | En este lab | ¿Sobrevive al parar el contenedor? |
+|------|-------------|-------------------------------------|
+| Sin volumen | `npm run docker:start` (Misión 09) | No |
+| Bind mount | `npm run compose:up` | Sí — archivo en `api/data/users.db` |
+
+> Ver más: [`docs/12-docker.md`](./12-docker.md), [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md)

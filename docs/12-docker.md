@@ -116,12 +116,13 @@ npm run compose:down
 
 Tras `compose:down` (sin `-v`), `users.db` permanece en `api/data/`. En la Fase 9 el stack Compose era efímero; con el bind mount los datos sobreviven a reinicios.
 
-La documentación completa de Compose (servicios, redes, volúmenes) llegará en `docs/14-docker-compose.md` (fase posterior).
+Documentación completa de Compose (servicios, redes, volúmenes): [`docs/14-docker-compose.md`](./14-docker-compose.md). Misión guiada: [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md).
 
 ---
 
 ## Resumen
 
-Docker permite arrancar la API en un entorno aislado y reproducible. El mismo `index.js` funciona en el contenedor sin ningún cambio. Para practicar el flujo completo, ve a la Misión 09.
+Docker permite arrancar la API en un entorno aislado y reproducible. El mismo `index.js` funciona en el contenedor sin ningún cambio.
 
-**Misión 09: arrancar-con-docker** → [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md)
+- **Contenedor único (efímero):** Misión 09 → [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md)
+- **Stack Compose (API + dashboard, SQLite persistente):** doc 14 + Misión 11 → [`docs/14-docker-compose.md`](./14-docker-compose.md), [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md)
