@@ -5,6 +5,7 @@
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
 - ✅ **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
 - ✅ **v1.2 Docker Compose** — Phases 9–11 (shipped 2026-05-31, audited 2026-05-31)
+- 🚧 **v1.3 PostgreSQL Persistence** — Phases 12–14 (planning)
 
 ## Phases
 
@@ -37,6 +38,61 @@
 
 </details>
 
+### 🚧 v1.3 PostgreSQL Persistence (Phases 12–14)
+
+**Milestone Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database while keeping the backend → JSON → dashboard flow intact.
+
+- [ ] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service
+- [ ] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note
+- [ ] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
+
+## Phase Details
+
+### Phase 12: PostgreSQL Persistence Layer
+
+**Goal**: API persists users in PostgreSQL when configured; Compose stack includes Postgres with persistent volume; SQLite remains host-dev default.
+**Depends on**: Phase 11 (v1.2 complete)
+**Requirements**: PGSQL-01, PGSQL-02, PGSQL-03, PGSQL-04, PGSQL-05, PGCOMPOSE-01, PGCOMPOSE-02, PGCOMPOSE-03
+**Success Criteria** (what must be TRUE):
+
+  1. Learner sets `DATABASE_URL` and API stores users in PostgreSQL instead of SQLite.
+  2. Learner runs `npm run compose:up` and stack includes API, dashboard, and Postgres services.
+  3. Learner creates, edits, and deletes users from the dashboard with identical JSON responses as SQLite mode.
+  4. Learner can read PostgreSQL schema SQL defining `users` with same columns/constraints as SQLite.
+  5. Learner runs `npm start` without `DATABASE_URL` and SQLite path still works unchanged.
+
+**Plans**: 3 plans (TBD via `/gsd-plan-phase 12`)
+
+### Phase 13: Migration & Test Confidence
+
+**Goal**: Learners can seed an empty Postgres database and trust the automated test suite against PostgreSQL.
+**Depends on**: Phase 12
+**Requirements**: PGMIG-01, PGMIG-02, PGTEST-01, PGTEST-02, PGTEST-03
+**Success Criteria** (what must be TRUE):
+
+  1. Learner starts API against empty Postgres and seed users appear (migration log or documented script).
+  2. Learner reads documentation explaining SQLite vs PostgreSQL trade-offs for this lab.
+  3. Learner runs `npm test` from `api/` and all 16 tests pass against PostgreSQL.
+  4. Duplicate email returns 409 against Postgres (same as SQLite).
+  5. Test run does not contaminate production/dev Postgres data (isolated test DB).
+
+**Plans**: 3 plans (TBD via `/gsd-plan-phase 13`)
+
+### Phase 14: PostgreSQL Learning Material
+
+**Goal**: Learners have guided documentation and missions to understand PostgreSQL in this lab.
+**Depends on**: Phase 13
+**Requirements**: PGDOCS-01, PGDOCS-02, PGDOCS-03, PGDOCS-04, PGDOCS-05
+**Success Criteria** (what must be TRUE):
+
+  1. Learner reads a new doc explaining Postgres connection, schema, and queries with executable examples.
+  2. Learner completes a mission walking through Compose + Postgres, CRUD, restart, and persistence check.
+  3. Learner finds SQLite doc updated with evolution pointer to PostgreSQL.
+  4. Learner finds new doc and mission in `docs/00-indice.md` and README Postgres instructions.
+  5. Real errors during Postgres integration are recorded in `NOTEBOOK.md`.
+
+**Plans**: 2 plans (TBD via `/gsd-plan-phase 14`)
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -52,6 +108,11 @@
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
+| 12. PostgreSQL Persistence Layer | v1.3 | 0/3 | Not started | — |
+| 13. Migration & Test Confidence | v1.3 | 0/3 | Not started | — |
+| 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
+
+**Execution order:** Phases execute in numeric order: 12 → 13 → 14
 
 Archived milestone details:
 
