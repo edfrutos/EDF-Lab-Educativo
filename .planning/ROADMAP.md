@@ -33,7 +33,7 @@
 **Milestone Goal:** Teach multi-container orchestration with Docker Compose while persisting SQLite data across container restarts.
 
 - [x] **Phase 9: Compose Stack Foundation** — `docker-compose.yml`, dashboard Dockerfile, nginx static serve, end-to-end CRUD
-- [ ] **Phase 10: SQLite Volume & Scripts** — Named/bind volume for `users.db`, compose helper scripts, persistence verification
+- [x] **Phase 10: SQLite Volume & Scripts** — Named/bind volume for `users.db`, compose helper scripts, persistence verification
 - [ ] **Phase 11: Compose Learning Material** — Doc 14, Mission 11, update doc 12, index/README, NOTEBOOK
 
 ## Phase Details
@@ -74,8 +74,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — bind mount `./api/data` in docker-compose.yml + persistence verification
-- [ ] 10-02-PLAN.md — root package.json scripts, docs/12-docker.md contrast, 10-UAT.md
+- [x] 10-01-PLAN.md — bind mount `./api/data` in docker-compose.yml + persistence verification
+- [x] 10-02-PLAN.md — root package.json scripts, docs/12-docker.md contrast, 10-UAT.md
 
 ### Phase 11: Compose Learning Material
 
@@ -105,7 +105,7 @@ Plans:
 | 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
-| 10. SQLite Volume & Scripts | v1.2 | 0/2 | Planned | — |
+| 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 0/2 | Not started | — |
 
 **Execution order:** Phases execute in numeric order: 9 → 10 → 11

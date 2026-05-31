@@ -17,9 +17,9 @@ Requirements for the Docker Compose milestone. Each maps to roadmap phases (star
 
 ### SQLite Volume Persistence
 
-- [ ] **VOL-01**: Compose mounts a named or bind volume so `users.db` persists across `docker compose down` / `up` cycles.
-- [ ] **VOL-02**: Documentation explains ephemeral single-container Docker (Mission 09) vs volume-backed Compose persistence.
-- [ ] **VOL-03**: Root-level scripts (`compose:up`, `compose:down` or equivalent) wrap common Compose commands for beginners.
+- [x] **VOL-01**: Compose mounts a named or bind volume so `users.db` persists across `docker compose down` / `up` cycles.
+- [x] **VOL-02**: Documentation explains ephemeral single-container Docker (Mission 09) vs volume-backed Compose persistence.
+- [x] **VOL-03**: Root-level scripts (`compose:up`, `compose:down` or equivalent) wrap common Compose commands for beginners.
 
 ### Learning Documentation
 
@@ -67,9 +67,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | COMPOSE-03 | Phase 9 | Complete |
 | COMPOSE-04 | Phase 9 | Complete |
 | COMPOSE-05 | Phase 9 | Complete |
-| VOL-01 | Phase 10 | Pending |
-| VOL-02 | Phase 10 | Pending |
-| VOL-03 | Phase 10 | Pending |
+| VOL-01 | Phase 10 | Complete |
+| VOL-02 | Phase 10 | Complete |
+| VOL-03 | Phase 10 | Complete |
 | DOCS-01 | Phase 11 | Pending |
 | DOCS-02 | Phase 11 | Pending |
 | DOCS-03 | Phase 11 | Pending |
