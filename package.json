@@ -1,0 +1,10 @@
+{
+  "name": "edf-lab-educativo",
+  "private": true,
+  "description": "Laboratorio educativo Express + dashboard — scripts Compose en la raíz del repo",
+  "scripts": {
+    "compose:up": "docker compose up --build",
+    "compose:down": "docker compose down",
+    "compose:logs": "docker compose logs -f"
+  }
+}

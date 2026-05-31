@@ -72,18 +72,51 @@ docker stop edf-lab-api
 
 ---
 
-## Datos efímeros: el contenedor arranca limpio
+## Datos efímeros: contenedor único sin volumen
 
-`data/users.json` **no** se copia dentro de la imagen (está en `.dockerignore`). Cada vez que arrancas el contenedor, la API empieza con los dos usuarios del `SEED_DATA`. Cuando paras el contenedor, los usuarios creados dentro se pierden. Esto no es un error — es el comportamiento correcto de un contenedor sin volúmenes montados.
+Con `npm run docker:start` (un solo contenedor, sin Compose), la base de datos SQLite vive **dentro** del contenedor. `data/users.db` **no** se monta desde el host (está en `.dockerignore` para la imagen). Cada vez que arrancas el contenedor, la API crea una base nueva y migra la semilla desde `users.json` (incluido en la imagen). Cuando paras el contenedor, los usuarios creados se pierden. Esto no es un error — es el comportamiento correcto de un contenedor sin volúmenes montados.
 
 ```sh
 | Arranque | ¿Persisten los datos? |
 |----------|----------------------|
-| `npm start` en el host | Sí — `data/users.json` mantiene los cambios |
-| `npm run docker:start` | No — el contenedor arranca desde SEED_DATA cada vez |
+| `npm start` en el host | Sí — `api/data/users.db` en disco |
+| `npm run docker:start` | No — SQLite efímero dentro del contenedor |
 ```
 
-Docker ofrece volúmenes para persistencia en contenedores, pero eso es material para una fase avanzada. Por ahora, la efimeridad es la lección correcta.
+Para practicar este flujo, ve a la Misión 09.
+
+---
+
+## Compose con persistencia SQLite
+
+Docker Compose orquesta API + dashboard. La API monta la carpeta del host en el contenedor:
+
+```yaml
+# docker-compose.yml (servicio edf-lab-api)
+volumes:
+  - ./api/data:/usr/src/app/data
+```
+
+El contenedor escribe en `/usr/src/app/data/users.db`; el archivo aparece en tu Mac en `api/data/users.db` — la misma ruta que usa `npm start`.
+
+```sh
+| Arranque | ¿Persisten los datos? |
+|----------|----------------------|
+| `npm start` en el host | Sí — `api/data/users.db` |
+| `npm run docker:start` (contenedor único) | No — efímero (Misión 09) |
+| `npm run compose:up` (Compose) | Sí — bind mount `./api/data` |
+```
+
+Arrancar desde la raíz del repo:
+
+```bash
+npm run compose:up
+npm run compose:down
+```
+
+Tras `compose:down` (sin `-v`), `users.db` permanece en `api/data/`. En la Fase 9 el stack Compose era efímero; con el bind mount los datos sobreviven a reinicios.
+
+La documentación completa de Compose (servicios, redes, volúmenes) llegará en `docs/14-docker-compose.md` (fase posterior).
 
 ---
 

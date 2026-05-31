@@ -69,10 +69,19 @@ http://localhost:5173
 Desde la raíz del repositorio:
 
 ```bash
-docker compose up --build
+npm run compose:up
+# equivalente: docker compose up --build
+```
+
+Para parar el stack:
+
+```bash
+npm run compose:down
 ```
 
 Dashboard: http://localhost:5173 — API: http://localhost:3100
+
+SQLite persiste en `api/data/users.db` gracias al bind mount de Compose — ver [`docs/12-docker.md`](./docs/12-docker.md).
 
 El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`. La documentación completa de Compose llegará en una fase posterior.
 
