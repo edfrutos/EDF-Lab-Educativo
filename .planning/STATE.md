@@ -1,12 +1,12 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: —
-status: ready
-last_updated: "2026-05-31T16:00:00.000Z"
-last_activity: 2026-05-31 — Milestone v1.2 archived and tagged
+milestone: v1.3
+milestone_name: PostgreSQL Persistence
+status: planning
+last_updated: "2026-05-31T16:30:00.000Z"
+last_activity: 2026-05-31 — Milestone v1.3 defined (PostgreSQL)
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** v1.2 shipped — ready for v1.3 planning
+**Current focus:** Milestone v1.3 — PostgreSQL Persistence (requirements + roadmap defined)
 
 ## Current Position
 
-Phase: —
+Phase: Not started
 Plan: —
-Status: Milestone v1.2 **shipped** (tag v1.2)
-Last activity: 2026-05-31 — `/gsd-complete-milestone v1.2`
+Status: Ready for `/gsd-discuss-phase 12`
+Last activity: 2026-05-31 — v1.3 milestone started
 
 ## Shipped Milestones
 
@@ -37,10 +37,27 @@ Last activity: 2026-05-31 — `/gsd-complete-milestone v1.2`
 | v1.1 SQLite Persistence | 6–8 | 2026-05-30 | v1.1 |
 | v1.2 Docker Compose | 9–11 | 2026-05-31 | v1.2 |
 
-## Operator Next Steps
+## By Phase (v1.3)
 
-- `/gsd-new-milestone` — define v1.3 scope (frameworks, PostgreSQL, auth candidates)
+| Phase | Plans | Status |
+|-------|-------|--------|
+| 12 PostgreSQL Persistence Layer | 0/3 | Not started |
+| 13 Migration & Test Confidence | 0/3 | Not started |
+| 14 PostgreSQL Learning Material | 0/2 | Not started |
+
+## Accumulated Context
+
+### Decisions (v1.3 intent)
+
+- PostgreSQL additive — SQLite remains host-dev default without `DATABASE_URL`.
+- `pg` package with raw SQL (no ORM).
+- Postgres as Compose service with named volume.
+- Mirror v1.1 milestone structure: persistence → migration/tests → learning material.
+
+### Operator Next Steps
+
+- `/gsd-discuss-phase 12` — PostgreSQL persistence layer
 
 ## Session Continuity
 
-Resume file: `.planning/milestones/v1.2-ROADMAP.md`
+Resume file: `.planning/REQUIREMENTS.md`

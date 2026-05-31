@@ -11,18 +11,18 @@ The lab includes a working API with **SQLite persistence** (`users.db`), a dashb
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
 <details>
-<summary>Previous milestone context (v1.2 planning — archived)</summary>
+<summary>Previous milestone context (v1.3 planning — in progress)</summary>
 
-## Milestone: v1.2 Docker Compose
+## Milestone: v1.3 PostgreSQL Persistence
 
-**Goal:** Teach multi-container orchestration with Docker Compose while persisting SQLite data across container restarts.
+**Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database, keeping the backend → JSON → dashboard flow intact.
 
 **Target features:**
-- `docker-compose.yml` orchestrating API + dashboard with a single command
-- Dashboard served via nginx container on port 5173
-- SQLite bind mount so `users.db` survives container restarts
-- Root-level compose scripts (`compose:up`, `compose:down`) alongside existing `npm start` path
-- Updated docs and a new mission explaining Compose vs single-container Docker
+- PostgreSQL service in Docker Compose with persistent volume
+- API uses `pg` client when `DATABASE_URL` is set; SQLite remains default for host dev
+- Same `users` schema and HTTP contract for dashboard
+- Migration/seed path into empty Postgres
+- Updated tests, docs (`docs/15-postgresql.md`), and Mission 12
 
 </details>
 
@@ -34,12 +34,22 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Docs:** 14 conceptual docs + Missions 10–11 (SQLite, Compose); see `docs/00-indice.md`  
 **Compose:** `npm run compose:up` from repo root; dashboard :5173, API :3100
 
-## Next Milestone Goals (v1.3+ — not yet planned)
+## Current Milestone: v1.3 PostgreSQL Persistence
+
+**Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database, keeping the backend → JSON → dashboard flow intact and observable.
+
+**Target features:**
+- PostgreSQL container in Compose with named volume for data persistence
+- API persistence layer using `pg` when `DATABASE_URL` is configured
+- SQLite remains the default host-dev path (`npm start` without Postgres)
+- Seed/migration into empty Postgres; tests updated for PostgreSQL
+- Doc 15, Mission 12, NOTEBOOK entries comparing SQLite vs PostgreSQL
+
+## Next Milestone Goals (v1.4+ — not yet planned)
 
 Candidates deferred from earlier planning:
 
 - Frontend framework comparison (React/Vue) after vanilla flow is solid
-- PostgreSQL as next persistence step after SQLite and Compose concepts land
 - Production authentication when a learning phase explicitly teaches auth
 
 ## Requirements
@@ -69,9 +79,10 @@ Candidates deferred from earlier planning:
 
 ### Active
 
-- [ ] Frontend framework comparison (React/Vue) — candidate v1.3+
+- [ ] PostgreSQL persistence layer with `pg` client — v1.3
+- [ ] Postgres service in Compose + learning material — v1.3
+- [ ] Frontend framework comparison (React/Vue) — candidate v1.4+
 - [ ] Production authentication and deployment hardening — future advanced phase
-- [ ] PostgreSQL — after SQLite and Compose concepts land in practice
 
 ### Out of Scope
 
@@ -122,11 +133,13 @@ The lab is organized around a learning route:
 | Bind mount for SQLite in Compose | Same path as host dev; inspectable `users.db` | ✓ Good — v1.2 |
 | Direct published ports (no reverse proxy) | Beginner transparency; CORS already works | ✓ Good — v1.2 |
 | Host dev path remains primary | Compose is advanced optional | ✓ Good — v1.2 |
-| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.3 |
+| Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.4 |
+| PostgreSQL as next DB step after SQLite | Client-server DB teaches scaling beyond embedded SQLite | — Pending v1.3 |
+| Keep SQLite as host-dev default | Lower friction for beginners; Postgres via Compose/env optional | — Pending v1.3 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-05-31 after v1.2 milestone shipped*
+*Last updated: 2026-05-31 after v1.3 milestone started*
