@@ -18,7 +18,7 @@
 
 | # | Test | Result | Notes |
 |---|------|--------|-------|
-| 6 | `npm run compose:up` → POST user → down/up → user persists | not run | Docker daemon unavailable in CI/sandbox; revalidate locally |
+| 6 | `npm run compose:up` → POST user → down/up → user persists | pass | Operator verified 2026-05-31 — Test Compose survived restart |
 
 ## ROADMAP success criteria
 
