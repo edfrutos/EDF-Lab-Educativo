@@ -1,0 +1,17 @@
+# EDF Lab Educativo — stack Compose (API + dashboard)
+# Arrancar desde la raíz del repo: docker compose up --build
+
+services:
+  # API Express con SQLite (reutiliza api/Dockerfile)
+  edf-lab-api:
+    build: ./api
+    ports:
+      - "3100:3100"
+
+  # Dashboard estático servido por nginx
+  edf-lab-dashboard:
+    build: ./dashboard
+    ports:
+      - "5173:5173"
+    depends_on:
+      - edf-lab-api

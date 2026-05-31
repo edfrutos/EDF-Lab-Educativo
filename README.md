@@ -64,6 +64,18 @@ Abre:
 http://localhost:5173
 ```
 
+### Opcional: Docker Compose (avanzado)
+
+Desde la raíz del repositorio:
+
+```bash
+docker compose up --build
+```
+
+Dashboard: http://localhost:5173 — API: http://localhost:3100
+
+El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`. La documentación completa de Compose llegará en una fase posterior.
+
 ---
 
 ## Qué aprenderás

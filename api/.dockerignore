@@ -35,6 +35,6 @@ README.md
 node_modules
 .git
 *.test.js
-data/users.json
+# Semilla JSON incluida en imagen para migración cold start; DB runtime excluida (efímera)
 data/users.db
 data/*.db
