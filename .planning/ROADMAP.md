@@ -61,7 +61,19 @@
   4. Learner can read PostgreSQL schema SQL defining `users` with same columns/constraints as SQLite.
   5. Learner runs `npm start` without `DATABASE_URL` and SQLite path still works unchanged.
 
-**Plans**: 3 plans (TBD via `/gsd-plan-phase 12`)
+**Plans**: 3 plans in 2 waves
+
+**Wave 1** *(no dependencies)*
+- [ ] 12-01: Extract db-sqlite.js + pg dependency (PGSQL-05)
+
+**Wave 2** *(blocked on Wave 1 / 12-02 chain)*
+- [ ] 12-02: schema.pg.sql + db-pg.js + router (PGSQL-01–04)
+- [ ] 12-03: Compose postgres service + E2E verification (PGCOMPOSE-01–03)
+
+**Cross-cutting constraints:**
+- SQLite remains default without DATABASE_URL (PGSQL-05)
+- No JSON seed for Postgres in Phase 12 (D-16 → Phase 13)
+- Same HTTP/JSON contract for dashboard (PGSQL-04)
 
 ### Phase 13: Migration & Test Confidence
 
@@ -108,7 +120,7 @@
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
-| 12. PostgreSQL Persistence Layer | v1.3 | 0/3 | Not started | — |
+| 12. PostgreSQL Persistence Layer | v1.3 | 0/3 | Planned | — |
 | 13. Migration & Test Confidence | v1.3 | 0/3 | Not started | — |
 | 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
 
