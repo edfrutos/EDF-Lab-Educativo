@@ -9,11 +9,11 @@ Requirements for the Docker Compose milestone. Each maps to roadmap phases (star
 
 ### Docker Compose Stack
 
-- [ ] **COMPOSE-01**: Learner can start API and dashboard together with a single `docker compose up` command from the project root.
-- [ ] **COMPOSE-02**: Dashboard is served from a container (nginx) on port 5173; API remains on port 3100.
-- [ ] **COMPOSE-03**: API service reuses the existing `api/Dockerfile`; dashboard has its own `dashboard/Dockerfile`.
-- [ ] **COMPOSE-04**: Dashboard CRUD works end-to-end against the containerized API (health, list, create, edit, delete).
-- [ ] **COMPOSE-05**: `npm start` + `python3 -m http.server` remain documented as the primary local development path.
+- [x] **COMPOSE-01**: Learner can start API and dashboard together with a single `docker compose up` command from the project root.
+- [x] **COMPOSE-02**: Dashboard is served from a container (nginx) on port 5173; API remains on port 3100.
+- [x] **COMPOSE-03**: API service reuses the existing `api/Dockerfile`; dashboard has its own `dashboard/Dockerfile`.
+- [x] **COMPOSE-04**: Dashboard CRUD works end-to-end against the containerized API (health, list, create, edit, delete).
+- [x] **COMPOSE-05**: `npm start` + `python3 -m http.server` remain documented as the primary local development path.
 
 ### SQLite Volume Persistence
 
@@ -62,11 +62,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| COMPOSE-01 | Phase 9 | Pending |
-| COMPOSE-02 | Phase 9 | Pending |
-| COMPOSE-03 | Phase 9 | Pending |
-| COMPOSE-04 | Phase 9 | Pending |
-| COMPOSE-05 | Phase 9 | Pending |
+| COMPOSE-01 | Phase 9 | Complete |
+| COMPOSE-02 | Phase 9 | Complete |
+| COMPOSE-03 | Phase 9 | Complete |
+| COMPOSE-04 | Phase 9 | Complete |
+| COMPOSE-05 | Phase 9 | Complete |
 | VOL-01 | Phase 10 | Pending |
 | VOL-02 | Phase 10 | Pending |
 | VOL-03 | Phase 10 | Pending |

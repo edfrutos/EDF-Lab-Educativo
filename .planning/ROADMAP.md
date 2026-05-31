@@ -32,7 +32,7 @@
 
 **Milestone Goal:** Teach multi-container orchestration with Docker Compose while persisting SQLite data across container restarts.
 
-- [ ] **Phase 9: Compose Stack Foundation** — `docker-compose.yml`, dashboard Dockerfile, nginx static serve, end-to-end CRUD
+- [x] **Phase 9: Compose Stack Foundation** — `docker-compose.yml`, dashboard Dockerfile, nginx static serve, end-to-end CRUD
 - [ ] **Phase 10: SQLite Volume & Scripts** — Named/bind volume for `users.db`, compose helper scripts, persistence verification
 - [ ] **Phase 11: Compose Learning Material** — Doc 14, Mission 11, update doc 12, index/README, NOTEBOOK
 
@@ -54,9 +54,9 @@
 **Plans**: 3 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — dashboard/Dockerfile + dashboard/nginx.conf (nginx:alpine, port 5173)
-- [ ] 09-02-PLAN.md — docker-compose.yml at root, api/.dockerignore seed fix, README optional pointer
-- [ ] 09-03-PLAN.md — E2E UAT: CRUD, ephemeral restart, 09-UAT.md
+- [x] 09-01-PLAN.md — dashboard/Dockerfile + dashboard/nginx.conf (nginx:alpine, port 5173)
+- [x] 09-02-PLAN.md — docker-compose.yml at root, api/.dockerignore seed fix, README optional pointer
+- [x] 09-03-PLAN.md — E2E UAT: CRUD, ephemeral restart, 09-UAT.md
 
 ### Phase 10: SQLite Volume & Scripts
 
@@ -100,7 +100,7 @@ Plans:
 | 6. SQLite Persistence Layer | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
-| 9. Compose Stack Foundation | v1.2 | 0/3 | Planned | — |
+| 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 0/2 | Not started | — |
 | 11. Compose Learning Material | v1.2 | 0/2 | Not started | — |
 
