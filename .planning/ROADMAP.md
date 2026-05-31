@@ -71,7 +71,11 @@ Plans:
   4. Learner reads documentation contrasting ephemeral single-container Docker (Mission 09) with volume-backed Compose.
   5. Learner confirms migration from JSON seed still works on a fresh volume (cold start scenario).
 
-**Plans**: 2 plans (TBD via `/gsd-plan-phase 10`)
+**Plans**: 2 plans
+
+Plans:
+- [ ] 10-01-PLAN.md — bind mount `./api/data` in docker-compose.yml + persistence verification
+- [ ] 10-02-PLAN.md — root package.json scripts, docs/12-docker.md contrast, 10-UAT.md
 
 ### Phase 11: Compose Learning Material
 
@@ -101,7 +105,7 @@ Plans:
 | 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
-| 10. SQLite Volume & Scripts | v1.2 | 0/2 | Not started | — |
+| 10. SQLite Volume & Scripts | v1.2 | 0/2 | Planned | — |
 | 11. Compose Learning Material | v1.2 | 0/2 | Not started | — |
 
 **Execution order:** Phases execute in numeric order: 9 → 10 → 11
