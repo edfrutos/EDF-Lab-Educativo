@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Milestone v1.3 — PostgreSQL Persistence (requirements + roadmap defined)
+**Current focus:** Milestone v1.3 — Phase 12 context gathered, ready to plan
 
 ## Current Position
 
-Phase: Not started
+Phase: 12 context ready
 Plan: —
-Status: Ready for `/gsd-discuss-phase 12`
-Last activity: 2026-05-31 — v1.3 milestone started
+Status: Ready for `/gsd-plan-phase 12`
+Last activity: 2026-05-31 — Phase 12 discuss (auto defaults)
 
 ## Shipped Milestones
 
@@ -56,7 +56,7 @@ Last activity: 2026-05-31 — v1.3 milestone started
 
 ### Operator Next Steps
 
-- `/gsd-discuss-phase 12` — PostgreSQL persistence layer
+- `/gsd-plan-phase 12` — PostgreSQL persistence layer
 
 ## Session Continuity
 
