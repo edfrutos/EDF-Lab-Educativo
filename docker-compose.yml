@@ -1,16 +1,45 @@
-# EDF Lab Educativo — stack Compose (API + dashboard)
+# EDF Lab Educativo — stack Compose (API + dashboard + PostgreSQL)
 # Arrancar desde la raíz del repo: docker compose up --build
+#
+# PostgreSQL usa un volumen nombrado (postgres_data): los datos sobreviven a
+# docker compose down. SQLite en host-dev sigue usando bind mount en api/data.
+# DATABASE_URL en edf-lab-api selecciona Postgres dentro del contenedor.
+# Credenciales ficticias de laboratorio — no usar en producción.
 
 services:
-  # API Express con SQLite (reutiliza api/Dockerfile)
+  # PostgreSQL 16 — base de datos cliente-servidor del laboratorio
+  edf-lab-postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: edf_lab
+      POSTGRES_PASSWORD: edf_lab_dev
+      POSTGRES_DB: edf_lab
+    volumes:
+      # Volumen nombrado: persiste datos aunque se destruya el contenedor
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      # Publicado para aprender con psql desde el host
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U edf_lab -d edf_lab"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # API Express — usa PostgreSQL vía DATABASE_URL cuando corre en Compose
   edf-lab-api:
     build: ./api
     ports:
       - "3100:3100"
+    environment:
+      DATABASE_URL: postgresql://edf_lab:edf_lab_dev@edf-lab-postgres:5432/edf_lab
     # Bind mount: la carpeta api/data del host se comparte con el contenedor.
-    # users.db escrito dentro del contenedor aparece en api/data/users.db del host.
+    # users.json sigue disponible; SQLite no se usa cuando DATABASE_URL está definida.
     volumes:
       - ./api/data:/usr/src/app/data
+    depends_on:
+      edf-lab-postgres:
+        condition: service_healthy
 
   # Dashboard estático servido por nginx (sin volumen — solo ficheros estáticos)
   edf-lab-dashboard:
@@ -19,3 +48,6 @@ services:
       - "5173:5173"
     depends_on:
       - edf-lab-api
+
+volumes:
+  postgres_data:
