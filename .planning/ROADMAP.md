@@ -34,7 +34,7 @@
 
 - [x] **Phase 9: Compose Stack Foundation** — `docker-compose.yml`, dashboard Dockerfile, nginx static serve, end-to-end CRUD
 - [x] **Phase 10: SQLite Volume & Scripts** — Named/bind volume for `users.db`, compose helper scripts, persistence verification
-- [ ] **Phase 11: Compose Learning Material** — Doc 14, Mission 11, update doc 12, index/README, NOTEBOOK
+- [x] **Phase 11: Compose Learning Material** — Doc 14, Mission 11, update doc 12, index/README, NOTEBOOK
 
 ## Phase Details
 
@@ -93,8 +93,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 11-01-PLAN.md — docs/14-docker-compose.md, doc 12 DOCS-03 alignment, index/README/api/README/glossary
-- [ ] 11-02-PLAN.md — Mission 11, Mission 09 note, NOTEBOOK, 11-UAT.md + VERIFICATION
+- [x] 11-01-PLAN.md — docs/14-docker-compose.md, doc 12 DOCS-03 alignment, index/README/api/README/glossary
+- [x] 11-02-PLAN.md — Mission 11, Mission 09 note, NOTEBOOK, 11-UAT.md + VERIFICATION
 
 ## Progress
 
@@ -110,7 +110,7 @@ Plans:
 | 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
-| 11. Compose Learning Material | v1.2 | 0/2 | Not started | — |
+| 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
 
 **Execution order:** Phases execute in numeric order: 9 → 10 → 11
 

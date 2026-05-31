@@ -23,11 +23,11 @@ Requirements for the Docker Compose milestone. Each maps to roadmap phases (star
 
 ### Learning Documentation
 
-- [ ] **DOCS-01**: New doc explains Docker Compose concepts (services, networks, volumes) with executable examples for this lab.
-- [ ] **DOCS-02**: New mission guides learners through `compose up`, verifying CRUD, restarting stack, and confirming SQLite persistence.
-- [ ] **DOCS-03**: `docs/12-docker.md` updated for SQLite context (no longer references JSON-only ephemeral data as primary store).
-- [ ] **DOCS-04**: `docs/00-indice.md`, `README.md`, and `api/README.md` updated with Compose path and commands.
-- [ ] **DOCS-05**: Relevant real errors during Compose integration recorded in `NOTEBOOK.md`.
+- [x] **DOCS-01**: New doc explains Docker Compose concepts (services, networks, volumes) with executable examples for this lab.
+- [x] **DOCS-02**: New mission guides learners through `compose up`, verifying CRUD, restarting stack, and confirming SQLite persistence.
+- [x] **DOCS-03**: `docs/12-docker.md` updated for SQLite context (no longer references JSON-only ephemeral data as primary store).
+- [x] **DOCS-04**: `docs/00-indice.md`, `README.md`, and `api/README.md` updated with Compose path and commands.
+- [x] **DOCS-05**: Relevant real errors during Compose integration recorded in `NOTEBOOK.md`.
 
 ## v1.3 Requirements
 
@@ -70,11 +70,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | VOL-01 | Phase 10 | Complete |
 | VOL-02 | Phase 10 | Complete |
 | VOL-03 | Phase 10 | Complete |
-| DOCS-01 | Phase 11 | Pending |
-| DOCS-02 | Phase 11 | Pending |
-| DOCS-03 | Phase 11 | Pending |
-| DOCS-04 | Phase 11 | Pending |
-| DOCS-05 | Phase 11 | Pending |
+| DOCS-01 | Phase 11 | Complete |
+| DOCS-02 | Phase 11 | Complete |
+| DOCS-03 | Phase 11 | Complete |
+| DOCS-04 | Phase 11 | Complete |
+| DOCS-05 | Phase 11 | Complete |
 
 **Coverage:**
 - v1.2 requirements: 13 total
