@@ -90,7 +90,11 @@ Plans:
   4. Learner finds new doc and mission entries in `docs/00-indice.md` and README compose instructions.
   5. Real errors encountered during Compose integration are recorded in `NOTEBOOK.md`.
 
-**Plans**: 2 plans (TBD via `/gsd-plan-phase 11`)
+**Plans**: 2 plans
+
+Plans:
+- [ ] 11-01-PLAN.md — docs/14-docker-compose.md, doc 12 DOCS-03 alignment, index/README/api/README/glossary
+- [ ] 11-02-PLAN.md — Mission 11, Mission 09 note, NOTEBOOK, 11-UAT.md + VERIFICATION
 
 ## Progress
 
