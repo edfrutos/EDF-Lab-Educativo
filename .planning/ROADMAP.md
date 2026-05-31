@@ -51,7 +51,12 @@
   4. Learner can identify which Dockerfile builds each service and how nginx serves static dashboard files.
   5. Learner still finds `npm start` + `python3 -m http.server` documented as the primary development workflow.
 
-**Plans**: 3 plans (TBD via `/gsd-plan-phase 9`)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — dashboard/Dockerfile + dashboard/nginx.conf (nginx:alpine, port 5173)
+- [ ] 09-02-PLAN.md — docker-compose.yml at root, api/.dockerignore seed fix, README optional pointer
+- [ ] 09-03-PLAN.md — E2E UAT: CRUD, ephemeral restart, 09-UAT.md
 
 ### Phase 10: SQLite Volume & Scripts
 
@@ -95,7 +100,7 @@
 | 6. SQLite Persistence Layer | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 7. Migration & Test Confidence | v1.1 | 3/3 | Complete | 2026-05-30 |
 | 8. Database Learning Material | v1.1 | 2/2 | Complete | 2026-05-30 |
-| 9. Compose Stack Foundation | v1.2 | 0/3 | Not started | — |
+| 9. Compose Stack Foundation | v1.2 | 0/3 | Planned | — |
 | 10. SQLite Volume & Scripts | v1.2 | 0/2 | Not started | — |
 | 11. Compose Learning Material | v1.2 | 0/2 | Not started | — |
 
