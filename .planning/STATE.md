@@ -1,71 +1,46 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.2
-milestone_name: Docker Compose
-status: audited
-last_updated: "2026-05-31T15:00:00.000Z"
-last_activity: 2026-05-31 — Milestone v1.2 audit passed (13/13)
+milestone: none
+milestone_name: —
+status: ready
+last_updated: "2026-05-31T16:00:00.000Z"
+last_activity: 2026-05-31 — Milestone v1.2 archived and tagged
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 7
-  completed_plans: 7
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-30)
+See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Milestone v1.2 audited — ready for `/gsd-complete-milestone v1.2`
+**Current focus:** v1.2 shipped — ready for v1.3 planning
 
 ## Current Position
 
-Phase: 11 complete
+Phase: —
 Plan: —
-Status: Milestone v1.2 audit **passed** (13/13 requirements, runtime UAT pass)
-Last activity: 2026-05-31 — `/gsd-audit-milestone` complete
+Status: Milestone v1.2 **shipped** (tag v1.2)
+Last activity: 2026-05-31 — `/gsd-complete-milestone v1.2`
 
-## Performance Metrics
+## Shipped Milestones
 
-**Velocity:**
-
-- Phase 9: 3/3 plans (2026-05-31)
-- Phase 10: 2/2 plans (2026-05-31)
-- Phase 11: 2/2 plans (2026-05-31)
-- v1.2 milestone: 3/3 phases, audit passed
-
-## By Phase (v1.2)
-
-| Phase | Plans | Status |
-|-------|-------|--------|
-| 09 Compose Stack Foundation | 3/3 | Complete |
-| 10 SQLite Volume & Scripts | 2/2 | Complete |
-| 11 Compose Learning Material | 2/2 | Complete |
-
-## Accumulated Context
-
-### Decisions
-
-- Milestone v1.2 audit: passed; operator confirmed compose persistence (Test Compose).
-- Minor tech debt: PROJECT.md v1.1 snapshot, Nyquist VALIDATION.md absent for phases 9–11.
-
-### Pending Todos
-
-None.
-
-### Blockers/Concerns
-
-None active.
+| Milestone | Phases | Shipped | Tag |
+|-----------|--------|---------|-----|
+| v1.0 Educational Lab MVP | 1–5 | 2026-05-30 | v1.0 |
+| v1.1 SQLite Persistence | 6–8 | 2026-05-30 | v1.1 |
+| v1.2 Docker Compose | 9–11 | 2026-05-31 | v1.2 |
 
 ## Operator Next Steps
 
-- `/gsd-complete-milestone v1.2` — archive, tag, update PROJECT.md
-- `/gsd-new-milestone` — plan v1.3 when ready
+- `/gsd-new-milestone` — define v1.3 scope (frameworks, PostgreSQL, auth candidates)
 
 ## Session Continuity
 
-Resume file: `.planning/milestones/v1.2-MILESTONE-AUDIT.md`
+Resume file: `.planning/milestones/v1.2-ROADMAP.md`

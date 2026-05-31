@@ -4,53 +4,42 @@
 
 EDF Lab Educativo is a hands-on learning lab for understanding a modern web flow with a separate Express backend and a static frontend dashboard. It is for the project owner and beginner students who need to see, run, break, debug, and document the path from backend endpoints to JSON responses to rendered browser UI.
 
-The lab includes a working API with **SQLite persistence** (`users.db`), a dashboard that performs full CRUD with `fetch()`, **16 automated API tests**, a beginner glossary, guided missions (including SQLite inspection), OpenAPI contract documentation, and an optional Docker path — all organized as an educational progression.
+The lab includes a working API with **SQLite persistence** (`users.db`), a dashboard that performs full CRUD with `fetch()`, **16 automated API tests**, a beginner glossary, guided missions (including SQLite inspection and Docker Compose), OpenAPI contract documentation, single-container Docker (Mission 09), and an optional **Docker Compose** stack — all organized as an educational progression.
 
 ## Core Value
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
 <details>
-<summary>Previous milestone context (v1.1 planning — archived)</summary>
+<summary>Previous milestone context (v1.2 planning — archived)</summary>
 
-## Current Milestone: v1.1 SQLite Persistence
+## Milestone: v1.2 Docker Compose
 
-**Goal:** Teach the evolution from JSON file persistence to SQLite, keeping the backend → JSON → dashboard flow intact and observable.
-
-**Target features:**
-- SQLite persistence layer in the API using `node:sqlite` (Node 22 built-in, zero npm deps)
-- Explicit SQL schema and documented queries (CREATE TABLE, CRUD operations)
-- Didactic migration path from `users.json` to SQLite
-- Updated API test suite for the database layer
-- New doc and mission explaining JSON vs SQLite and comparing `node:sqlite` vs `better-sqlite3`
-- API contract unchanged — dashboard continues to work without modification
-
-</details>
-
-## Current Milestone: v1.2 Docker Compose
-
-**Goal:** Teach multi-container orchestration with Docker Compose, keeping the backend → JSON → dashboard flow intact while persisting SQLite data across container restarts.
+**Goal:** Teach multi-container orchestration with Docker Compose while persisting SQLite data across container restarts.
 
 **Target features:**
 - `docker-compose.yml` orchestrating API + dashboard with a single command
 - Dashboard served via nginx container on port 5173
-- SQLite volume mount so `users.db` survives container restarts
+- SQLite bind mount so `users.db` survives container restarts
 - Root-level compose scripts (`compose:up`, `compose:down`) alongside existing `npm start` path
 - Updated docs and a new mission explaining Compose vs single-container Docker
 
-## Current State (v1.1 shipped 2026-05-30)
+</details>
 
-**Stack:** Express + `node:sqlite` + static vanilla dashboard  
-**Persistence:** `api/data/users.db` (runtime), `api/data/users.json` (seed/migration only)  
+## Current State (v1.2 shipped 2026-05-31)
+
+**Stack:** Express + `node:sqlite` + static vanilla dashboard + optional Docker Compose (nginx + API)  
+**Persistence:** `api/data/users.db` (runtime), `api/data/users.json` (seed/migration only); bind mount in Compose  
 **Tests:** 16/16 API tests (`npm test` in `api/`)  
-**Docs:** 13 conceptual docs + Mission 10 (SQLite); see `docs/00-indice.md`
+**Docs:** 14 conceptual docs + Missions 10–11 (SQLite, Compose); see `docs/00-indice.md`  
+**Compose:** `npm run compose:up` from repo root; dashboard :5173, API :3100
 
 ## Next Milestone Goals (v1.3+ — not yet planned)
 
 Candidates deferred from earlier planning:
 
 - Frontend framework comparison (React/Vue) after vanilla flow is solid
-- PostgreSQL as next persistence step after SQLite concepts land
+- PostgreSQL as next persistence step after SQLite and Compose concepts land
 - Production authentication when a learning phase explicitly teaches auth
 
 ## Requirements
@@ -66,23 +55,20 @@ Candidates deferred from earlier planning:
 - ✓ Codebase map exists in `.planning/codebase/` for stack, architecture, structure, conventions, testing, integrations, and concerns — existing
 - ✓ Dashboard CRUD forms let beginners create, edit, and delete users from the browser with visible method/endpoint feedback — v1.0 Phase 01
 - ✓ Users persist across API restarts via `api/data/users.json`; memory vs persistence explained with missions — v1.0 Phase 02
-- ✓ `npm test` from `api/` runs 12 automated API checks; `parseUserId` rejects partial strings like `1abc` — v1.0 Phase 03
-- ✓ `api/package.json` metadata and scripts match the educational lab — v1.0 Phase 03
-- ✓ Validation commands documented in `api/README.md`; parseUserId fix in `NOTEBOOK.md` — v1.0 Phase 03
-- ✓ Beginner glossary (`docs/09-glosario.md`) with 24 executable entries across 4 thematic blocks — v1.0 Phase 04
-- ✓ Docs and missions synchronized with actual paths, ports, endpoints, and commands — v1.0 Phase 04
-- ✓ OpenAPI 3.0.3 spec documents all 9 API endpoints with literal error messages — v1.0 Phase 05
-- ✓ Optional Docker path (`docker:build`, `docker:start`) teaches containerized execution without replacing `npm start` — v1.0 Phase 05
+- ✓ `npm test` from `api/` runs automated API checks; `parseUserId` rejects partial strings like `1abc` — v1.0 Phase 03
+- ✓ OpenAPI 3.0.3 spec documents all 9 API endpoints — v1.0 Phase 05
+- ✓ Optional single-container Docker path (`docker:build`, `docker:start`) — v1.0 Phase 05
 - ✓ SQLite persistence via `node:sqlite` with explicit `schema.sql` and `api/db.js` — v1.1 Phase 06
 - ✓ JSON→SQLite auto-migration on cold start; `users.json` retained as seed only — v1.1 Phase 07
-- ✓ 16 API tests with `DB_FILE` isolation; duplicate email 409; OpenAPI updated — v1.1 Phase 07
-- ✓ `docs/13-sqlite.md`, Mission 10, NOTEBOOK SQLite errors, glosario v1.1 updates — v1.1 Phase 08
+- ✓ 16 API tests with `DB_FILE` isolation; duplicate email 409 — v1.1 Phase 07
+- ✓ `docs/13-sqlite.md`, Mission 10, NOTEBOOK SQLite errors — v1.1 Phase 08
+- ✓ Docker Compose orchestrates API + dashboard from repo root — v1.2 Phase 09
+- ✓ Dashboard nginx container on :5173; API on :3100; full CRUD against containerized API — v1.2 Phase 09
+- ✓ SQLite bind mount `./api/data` persists across compose restarts — v1.2 Phase 10
+- ✓ Root `compose:up/down/logs` scripts; doc 14 + Mission 11 — v1.2 Phase 11
 
 ### Active
 
-- [ ] Docker Compose orchestrates API + dashboard containers — v1.2
-- [ ] SQLite volume mount documented for Docker persistence — v1.2
-- [ ] Compose docs, mission, and NOTEBOOK entries — v1.2
 - [ ] Frontend framework comparison (React/Vue) — candidate v1.3+
 - [ ] Production authentication and deployment hardening — future advanced phase
 - [ ] PostgreSQL — after SQLite and Compose concepts land in practice
@@ -90,7 +76,8 @@ Candidates deferred from earlier planning:
 ### Out of Scope
 
 - Full production authentication — not needed for the current beginner-focused API/data-flow lab.
-- PostgreSQL in v1.1 — SQLite teaches relational persistence first; PostgreSQL deferred to later milestone.
+- Kubernetes / Swarm — Compose is the beginner orchestration step.
+- nginx reverse proxy `/api` in v1.2 — documented as advanced reto only.
 - Frontend frameworks in the near term — keep HTML, CSS, and JavaScript vanilla until a framework has clear teaching value.
 - Production deployment hardening — local learning remains the first target.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
@@ -99,24 +86,19 @@ Candidates deferred from earlier planning:
 
 The lab is organized around a learning route:
 
-- `docs/` explains the concepts in reading order (including glossary, tests, OpenAPI, Docker).
-- `missions/` provides executable practice (10 missions including SQLite and advanced optional topics).
-- `ROADMAP.md` lists the educational evolution; v1.0 and v1.1 milestones complete.
+- `docs/` explains the concepts in reading order (glossary, tests, OpenAPI, Docker, Compose).
+- `missions/` provides executable practice (11 missions including SQLite, Docker, Compose).
+- `ROADMAP.md` lists the educational evolution; v1.0, v1.1, and v1.2 milestones complete.
 - `NOTEBOOK.md` captures real decisions, errors, and lessons.
 - `api/` contains the Express backend with SQLite persistence, tests, OpenAPI spec, and Dockerfile.
-- `dashboard/` contains the static frontend with full CRUD.
+- `dashboard/` contains the static frontend with full CRUD; optional nginx container via Compose.
+- `docker-compose.yml` + root `package.json` scripts for optional multi-container path.
 
-**v1.1 milestone shipped 2026-05-30:** 3 phases, 8 plans, 16 API tests passing, UAT complete (Phase 7), milestone audit passed.
+**v1.2 milestone shipped 2026-05-31:** 3 phases, 7 plans, 13/13 requirements, runtime UAT pass (compose persistence).
 
-**v1.0 milestone shipped 2026-05-30:** 5 phases, 13 plans, 12 API tests passing, UAT verified for Phase 05, security STRIDE verified.
+**v1.1 milestone shipped 2026-05-30:** 3 phases, 8 plans, 16 API tests passing.
 
-Known resolved concerns (all fixed in v1.0):
-
-- ~~Stale `express-api-demo` path in dashboard help text~~ — Phase 01
-- ~~Generic `test-project` metadata in package.json~~ — Phase 03
-- ~~`npm test` intentionally fails~~ — 12/12 pass, Phase 03
-- ~~`parseUserId()` accepts `1abc` as `1`~~ — fixed with `Number()`, Phase 03
-- ~~Docker EACCES on `data/users.json`~~ — `chown` before `USER node`, Phase 05 UAT
+**v1.0 milestone shipped 2026-05-30:** 5 phases, 13 plans, dashboard CRUD + JSON persistence + tests + OpenAPI + Docker.
 
 ## Constraints
 
@@ -134,43 +116,17 @@ Known resolved concerns (all fixed in v1.0):
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
 | Keep the lab beginner-oriented | Stated audience is project owner and beginner students | ✓ Good — v1.0 |
-| Prioritize dashboard CRUD before persistence/tests/docs | Browser mutation makes API behavior visible first | ✓ Good — Phase 01 |
-| Keep vanilla frontend for now | HTML/CSS/JS makes data flow inspectable | ✓ Good — v1.0 |
-| Use `fs/promises` + zero new dependencies for persistence | Built-in Node.js; teaches concept without complexity | ✓ Good — Phase 02 |
-| Include `api/data/users.json` in git | Fresh clone works immediately; seed data is fictional | ✓ Good — Phase 02 |
-| `module.exports = app` before `startServer()` | Express pattern; prevents test-runner import issues | ✓ Good — Phase 02 |
-| Use `node:test` + `supertest` for API tests | Built-in runner + minimal HTTP assertions | ✓ Good — Phase 03 |
-| Single test file with AAA pattern | Easier for beginners than scattered spec files | ✓ Good — Phase 03 |
-| Fix `parseUserId` with `Number()` instead of `parseInt` | Rejects partial strings; documented in NOTEBOOK.md | ✓ Good — Phase 03 |
-| Glossary in 4 thematic blocks, 24 entries | Scannable reference with executable localhost examples | ✓ Good — Phase 04 |
-| OpenAPI manual YAML without npm dependencies | Contract visible as plain file; Swagger Editor for exploration | ✓ Good — Phase 05 |
-| Docker optional with node:22-alpine | Teaches containers without replacing simpler `npm start` path | ✓ Good — Phase 05 |
-| Advanced material marked `(avanzado, opcional)` in index | Core learning path stays unblocked | ✓ Good — Phase 05 |
-| Treat docs, missions, and roadmap as source-of-intent | User-identified direction for the project | ✓ Good — v1.0 |
 | Use `node:sqlite` over `better-sqlite3` for v1.1 | Zero deps; comparison documentary only | ✓ Good — v1.1 |
-| Raw SQL, no ORM | Transparent database layer for learners | ✓ Good — v1.1 |
-| `users.json` as seed/migration source only | Preserves Phase 2 learning path | ✓ Good — v1.1 |
+| Docker Compose over single-container only | Teaches orchestration after Dockerfile basics | ✓ Good — v1.2 |
+| nginx for dashboard container | Static files + simple config; no Node build step | ✓ Good — v1.2 |
+| Bind mount for SQLite in Compose | Same path as host dev; inspectable `users.db` | ✓ Good — v1.2 |
+| Direct published ports (no reverse proxy) | Beginner transparency; CORS already works | ✓ Good — v1.2 |
+| Host dev path remains primary | Compose is advanced optional | ✓ Good — v1.2 |
 | Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.3 |
-| Docker Compose over single-container only | Teaches orchestration after learners know Dockerfile basics | — Pending v1.2 |
-| nginx for dashboard container | Static files + simple config; no Node build step for dashboard | — Pending v1.2 |
-| Volume mount for SQLite in Compose | Connects container lesson to real persistence from v1.1 | — Pending v1.2 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
-**After each phase transition** (via `$gsd-transition`):
-1. Requirements invalidated? → Move to Out of Scope with reason
-2. Requirements validated? → Move to Validated with phase reference
-3. New requirements emerged? → Add to Active
-4. Decisions to log? → Add to Key Decisions
-5. "What This Is" still accurate? → Update if drifted
-
-**After each milestone** (via `$gsd-complete-milestone`):
-1. Full review of all sections
-2. Core Value check — still the right priority?
-3. Audit Out of Scope — reasons still valid?
-4. Update Context with current state
-
 ---
-*Last updated: 2026-05-30 after v1.2 milestone started*
+*Last updated: 2026-05-31 after v1.2 milestone shipped*
