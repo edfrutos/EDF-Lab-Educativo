@@ -7,8 +7,12 @@ services:
     build: ./api
     ports:
       - "3100:3100"
+    # Bind mount: la carpeta api/data del host se comparte con el contenedor.
+    # users.db escrito dentro del contenedor aparece en api/data/users.db del host.
+    volumes:
+      - ./api/data:/usr/src/app/data
 
-  # Dashboard estático servido por nginx
+  # Dashboard estático servido por nginx (sin volumen — solo ficheros estáticos)
   edf-lab-dashboard:
     build: ./dashboard
     ports:
