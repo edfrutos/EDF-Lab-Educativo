@@ -6,6 +6,75 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 ---
 
+## 2026-05-31 · Docker Compose v1.2 — errores de integración
+
+### Docker daemon no disponible
+
+**Síntoma:** Al ejecutar `npm run compose:up` o `docker compose up`:
+
+```txt
+Cannot connect to the Docker daemon. Is the docker daemon running?
+```
+
+**Causa:** Docker Desktop (o el daemon Docker) no está arrancado en tu Mac.
+
+**Solución:**
+
+```bash
+# Abre Docker Desktop y espera a que esté listo
+docker info
+# Debe mostrar información del servidor sin error
+npm run compose:up
+```
+
+**Aprendizaje:** Compose depende del mismo daemon que `docker run`. Sin daemon, ningún comando Docker funciona.
+
+---
+
+### EADDRINUSE en puerto 3100 (Docker + npm start)
+
+**Síntoma:** `Error: listen EADDRINUSE: address already in use :::3100` al hacer `npm start` en `api/`.
+
+**Causa:** Un contenedor Docker (`edf-lab-api`), el **stack Compose** (`edf-lab-api` vía `docker compose up`) u otra instancia de la API ya ocupa el puerto 3100 — habitual si probaste [`missions/09-arrancar-con-docker.md`](missions/09-arrancar-con-docker.md), [`missions/11-arrancar-con-compose.md`](missions/11-arrancar-con-compose.md) o Compose y no paraste los contenedores.
+
+**Solución:**
+
+```bash
+docker ps
+docker stop edf-lab-api
+npm run compose:down
+# o: docker compose down
+# o identifica el PID que usa 3100 y para ese proceso
+```
+
+**Aprendizaje:** Solo un proceso puede escuchar en un puerto. No mezcles Docker en 3100 y `npm start` local sin parar el primero.
+
+---
+
+### EADDRINUSE en puerto 5173 (host + Compose dashboard)
+
+**Síntoma:** El contenedor `edf-lab-dashboard` falla al arrancar; error de bind en puerto 5173.
+
+**Causa:** `python3 -m http.server 5173` u otro proceso ya usa el puerto del dashboard en el host.
+
+**Solución:** Para el servidor estático del host (`Ctrl+C`) o ejecuta `npm run compose:down` antes de volver a subir el stack.
+
+**Aprendizaje:** Compose publica `:5173` en el host igual que el servidor Python de desarrollo — no pueden convivir sin cambiar puertos.
+
+---
+
+### Confusión: Misión 09 pierde datos pero Compose no
+
+**Síntoma:** Tras Misión 09 el usuario creado desaparece; tras Misión 11 sobrevive. ¿Es un bug?
+
+**Causa:** Misión 09 usa `docker run` **sin volumen** — SQLite efímero dentro del contenedor. Misión 11 usa Compose con **bind mount** `./api/data` — el mismo mecanismo que `npm start` en el host.
+
+**Solución:** No es inconsistencia; son dos lecciones distintas. Consulta la tabla de tres modos en [`docs/12-docker.md`](docs/12-docker.md).
+
+**Aprendizaje:** Los volúmenes (o su ausencia) definen si los datos sobreviven al ciclo de vida del contenedor.
+
+---
+
 ## 2026-05-30 · SQLite v1.1 — avisos y errores de integración
 
 ### ExperimentalWarning al arrancar con node:sqlite
@@ -28,15 +97,9 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 **Síntoma:** `Error: listen EADDRINUSE: address already in use :::3100` al hacer `npm start` en `api/`.
 
-**Causa:** Un contenedor Docker (`edf-lab-api`) u otra instancia de la API ya ocupa el puerto 3100 — habitual si probaste [`missions/09-arrancar-con-docker.md`](missions/09-arrancar-con-docker.md) y no paraste el contenedor.
+**Causa:** Un contenedor Docker (`edf-lab-api`), el stack Compose u otra instancia de la API ya ocupa el puerto 3100.
 
-**Solución:**
-
-```bash
-docker ps
-docker stop edf-lab-api
-# o identifica el PID que usa 3100 y para ese proceso
-```
+**Solución:** Ver la sección ampliada en [Docker Compose v1.2](#2026-05-31--docker-compose-v12--errores-de-integración) (incluye `npm run compose:down`).
 
 **Aprendizaje:** Solo un proceso puede escuchar en un puerto. No mezcles Docker en 3100 y `npm start` local sin parar el primero.
 

@@ -1,5 +1,7 @@
 # Misión 09: arrancar la API con Docker
 
+> **Nota v1.2:** Esta misión usa un contenedor **efímero** (datos no persisten). Para el stack Compose con SQLite persistente, sigue **[Misión 11: arrancar con Compose](./11-arrancar-con-compose.md)**.
+
 ## Objetivo
 
 Construir la imagen Docker de la API y arrancarla en un contenedor, verificando que responde igual que con `npm start` y observando que los datos son efímeros.
