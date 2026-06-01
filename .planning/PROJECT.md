@@ -19,12 +19,25 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Docs:** Through `docs/16-frameworks.md` + Missions 10–13; see `docs/00-indice.md`  
 **Compose:** `npm run compose:up` — dashboard :5173, API :3100, Postgres :5432
 
-**Active milestone:** None — run `/gsd-new-milestone` for v1.5.
+**Active milestone:** v1.5 Production Auth & Deployment (planning)
 
-## Next Milestone Goals (v1.5+ — deferred)
+## Current Milestone: v1.5 Production Auth & Deployment
 
-- Production authentication when a learning phase explicitly teaches auth (PROD-01, PROD-02)
-- Production deployment hardening (TLS, secrets) — PROD-02
+**Goal:** Teach authentication and production-minded deployment as explicit advanced phases — without breaking the beginner vanilla path or the existing API/dashboard contract for unauthenticated local dev.
+
+**Target features:**
+
+- Didactic API authentication (sessions or JWT — chosen after research) with protected user routes
+- Login/logout flow in the primary vanilla dashboard; document implications for React/Vue optional apps
+- Environment variables and secrets discipline (`api/.env.example`, no secrets in repo)
+- Deployment hardening guide: TLS concepts, reverse proxy or platform deploy path suitable for learners
+- New doc + mission + NOTEBOOK entries; API tests for auth success/failure paths
+- Preserve SQLite/Postgres dual persistence and Compose stack; auth layers on top
+
+## Next Milestone Goals (v1.6+ — deferred)
+
+- OAuth / social login — only if a future phase has clear teaching value
+- Kubernetes — out of scope for this lab's progression
 
 ## Requirements
 
@@ -60,15 +73,16 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 
 ### Active
 
-- [ ] Production authentication and deployment hardening — v1.5+ (PROD-01, PROD-02)
+- [ ] Production authentication (PROD-01 → v1.5 AUTH-*)
+- [ ] Production deployment hardening (PROD-02 → v1.5 DEPLOY-*)
 
 ### Out of Scope
 
-- Full production authentication — not needed for the current beginner-focused API/data-flow lab.
+- OAuth / social providers in v1.5 — email/password or session/JWT lab path first.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
 - nginx reverse proxy `/api` in Compose — documented as advanced reto only.
 - Additional frameworks beyond React/Vue (Svelte, Angular, etc.) — v1.4 delivered the comparison milestone.
-- Production deployment hardening — local learning remains the first target.
+- Managed cloud PaaS-specific lock-in — document patterns, keep lab runnable locally.
 - ORM / managed cloud Postgres — raw SQL + local Compose keep the layer transparent.
 - Removing SQLite entirely — host dev stays low-friction; Postgres is additive.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
@@ -151,4 +165,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-01 — v1.4 milestone shipped*
+*Last updated: 2026-06-01 — v1.5 milestone started*

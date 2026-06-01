@@ -1,3 +1,18 @@
+---
+gsd_state_version: 1.0
+milestone: v1.5
+milestone_name: Production Auth & Deployment
+status: planning
+last_updated: "2026-06-01T17:32:00.762Z"
+last_activity: 2026-06-01
+progress:
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
+---
+
 # Project State
 
 ## Project Reference
@@ -10,12 +25,10 @@ See: `.planning/PROJECT.md` (updated 2026-06-01)
 
 ## Current Position
 
-Phase: 17 of 17 (Framework Learning Material) — **milestone v1.4 complete**
-Plan: All v1.4 plans complete (8/8)
-Status: Milestone shipped
-Last activity: 2026-06-01 — v1.4 milestone archived and tagged
-
-Progress: [██████████] 100% (v1.4) | [██████████] 100% (all milestones through v1.4)
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-01 — Milestone v1.5 started
 
 ## Milestone Status
 
