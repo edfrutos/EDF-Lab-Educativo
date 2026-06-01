@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
-status: planning
-last_updated: "2026-06-01T11:44:56.991Z"
-last_activity: 2026-06-01
+status: Defining requirements
+last_updated: "2026-06-01T12:24:46.880Z"
+last_activity: 2026-06-01 — Milestone v1.4 started
 progress:
   total_phases: 3
   completed_phases: 0
@@ -61,4 +61,4 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ## Session Continuity
 
-Resume file: `.planning/PROJECT.md`
+Resume file: .planning/phases/15-react-dashboard-parity/15-CONTEXT.md
