@@ -115,7 +115,17 @@
   4. Learner finds new doc and mission in `docs/00-indice.md` and README Postgres instructions.
   5. Real errors during Postgres integration are recorded in `NOTEBOOK.md`.
 
-**Plans**: 2 plans (TBD via `/gsd-plan-phase 14`)
+**Plans**: 2 plans in 2 waves
+
+**Wave 1**
+- [ ] 14-01: `docs/15-postgresql.md` + update doc 14/13 + glossary (PGDOCS-01, PGDOCS-03)
+
+**Wave 2** *(depends on 14-01)*
+- [ ] 14-02: Mission 12, index, README, NOTEBOOK (PGDOCS-02, PGDOCS-04, PGDOCS-05)
+
+**Cross-cutting constraints:**
+- Documentation only — no API/dashboard code changes
+- Mission 11 remains SQLite bind-mount path; Mission 12 is Postgres path
 
 ## Progress
 
@@ -134,7 +144,7 @@
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete    | 2026-05-31 |
 | 13. Migration & Test Confidence | v1.3 | 3/3 | Complete | 2026-06-01 |
-| 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
+| 14. PostgreSQL Learning Material | v1.3 | 0/2 | Planned | — |
 
 **Execution order:** Phases execute in numeric order: 12 → 13 → 14
 

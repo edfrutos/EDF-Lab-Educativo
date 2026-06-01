@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-31)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Phase 14 — PostgreSQL learning material
+**Current focus:** Phase 14 planned — ready to execute (closes v1.3)
 
 ## Current Position
 
-Phase: 13 complete — Phase 14 next
-Plan: —
-Status: Ready for `/gsd-discuss-phase 14` or `/gsd-plan-phase 14`
-Last activity: 2026-06-01 — Phase 13 executed and verified
+Phase: 14 planned (2 plans, 2 waves)
+Plan: 14-01 next
+Status: Ready for `/gsd-execute-phase 14`
+Last activity: 2026-06-01 — Phase 14 plan created
 
 ## Shipped Milestones
 
@@ -43,7 +43,7 @@ Last activity: 2026-06-01 — Phase 13 executed and verified
 |-------|-------|--------|
 | 12 PostgreSQL Persistence Layer | 3/3 | Complete (2026-05-31) |
 | 13 Migration & Test Confidence | 3/3 | Complete (2026-06-01) |
-| 14 PostgreSQL Learning Material | 0/2 | Not started |
+| 14 PostgreSQL Learning Material | 0/2 | Planned |
 
 ## Accumulated Context
 
@@ -56,7 +56,7 @@ Last activity: 2026-06-01 — Phase 13 executed and verified
 
 ### Operator Next Steps
 
-- `/gsd-discuss-phase 14` — doc 15, Mission 12, index/README
+- `/gsd-execute-phase 14` — doc 15, Mission 12, index/README, NOTEBOOK
 
 ## Session Continuity
 
