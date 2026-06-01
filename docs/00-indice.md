@@ -19,7 +19,8 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 11. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API.
 12. [`11-openapi.md`](./11-openapi.md) para entender el contrato formal de la API. *(avanzado, opcional)*
 13. [`12-docker.md`](./12-docker.md) para arrancar la API en un contenedor Docker. *(avanzado, opcional)*
-14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard con Compose. *(avanzado, opcional)*
+14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard + Postgres con Compose. *(avanzado, opcional)*
+15. [`15-postgresql.md`](./15-postgresql.md) para PostgreSQL: conexión, esquema, `psql` y tests. *(avanzado, opcional)*
 
 ## Documentos
 
@@ -65,6 +66,9 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 14. [`14-docker-compose.md`](./14-docker-compose.md) *(avanzado, opcional)*  
     Explica servicios, redes y volúmenes del stack Compose de este lab con ejemplos ejecutables.
 
+15. [`15-postgresql.md`](./15-postgresql.md) *(avanzado, opcional)*  
+    Explica `DATABASE_URL`, esquema Postgres, inspección con `psql`, volumen `postgres_data` y tests contra `edf_lab_test`.
+
 ## Misiones prácticas
 
 - [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md) — Inspecciona `users.db`, observa la migración desde JSON y verifica persistencia tras reinicio.
@@ -73,4 +77,5 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 
 - [`missions/08-explorar-openapi.md`](../missions/08-explorar-openapi.md) — Explora la spec OpenAPI en VS Code y Swagger Editor online. *(avanzado, opcional)*
 - [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md) — Construye la imagen Docker y arranca la API en un contenedor. *(avanzado, opcional)*
-- [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y persistencia SQLite. *(avanzado, opcional)*
+- [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y el bind mount `./api/data`. *(avanzado, opcional)*
+- [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md) — Stack Compose con Postgres: CRUD, `psql` y persistencia en `postgres_data`. *(avanzado, opcional)*

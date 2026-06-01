@@ -31,11 +31,11 @@ Requirements for the PostgreSQL Persistence milestone. Each maps to roadmap phas
 
 ### Learning Documentation
 
-- [ ] **PGDOCS-01**: New doc explains PostgreSQL concepts (connection string, schema, queries) with executable examples for this lab.
-- [ ] **PGDOCS-02**: New mission guides learners through Compose + Postgres, CRUD, restart, and persistence verification.
-- [ ] **PGDOCS-03**: `docs/13-sqlite.md` updated with SQLite → PostgreSQL evolution pointer.
-- [ ] **PGDOCS-04**: `docs/00-indice.md`, `README.md`, and `api/README.md` updated with Postgres path and commands.
-- [ ] **PGDOCS-05**: Relevant real errors during PostgreSQL integration recorded in `NOTEBOOK.md`.
+- [x] **PGDOCS-01**: New doc explains PostgreSQL concepts (connection string, schema, queries) with executable examples for this lab.
+- [x] **PGDOCS-02**: New mission guides learners through Compose + Postgres, CRUD, restart, and persistence verification.
+- [x] **PGDOCS-03**: `docs/13-sqlite.md` updated with SQLite → PostgreSQL evolution pointer.
+- [x] **PGDOCS-04**: `docs/00-indice.md`, `README.md`, and `api/README.md` updated with Postgres path and commands.
+- [x] **PGDOCS-05**: Relevant real errors during PostgreSQL integration recorded in `NOTEBOOK.md`.
 
 ## v1.4 Requirements
 
@@ -83,11 +83,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PGTEST-01 | Phase 13 | Complete |
 | PGTEST-02 | Phase 13 | Complete |
 | PGTEST-03 | Phase 13 | Complete |
-| PGDOCS-01 | Phase 14 | Pending |
-| PGDOCS-02 | Phase 14 | Pending |
-| PGDOCS-03 | Phase 14 | Pending |
-| PGDOCS-04 | Phase 14 | Pending |
-| PGDOCS-05 | Phase 14 | Pending |
+| PGDOCS-01 | Phase 14 | Complete |
+| PGDOCS-02 | Phase 14 | Complete |
+| PGDOCS-03 | Phase 14 | Complete |
+| PGDOCS-04 | Phase 14 | Complete |
+| PGDOCS-05 | Phase 14 | Complete |
 
 **Coverage:**
 - v1.3 requirements: 18 total

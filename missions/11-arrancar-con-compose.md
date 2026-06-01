@@ -2,7 +2,9 @@
 
 ## Objetivo
 
-Arrancar el stack Compose (API + dashboard), verificar CRUD end-to-end, reiniciar el stack y confirmar que SQLite persiste en el host gracias al bind mount `./api/data`.
+Arrancar el stack Compose (API + dashboard), verificar CRUD end-to-end, reiniciar el stack y confirmar persistencia tras el reinicio.
+
+> **v1.3:** El stack Compose incluye **PostgreSQL** como almacén runtime de la API. Esta misión sigue enseñando el flujo Compose y el bind mount `./api/data`. Para persistencia en Postgres y verificación con **`psql`**, usa [Misión 12](12-postgres-compose-crud.md).
 
 ## Pasos
 

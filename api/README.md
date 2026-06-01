@@ -326,7 +326,9 @@ Requisitos para la suite completa: Postgres en `localhost:5432` y base de test c
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` si no existe |
 
-Más contexto SQLite vs PostgreSQL: [`docs/13-sqlite.md`](../docs/13-sqlite.md) (sección «Hacia PostgreSQL»).
+Más contexto SQLite vs PostgreSQL: [`docs/13-sqlite.md`](../docs/13-sqlite.md) (sección «Hacia PostgreSQL») y guía dedicada [`docs/15-postgresql.md`](../docs/15-postgresql.md).
+
+**Compose** define `DATABASE_URL` en el contenedor API → Postgres. **Host** sin esa variable → SQLite (`users.db`).
 
 Resultado esperado: todos los tests en verde. El proceso termina solo (sin Ctrl+C).
 

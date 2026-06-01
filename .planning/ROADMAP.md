@@ -44,7 +44,7 @@
 
 - [x] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service (completed 2026-05-31)
 - [x] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note (completed 2026-06-01)
-- [ ] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
+- [x] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
 
 ## Phase Details
 
@@ -118,10 +118,10 @@
 **Plans**: 2 plans in 2 waves
 
 **Wave 1**
-- [ ] 14-01: `docs/15-postgresql.md` + update doc 14/13 + glossary (PGDOCS-01, PGDOCS-03)
+- [x] 14-01: `docs/15-postgresql.md` + update doc 14/13 + glossary (PGDOCS-01, PGDOCS-03)
 
 **Wave 2** *(depends on 14-01)*
-- [ ] 14-02: Mission 12, index, README, NOTEBOOK (PGDOCS-02, PGDOCS-04, PGDOCS-05)
+- [x] 14-02: Mission 12, index, README, NOTEBOOK (PGDOCS-02, PGDOCS-04, PGDOCS-05)
 
 **Cross-cutting constraints:**
 - Documentation only — no API/dashboard code changes

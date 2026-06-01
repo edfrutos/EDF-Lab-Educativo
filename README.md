@@ -79,9 +79,13 @@ Para parar el stack:
 npm run compose:down
 ```
 
-Dashboard: http://localhost:5173 — API: http://localhost:3100
+Dashboard: http://localhost:5173 — API: http://localhost:3100 — PostgreSQL: `localhost:5432`
 
-SQLite persiste en `api/data/users.db` gracias al bind mount de Compose — ver [`docs/12-docker.md`](./docs/12-docker.md) y la guía completa [`docs/14-docker-compose.md`](./docs/14-docker-compose.md). Misión práctica: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md).
+En **v1.3**, `npm run compose:up` levanta **tres servicios** (Postgres + API + dashboard). La API usa **PostgreSQL** vía `DATABASE_URL`; los datos persisten en el volumen Docker `postgres_data`. En el host, `cd api && npm start` **sin** `DATABASE_URL` sigue usando SQLite en `api/data/users.db`.
+
+Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-postgresql.md`](./docs/15-postgresql.md). Misiones: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md), [`missions/12-postgres-compose-crud.md`](./missions/12-postgres-compose-crud.md).
+
+Tests con Postgres: `npm run test:db:prepare` (desde la raíz) y luego `cd api && npm test` (32 tests si Postgres está en marcha).
 
 El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`.
 

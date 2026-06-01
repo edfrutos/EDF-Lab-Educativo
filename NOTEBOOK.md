@@ -6,6 +6,82 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 ---
 
+## 2026-06-01 · PostgreSQL v1.3 — errores de integración
+
+### Connection refused al conectar a Postgres
+
+**Síntoma:** La API o `psql` fallan con `ECONNREFUSED` en `localhost:5432`, o los tests PG no arrancan.
+
+**Causa:** El servicio `edf-lab-postgres` no está en marcha (Compose parado o solo levantaste la API).
+
+**Solución:**
+
+```bash
+# Desde la raíz del repo
+docker compose up -d edf-lab-postgres
+docker compose ps   # debe mostrar healthy en postgres
+psql postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab -c "SELECT 1;"
+```
+
+**Aprendizaje:** Postgres es un proceso aparte de Node. La API con `DATABASE_URL` depende de que ese servicio exista y pase el healthcheck antes de `edf-lab-api`.
+
+---
+
+### Tests de Postgres fallan (base inexistente)
+
+**Síntoma:** `npm run test:pg` o `npm test` fallan con error de base de datos `edf_lab_test` no encontrada.
+
+**Causa:** No se ejecutó el script de preparación o Postgres no está escuchando.
+
+**Solución:**
+
+```bash
+docker compose up -d edf-lab-postgres
+npm run test:db:prepare
+cd api && npm run test:pg
+```
+
+**Aprendizaje:** Los tests PG usan una BD **aislada** (`edf_lab_test`), distinta de `edf_lab` de desarrollo. Crearla es un paso explícito del lab.
+
+---
+
+### `DATABASE_URL` en el shell rompe tests SQLite
+
+**Síntoma:** `npm run test:sqlite` intenta usar Postgres o falla de forma inesperada tras exportar `DATABASE_URL` en la terminal.
+
+**Causa:** `process.env.DATABASE_URL` heredado del shell; la suite SQLite borra la variable en `index.test.js`, pero conviene no contaminar el entorno.
+
+**Solución:**
+
+```bash
+unset DATABASE_URL
+cd api && npm run test:sqlite
+```
+
+O abre una terminal nueva sin exportar la variable.
+
+**Aprendizaje:** El router `api/db.js` lee el entorno al cargar el módulo. Separar terminales para “modo Postgres” y “modo SQLite” reduce confusiones didácticas.
+
+---
+
+### Puerto 5432 ya ocupado (Homebrew vs Compose)
+
+**Síntoma:** `docker compose up` falla al publicar `5432:5432` o `psql` conecta a una instancia distinta a la del lab.
+
+**Causa:** Otro Postgres en el Mac (p. ej. `brew services start postgresql@16`) usa el mismo puerto.
+
+**Solución:**
+
+```bash
+brew services list
+# Detén el servicio local o cambia el mapeo de puertos en docker-compose.yml (solo experimentación)
+docker compose up -d edf-lab-postgres
+```
+
+**Aprendizaje:** Un puerto solo puede escuchar un proceso. En el lab, Compose publica **5432** para que `psql` desde el host coincida con la documentación.
+
+---
+
 ## 2026-05-31 · Docker Compose v1.2 — errores de integración
 
 ### Docker daemon no disponible
