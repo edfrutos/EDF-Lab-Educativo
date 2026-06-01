@@ -88,7 +88,19 @@
   4. Duplicate email returns 409 against Postgres (same as SQLite).
   5. Test run does not contaminate production/dev Postgres data (isolated test DB).
 
-**Plans**: 3 plans (TBD via `/gsd-plan-phase 13`)
+**Plans**: 3 plans in 2 waves
+
+**Wave 1** *(no dependencies)*
+- [ ] 13-01: Shared `seed.js` + Postgres populateIfEmpty with setval (PGMIG-01)
+
+**Wave 2** *(depends on 13-01; 13-03 after 13-02)*
+- [ ] 13-02: `edf_lab_test`, `index.pg.test.js`, dual `npm test` (PGTEST-01–03)
+- [ ] 13-03: «Hacia PostgreSQL» in `docs/13-sqlite.md` (PGMIG-02)
+
+**Cross-cutting constraints:**
+- Tests never touch Compose `edf_lab` database — only `edf_lab_test`
+- `index.test.js` unchanged behavior for SQLite (PGTEST dual run adds Postgres file)
+- No `docs/00-indice.md` or Mission 12 in Phase 13
 
 ### Phase 14: PostgreSQL Learning Material
 
@@ -121,7 +133,7 @@
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete    | 2026-05-31 |
-| 13. Migration & Test Confidence | v1.3 | 0/3 | Not started | — |
+| 13. Migration & Test Confidence | v1.3 | 0/3 | Planned | — |
 | 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
 
 **Execution order:** Phases execute in numeric order: 12 → 13 → 14
