@@ -24,9 +24,9 @@ Requirements for **Production Auth & Deployment**. Phases start at **18**.
 
 ### Authentication (Dashboard)
 
-- [ ] **AUTH-10**: Vanilla dashboard has login form and logout control; stores session via httpOnly cookie (`credentials: 'include'`).
-- [ ] **AUTH-11**: Dashboard handles 401 by showing Spanish guidance and prompting login (consistent with existing error UX).
-- [ ] **AUTH-12**: README or auth doc notes React/Vue optional apps need the same `credentials: 'include'` pattern.
+- [x] **AUTH-10**: Vanilla dashboard has login form and logout control; stores session via httpOnly cookie (`credentials: 'include'`).
+- [x] **AUTH-11**: Dashboard handles 401 by showing Spanish guidance and prompting login (consistent with existing error UX).
+- [x] **AUTH-12**: README or auth doc notes React/Vue optional apps need the same `credentials: 'include'` pattern.
 
 ### Deployment & Secrets
 
@@ -73,9 +73,9 @@ Requirements for **Production Auth & Deployment**. Phases start at **18**.
 | AUTH-07 | Phase 18 | Complete |
 | AUTH-08 | Phase 18 | Complete |
 | AUTH-09 | Phase 18 | Complete |
-| AUTH-10 | Phase 19 | Pending |
-| AUTH-11 | Phase 19 | Pending |
-| AUTH-12 | Phase 19 | Pending |
+| AUTH-10 | Phase 19 | Complete |
+| AUTH-11 | Phase 19 | Complete |
+| AUTH-12 | Phase 19 | Complete |
 | DEPLOY-01 | Phase 20 | Pending |
 | DEPLOY-02 | Phase 20 | Pending |
 | DEPLOY-03 | Phase 20 | Pending |

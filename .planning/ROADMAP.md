@@ -50,7 +50,12 @@
 3. Network tab shows `Cookie` on API requests after login.
 4. README/auth doc mentions React/Vue `credentials` requirement.
 
-**Plans:** TBD (via `/gsd-plan-phase 19`)
+**Plans:** 2/2 plans complete
+
+| Wave | Plan | Focus |
+|------|------|-------|
+| 1 | 19-01 | Login gate, fetchJson credentials, bootstrap, 401/403 UX |
+| 2 | 19-02 | api/README Clientes frontend (AUTH-12) |
 
 ---
 
@@ -134,7 +139,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 18. Auth API & Protected Routes | v1.5 | 3/3 | Complete | 2026-06-01 |
-| 19. Vanilla Dashboard Login | v1.5 | 0/? | Not started | — |
+| 19. Vanilla Dashboard Login | v1.5 | 2/2 | Complete    | 2026-06-01 |
 | 20. Secrets & Deploy Hardening | v1.5 | 0/? | Not started | — |
 | 21. Auth & Deploy Learning Material | v1.5 | 0/? | Not started | — |
 
