@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
 status: executing
-last_updated: "2026-06-01T16:00:00.000Z"
-last_activity: 2026-06-01 — Phase 16 complete (Vue dashboard)
+last_updated: "2026-06-01T17:00:00.000Z"
+last_activity: 2026-06-01 — Phase 17 context gathered
 progress:
   total_phases: 3
   completed_phases: 2
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-discuss-phase 17` or `/gsd-plan-phase 17`
+**Current focus:** `/gsd-plan-phase 17`
 
 ## Current Position
 
-Phase: 16 complete
+Phase: 17 context gathered
 Plan: —
-Status: Ready for Phase 17 (Framework Learning Material)
-Last activity: 2026-06-01 — Phase 16 executed (dashboard-vue)
+Status: Ready for Phase 17 planning
+Last activity: 2026-06-01 — Phase 17 discuss complete (defaults)
 
 ## Shipped Milestones
 
@@ -57,9 +57,9 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ### Operator Next Steps
 
-- `/gsd-discuss-phase 17` — material didáctico comparativo
-- Manual: checklist `.planning/phases/16-vue-dashboard-parity/16-UAT.md` en navegador
+- `/gsd-plan-phase 17` — planes para doc 16, misión 13, NOTEBOOK, UAT unificado
+- Revisar opcional: `.planning/phases/17-framework-learning-material/17-CONTEXT.md`
 
 ## Session Continuity
 
-Resume file: Phase 17 planning (not started)
+Resume file: `.planning/phases/17-framework-learning-material/17-CONTEXT.md`
