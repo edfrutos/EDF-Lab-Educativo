@@ -26,9 +26,9 @@ See: `.planning/PROJECT.md` (updated 2026-06-01)
 ## Current Position
 
 Phase: 18 — Auth API & Protected Routes
-Plan: 1/3 complete (18-01 done)
-Status: In progress — Wave 1 complete
-Last activity: 2026-06-01 — Plan 18-01 executed (accounts + seed + deps)
+Plan: 2/3 complete (18-01, 18-02 done)
+Status: In progress — Wave 2 complete
+Last activity: 2026-06-01 — Plan 18-02 executed (auth.js + protected /users)
 
 ## Milestone Status
 
@@ -79,7 +79,7 @@ Decisions logged in PROJECT.md Key Decisions table.
 Last session: 2026-06-01T18:26:48.466Z
 Stopped at: Phase 18 context gathered
 Resume file: .planning/phases/18-auth-api-protected-routes/18-CONTEXT.md
-Next suggested command: `/gsd-execute-phase 18 --wave 2`
+Next suggested command: `/gsd-execute-phase 18 --wave 3`
 
 ## Deferred Items
 
