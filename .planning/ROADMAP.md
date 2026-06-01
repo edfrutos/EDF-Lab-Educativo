@@ -70,7 +70,14 @@
   3. Learner reads which port and env var configure the API URL.
   4. Vanilla dashboard on `:5173` still works with updated CORS if needed.
 
-**Plans:** ~2–3 plans (scaffold, CRUD parity, CORS/docs snippet)
+**Plans:** 3 plans in 2 waves
+
+**Wave 1**
+- [ ] 15-01: Vite + React + Tailwind scaffold, `api.js`, initial load (FRWK-01, FRWK-02 partial, FRWK-08 partial)
+
+**Wave 2** *(depends on 15-01; 15-03 after 15-02)*
+- [ ] 15-02: Components + full CRUD + 409 dual feedback (FRWK-02, FRWK-03, FRWK-06)
+- [ ] 15-03: UAT, CORS verify, README pointers (FRWK-07, FRWK-08)
 
 ### Phase 16: Vue Dashboard Parity
 
@@ -121,7 +128,7 @@
 | 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete | 2026-05-31 |
 | 13. Migration & Test Confidence | v1.3 | 3/3 | Complete | 2026-06-01 |
 | 14. PostgreSQL Learning Material | v1.3 | 2/2 | Complete | 2026-06-01 |
-| 15. React Dashboard Parity | v1.4 | 0/? | Not started | — |
+| 15. React Dashboard Parity | v1.4 | 0/3 | Planned | — |
 | 16. Vue Dashboard Parity | v1.4 | 0/? | Not started | — |
 | 17. Framework Learning Material | v1.4 | 0/? | Not started | — |
 
