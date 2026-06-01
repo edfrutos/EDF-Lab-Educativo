@@ -6,6 +6,7 @@ El proyecto está compuesto por:
 
 - `api/`: API REST con Node.js, Express, Lodash y CORS.
 - `dashboard/`: frontend estático en HTML, CSS y JavaScript vanilla que consume la API con `fetch()`.
+- `dashboard-react/` *(opcional, v1.4)*: misma API con Vite + React + Tailwind en el puerto **5174**.
 
 ---
 
@@ -37,7 +38,8 @@ EDF-Lab-Educativo/
 ├── docs/
 ├── missions/
 ├── api/
-└── dashboard/
+├── dashboard/
+└── dashboard-react/   # opcional (v1.4)
 ```
 
 ---
@@ -88,6 +90,18 @@ Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-po
 Tests con Postgres: `npm run test:db:prepare` (desde la raíz) y luego `cd api && npm test` (32 tests si Postgres está en marcha).
 
 El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`.
+
+### Opcional (avanzado): dashboard React
+
+Misma API, stack React para comparar estado y componentes con vanilla:
+
+```bash
+cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-react
+npm install
+npm run dev
+```
+
+Abre **http://localhost:5174**. Detalle: [`dashboard-react/README.md`](./dashboard-react/README.md).
 
 ---
 

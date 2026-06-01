@@ -9,9 +9,9 @@ Requirements for the Frontend Framework Comparison milestone. Phases start at **
 
 ### React Dashboard
 
-- [ ] **FRWK-01**: `dashboard-react/` exists with Vite + React; learner runs dev server on a documented port (e.g. 5174).
-- [ ] **FRWK-02**: React app loads `/health`, `/`, and `/users` on startup (equivalent to vanilla `loadDashboardData`).
-- [ ] **FRWK-03**: React app supports create, edit, delete users with the same HTTP methods and JSON bodies as vanilla.
+- [x] **FRWK-01**: `dashboard-react/` exists with Vite + React; learner runs dev server on a documented port (e.g. 5174).
+- [x] **FRWK-02**: React app loads `/health`, `/`, and `/users` on startup (equivalent to vanilla `loadDashboardData`).
+- [x] **FRWK-03**: React app supports create, edit, delete users with the same HTTP methods and JSON bodies as vanilla.
 
 ### Vue Dashboard
 
@@ -20,9 +20,9 @@ Requirements for the Frontend Framework Comparison milestone. Phases start at **
 
 ### API Contract & Integration
 
-- [ ] **FRWK-06**: No breaking changes to existing API JSON shapes or status codes for CRUD.
-- [ ] **FRWK-07**: CORS allows framework dev origins; vanilla `:5173` still works.
-- [ ] **FRWK-08**: `API_BASE_URL` (or `VITE_*` equivalent) is configurable and documented; default points to `http://localhost:3100`.
+- [x] **FRWK-06**: No breaking changes to existing API JSON shapes or status codes for CRUD.
+- [x] **FRWK-07**: CORS allows framework dev origins; vanilla `:5173` still works.
+- [x] **FRWK-08**: `API_BASE_URL` (or `VITE_*` equivalent) is configurable and documented; default points to `http://localhost:3100`.
 
 ### Comparison & Learning
 
@@ -59,12 +59,12 @@ Deferred to future release.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FRWK-01 | Phase 15 | Pending |
-| FRWK-02 | Phase 15 | Pending |
-| FRWK-03 | Phase 15 | Pending |
-| FRWK-06 | Phase 15 | Pending |
-| FRWK-07 | Phase 15 | Pending |
-| FRWK-08 | Phase 15 | Pending |
+| FRWK-01 | Phase 15 | Complete |
+| FRWK-02 | Phase 15 | Complete |
+| FRWK-03 | Phase 15 | Complete |
+| FRWK-06 | Phase 15 | Complete |
+| FRWK-07 | Phase 15 | Complete |
+| FRWK-08 | Phase 15 | Complete |
 | FRWK-04 | Phase 16 | Pending |
 | FRWK-05 | Phase 16 | Pending |
 | FRWK-09 | Phase 17 | Pending |

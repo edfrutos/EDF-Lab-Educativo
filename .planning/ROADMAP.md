@@ -52,7 +52,7 @@
 
 **Milestone Goal:** Learners compare vanilla `fetch()` + DOM with React and Vue implementations of the same API contract.
 
-- [ ] **Phase 15: React Dashboard Parity** — Vite + React app with full CRUD and CORS/ports (FRWK-01–03, 06–08)
+- [x] **Phase 15: React Dashboard Parity** — Vite + React app with full CRUD and CORS/ports (FRWK-01–03, 06–08)
 - [ ] **Phase 16: Vue Dashboard Parity** — Vite + Vue 3 app with same parity (FRWK-04–05)
 - [ ] **Phase 17: Framework Learning Material** — Comparison doc, mission, index/README, NOTEBOOK, UAT checklist (FRWK-09–13)
 
@@ -73,11 +73,11 @@
 **Plans:** 3 plans in 2 waves
 
 **Wave 1**
-- [ ] 15-01: Vite + React + Tailwind scaffold, `api.js`, initial load (FRWK-01, FRWK-02 partial, FRWK-08 partial)
+- [x] 15-01: Vite + React + Tailwind scaffold, `api.js`, initial load (FRWK-01, FRWK-02 partial, FRWK-08 partial)
 
 **Wave 2** *(depends on 15-01; 15-03 after 15-02)*
-- [ ] 15-02: Components + full CRUD + 409 dual feedback (FRWK-02, FRWK-03, FRWK-06)
-- [ ] 15-03: UAT, CORS verify, README pointers (FRWK-07, FRWK-08)
+- [x] 15-02: Components + full CRUD + 409 dual feedback (FRWK-02, FRWK-03, FRWK-06)
+- [x] 15-03: UAT, CORS verify, README pointers (FRWK-07, FRWK-08)
 
 ### Phase 16: Vue Dashboard Parity
 

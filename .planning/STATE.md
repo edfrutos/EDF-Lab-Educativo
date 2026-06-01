@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
-status: planned
-last_updated: "2026-06-01T13:00:00.000Z"
-last_activity: 2026-06-01 — Phase 15 planned (3 plans)
+status: executing
+last_updated: "2026-06-01T12:40:00.000Z"
+last_activity: 2026-06-01 — Phase 15 complete (React dashboard)
 progress:
   total_phases: 3
-  completed_phases: 0
+  completed_phases: 1
   total_plans: 3
-  completed_plans: 0
-  percent: 0
+  completed_plans: 3
+  percent: 33
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-execute-phase 15` or `/gsd-execute-phase 15 --plan 01`
+**Current focus:** `/gsd-discuss-phase 16` or `/gsd-plan-phase 16`
 
 ## Current Position
 
-Phase: 15 planned
-Plan: 15-01 next
-Status: Ready for execution
-Last activity: 2026-06-01 — Phase 15 planned (3 plans)
+Phase: 15 complete
+Plan: —
+Status: Ready for Phase 16 (Vue)
+Last activity: 2026-06-01 — Phase 15 executed (dashboard-react)
 
 ## Shipped Milestones
 
@@ -52,13 +52,14 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 ### Decisions (carried forward)
 
 - PostgreSQL additive — SQLite remains host-dev default without `DATABASE_URL`.
-- `pg` + raw SQL; Compose uses `postgres_data`; tests use `edf_lab_test` only.
+- `dashboard-react/` on port **5174**, `VITE_API_BASE_URL`, Tailwind (not vanilla CSS).
+- Vanilla `dashboard/` on **5173** remains primary learning path.
 
 ### Operator Next Steps
 
-- `/gsd-execute-phase 15` — ejecutar planes 15-01 → 15-02 → 15-03
-- Resume: `.planning/phases/15-react-dashboard-parity/15-01-PLAN.md`
+- `/gsd-discuss-phase 16` — Vue dashboard parity
+- Manual: run checklist in `.planning/phases/15-react-dashboard-parity/15-UAT.md`
 
 ## Session Continuity
 
-Resume file: .planning/phases/15-react-dashboard-parity/15-01-PLAN.md
+Resume file: Phase 16 planning (not started)
