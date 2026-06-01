@@ -6,6 +6,7 @@
 - ✅ **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
 - ✅ **v1.2 Docker Compose** — Phases 9–11 (shipped 2026-05-31, audited 2026-05-31)
 - ✅ **v1.3 PostgreSQL Persistence** — Phases 12–14 (shipped 2026-06-01)
+- 🚧 **v1.4 Frontend Framework Comparison** — Phases 15–17 (planning)
 
 ## Phases
 
@@ -47,6 +48,61 @@
 
 </details>
 
+### 🚧 v1.4 Frontend Framework Comparison (Phases 15–17)
+
+**Milestone Goal:** Learners compare vanilla `fetch()` + DOM with React and Vue implementations of the same API contract.
+
+- [ ] **Phase 15: React Dashboard Parity** — Vite + React app with full CRUD and CORS/ports (FRWK-01–03, 06–08)
+- [ ] **Phase 16: Vue Dashboard Parity** — Vite + Vue 3 app with same parity (FRWK-04–05)
+- [ ] **Phase 17: Framework Learning Material** — Comparison doc, mission, index/README, NOTEBOOK, UAT checklist (FRWK-09–13)
+
+## Phase Details
+
+### Phase 15: React Dashboard Parity
+
+**Goal:** A React dashboard reproduces vanilla CRUD and initial load against the existing API without backend changes.  
+**Depends on:** Phase 14 (v1.3 complete)  
+**Requirements:** FRWK-01, FRWK-02, FRWK-03, FRWK-06, FRWK-07, FRWK-08  
+**Success Criteria** (what must be TRUE):
+
+  1. Learner runs `dashboard-react` dev server and sees health, API info, and users list.
+  2. Learner creates, edits, and deletes users; duplicate email returns visible error (409).
+  3. Learner reads which port and env var configure the API URL.
+  4. Vanilla dashboard on `:5173` still works with updated CORS if needed.
+
+**Plans:** ~2–3 plans (scaffold, CRUD parity, CORS/docs snippet)
+
+### Phase 16: Vue Dashboard Parity
+
+**Goal:** A Vue 3 dashboard matches React and vanilla feature parity.  
+**Depends on:** Phase 15  
+**Requirements:** FRWK-04, FRWK-05  
+**Success Criteria** (what must be TRUE):
+
+  1. Learner runs `dashboard-vue` on its documented port with full CRUD.
+  2. Learner can contrast Vue reactivity/refs with React state and vanilla variables.
+
+**Plans:** ~2 plans (scaffold + parity)
+
+### Phase 17: Framework Learning Material
+
+**Goal:** Guided comparison documentation and missions; vanilla remains primary path.  
+**Depends on:** Phase 16  
+**Requirements:** FRWK-09, FRWK-10, FRWK-11, FRWK-12, FRWK-13  
+**Success Criteria** (what must be TRUE):
+
+  1. Learner reads doc comparing state and forms across three dashboards.
+  2. Learner completes mission with Network tab inspection on a framework app.
+  3. Index and README mark frameworks as advanced optional.
+  4. NOTEBOOK documents real CORS/port/env errors from framework setup.
+
+**Plans:** ~2 plans (doc 16 + mission; index/README/NOTEBOOK/UAT)
+
+**Cross-cutting constraints:**
+- Do not remove or replace `dashboard/` vanilla app
+- No Redux/Pinia/router libraries in v1.4
+- `api/` changes limited to CORS origins if required
+
 ## Progress
 
 | Phase | Milestone | Plans Complete | Status | Completed |
@@ -65,6 +121,13 @@
 | 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete | 2026-05-31 |
 | 13. Migration & Test Confidence | v1.3 | 3/3 | Complete | 2026-06-01 |
 | 14. PostgreSQL Learning Material | v1.3 | 2/2 | Complete | 2026-06-01 |
+| 15. React Dashboard Parity | v1.4 | 0/? | Not started | — |
+| 16. Vue Dashboard Parity | v1.4 | 0/? | Not started | — |
+| 17. Framework Learning Material | v1.4 | 0/? | Not started | — |
+
+**Execution order:** 15 → 16 → 17
+
+Research: `.planning/research/SUMMARY.md`
 
 Archived milestone details:
 

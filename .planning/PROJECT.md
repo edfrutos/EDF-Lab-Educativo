@@ -18,12 +18,21 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Docs:** 15 conceptual docs + Missions 10–12; see `docs/00-indice.md`  
 **Compose:** `npm run compose:up` — dashboard :5173, API :3100, Postgres :5432
 
-## Next Milestone Goals (v1.4+ — not yet planned)
+## Current Milestone: v1.4 Frontend Framework Comparison
 
-Candidates from requirements backlog:
+**Goal:** Teach how the same API contract and CRUD flow look in a modern frontend framework, compared side-by-side with the existing vanilla dashboard.
 
-- Frontend framework comparison (React/Vue) after vanilla + Postgres path is solid (FRWK-01, FRWK-02)
+**Target features:**
+
+- Parallel or alternate dashboard implementations (React and/or Vue) consuming the same Express API
+- Documented comparison of state, forms, and `fetch()` patterns vs `dashboard/app.js`
+- Learning material: doc, mission(s), index/README updates, NOTEBOOK for integration friction
+- Preserve vanilla dashboard as the primary beginner path; frameworks as advanced branch
+
+## Next Milestone Goals (v1.5+ — deferred)
+
 - Production authentication when a learning phase explicitly teaches auth (PROD-01, PROD-02)
+- Production deployment hardening (TLS, secrets) — PROD-02
 
 ## Requirements
 
@@ -56,7 +65,7 @@ Candidates from requirements backlog:
 
 ### Active
 
-- [ ] Frontend framework comparison (React/Vue) — candidate v1.4+
+- [ ] Frontend framework comparison (React/Vue) — v1.4 (in planning)
 - [ ] Production authentication and deployment hardening — future advanced phase
 
 ### Out of Scope
@@ -132,4 +141,4 @@ The lab is organized around a learning route:
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-01 after v1.3 milestone*
+*Last updated: 2026-06-01 — v1.4 milestone started*

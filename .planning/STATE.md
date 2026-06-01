@@ -1,12 +1,12 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: none
-status: ready_for_next_milestone
-last_updated: "2026-06-01T12:30:00.000Z"
-last_activity: 2026-06-01 — Milestone v1.3 archived and tagged
+milestone: v1.4
+milestone_name: Frontend Framework Comparison
+status: planning
+last_updated: "2026-06-01T11:44:56.991Z"
+last_activity: 2026-06-01
 progress:
-  total_phases: 0
+  total_phases: 3
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** Planning next milestone (`/gsd-new-milestone`)
+**Current focus:** v1.4 planned — `/gsd-discuss-phase 15` or `/gsd-plan-phase 15`
 
 ## Current Position
 
-Phase: —
+Phase: Not started (defining requirements)
 Plan: —
-Status: Ready for next milestone
-Last activity: 2026-06-01 — v1.3 PostgreSQL Persistence shipped and tagged
+Status: Defining requirements
+Last activity: 2026-06-01 — Milestone v1.4 started
 
 ## Shipped Milestones
 
@@ -56,8 +56,8 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ### Operator Next Steps
 
-- `/gsd-new-milestone` — define v1.4 scope (frameworks, auth, or other)
-- Optional: `git push origin v1.3` to publish the release tag
+- `/gsd-discuss-phase 15` — alinear decisiones React/CORS antes de planificar
+- `/gsd-plan-phase 15` — primer plan ejecutable (dashboard-react)
 
 ## Session Continuity
 
