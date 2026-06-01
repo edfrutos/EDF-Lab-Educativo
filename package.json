@@ -5,6 +5,9 @@
   "scripts": {
     "compose:up": "docker compose up --build",
     "compose:down": "docker compose down",
-    "compose:logs": "docker compose logs -f"
+    "compose:logs": "docker compose logs -f",
+    "test": "npm test --prefix api",
+    "test:pg": "npm run test:pg --prefix api",
+    "test:db:prepare": "npm run test:db:prepare --prefix api"
   }
 }

@@ -6,7 +6,10 @@
   "scripts": {
     "start":        "node index.js",
     "dev":          "nodemon index.js",
-    "test":         "node --test index.test.js --test-force-exit",
+    "test":         "node --test index.test.js --test-force-exit && node --test index.pg.test.js --test-force-exit",
+    "test:sqlite":  "node --test index.test.js --test-force-exit",
+    "test:pg":      "node --test index.pg.test.js --test-force-exit",
+    "test:db:prepare": "node scripts/prepare-test-db.js",
     "docker:build": "docker build -t edf-lab-api .",
     "docker:start": "docker run --rm -p 3100:3100 --name edf-lab-api edf-lab-api"
   },
