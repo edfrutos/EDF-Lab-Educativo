@@ -1,5 +1,23 @@
 # Milestones
 
+## v1.4 Frontend Framework Comparison (Shipped: 2026-06-01)
+
+**Phases completed:** 3 phases, 8 plans  
+**Timeline:** 2026-06-01 (single-day milestone execution)  
+**Known deferred items at close:** 2 production items (PROD-01/02) carried to v1.5 planning
+
+**Key accomplishments:**
+
+- `dashboard-react/` — Vite + React 18 + Tailwind v4 on port 5174; full CRUD parity with vanilla
+- `dashboard-vue/` — Vite + Vue 3 Composition API on port 5175; props/emits component split
+- Visible `fetchJson` (no axios); `VITE_API_BASE_URL`; dual 409 feedback on framework apps
+- `docs/16-frameworks.md` — vanilla vs React vs Vue (state, forms, HTTP, styling) with repo excerpts
+- Mission 13 — API + one framework + Network tab; NOTEBOOK Frameworks (v1.4); unified three-dashboard UAT
+
+**Delivered:** Learners can compare the same Express API contract across vanilla, React, and Vue without changing backend JSON shapes; vanilla remains the primary path.
+
+---
+
 ## v1.3 PostgreSQL Persistence (Shipped: 2026-06-01)
 
 **Phases completed:** 3 phases, 8 plans  

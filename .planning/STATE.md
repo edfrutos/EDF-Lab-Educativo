@@ -1,65 +1,74 @@
----
-gsd_state_version: 1.0
-milestone: v1.4
-milestone_name: Frontend Framework Comparison
-status: complete
-last_updated: "2026-06-01T19:00:00.000Z"
-last_activity: 2026-06-01 — Phase 17 complete; milestone v1.4 ready to close
-progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
----
-
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-06-01)
+See: `.planning/PROJECT.md` (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-complete-milestone` to archive v1.4
+
+**Current focus:** Milestone v1.4 shipped — no active milestone. Run `/gsd-new-milestone` to start v1.5.
 
 ## Current Position
 
-Phase: 17 complete (all v1.4 phases done)
-Plan: —
-Status: Milestone v1.4 implementation complete — ready for milestone close
-Last activity: 2026-06-01 — Phase 17 executed
+Phase: 17 of 17 (Framework Learning Material) — **milestone v1.4 complete**
+Plan: All v1.4 plans complete (8/8)
+Status: Milestone shipped
+Last activity: 2026-06-01 — v1.4 milestone archived and tagged
 
-## Shipped Milestones
+Progress: [██████████] 100% (v1.4) | [██████████] 100% (all milestones through v1.4)
 
-| Milestone | Phases | Shipped | Tag |
-|-----------|--------|---------|-----|
-| v1.0 Educational Lab MVP | 1–5 | 2026-05-30 | v1.0 |
-| v1.1 SQLite Persistence | 6–8 | 2026-05-30 | v1.1 |
-| v1.2 Docker Compose | 9–11 | 2026-05-31 | v1.2 |
-| v1.3 PostgreSQL Persistence | 12–14 | 2026-06-01 | v1.3 |
+## Milestone Status
 
-## Deferred Items
+| Milestone | Status | Shipped |
+|-----------|--------|---------|
+| v1.0 Educational Lab MVP | Shipped | 2026-05-30 |
+| v1.1 SQLite Persistence | Shipped | 2026-05-30 |
+| v1.2 Docker & Compose | Shipped | 2026-05-31 |
+| v1.3 PostgreSQL Persistence | Shipped | 2026-06-01 |
+| v1.4 Frontend Framework Comparison | Shipped | 2026-06-01 |
 
-Items acknowledged and deferred at milestone close on 2026-06-01:
+## Performance Metrics
 
-| Category | Item | Status |
-|----------|------|--------|
-| uat_gaps | Phase 11 — `11-UAT.md` artifact status unknown | deferred |
-| uat_gaps | Phase 02 — HUMAN-UAT artifact (from v1.0 close) | verified |
+**Velocity:**
 
-## Accumulated Context
+- Total plans completed (v1.4): 8
+- Average duration: ~1 day (milestone executed 2026-06-01)
+- Total milestone duration: 1 day (phases 15–17)
 
-### v1.4 delivered
+**By phase (v1.4):**
 
-- `dashboard-react/` (:5174), `dashboard-vue/` (:5175)
-- `docs/16-frameworks.md`, Mission 13, NOTEBOOK Frameworks, `17-UAT.md`
-- Vanilla :5173 remains primary path
+| Phase | Plans | Notes |
+|-------|-------|-------|
+| 15 React | 3 | dashboard-react :5174 |
+| 16 Vue | 3 | dashboard-vue :5175 |
+| 17 Learning | 2 | docs/16-frameworks.md, Mission 13 |
 
-### Operator Next Steps
+## Accumulated Decisions
 
-- `/gsd-complete-milestone` — archivar v1.4 y tag
-- Opcional: validar `17-UAT.md` en navegador con los tres servidores
+Decisions logged in PROJECT.md Key Decisions table.
+
+**v1.4 highlights:**
+
+- No Pinia/Redux/router/axios in framework dashboards
+- `fetchJson` visible; `VITE_API_BASE_URL` for React/Vue
+- Vanilla `:5173` remains primary; React `:5174`, Vue `:5175` optional
+- Comparison doc: `docs/16-frameworks.md` (not 17-frameworks)
 
 ## Session Continuity
 
-Resume file: milestone close workflow
+Last session: 2026-06-01
+Stopped at: v1.4 milestone complete — archived and tagged `v1.4`
+Resume file: None
+Next suggested command: `/gsd-new-milestone` (v1.5 — PROD-01/02 deferred in REQUIREMENTS.md)
+
+## Deferred Items
+
+| Item | Reason | Status |
+|------|--------|--------|
+| Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open — see v1.2 archive |
+| Phase 02 HUMAN-UAT | Flagged at v1.0 close | Verified — no action needed |
+| PROD-01 Auth | Out of v1.4 scope | Deferred to v1.5+ |
+| PROD-02 Production deploy | Out of v1.4 scope | Deferred to v1.5+ |
+
+---
+*Last updated: 2026-06-01 after v1.4 milestone completion*
