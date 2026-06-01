@@ -6,7 +6,7 @@ status: planning
 last_updated: "2026-06-01T17:32:00.762Z"
 last_activity: 2026-06-01
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
   total_plans: 0
   completed_plans: 0
@@ -21,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v1.4 shipped — no active milestone. Run `/gsd-new-milestone` to start v1.5.
+**Current focus:** Milestone v1.5 — Production Auth & Deployment (phases 18–21).
 
 ## Current Position
 
-Phase: Not started (defining requirements)
+Phase: 18 — Auth API & Protected Routes (not started)
 Plan: —
-Status: Defining requirements
-Last activity: 2026-06-01 — Milestone v1.5 started
+Status: Ready to plan
+Last activity: 2026-06-01 — v1.5 requirements and roadmap defined
 
 ## Milestone Status
 
@@ -39,10 +39,16 @@ Last activity: 2026-06-01 — Milestone v1.5 started
 | v1.2 Docker & Compose | Shipped | 2026-05-31 |
 | v1.3 PostgreSQL Persistence | Shipped | 2026-06-01 |
 | v1.4 Frontend Framework Comparison | Shipped | 2026-06-01 |
+| v1.5 Production Auth & Deployment | Planning | — |
 
 ## Performance Metrics
 
-**Velocity:**
+**Velocity (v1.5):**
+
+- Phases defined: 4 (18–21)
+- Requirements: 20 (AUTH/DEPLOY/DOCS)
+
+**Velocity (v1.4):**
 
 - Total plans completed (v1.4): 8
 - Average duration: ~1 day (milestone executed 2026-06-01)
@@ -60,28 +66,28 @@ Last activity: 2026-06-01 — Milestone v1.5 started
 
 Decisions logged in PROJECT.md Key Decisions table.
 
-**v1.4 highlights:**
+**v1.5 planned decisions (from research):**
 
-- No Pinia/Redux/router/axios in framework dashboards
-- `fetchJson` visible; `VITE_API_BASE_URL` for React/Vue
-- Vanilla `:5173` remains primary; React `:5174`, Vue `:5175` optional
-- Comparison doc: `docs/16-frameworks.md` (not 17-frameworks)
+- JWT in httpOnly cookie (not localStorage)
+- `accounts` table separate from CRUD `users`
+- bcrypt + jsonwebtoken + cookie-parser (3 deps)
+- CORS `credentials: true` + explicit origins
+- `AUTH_DISABLED=1` test-only bypass
 
 ## Session Continuity
 
 Last session: 2026-06-01
-Stopped at: v1.4 milestone complete — archived and tagged `v1.4`
+Stopped at: v1.5 roadmap approved — ready for Phase 18
 Resume file: None
-Next suggested command: `/gsd-new-milestone` (v1.5 — PROD-01/02 deferred in REQUIREMENTS.md)
+Next suggested command: `/gsd-discuss-phase 18` or `/gsd-plan-phase 18`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
-| Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open — see v1.2 archive |
-| Phase 02 HUMAN-UAT | Flagged at v1.0 close | Verified — no action needed |
-| PROD-01 Auth | Out of v1.4 scope | Deferred to v1.5+ |
-| PROD-02 Production deploy | Out of v1.4 scope | Deferred to v1.5+ |
+| Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open |
+| Phase 02 HUMAN-UAT | Flagged at v1.0 close | Verified |
+| OAuth / refresh tokens | v1.6+ | Deferred |
 
 ---
-*Last updated: 2026-06-01 after v1.4 milestone completion*
+*Last updated: 2026-06-01 — v1.5 milestone initialized*
