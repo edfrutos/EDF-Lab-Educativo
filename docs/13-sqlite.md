@@ -209,12 +209,69 @@ Pasos guiados en **[`missions/10-inspeccionar-sqlite.md`](../missions/10-inspecc
 
 ---
 
+## Hacia PostgreSQL
+
+A partir de **v1.3**, la API puede usar **PostgreSQL** cuando defines `DATABASE_URL` (por ejemplo en Docker Compose). Sin esa variable, el comportamiento de este capítulo sigue siendo SQLite en `users.db`.
+
+| Aspecto | SQLite (host `npm start`) | PostgreSQL (Compose / `DATABASE_URL`) |
+|---------|---------------------------|----------------------------------------|
+| Almacén | Archivo `api/data/users.db` | Servidor Postgres + volumen nombrado `postgres_data` |
+| En Compose | Bind mount `./api/data` (mismo path que en host) | Servicio `edf-lab-postgres`; datos en volumen Docker |
+| Semilla | `users.json` si la tabla está vacía | Misma lógica (`api/seed.js`) al arrancar con tabla vacía |
+| Tests automáticos | `users.test.db` (archivo aislado) | Base `edf_lab_test` (nunca la BD `edf_lab` de desarrollo) |
+
+**Cuándo usar cada uno en el lab**
+
+- **SQLite:** desarrollo rápido en el Mac, `cd api && npm start`, sin instalar Postgres.
+- **PostgreSQL:** stack completo con `npm run compose:up`, persistencia cliente-servidor y preparación para producción real.
+
+### Comandos ejecutables
+
+Arrancar solo Postgres (desde la raíz del repo):
+
+```bash
+docker compose up -d edf-lab-postgres
+```
+
+Crear la base de datos de tests (una vez, o cuando falte):
+
+```bash
+npm run test:db:prepare
+```
+
+Inspeccionar datos en la BD de desarrollo:
+
+```bash
+psql postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab -c "SELECT id, name, email FROM users;"
+```
+
+Suite completa (16 tests SQLite + 16 Postgres). **Postgres debe estar escuchando en `localhost:5432`**; si no, la segunda mitad falla (no hay skip silencioso):
+
+```bash
+cd api && npm test
+```
+
+Solo tests Postgres:
+
+```bash
+npm run test:pg --prefix api
+```
+
+Variable opcional para otra URL de test:
+
+```bash
+TEST_DATABASE_URL=postgresql://usuario:clave@localhost:5432/otra_bd npm run test:pg --prefix api
+```
+
+> Guía completa Compose + Postgres, misión paso a paso y doc dedicado → **Fase 14** (`docs/15-postgresql.md`, Misión 12).
+
+---
+
 ## Resumen
 
 - **Runtime:** `users.db` con SQL explícito en `db.js` y esquema en `schema.sql`.
-- **Semilla:** `users.json` solo cuando la tabla está vacía al arrancar.
+- **Semilla:** `users.json` solo cuando la tabla está vacía al arrancar (SQLite y Postgres comparten `api/seed.js`).
 - **Inspección:** `sqlite3` CLI; el `.db` no se lee con `cat` como JSON.
 - **Duplicados:** constraint `UNIQUE` → API responde 409.
+- **PostgreSQL:** ver sección [Hacia PostgreSQL](#hacia-postgresql) y [`api/README.md`](../api/README.md).
 - **Tests y docs relacionados:** [`10-tests.md`](./10-tests.md), [`api/README.md`](../api/README.md).
-
-Cuando domines este flujo, el siguiente paso natural en otros proyectos es PostgreSQL o un ORM — pero primero conviene que este circuito backend → JSON HTTP → dashboard te resulte familiar.

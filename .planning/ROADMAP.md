@@ -43,7 +43,7 @@
 **Milestone Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database while keeping the backend → JSON → dashboard flow intact.
 
 - [x] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service (completed 2026-05-31)
-- [ ] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note
+- [x] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note (completed 2026-06-01)
 - [ ] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
 
 ## Phase Details
@@ -91,11 +91,11 @@
 **Plans**: 3 plans in 2 waves
 
 **Wave 1** *(no dependencies)*
-- [ ] 13-01: Shared `seed.js` + Postgres populateIfEmpty with setval (PGMIG-01)
+- [x] 13-01: Shared `seed.js` + Postgres populateIfEmpty with setval (PGMIG-01)
 
 **Wave 2** *(depends on 13-01; 13-03 after 13-02)*
-- [ ] 13-02: `edf_lab_test`, `index.pg.test.js`, dual `npm test` (PGTEST-01–03)
-- [ ] 13-03: «Hacia PostgreSQL» in `docs/13-sqlite.md` (PGMIG-02)
+- [x] 13-02: `edf_lab_test`, `index.pg.test.js`, dual `npm test` (PGTEST-01–03)
+- [x] 13-03: «Hacia PostgreSQL» in `docs/13-sqlite.md` (PGMIG-02)
 
 **Cross-cutting constraints:**
 - Tests never touch Compose `edf_lab` database — only `edf_lab_test`
@@ -133,7 +133,7 @@
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete    | 2026-05-31 |
-| 13. Migration & Test Confidence | v1.3 | 0/3 | Planned | — |
+| 13. Migration & Test Confidence | v1.3 | 3/3 | Complete | 2026-06-01 |
 | 14. PostgreSQL Learning Material | v1.3 | 0/2 | Not started | — |
 
 **Execution order:** Phases execute in numeric order: 12 → 13 → 14

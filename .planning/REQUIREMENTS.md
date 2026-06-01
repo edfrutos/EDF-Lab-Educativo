@@ -23,11 +23,11 @@ Requirements for the PostgreSQL Persistence milestone. Each maps to roadmap phas
 
 ### Migration & Tests
 
-- [ ] **PGMIG-01**: Empty Postgres database is seeded/migrated from `users.json` (or documented seed) on first startup.
-- [ ] **PGMIG-02**: Documentation explains when SQLite is enough vs when PostgreSQL is appropriate in this lab.
-- [ ] **PGTEST-01**: All 16 existing API tests pass against a PostgreSQL test database.
-- [ ] **PGTEST-02**: Tests use an isolated database (separate URL or schema) — no cross-test contamination.
-- [ ] **PGTEST-03**: Tests cover duplicate email (409), empty DB, and invalid ID edge cases against Postgres.
+- [x] **PGMIG-01**: Empty Postgres database is seeded/migrated from `users.json` (or documented seed) on first startup.
+- [x] **PGMIG-02**: Documentation explains when SQLite is enough vs when PostgreSQL is appropriate in this lab.
+- [x] **PGTEST-01**: All 16 existing API tests pass against a PostgreSQL test database.
+- [x] **PGTEST-02**: Tests use an isolated database (separate URL or schema) — no cross-test contamination.
+- [x] **PGTEST-03**: Tests cover duplicate email (409), empty DB, and invalid ID edge cases against Postgres.
 
 ### Learning Documentation
 
@@ -78,11 +78,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PGCOMPOSE-01 | Phase 12 | Complete |
 | PGCOMPOSE-02 | Phase 12 | Complete |
 | PGCOMPOSE-03 | Phase 12 | Complete |
-| PGMIG-01 | Phase 13 | Pending |
-| PGMIG-02 | Phase 13 | Pending |
-| PGTEST-01 | Phase 13 | Pending |
-| PGTEST-02 | Phase 13 | Pending |
-| PGTEST-03 | Phase 13 | Pending |
+| PGMIG-01 | Phase 13 | Complete |
+| PGMIG-02 | Phase 13 | Complete |
+| PGTEST-01 | Phase 13 | Complete |
+| PGTEST-02 | Phase 13 | Complete |
+| PGTEST-03 | Phase 13 | Complete |
 | PGDOCS-01 | Phase 14 | Pending |
 | PGDOCS-02 | Phase 14 | Pending |
 | PGDOCS-03 | Phase 14 | Pending |

@@ -311,11 +311,22 @@ node --check index.js
 npm audit --audit-level=high
 ```
 
-**Tests automáticos** — ejecuta la suite de tests sobre todos los endpoints:
+**Tests automáticos** — 16 tests contra SQLite y 16 contra PostgreSQL (encadenados):
 
 ```bash
 npm test
 ```
+
+Requisitos para la suite completa: Postgres en `localhost:5432` y base de test creada con `npm run test:db:prepare` (desde la raíz del repo o `npm run test:db:prepare` en `api/`).
+
+| Script | Qué hace |
+|--------|----------|
+| `npm test` | SQLite + Postgres (32 tests si Postgres está en marcha) |
+| `npm run test:sqlite` | Solo SQLite (no requiere Postgres) |
+| `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
+| `npm run test:db:prepare` | Crea `edf_lab_test` si no existe |
+
+Más contexto SQLite vs PostgreSQL: [`docs/13-sqlite.md`](../docs/13-sqlite.md) (sección «Hacia PostgreSQL»).
 
 Resultado esperado: todos los tests en verde. El proceso termina solo (sin Ctrl+C).
 
