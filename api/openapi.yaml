@@ -36,7 +36,67 @@ paths:
                     example:
                       - GET /
                       - GET /health
+                      - POST /auth/login
+                      - POST /auth/logout
                       - GET /users
+  /auth/login:
+    post:
+      summary: Iniciar sesión del operador
+      description: Valida email y contraseña; devuelve cookie httpOnly `edf_session` con JWT.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginInput"
+      responses:
+        "200":
+          description: Sesión iniciada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                  - email
+                properties:
+                  message:
+                    type: string
+                    example: Sesión iniciada
+                  email:
+                    type: string
+                    example: admin@lab.local
+        "400":
+          description: Email o contraseña ausentes
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Credenciales inválidas
+  /auth/logout:
+    post:
+      summary: Cerrar sesión del operador
+      description: Elimina la cookie de sesión `edf_session`.
+      responses:
+        "200":
+          description: Sesión cerrada
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                    example: Sesión cerrada
   /health:
     get:
       summary: Comprobar estado del servidor
@@ -63,6 +123,8 @@ paths:
     get:
       summary: Obtener lista de usuarios
       description: Devuelve todos los usuarios ordenados alfabéticamente por nombre.
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: Lista de usuarios
@@ -72,9 +134,19 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        "401":
+          description: Sesión no válida o ausente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              example:
+                error: Sesión no válida o expirada. Inicia sesión.
     post:
       summary: Crear un usuario
-      description: Crea un usuario nuevo y lo persiste en la base de datos SQLite.
+      description: Crea un usuario nuevo y lo persiste en la base de datos.
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -119,6 +191,12 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+        "401":
+          description: Sesión no válida o ausente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /users/{id}:
     parameters:
       - name: id
@@ -131,6 +209,8 @@ paths:
           example: 1
     get:
       summary: Obtener un usuario por ID
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: Usuario encontrado
@@ -154,8 +234,16 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: Usuario no encontrado.
+        "401":
+          description: Sesión no válida o ausente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     put:
       summary: Actualizar un usuario
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -208,8 +296,16 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+        "401":
+          description: Sesión no válida o ausente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     delete:
       summary: Eliminar un usuario
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: Usuario eliminado
@@ -250,6 +346,12 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
+        "401":
+          description: Sesión no válida o ausente
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /about:
     get:
       summary: Información del laboratorio
@@ -298,7 +400,26 @@ paths:
                     format: date-time
                     example: "2026-05-29T19:00:00.000Z"
 components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: edf_session
+      description: JWT de sesión del operador (httpOnly). Obtener con POST /auth/login.
   schemas:
+    LoginInput:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+          example: admin@lab.local
+        password:
+          type: string
+          format: password
+          example: changeme
     User:
       type: object
       required:

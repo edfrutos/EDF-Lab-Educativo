@@ -64,15 +64,15 @@ Requirements for **Production Auth & Deployment**. Phases start at **18**.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 18 | Pending |
-| AUTH-02 | Phase 18 | Pending |
-| AUTH-03 | Phase 18 | Pending |
-| AUTH-04 | Phase 18 | Pending |
-| AUTH-05 | Phase 18 | Pending |
-| AUTH-06 | Phase 18 | Pending |
-| AUTH-07 | Phase 18 | Pending |
-| AUTH-08 | Phase 18 | Pending |
-| AUTH-09 | Phase 18 | Pending |
+| AUTH-01 | Phase 18 | Complete |
+| AUTH-02 | Phase 18 | Complete |
+| AUTH-03 | Phase 18 | Complete |
+| AUTH-04 | Phase 18 | Complete |
+| AUTH-05 | Phase 18 | Complete |
+| AUTH-06 | Phase 18 | Complete |
+| AUTH-07 | Phase 18 | Complete |
+| AUTH-08 | Phase 18 | Complete |
+| AUTH-09 | Phase 18 | Complete |
 | AUTH-10 | Phase 19 | Pending |
 | AUTH-11 | Phase 19 | Pending |
 | AUTH-12 | Phase 19 | Pending |

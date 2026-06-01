@@ -87,7 +87,11 @@ async function loginHandler(req, res) {
 }
 
 function logoutHandler(req, res) {
-  res.clearCookie(COOKIE_NAME, getCookieOptions());
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
   return res.json({ message: 'Sesión cerrada' });
 }
 

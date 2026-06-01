@@ -4,17 +4,20 @@
 // CRÍTICO: DATABASE_URL debe asignarse ANTES del require de index.js.
 // Node.js cachea módulos en el primer require — el router db.js elige Postgres
 // solo si DATABASE_URL está definida en ese momento.
+// AUTH_DISABLED=1 desactiva requireAuth solo en tests CRUD (no en describe Autenticación).
 
-const { describe, it, beforeEach } = require('node:test');
+const { describe, it, before, after, beforeEach } = require('node:test');
 const assert = require('node:assert/strict');
 
 const DEFAULT_TEST_URL =
   'postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test';
 process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || DEFAULT_TEST_URL;
 delete process.env.DB_FILE;
+process.env.AUTH_DISABLED = '1';
 
 const app = require('./index.js');
 const request = require('supertest');
+const { registerAuthApiTests } = require('./test-auth-helpers');
 const { resetUsersForTests } = require('./db-pg');
 
 beforeEach(async () => {
@@ -172,3 +175,5 @@ describe('Email duplicado', () => {
     assert.equal(res.body.email, 'john@example.com');
   });
 });
+
+registerAuthApiTests({ describe, it, before, after, assert, app, request });

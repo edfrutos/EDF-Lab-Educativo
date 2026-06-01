@@ -133,7 +133,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
-| 18. Auth API & Protected Routes | v1.5 | 0/3 | Planned | — |
+| 18. Auth API & Protected Routes | v1.5 | 3/3 | Complete | 2026-06-01 |
 | 19. Vanilla Dashboard Login | v1.5 | 0/? | Not started | — |
 | 20. Secrets & Deploy Hardening | v1.5 | 0/? | Not started | — |
 | 21. Auth & Deploy Learning Material | v1.5 | 0/? | Not started | — |

@@ -4,8 +4,9 @@
 // CRÍTICO: DB_FILE debe asignarse ANTES del require de index.js.
 // Node.js cachea módulos en el primer require — si index.js se importa antes
 // de setear la variable, la ruta SQLite quedará con el valor por defecto.
+// AUTH_DISABLED=1 desactiva requireAuth solo en tests CRUD (no en describe Autenticación).
 
-const { describe, it, beforeEach, afterEach } = require('node:test');
+const { describe, it, before, after, beforeEach, afterEach } = require('node:test');
 const assert = require('node:assert/strict');
 const { unlink } = require('fs/promises');
 const path = require('path');
@@ -14,9 +15,11 @@ const TEST_DB = path.join(__dirname, 'data', 'users.test.db');
 process.env.DB_FILE = TEST_DB;
 // Tests SQLite: no usar Postgres aunque DATABASE_URL esté en el shell o en Compose.
 delete process.env.DATABASE_URL;
+process.env.AUTH_DISABLED = '1';
 
 const app = require('./index.js');
 const request = require('supertest');
+const { registerAuthApiTests } = require('./test-auth-helpers');
 
 beforeEach(async () => {
   // Arrange: base SQLite limpia antes de cada test; initDb() aplica schema + semilla.
@@ -225,3 +228,5 @@ describe('Email duplicado', () => {
     assert.equal(res.body.email, 'john@example.com');
   });
 });
+
+registerAuthApiTests({ describe, it, before, after, assert, app, request });

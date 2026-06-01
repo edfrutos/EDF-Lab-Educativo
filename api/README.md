@@ -53,6 +53,43 @@ Resultado esperado:
 
 ---
 
+## Autenticación (fase 18)
+
+Las rutas `/users` requieren sesión de **operador** (tabla `accounts`, distinta de los usuarios CRUD).
+
+1. Copia la plantilla de variables:
+
+```bash
+cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+cp .env.example .env
+```
+
+2. En `.env`, define una clave larga para firmar JWT (variable `JWT_SECRET`). Los valores por defecto de operador son `admin@lab.local` / `changeme` si no cambias `ADMIN_EMAIL` / `ADMIN_PASSWORD`.
+
+3. Inicia sesión y usa la cookie en peticiones siguientes:
+
+```bash
+curl -c /tmp/edf-cj -X POST http://localhost:3100/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin@lab.local","password":"changeme"}'
+
+curl -b /tmp/edf-cj http://localhost:3100/users
+```
+
+4. Cerrar sesión:
+
+```bash
+curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/logout
+```
+
+El dashboard vanilla aún no tiene formulario de login (fase 19). Mientras tanto verás **401** en `/users` desde el navegador hasta integrar `credentials: 'include'`.
+
+**Tests:** `AUTH_DISABLED=1` en `npm test` desactiva la protección solo en la suite CRUD. Los tests del bloque «Autenticación API» validan login real. No uses `AUTH_DISABLED` en producción.
+
+Contrato OpenAPI: [`openapi.yaml`](openapi.yaml) — esquema `cookieAuth` y rutas `/auth/*`.
+
+---
+
 ## Opcional: Docker Compose
 
 Desde la **raíz del repositorio** (no desde `api/`):
@@ -75,6 +112,8 @@ Guía completa: [`docs/14-docker-compose.md`](../docs/14-docker-compose.md). Mis
 ```txt
 GET /
 GET /health
+POST /auth/login
+POST /auth/logout
 GET /users
 GET /users/:id
 POST /users
