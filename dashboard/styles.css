@@ -141,6 +141,39 @@ h2 {
   font-weight: 800;
 }
 
+.login-gate {
+  max-width: 420px;
+  margin: 0 auto 24px;
+}
+
+.login-gate form {
+  display: grid;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.login-gate form button {
+  justify-self: start;
+}
+
+.login-error {
+  margin: 16px 0 0;
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.login-error[hidden] {
+  display: none;
+}
+
+.login-hint {
+  margin-bottom: 0;
+}
+
+.dashboard-panel[hidden] {
+  display: none;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;
@@ -148,6 +181,13 @@ h2 {
   align-items: center;
   margin-bottom: 24px;
   padding: 18px;
+}
+
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
 }
 
 .toolbar code {

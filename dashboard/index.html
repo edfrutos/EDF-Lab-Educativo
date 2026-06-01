@@ -27,12 +27,38 @@
         </div>
       </section>
 
+      <section class="login-gate card" id="login-gate" aria-labelledby="login-gate-title">
+        <h2 id="login-gate-title">Iniciar sesión</h2>
+        <p class="hint">
+          La API guarda la sesión en una cookie httpOnly. Necesitas iniciar sesión para ver y gestionar usuarios.
+        </p>
+        <form id="login-form">
+          <label class="field-group" for="login-email">
+            <span>Email</span>
+            <input id="login-email" name="email" type="email" autocomplete="username" required />
+          </label>
+          <label class="field-group" for="login-password">
+            <span>Contraseña</span>
+            <input id="login-password" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">Entrar</button>
+        </form>
+        <p class="login-error" id="login-error" role="alert" aria-live="polite" hidden></p>
+        <p class="hint login-hint">
+          Credenciales de laboratorio: <code>admin@lab.local</code> / <code>changeme</code>
+        </p>
+      </section>
+
+      <div class="dashboard-panel" id="dashboard-panel" hidden>
       <section class="toolbar" aria-label="Acciones del panel">
         <div>
           <p class="small-label">API base</p>
           <code id="api-base-url">http://localhost:3100</code>
         </div>
-        <button type="button" id="reload-button">Recargar datos</button>
+        <div class="toolbar-actions">
+          <button type="button" class="secondary-button" id="logout-button">Cerrar sesión</button>
+          <button type="button" id="reload-button">Recargar datos</button>
+        </div>
       </section>
 
       <section class="grid">
@@ -135,6 +161,7 @@
           </table>
         </div>
       </section>
+      </div>
 
       <section class="card explanation-card">
         <h2>Qué demuestra este proyecto</h2>

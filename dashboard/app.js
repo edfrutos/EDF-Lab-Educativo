@@ -5,6 +5,13 @@ let editingUserId = null;
 const elements = {
   apiBaseUrl: document.getElementById('api-base-url'),
   reloadButton: document.getElementById('reload-button'),
+  logoutButton: document.getElementById('logout-button'),
+  loginGate: document.getElementById('login-gate'),
+  loginForm: document.getElementById('login-form'),
+  loginEmailInput: document.getElementById('login-email'),
+  loginPasswordInput: document.getElementById('login-password'),
+  loginError: document.getElementById('login-error'),
+  dashboardPanel: document.getElementById('dashboard-panel'),
   statusDot: document.getElementById('status-dot'),
   connectionValue: document.getElementById('connection-value'),
   healthStatus: document.getElementById('health-status'),
@@ -26,11 +33,119 @@ const elements = {
 
 elements.apiBaseUrl.textContent = API_BASE_URL;
 elements.reloadButton.addEventListener('click', loadDashboardData);
+elements.logoutButton.addEventListener('click', handleLogoutClick);
+elements.loginForm.addEventListener('submit', handleLoginSubmit);
 elements.userForm.addEventListener('submit', handleUserFormSubmit);
 elements.cancelEditButton.addEventListener('click', resetUserForm);
 elements.usersTableBody.addEventListener('click', handleUsersTableClick);
 
-loadDashboardData();
+bootstrapAuth();
+
+function showLoginGate() {
+  elements.loginGate.hidden = false;
+  elements.dashboardPanel.hidden = true;
+}
+
+function showDashboardPanel() {
+  elements.loginGate.hidden = true;
+  elements.dashboardPanel.hidden = false;
+}
+
+function showLoginError(message) {
+  elements.loginError.textContent = message;
+  elements.loginError.hidden = false;
+}
+
+function clearLoginError() {
+  elements.loginError.textContent = '';
+  elements.loginError.hidden = true;
+}
+
+function handleAuthRequiredError(error) {
+  if (error.status !== 401) {
+    return false;
+  }
+
+  showLoginGate();
+  showLoginError(error.message || 'Inicia sesión para ver y gestionar usuarios.');
+  return true;
+}
+
+async function bootstrapAuth() {
+  setLoadingState(true);
+  hideError();
+  clearLoginError();
+
+  try {
+    const health = await fetchJson('/health');
+    renderHealth(health);
+    setOnlineState();
+  } catch (error) {
+    clearDashboardData();
+    setOfflineState();
+    showError(error);
+    showLoginGate();
+    return;
+  } finally {
+    setLoadingState(false);
+  }
+
+  try {
+    await fetchJson('/users');
+    showDashboardPanel();
+    await loadDashboardData();
+  } catch (error) {
+    if (error.status === 401) {
+      showLoginGate();
+      return;
+    }
+
+    showLoginGate();
+    showLoginError(error.message || 'No se ha podido comprobar la sesión.');
+  }
+}
+
+async function handleLoginSubmit(event) {
+  event.preventDefault();
+  clearLoginError();
+
+  const email = elements.loginEmailInput.value.trim();
+  const password = elements.loginPasswordInput.value;
+
+  try {
+    await fetchJson('/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email, password })
+    });
+
+    clearLoginError();
+    showDashboardPanel();
+    await loadDashboardData();
+  } catch (error) {
+    if (error.status === 403) {
+      showLoginError(error.message || 'Credenciales inválidas');
+      return;
+    }
+
+    showLoginError(error.message || 'No se ha podido iniciar sesión.');
+  }
+}
+
+async function handleLogoutClick() {
+  try {
+    await fetchJson('/auth/logout', { method: 'POST' });
+  } catch {
+    // Even if logout fails, return to the gate locally.
+  }
+
+  clearDashboardData();
+  elements.loginForm.reset();
+  clearLoginError();
+  showLoginGate();
+}
 
 async function loadDashboardData() {
   setLoadingState(true);
@@ -48,6 +163,10 @@ async function loadDashboardData() {
     renderUsers(users);
     setOnlineState();
   } catch (error) {
+    if (handleAuthRequiredError(error)) {
+      return;
+    }
+
     clearDashboardData();
     setOfflineState();
     showError(error);
@@ -58,10 +177,26 @@ async function loadDashboardData() {
 
 async function fetchJson(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
-  const response = await fetch(url, options);
+  const response = await fetch(url, {
+    credentials: 'include',
+    ...options
+  });
 
   if (!response.ok) {
-    throw new Error(`La petición a ${url} ha fallado con estado HTTP ${response.status}.`);
+    let detail = `estado HTTP ${response.status}`;
+
+    try {
+      const body = await response.json();
+      if (body?.error) {
+        detail = body.error;
+      }
+    } catch {
+      // ignore JSON parse errors
+    }
+
+    const error = new Error(`La petición a ${url} ha fallado: ${detail}`);
+    error.status = response.status;
+    throw error;
   }
 
   return response.json();
@@ -172,6 +307,10 @@ async function handleUserFormSubmit(event) {
     showMutationFeedback(successFeedback, 'success');
     await loadDashboardData();
   } catch (error) {
+    if (handleAuthRequiredError(error)) {
+      return;
+    }
+
     showMutationFeedback(getMutationErrorMessage(error), 'error');
   } finally {
     setUserFormLoading(false);
@@ -233,6 +372,10 @@ async function deleteUser(userId) {
     showMutationFeedback('DELETE /users/:id -> usuario eliminado', 'success');
     await loadDashboardData();
   } catch (error) {
+    if (handleAuthRequiredError(error)) {
+      return;
+    }
+
     showMutationFeedback(getMutationErrorMessage(error), 'error');
   } finally {
     setUserFormLoading(false);
