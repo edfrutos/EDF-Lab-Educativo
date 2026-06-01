@@ -27,7 +27,13 @@
 4. `npm test` passes (32 existing + new auth tests) with documented test env.
 5. OpenAPI lists auth routes and security on protected endpoints.
 
-**Plans:** TBD (via `/gsd-plan-phase 18`)
+**Plans:** 3 plans in 3 waves
+
+| Wave | Plan | Focus |
+|------|------|-------|
+| 1 | 18-01 | accounts schema, seed, deps |
+| 2 | 18-02 | auth.js, index.js, .env.example |
+| 3 | 18-03 | tests, OpenAPI, README |
 
 ---
 
@@ -127,7 +133,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
-| 18. Auth API & Protected Routes | v1.5 | 0/? | Not started | — |
+| 18. Auth API & Protected Routes | v1.5 | 0/3 | Planned | — |
 | 19. Vanilla Dashboard Login | v1.5 | 0/? | Not started | — |
 | 20. Secrets & Deploy Hardening | v1.5 | 0/? | Not started | — |
 | 21. Auth & Deploy Learning Material | v1.5 | 0/? | Not started | — |
