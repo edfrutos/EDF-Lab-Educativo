@@ -5,7 +5,7 @@
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
 - ✅ **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
 - ✅ **v1.2 Docker Compose** — Phases 9–11 (shipped 2026-05-31, audited 2026-05-31)
-- 🚧 **v1.3 PostgreSQL Persistence** — Phases 12–14 (planning)
+- ✅ **v1.3 PostgreSQL Persistence** — Phases 12–14 (shipped 2026-06-01)
 
 ## Phases
 
@@ -38,94 +38,14 @@
 
 </details>
 
-### 🚧 v1.3 PostgreSQL Persistence (Phases 12–14)
+<details>
+<summary>✅ v1.3 PostgreSQL Persistence (Phases 12–14) — SHIPPED 2026-06-01</summary>
 
-**Milestone Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database while keeping the backend → JSON → dashboard flow intact.
+- [x] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual adapter, Compose postgres service (3/3 plans) — completed 2026-05-31
+- [x] **Phase 13: Migration & Test Confidence** — Shared seed, dual test matrix, SQLite vs PG docs (3/3 plans) — completed 2026-06-01
+- [x] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK (2/2 plans) — completed 2026-06-01
 
-- [x] **Phase 12: PostgreSQL Persistence Layer** — `pg` client, schema, dual SQLite/Postgres adapter, Compose postgres service (completed 2026-05-31)
-- [x] **Phase 13: Migration & Test Confidence** — Seed into Postgres, test suite against PostgreSQL, SQLite vs PG docs note (completed 2026-06-01)
-- [x] **Phase 14: PostgreSQL Learning Material** — Doc 15, Mission 12, index/README, NOTEBOOK
-
-## Phase Details
-
-### Phase 12: PostgreSQL Persistence Layer
-
-**Goal**: API persists users in PostgreSQL when configured; Compose stack includes Postgres with persistent volume; SQLite remains host-dev default.
-**Depends on**: Phase 11 (v1.2 complete)
-**Requirements**: PGSQL-01, PGSQL-02, PGSQL-03, PGSQL-04, PGSQL-05, PGCOMPOSE-01, PGCOMPOSE-02, PGCOMPOSE-03
-**Success Criteria** (what must be TRUE):
-
-  1. Learner sets `DATABASE_URL` and API stores users in PostgreSQL instead of SQLite.
-  2. Learner runs `npm run compose:up` and stack includes API, dashboard, and Postgres services.
-  3. Learner creates, edits, and deletes users from the dashboard with identical JSON responses as SQLite mode.
-  4. Learner can read PostgreSQL schema SQL defining `users` with same columns/constraints as SQLite.
-  5. Learner runs `npm start` without `DATABASE_URL` and SQLite path still works unchanged.
-
-**Plans**: 3 plans in 2 waves
-
-**Wave 1** *(no dependencies)*
-- [x] 12-01: Extract db-sqlite.js + pg dependency (PGSQL-05)
-
-**Wave 2** *(blocked on Wave 1 / 12-02 chain)*
-- [x] 12-02: schema.pg.sql + db-pg.js + router (PGSQL-01–04)
-- [x] 12-03: Compose postgres service + E2E verification (PGCOMPOSE-01–03)
-
-**Cross-cutting constraints:**
-- SQLite remains default without DATABASE_URL (PGSQL-05)
-- No JSON seed for Postgres in Phase 12 (D-16 → Phase 13)
-- Same HTTP/JSON contract for dashboard (PGSQL-04)
-
-### Phase 13: Migration & Test Confidence
-
-**Goal**: Learners can seed an empty Postgres database and trust the automated test suite against PostgreSQL.
-**Depends on**: Phase 12
-**Requirements**: PGMIG-01, PGMIG-02, PGTEST-01, PGTEST-02, PGTEST-03
-**Success Criteria** (what must be TRUE):
-
-  1. Learner starts API against empty Postgres and seed users appear (migration log or documented script).
-  2. Learner reads documentation explaining SQLite vs PostgreSQL trade-offs for this lab.
-  3. Learner runs `npm test` from `api/` and all 16 tests pass against PostgreSQL.
-  4. Duplicate email returns 409 against Postgres (same as SQLite).
-  5. Test run does not contaminate production/dev Postgres data (isolated test DB).
-
-**Plans**: 3 plans in 2 waves
-
-**Wave 1** *(no dependencies)*
-- [x] 13-01: Shared `seed.js` + Postgres populateIfEmpty with setval (PGMIG-01)
-
-**Wave 2** *(depends on 13-01; 13-03 after 13-02)*
-- [x] 13-02: `edf_lab_test`, `index.pg.test.js`, dual `npm test` (PGTEST-01–03)
-- [x] 13-03: «Hacia PostgreSQL» in `docs/13-sqlite.md` (PGMIG-02)
-
-**Cross-cutting constraints:**
-- Tests never touch Compose `edf_lab` database — only `edf_lab_test`
-- `index.test.js` unchanged behavior for SQLite (PGTEST dual run adds Postgres file)
-- No `docs/00-indice.md` or Mission 12 in Phase 13
-
-### Phase 14: PostgreSQL Learning Material
-
-**Goal**: Learners have guided documentation and missions to understand PostgreSQL in this lab.
-**Depends on**: Phase 13
-**Requirements**: PGDOCS-01, PGDOCS-02, PGDOCS-03, PGDOCS-04, PGDOCS-05
-**Success Criteria** (what must be TRUE):
-
-  1. Learner reads a new doc explaining Postgres connection, schema, and queries with executable examples.
-  2. Learner completes a mission walking through Compose + Postgres, CRUD, restart, and persistence check.
-  3. Learner finds SQLite doc updated with evolution pointer to PostgreSQL.
-  4. Learner finds new doc and mission in `docs/00-indice.md` and README Postgres instructions.
-  5. Real errors during Postgres integration are recorded in `NOTEBOOK.md`.
-
-**Plans**: 2 plans in 2 waves
-
-**Wave 1**
-- [x] 14-01: `docs/15-postgresql.md` + update doc 14/13 + glossary (PGDOCS-01, PGDOCS-03)
-
-**Wave 2** *(depends on 14-01)*
-- [x] 14-02: Mission 12, index, README, NOTEBOOK (PGDOCS-02, PGDOCS-04, PGDOCS-05)
-
-**Cross-cutting constraints:**
-- Documentation only — no API/dashboard code changes
-- Mission 11 remains SQLite bind-mount path; Mission 12 is Postgres path
+</details>
 
 ## Progress
 
@@ -142,14 +62,13 @@
 | 9. Compose Stack Foundation | v1.2 | 3/3 | Complete | 2026-05-31 |
 | 10. SQLite Volume & Scripts | v1.2 | 2/2 | Complete | 2026-05-31 |
 | 11. Compose Learning Material | v1.2 | 2/2 | Complete | 2026-05-31 |
-| 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete    | 2026-05-31 |
+| 12. PostgreSQL Persistence Layer | v1.3 | 3/3 | Complete | 2026-05-31 |
 | 13. Migration & Test Confidence | v1.3 | 3/3 | Complete | 2026-06-01 |
-| 14. PostgreSQL Learning Material | v1.3 | 0/2 | Planned | — |
-
-**Execution order:** Phases execute in numeric order: 12 → 13 → 14
+| 14. PostgreSQL Learning Material | v1.3 | 2/2 | Complete | 2026-06-01 |
 
 Archived milestone details:
 
 - `.planning/milestones/v1.0-ROADMAP.md`
 - `.planning/milestones/v1.1-ROADMAP.md`
 - `.planning/milestones/v1.2-ROADMAP.md`
+- `.planning/milestones/v1.3-ROADMAP.md`

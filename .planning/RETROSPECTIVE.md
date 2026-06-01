@@ -93,6 +93,50 @@
 
 ---
 
+## Milestone: v1.3 — PostgreSQL Persistence
+
+**Shipped:** 2026-06-01  
+**Phases:** 3 | **Plans:** 8
+
+### What Was Built
+
+- Dual DB adapters (`db-sqlite.js`, `db-pg.js`) with `DATABASE_URL` router in `db.js`
+- Compose three-service stack: Postgres 16 + API + dashboard; `postgres_data` volume
+- Shared `seed.js` for SQLite and Postgres; `edf_lab_test` + `index.pg.test.js` (32 tests total)
+- `docs/15-postgresql.md`, Mission 12, doc 14 v1.3 update, NOTEBOOK Postgres errors
+
+### What Worked
+
+- Same milestone shape as v1.1 (persistence → migration/tests → docs) reduced planning risk
+- Additive Postgres kept host `npm start` frictionless for beginners
+- Phase 13 deferred index/Mission 12 to Phase 14 — clear doc boundary held
+
+### What Was Inefficient
+
+- No v1.3 milestone audit before close (v1.2 had one); relied on phase VERIFICATION files
+- `milestone.complete` still failed to extract SUMMARY one-liners automatically
+- Phase 11 UAT artifact left in unknown state from v1.2 (carried as deferred)
+
+### Patterns Established
+
+- `DATABASE_URL` as single switch between embedded and client-server DB
+- `test:db:prepare` as explicit learner step before PG test suite
+- Mission 11 (bind mount flow) + Mission 12 (Postgres/`psql`) as parallel Compose paths
+
+### Key Lessons
+
+1. Document three storage locations: `users.db` (host), `postgres_data` (Compose), `edf_lab_test` (tests)
+2. `unset DATABASE_URL` in shell when switching from Compose dev to SQLite tests
+3. Update doc 14 when Compose runtime store changes — learners read it before Mission 11/12
+
+### Cost Observations
+
+- Model mix: not tracked
+- Timeline: 2026-05-31 → 2026-06-01 (~2 days)
+- Notable: Phase 14 docs-only closed milestone without code churn
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -101,13 +145,17 @@
 |-----------|----------|--------|------------|
 | v1.0 | ~5 | 5 | GSD phased execution with UAT + security gates |
 | v1.1 | ~2 | 3 | SQLite migration + docs; audit cleanup before archive |
+| v1.2 | ~2 | 3 | Compose orchestration; bind mount persistence |
+| v1.3 | ~2 | 3 | PostgreSQL additive; dual test matrix |
 
 ### Cumulative Quality
 
-| Milestone | Tests | Coverage | Zero-Dep Additions |
-|-----------|-------|----------|-------------------|
+| Milestone | Tests | Coverage | Notable deps |
+|-----------|-------|----------|--------------|
 | v1.0 | 12 API tests | Manual UAT per phase | fs/promises, node:test, manual OpenAPI |
 | v1.1 | 16 API tests | Dashboard UAT 5/5 (Phase 7) | node:sqlite (built-in) |
+| v1.2 | 16 API tests | Compose E2E UAT | nginx + compose only |
+| v1.3 | 32 API tests | Phase 14 verification 5/5 | `pg` (educational) |
 
 ### Top Lessons (Verified Across Milestones)
 

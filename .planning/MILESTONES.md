@@ -1,5 +1,23 @@
 # Milestones
 
+## v1.3 PostgreSQL Persistence (Shipped: 2026-06-01)
+
+**Phases completed:** 3 phases, 8 plans  
+**Timeline:** 2026-05-31 → 2026-06-01  
+**Known deferred items at close:** 1 (see STATE.md Deferred Items — Phase 11 UAT artifact status unknown)
+
+**Key accomplishments:**
+
+- Dual persistence layer: `db-sqlite.js` + `db-pg.js` routed by `DATABASE_URL`; SQLite default on host `npm start`
+- Three-service Compose stack (`edf-lab-postgres` + API + dashboard) with `postgres_data` volume and healthcheck
+- Shared `api/seed.js` seeds empty Postgres; `setval` keeps SERIAL ids aligned with SQLite migration
+- Test matrix: 32/32 tests (`index.test.js` + `index.pg.test.js` on isolated `edf_lab_test`)
+- Learning material: `docs/15-postgresql.md`, Mission 12, doc 14 three-service update, NOTEBOOK Postgres errors
+
+**Delivered:** Learners can run the full stack with PostgreSQL, inspect data with `psql`, and compare SQLite vs Postgres paths without breaking the dashboard contract.
+
+---
+
 ## v1.1 SQLite Persistence (Shipped: 2026-05-30)
 
 **Phases completed:** 3 phases, 8 plans  

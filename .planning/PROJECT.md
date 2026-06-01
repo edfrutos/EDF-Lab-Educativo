@@ -4,53 +4,26 @@
 
 EDF Lab Educativo is a hands-on learning lab for understanding a modern web flow with a separate Express backend and a static frontend dashboard. It is for the project owner and beginner students who need to see, run, break, debug, and document the path from backend endpoints to JSON responses to rendered browser UI.
 
-The lab includes a working API with **SQLite persistence** (`users.db`), a dashboard that performs full CRUD with `fetch()`, **16 automated API tests**, a beginner glossary, guided missions (including SQLite inspection and Docker Compose), OpenAPI contract documentation, single-container Docker (Mission 09), and an optional **Docker Compose** stack — all organized as an educational progression.
+The lab includes a working API with **dual persistence** (SQLite on host dev, PostgreSQL in Compose), a dashboard that performs full CRUD with `fetch()`, **32 automated API tests** (16 SQLite + 16 Postgres), guided missions (SQLite, Docker, Compose, PostgreSQL), OpenAPI contract documentation, and optional container paths — all organized as an educational progression.
 
 ## Core Value
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-<details>
-<summary>Previous milestone context (v1.3 planning — in progress)</summary>
+## Current State (v1.3 shipped 2026-06-01)
 
-## Milestone: v1.3 PostgreSQL Persistence
-
-**Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database, keeping the backend → JSON → dashboard flow intact.
-
-**Target features:**
-- PostgreSQL service in Docker Compose with persistent volume
-- API uses `pg` client when `DATABASE_URL` is set; SQLite remains default for host dev
-- Same `users` schema and HTTP contract for dashboard
-- Migration/seed path into empty Postgres
-- Updated tests, docs (`docs/15-postgresql.md`), and Mission 12
-
-</details>
-
-## Current State (v1.2 shipped 2026-05-31)
-
-**Stack:** Express + `node:sqlite` + static vanilla dashboard + optional Docker Compose (nginx + API)  
-**Persistence:** `api/data/users.db` (runtime), `api/data/users.json` (seed/migration only); bind mount in Compose  
-**Tests:** 16/16 API tests (`npm test` in `api/`)  
-**Docs:** 14 conceptual docs + Missions 10–11 (SQLite, Compose); see `docs/00-indice.md`  
-**Compose:** `npm run compose:up` from repo root; dashboard :5173, API :3100
-
-## Current Milestone: v1.3 PostgreSQL Persistence
-
-**Goal:** Teach the evolution from SQLite to PostgreSQL as a client-server database, keeping the backend → JSON → dashboard flow intact and observable.
-
-**Target features:**
-- PostgreSQL container in Compose with named volume for data persistence
-- API persistence layer using `pg` when `DATABASE_URL` is configured
-- SQLite remains the default host-dev path (`npm start` without Postgres)
-- Seed/migration into empty Postgres; tests updated for PostgreSQL
-- Doc 15, Mission 12, NOTEBOOK entries comparing SQLite vs PostgreSQL
+**Stack:** Express + `node:sqlite` / `pg` + static vanilla dashboard + Docker Compose (Postgres + API + nginx)  
+**Persistence:** Host — `api/data/users.db` (SQLite, default). Compose — PostgreSQL `edf_lab` on volume `postgres_data`. `users.json` is seed only.  
+**Tests:** 32/32 API tests when Postgres is up (`npm test` in `api/`); `test:db:prepare` for `edf_lab_test`  
+**Docs:** 15 conceptual docs + Missions 10–12; see `docs/00-indice.md`  
+**Compose:** `npm run compose:up` — dashboard :5173, API :3100, Postgres :5432
 
 ## Next Milestone Goals (v1.4+ — not yet planned)
 
-Candidates deferred from earlier planning:
+Candidates from requirements backlog:
 
-- Frontend framework comparison (React/Vue) after vanilla flow is solid
-- Production authentication when a learning phase explicitly teaches auth
+- Frontend framework comparison (React/Vue) after vanilla + Postgres path is solid (FRWK-01, FRWK-02)
+- Production authentication when a learning phase explicitly teaches auth (PROD-01, PROD-02)
 
 ## Requirements
 
@@ -76,11 +49,13 @@ Candidates deferred from earlier planning:
 - ✓ Dashboard nginx container on :5173; API on :3100; full CRUD against containerized API — v1.2 Phase 09
 - ✓ SQLite bind mount `./api/data` persists across compose restarts — v1.2 Phase 10
 - ✓ Root `compose:up/down/logs` scripts; doc 14 + Mission 11 — v1.2 Phase 11
+- ✓ PostgreSQL persistence via `pg` when `DATABASE_URL` is set; same HTTP/JSON contract — v1.3 Phase 12
+- ✓ Compose three-service stack with Postgres named volume — v1.3 Phase 12
+- ✓ Shared seed into empty Postgres; dual test suite on `edf_lab_test` — v1.3 Phase 13
+- ✓ `docs/15-postgresql.md`, Mission 12, NOTEBOOK Postgres errors — v1.3 Phase 14
 
 ### Active
 
-- [ ] PostgreSQL persistence layer with `pg` client — v1.3
-- [ ] Postgres service in Compose + learning material — v1.3
 - [ ] Frontend framework comparison (React/Vue) — candidate v1.4+
 - [ ] Production authentication and deployment hardening — future advanced phase
 
@@ -88,28 +63,41 @@ Candidates deferred from earlier planning:
 
 - Full production authentication — not needed for the current beginner-focused API/data-flow lab.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
-- nginx reverse proxy `/api` in v1.2 — documented as advanced reto only.
+- nginx reverse proxy `/api` in Compose — documented as advanced reto only.
 - Frontend frameworks in the near term — keep HTML, CSS, and JavaScript vanilla until a framework has clear teaching value.
 - Production deployment hardening — local learning remains the first target.
+- ORM / managed cloud Postgres — raw SQL + local Compose keep the layer transparent.
+- Removing SQLite entirely — host dev stays low-friction; Postgres is additive.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
 
 ## Context
 
 The lab is organized around a learning route:
 
-- `docs/` explains the concepts in reading order (glossary, tests, OpenAPI, Docker, Compose).
-- `missions/` provides executable practice (11 missions including SQLite, Docker, Compose).
-- `ROADMAP.md` lists the educational evolution; v1.0, v1.1, and v1.2 milestones complete.
+- `docs/` explains concepts in reading order (through doc 15 PostgreSQL).
+- `missions/` provides executable practice (12 missions).
+- `ROADMAP.md` lists educational evolution; v1.0–v1.3 milestones complete.
 - `NOTEBOOK.md` captures real decisions, errors, and lessons.
-- `api/` contains the Express backend with SQLite persistence, tests, OpenAPI spec, and Dockerfile.
-- `dashboard/` contains the static frontend with full CRUD; optional nginx container via Compose.
-- `docker-compose.yml` + root `package.json` scripts for optional multi-container path.
+- `api/` — Express backend, dual DB adapters, tests, OpenAPI, Dockerfile.
+- `dashboard/` — static frontend with full CRUD; nginx via Compose.
+- `docker-compose.yml` — optional Postgres + API + dashboard stack.
 
-**v1.2 milestone shipped 2026-05-31:** 3 phases, 7 plans, 13/13 requirements, runtime UAT pass (compose persistence).
+**v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
 
-**v1.1 milestone shipped 2026-05-30:** 3 phases, 8 plans, 16 API tests passing.
+**v1.2 milestone shipped 2026-05-31:** 3 phases, 7 plans.
 
-**v1.0 milestone shipped 2026-05-30:** 5 phases, 13 plans, dashboard CRUD + JSON persistence + tests + OpenAPI + Docker.
+**v1.1 milestone shipped 2026-05-30:** 3 phases, 8 plans.
+
+**v1.0 milestone shipped 2026-05-30:** 5 phases, 13 plans.
+
+<details>
+<summary>Previous milestone planning context (v1.3 — archived)</summary>
+
+**Goal:** Teach SQLite → PostgreSQL as client-server DB while keeping backend → JSON → dashboard intact.
+
+**Shipped:** `db-pg.js`, Compose postgres service, seed.js, 32 tests, doc 15, Mission 12.
+
+</details>
 
 ## Constraints
 
@@ -133,13 +121,15 @@ The lab is organized around a learning route:
 | Bind mount for SQLite in Compose | Same path as host dev; inspectable `users.db` | ✓ Good — v1.2 |
 | Direct published ports (no reverse proxy) | Beginner transparency; CORS already works | ✓ Good — v1.2 |
 | Host dev path remains primary | Compose is advanced optional | ✓ Good — v1.2 |
+| PostgreSQL additive after SQLite | Client-server DB without removing embedded path | ✓ Good — v1.3 |
+| Raw SQL + `pg` Pool (no ORM) | Transparent database layer for learners | ✓ Good — v1.3 |
+| Postgres named volume in Compose | Persistence distinct from bind-mounted seed JSON | ✓ Good — v1.3 |
+| Isolated `edf_lab_test` for PG tests | Dev DB `edf_lab` never contaminated | ✓ Good — v1.3 |
 | Allow frameworks later | Future phases may benefit once fundamentals are established | — Pending v1.4 |
-| PostgreSQL as next DB step after SQLite | Client-server DB teaches scaling beyond embedded SQLite | — Pending v1.3 |
-| Keep SQLite as host-dev default | Lower friction for beginners; Postgres via Compose/env optional | — Pending v1.3 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-05-31 after v1.3 milestone started*
+*Last updated: 2026-06-01 after v1.3 milestone*

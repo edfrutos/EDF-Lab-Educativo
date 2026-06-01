@@ -1,33 +1,33 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.3
-milestone_name: PostgreSQL Persistence
-status: milestone_complete
-last_updated: "2026-06-01T12:00:00.000Z"
-last_activity: 2026-06-01 — Phase 14 complete (v1.3)
+milestone: none
+milestone_name: none
+status: ready_for_next_milestone
+last_updated: "2026-06-01T12:30:00.000Z"
+last_activity: 2026-06-01 — Milestone v1.3 archived and tagged
 progress:
-  total_phases: 3
-  completed_phases: 3
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-05-31)
+See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** v1.3 complete — optional `/gsd-complete-milestone`
+**Current focus:** Planning next milestone (`/gsd-new-milestone`)
 
 ## Current Position
 
-Phase: 14 complete
+Phase: —
 Plan: —
-Status: Milestone v1.3 ready to archive
-Last activity: 2026-06-01 — Phase 14 executed (docs + Mission 12)
+Status: Ready for next milestone
+Last activity: 2026-06-01 — v1.3 PostgreSQL Persistence shipped and tagged
 
 ## Shipped Milestones
 
@@ -36,30 +36,29 @@ Last activity: 2026-06-01 — Phase 14 executed (docs + Mission 12)
 | v1.0 Educational Lab MVP | 1–5 | 2026-05-30 | v1.0 |
 | v1.1 SQLite Persistence | 6–8 | 2026-05-30 | v1.1 |
 | v1.2 Docker Compose | 9–11 | 2026-05-31 | v1.2 |
-| v1.3 PostgreSQL Persistence | 12–14 | 2026-06-01 | (pending tag) |
+| v1.3 PostgreSQL Persistence | 12–14 | 2026-06-01 | v1.3 |
 
-## By Phase (v1.3)
+## Deferred Items
 
-| Phase | Plans | Status |
-|-------|-------|--------|
-| 12 PostgreSQL Persistence Layer | 3/3 | Complete (2026-05-31) |
-| 13 Migration & Test Confidence | 3/3 | Complete (2026-06-01) |
-| 14 PostgreSQL Learning Material | 2/2 | Complete (2026-06-01) |
+Items acknowledged and deferred at milestone close on 2026-06-01:
+
+| Category | Item | Status |
+|----------|------|--------|
+| uat_gaps | Phase 11 — `11-UAT.md` artifact status unknown | deferred |
+| uat_gaps | Phase 02 — HUMAN-UAT artifact (from v1.0 close) | verified |
 
 ## Accumulated Context
 
-### Decisions (v1.3 intent)
+### Decisions (carried forward)
 
 - PostgreSQL additive — SQLite remains host-dev default without `DATABASE_URL`.
-- `pg` package with raw SQL (no ORM).
-- Postgres as Compose service with named volume.
-- Mirror v1.1 milestone structure: persistence → migration/tests → learning material.
+- `pg` + raw SQL; Compose uses `postgres_data`; tests use `edf_lab_test` only.
 
 ### Operator Next Steps
 
-- `/gsd-complete-milestone` — tag v1.3, archive milestone artifacts
-- Or begin v1.4 planning when ready
+- `/gsd-new-milestone` — define v1.4 scope (frameworks, auth, or other)
+- Optional: `git push origin v1.3` to publish the release tag
 
 ## Session Continuity
 
-Resume file: .planning/phases/14-postgresql-learning-material/
+Resume file: `.planning/PROJECT.md`
