@@ -1,47 +1,38 @@
-# Project Research Summary
+# Research Summary — v1.5 Production Auth & Deployment
 
-**Project:** EDF Lab Educativo  
-**Domain:** Educational full-stack lab (Express + static/framework frontends)  
-**Researched:** 2026-06-01  
-**Confidence:** HIGH
+**Synthesized:** 2026-06-01  
+**Milestone:** v1.5  
+**Recommendation:** Proceed with JWT + httpOnly cookie + bcrypt; 4 phases (18–21)
 
 ## Executive Summary
 
-v1.4 should add **two parallel Vite apps** (`dashboard-react/`, `dashboard-vue/`) that reproduce the vanilla dashboard's CRUD and health/load flow against the existing API. The vanilla `dashboard/` remains the primary learning path; frameworks are an **advanced branch** for comparing state and forms.
+Add a teachable **operator login** (separate `accounts` table) protecting existing **users CRUD**, using **bcrypt** + **jsonwebtoken** in an **httpOnly cookie** with **CORS credentials** for ports 5173–5175. Follow with **env/secrets discipline** and **TLS-at-nginx** deployment documentation. Keep `AUTH_DISABLED=1` test-only escape hatch; never in production.
 
-Stack changes are frontend-only: Vite dev servers on **5174/5175**, optional `cors()` origin extension, no database or Express redesign. A three-phase milestone (React → Vue → learning material) mirrors v1.1/v1.3 structure.
+## Stack Additions
 
-## Key Findings
+- `bcrypt`, `jsonwebtoken`, `cookie-parser` (3 deps — justified educational value)
+- CORS: explicit origins + `credentials: true`
 
-### Recommended Stack
+## Feature Scope for Requirements
 
-- **Vite + React** and **Vite + Vue 3** in sibling folders
-- **`VITE_API_BASE_URL=http://localhost:3100`** per app
-- **No** Redux/Pinia/Next/Nuxt in v1.4
+**In milestone:** login/logout, protected `/users`, vanilla login UI, env example, compose env_file, auth tests, doc 17, mission 14, NOTEBOOK.
 
-### Expected Features
+**Out:** OAuth, refresh tokens, RBAC, K8s, localStorage JWT.
 
-**Must have:** CRUD parity, health/api info load, loading/error/offline states, 409 duplicate email surfaced  
-**Should have:** Comparison doc (state + forms), mission with Network tab  
-**Defer:** Compose for framework apps, auth, E2E grid across three UIs
+## Watch Out For
 
-### Architecture
+1. CORS/cookie misconfiguration — #1 learner breakage  
+2. Test suite regression — update supertest with cookie or `AUTH_DISABLED`  
+3. Secret leakage — `.env` gitignored, example only in repo  
 
-Separate folders; `api/` untouched except possible one-line CORS; host-run dev servers; build order React → Vue → docs.
-
-### Critical Pitfalls
-
-1. CORS — add new dev origins  
-2. Port clashes — don't use 5173 for Vite  
-3. Don't replace vanilla as default narrative  
-4. Keep `fetch` visible — no hidden HTTP layers
-
-## Implications for Roadmap
+## Suggested Phases
 
 | Phase | Focus |
 |-------|--------|
-| 15 | React dashboard parity + CORS/ports |
-| 16 | Vue dashboard parity |
-| 17 | `docs/16-frameworks.md`, Mission 13, README/index, NOTEBOOK |
+| 18 | Auth API + schema + middleware + tests |
+| 19 | Vanilla dashboard login + credentials fetch |
+| 20 | Deploy, secrets, Compose env, TLS doc |
+| 21 | Learning material (doc, mission, index, NOTEBOOK) |
 
-**Requirements estimate:** ~12 FRWK-* items across persistence N/A, two implementations, docs/mission.
+---
+*Feeds REQUIREMENTS.md and gsd-roadmapper*

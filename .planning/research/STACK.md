@@ -1,35 +1,47 @@
-# Research: Stack — v1.4 Framework Dashboards
+# Stack Research
 
+**Domain:** Educational Express API + static/Vite frontends — auth & production deploy  
 **Researched:** 2026-06-01  
-**Milestone:** v1.4 Frontend Framework Comparison
+**Confidence:** HIGH
 
-## Recommendation
+## Recommended Stack
 
-Use **Vite** as the dev/build tool for each framework app — standard, fast HMR, minimal config, aligns with educational "see changes instantly" goals.
+### Core Technologies
 
-## Stack additions
+| Technology | Version | Purpose | Why Recommended |
+|------------|---------|---------|-----------------|
+| `bcrypt` | ^5.x | Password hashing | Industry-standard teaching target; sync API ok for lab scale |
+| `jsonwebtoken` | ^9.x | Signed session tokens | Stateless API auth; pairs well with Express middleware |
+| `cookie-parser` | ^1.x | Parse `Cookie` header | httpOnly cookie transport for browser dashboards |
+| Express middleware | existing | `requireAuth` guard | Matches current single-file `index.js` pedagogy |
 
-| Piece | Choice | Rationale |
-|-------|--------|-----------|
-| React app | Vite + React 19 (or 18 LTS) | Industry default; hooks map cleanly to vanilla patterns |
-| Vue app | Vite + Vue 3 | Composition API parallels `ref`/`reactive` teaching |
-| Location | `dashboard-react/`, `dashboard-vue/` | Preserves `dashboard/` vanilla; keeps `api/` untouched (CLAUDE.md) |
-| Dev ports | 5174 (React), 5175 (Vue) | Avoid clash with vanilla `:5173` and API `:3100` |
-| API URL | `VITE_API_BASE_URL` env | Same contract as hardcoded `API_BASE_URL` in vanilla |
+### Supporting Libraries
 
-## What NOT to add
+| Library | Version | Purpose | When to Use |
+|---------|---------|---------|-------------|
+| `dotenv` | ^16.x (optional) | Load `.env` in dev | Only if not already loaded; prefer documenting `export VAR=` for beginners |
+| nginx (Compose) | alpine | TLS termination | Optional advanced profile — terminate TLS at proxy, not in Node |
 
-- No monorepo tooling (pnpm workspaces) unless maintenance becomes painful — YAGNI for a lab
-- No SSR/Next/Nuxt — obscures `fetch()` and CORS learning
-- No state libraries (Redux, Pinia) in v1.4 — compare framework primitives first
-- No changes to Express or database layers for framework milestone
+### What NOT to Add
 
-## Integration
+| Avoid | Reason |
+|-------|--------|
+| Passport.js | Hides mechanism learners should see |
+| OAuth providers | v1.5 defers social login |
+| Redis session store | Overkill for single-machine lab |
+| helmet-only as “security” | Teach auth + env first |
 
-- `npm run dev` per folder; document in README
-- Optional later: static `dist/` served by nginx in Compose (defer to phase or v1.5)
-- CORS already allows `localhost:5173`; extend `cors()` origin list when framework ports are fixed
+## Integration with Existing Stack
 
-## Confidence
+- **SQLite / Postgres:** Add `accounts` table to both `schema.sql` and `schema.pg.sql`; seed one admin via `seed.js` when empty.
+- **CORS:** Enable `credentials: true` and explicit `origin` list (`5173`, `5174`, `5175`) — required for httpOnly cookies across ports.
+- **Tests:** `supertest` sends `Cookie` header or uses `AUTH_DISABLED=1` in test env only (documented anti-pattern for prod).
 
-HIGH for Vite + separate folders; MEDIUM for exact port/CORS list (verify at implementation).
+## Installation
+
+```bash
+cd api && npm install bcrypt jsonwebtoken cookie-parser
+```
+
+---
+*Research for milestone v1.5 — Production Auth & Deployment*

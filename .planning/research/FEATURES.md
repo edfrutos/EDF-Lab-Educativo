@@ -1,41 +1,46 @@
-# Research: Features — v1.4 Framework Dashboards
+# Features Research
 
-**Researched:** 2026-06-01
+**Domain:** Auth + production deploy for beginner full-stack lab  
+**Researched:** 2026-06-01  
+**Confidence:** HIGH
 
-## Baseline (vanilla `dashboard/app.js`)
+## Table Stakes (must have)
 
-| Feature | Vanilla pattern |
-|---------|-----------------|
-| Initial load | `Promise.all` → `/health`, `/`, `/users` |
-| List users | Table render from `currentUsers` |
-| Create | POST `/users` + reload |
-| Edit | PUT `/users/:id`, form mode |
-| Delete | DELETE with confirm |
-| States | loading, online/offline, error box, mutation feedback |
-| Contract | Same JSON shapes as API docs |
-
-## Table stakes (must match in React + Vue)
-
-- FRWK parity: all CRUD operations visible in UI
-- Health + API metadata panel (or equivalent sections)
-- Explicit error when API unreachable (CORS, EADDRINUSE, wrong port)
-- Reload / refresh data control
-- Duplicate email shows API error (409) to user
+| Feature | Expected behavior | Complexity |
+|---------|-------------------|------------|
+| Login endpoint | `POST /auth/login` with email/password → 200 + httpOnly cookie | Medium |
+| Logout | `POST /auth/logout` clears cookie | Low |
+| Protected CRUD | All `/users` routes return 401 without valid session | Medium |
+| Public health | `GET /health`, `GET /` stay public for ops checks | Low |
+| Password hashing | Never store plaintext; bcrypt cost factor documented | Low |
+| Env secrets | `JWT_SECRET`, admin seed creds via env — `.env.example` only | Low |
+| Dashboard login UI | Form on vanilla dashboard; redirect/guard when 401 | Medium |
+| Test matrix update | Existing 32 tests pass with test auth bypass flag | Medium |
 
 ## Differentiators (educational value)
 
-- Side-by-side doc: "same fetch, different state container"
-- Highlight: vanilla DOM vs virtual DOM vs reactivity
-- DevTools-friendly component boundaries in frameworks
+| Feature | Why include |
+|---------|-------------|
+| Dual feedback on 401 | Dashboard shows Spanish message + link to login (mirrors 409 pattern) |
+| `credentials: 'include'` lesson | Makes CORS + cookies visible in Network tab |
+| AUTH_DISABLED dev escape hatch | Teaches why prod must not use it |
+| Framework appendix | Short section in auth doc: React/Vue same cookie rules |
 
-## Anti-features (out of scope v1.4)
+## Anti-features (defer / out of scope)
 
-- Auth, routing libraries, i18n, design systems
-- Shared component library between React and Vue
-- Replacing vanilla dashboard as default entry in README
-- E2E Playwright matrix across three frontends (manual mission sufficient)
+| Feature | Reason |
+|---------|--------|
+| Refresh tokens / rotation | Too much for first auth milestone |
+| RBAC / roles | Single admin role sufficient |
+| Rate limiting | Mention in deploy doc, don't implement |
+| mTLS | Out of beginner scope |
+| Full Let's Encrypt automation | Document manual/cert paths only |
 
-## FRWK mapping
+## Dependencies on Existing Features
 
-- **FRWK-01 (introduce comparison):** Two framework apps + doc index entry
-- **FRWK-02 (state/forms):** Dedicated doc section with code excerpts from all three dashboards
+- OpenAPI spec must gain `/auth/login`, `/auth/logout`, security scheme
+- Missions 01–02 still valid; new mission chains after login
+- Compose stack: pass `JWT_SECRET` via `env_file`
+
+---
+*Research for milestone v1.5*

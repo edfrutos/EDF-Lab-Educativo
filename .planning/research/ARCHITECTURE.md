@@ -1,41 +1,72 @@
-# Research: Architecture — v1.4 Framework Dashboards
+# Architecture Research
 
-**Researched:** 2026-06-01
+**Domain:** Auth layer on dual-DB Express lab  
+**Researched:** 2026-06-01  
+**Confidence:** HIGH
 
-## Current (unchanged)
+## Current Architecture (unchanged core)
 
-```txt
-Navegador → localhost:5173 → vanilla dashboard → fetch → localhost:3100 → api/
+```
+Browser (:5173|:5174|:5175)
+  → fetch(credentials: 'include')
+  → Express :3100 (cors + json)
+  → db.js router → SQLite | Postgres
 ```
 
-## Target
+## Proposed Additions
 
-```txt
-Navegador → :5173  → dashboard/        (primary, unchanged)
-           → :5174  → dashboard-react/  (Vite dev)
-           → :5175  → dashboard-vue/    (Vite dev)
-                              ↓ fetch (same JSON contract)
-                         localhost:3100 → api/
+### Data model
+
+```
+accounts (id, email UNIQUE, password_hash, created_at)
+  — separate from users CRUD table (keeps “app users” vs “dashboard operator” clear)
 ```
 
-## Principles
+Seed: one admin account from `ADMIN_EMAIL` + `ADMIN_PASSWORD` env on empty DB.
 
-1. **No coupling** — `api/index.js` unchanged unless CORS origin list needs one line
-2. **Copy patterns, not code** — Reimplement `elements` + helpers idiomatically per framework
-3. **Build order** — React first (larger ecosystem), Vue second, comparison doc last
-4. **Compose** — Keep existing three-service stack; framework dashboards run on host in v1.4 (document why)
+### Request flow (authenticated)
 
-## New components
+```
+POST /auth/login → verify bcrypt → sign JWT → Set-Cookie httpOnly
+GET /users → requireAuth → db.getAllUsers()
+```
 
-| Component | Responsibility |
-|-----------|----------------|
-| `dashboard-react/` | Vite React SPA, CRUD parity |
-| `dashboard-vue/` | Vite Vue SPA, CRUD parity |
-| `docs/16-frameworks.md` (proposed) | Comparison narrative |
-| `missions/13-*.md` (proposed) | Hands-on framework path |
+### Middleware placement
 
-## Suggested phase order
+```javascript
+app.use(cookieParser());
+app.use(cors({ origin: [...], credentials: true }));
+// public routes first
+app.post('/auth/login', ...);
+app.post('/auth/logout', ...);
+app.use('/users', requireAuth); // or per-route
+```
 
-1. **Phase 15** — React scaffold + parity + CORS port update
-2. **Phase 16** — Vue scaffold + parity
-3. **Phase 17** — Comparison doc, mission, README/index, NOTEBOOK
+### JWT payload (minimal)
+
+`{ sub: accountId, email }` — expiry 8h for lab sessions (`JWT_EXPIRES_IN`).
+
+### Production deploy slice
+
+```
+Internet → nginx (TLS) → api:3100
+                → dashboard:80
+         env_file: .env (gitignored)
+         secrets: JWT_SECRET, DATABASE_URL, ADMIN_PASSWORD
+```
+
+Optional Compose profile `tls` with self-signed cert for local HTTPS demo.
+
+## Build Order
+
+1. Schema + seed + login API + middleware + API tests  
+2. Vanilla dashboard login/logout + guarded fetch  
+3. Env/Compose/deploy doc  
+4. Learning doc + mission + NOTEBOOK  
+
+## React/Vue (optional path)
+
+Same cookie model if `credentials: 'include'` — no localStorage JWT in v1.5 (XSS lesson). Appendix only unless time in Phase 19.
+
+---
+*Research for milestone v1.5*
