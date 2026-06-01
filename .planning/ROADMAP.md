@@ -89,7 +89,14 @@
   1. Learner runs `dashboard-vue` on its documented port with full CRUD.
   2. Learner can contrast Vue reactivity/refs with React state and vanilla variables.
 
-**Plans:** ~2 plans (scaffold + parity)
+**Plans:** 3 plans in 2 waves
+
+**Wave 1**
+- [ ] 16-01: Vite + Vue 3 + Tailwind scaffold, `api.js`, initial load (FRWK-04, FRWK-05 partial, FRWK-08 partial)
+
+**Wave 2** *(depends on 16-01; 16-03 after 16-02)*
+- [ ] 16-02: SFC components + full CRUD + 409 dual feedback (FRWK-05)
+- [ ] 16-03: UAT, CORS verify, README + pedagogy pointer (FRWK-04/05 sign-off)
 
 ### Phase 17: Framework Learning Material
 

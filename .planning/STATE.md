@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
-status: executing
-last_updated: "2026-06-01T14:00:00.000Z"
-last_activity: 2026-06-01 — Phase 16 context gathered
+status: planned
+last_updated: "2026-06-01T15:00:00.000Z"
+last_activity: 2026-06-01 — Phase 16 planned (3 plans)
 progress:
   total_phases: 3
   completed_phases: 1
-  total_plans: 3
+  total_plans: 6
   completed_plans: 3
-  percent: 33
+  percent: 50
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-plan-phase 16`
+**Current focus:** `/gsd-execute-phase 16` or `/gsd-execute-phase 16 --plan 01`
 
 ## Current Position
 
-Phase: 16 context gathered
-Plan: —
-Status: Ready for Phase 16 planning (Vue)
-Last activity: 2026-06-01 — Phase 16 discuss complete
+Phase: 16 planned
+Plan: 16-01 next
+Status: Ready for execution
+Last activity: 2026-06-01 — Phase 16 planned (3 plans)
 
 ## Shipped Milestones
 
@@ -51,15 +51,15 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ### Decisions (carried forward)
 
-- PostgreSQL additive — SQLite remains host-dev default without `DATABASE_URL`.
-- `dashboard-react/` on port **5174**, `VITE_API_BASE_URL`, Tailwind (not vanilla CSS).
-- Vanilla `dashboard/` on **5173** remains primary learning path.
+- `dashboard-react/` on **5174**; `dashboard-vue/` planned on **5175**
+- Vue: `<script setup>`, `ref()` in App.vue, mirror React component names
+- Vanilla `:5173` remains primary learning path
 
 ### Operator Next Steps
 
-- `/gsd-plan-phase 16` — crear planes de implementación Vue
-- Opcional: revisar `.planning/phases/16-vue-dashboard-parity/16-CONTEXT.md`
+- `/gsd-execute-phase 16` — ejecutar planes 16-01 → 16-02 → 16-03
+- Resume: `.planning/phases/16-vue-dashboard-parity/16-01-PLAN.md`
 
 ## Session Continuity
 
-Resume file: `.planning/phases/16-vue-dashboard-parity/16-CONTEXT.md`
+Resume file: `.planning/phases/16-vue-dashboard-parity/16-01-PLAN.md`
