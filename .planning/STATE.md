@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
 status: executing
-last_updated: "2026-06-01T12:40:00.000Z"
-last_activity: 2026-06-01 — Phase 15 complete (React dashboard)
+last_updated: "2026-06-01T14:00:00.000Z"
+last_activity: 2026-06-01 — Phase 16 context gathered
 progress:
   total_phases: 3
   completed_phases: 1
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-discuss-phase 16` or `/gsd-plan-phase 16`
+**Current focus:** `/gsd-plan-phase 16`
 
 ## Current Position
 
-Phase: 15 complete
+Phase: 16 context gathered
 Plan: —
-Status: Ready for Phase 16 (Vue)
-Last activity: 2026-06-01 — Phase 15 executed (dashboard-react)
+Status: Ready for Phase 16 planning (Vue)
+Last activity: 2026-06-01 — Phase 16 discuss complete
 
 ## Shipped Milestones
 
@@ -57,9 +57,9 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ### Operator Next Steps
 
-- `/gsd-discuss-phase 16` — Vue dashboard parity
-- Manual: run checklist in `.planning/phases/15-react-dashboard-parity/15-UAT.md`
+- `/gsd-plan-phase 16` — crear planes de implementación Vue
+- Opcional: revisar `.planning/phases/16-vue-dashboard-parity/16-CONTEXT.md`
 
 ## Session Continuity
 
-Resume file: Phase 16 planning (not started)
+Resume file: `.planning/phases/16-vue-dashboard-parity/16-CONTEXT.md`
