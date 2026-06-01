@@ -263,7 +263,7 @@ Variable opcional para otra URL de test:
 TEST_DATABASE_URL=postgresql://usuario:clave@localhost:5432/otra_bd npm run test:pg --prefix api
 ```
 
-> Guía completa Compose + Postgres, misión paso a paso y doc dedicado → **Fase 14** (`docs/15-postgresql.md`, Misión 12).
+> Guía completa: [`docs/15-postgresql.md`](./15-postgresql.md). Misión paso a paso: [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md).
 
 ---
 

@@ -413,6 +413,48 @@ sqlite3 api/data/users.db "SELECT id, name, email FROM users;"
 
 ---
 
+### PostgreSQL
+
+Motor de base de datos **cliente-servidor**: un proceso Postgres escucha en un puerto (5432) y la API se conecta con `DATABASE_URL`. En Compose, el servicio `edf-lab-postgres` guarda datos en el volumen `postgres_data`.
+
+```bash
+psql postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab \
+  -c "SELECT id, name, email FROM users;"
+```
+
+> Ver más: [`docs/15-postgresql.md`](./15-postgresql.md), [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md)
+
+---
+
+### DATABASE_URL
+
+Variable de entorno con la **cadena de conexión** a Postgres. Si está definida, `api/db.js` usa `db-pg.js`; si no, SQLite.
+
+```txt
+postgresql://edf_lab:edf_lab_dev@edf-lab-postgres:5432/edf_lab
+```
+
+En desarrollo host sin Compose, no la exportes si quieres seguir con `users.db`.
+
+> Ver más: [`docs/15-postgresql.md`](./15-postgresql.md), [`docs/14-docker-compose.md`](./14-docker-compose.md)
+
+---
+
+### volumen nombrado (named volume)
+
+Almacén gestionado por Docker (p. ej. `postgres_data`), independiente del filesystem del contenedor. Los datos de Postgres en Compose sobreviven a `docker compose down` sin `-v`.
+
+```yaml
+volumes:
+  postgres_data:
+```
+
+Contraste: el **bind mount** `./api/data` enlaza una carpeta del Mac con el contenedor.
+
+> Ver más: [`docs/14-docker-compose.md`](./14-docker-compose.md), [`docs/15-postgresql.md`](./15-postgresql.md)
+
+---
+
 ### esquema (schema)
 
 Definición estructurada de tablas y columnas. En este repo está en `api/schema.sql` y se aplica al arrancar con `initDb()`.
@@ -463,7 +505,7 @@ Migrados 2 usuarios desde users.json
 
 ### Docker Compose
 
-Herramienta que lee `docker-compose.yml` y arranca varios contenedores como un stack. En este lab orquesta `edf-lab-api` y `edf-lab-dashboard` con un solo comando.
+Herramienta que lee `docker-compose.yml` y arranca varios contenedores como un stack. En v1.3 orquesta `edf-lab-postgres`, `edf-lab-api` y `edf-lab-dashboard` con un solo comando.
 
 ```bash
 # Desde la raíz del repo
@@ -477,10 +519,12 @@ npm run compose:down
 
 ### servicio (Compose)
 
-Un contenedor definido en `docker-compose.yml`. Este proyecto tiene dos: `edf-lab-api` (Express + SQLite) y `edf-lab-dashboard` (nginx con ficheros estáticos).
+Un contenedor definido en `docker-compose.yml`. Este proyecto tiene tres: `edf-lab-postgres` (base de datos), `edf-lab-api` (Express + Postgres vía `DATABASE_URL`) y `edf-lab-dashboard` (nginx con ficheros estáticos).
 
 ```yaml
 services:
+  edf-lab-postgres:
+    image: postgres:16-alpine
   edf-lab-api:
     build: ./api
   edf-lab-dashboard:
@@ -511,6 +555,7 @@ Contraste: un contenedor sin bind mount (Misión 09) pierde los datos al destrui
 | Tipo | En este lab | ¿Sobrevive al parar el contenedor? |
 |------|-------------|-------------------------------------|
 | Sin volumen | `npm run docker:start` (Misión 09) | No |
-| Bind mount | `npm run compose:up` | Sí — archivo en `api/data/users.db` |
+| Bind mount | API en host o Compose (`./api/data`) | Sí — `users.db` / `users.json` en el Mac |
+| Volumen nombrado | `postgres_data` en Compose | Sí — datos Postgres |
 
-> Ver más: [`docs/12-docker.md`](./12-docker.md), [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md)
+> Ver más: [`docs/12-docker.md`](./12-docker.md), [`docs/14-docker-compose.md`](./14-docker-compose.md), [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md)
