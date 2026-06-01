@@ -3,6 +3,7 @@
 const { readFileSync } = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
+const { populateIfEmptyPg } = require('./seed');
 
 const SCHEMA_PATH = path.join(__dirname, 'schema.pg.sql');
 
@@ -30,7 +31,18 @@ async function initDb(options = {}) {
   const schema = readFileSync(SCHEMA_PATH, 'utf8');
   await pool.query(schema);
 
+  if (!options.skipSeed) {
+    await populateIfEmptyPg(pool);
+  }
+
   console.log('[db] Using PostgreSQL');
+}
+
+async function resetUsersForTests() {
+  if (!pool) {
+    throw new Error('Pool no inicializado. Llama a initDb() antes de resetUsersForTests().');
+  }
+  await pool.query('TRUNCATE users RESTART IDENTITY');
 }
 
 async function getAllUsers() {
@@ -93,6 +105,7 @@ async function deleteUser(id) {
 module.exports = {
   DuplicateEmailError,
   initDb,
+  resetUsersForTests,
   getAllUsers,
   getUserById,
   createUser,

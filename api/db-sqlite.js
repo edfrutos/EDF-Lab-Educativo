@@ -1,21 +1,16 @@
 'use strict';
 
-const { readFileSync, existsSync } = require('fs');
+const { readFileSync } = require('fs');
 const { mkdir } = require('fs/promises');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
+const { populateIfEmptySqlite } = require('./seed');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE_PATH = process.env.DB_FILE
   ? path.resolve(process.env.DB_FILE)
   : path.join(DATA_DIR, 'users.db');
 const SCHEMA_PATH = path.join(__dirname, 'schema.sql');
-const USERS_JSON_PATH = path.join(__dirname, 'data', 'users.json');
-
-const DEFAULT_SEED = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' }
-];
 
 class DuplicateEmailError extends Error {
   constructor() {
@@ -40,56 +35,6 @@ function isUniqueConstraintError(err) {
   );
 }
 
-function tryParseUsersJson() {
-  if (!existsSync(USERS_JSON_PATH)) {
-    return [];
-  }
-
-  try {
-    const raw = readFileSync(USERS_JSON_PATH, 'utf8');
-    const data = JSON.parse(raw);
-    if (!data || !Array.isArray(data.users)) {
-      return null;
-    }
-    return data.users.filter(
-      (u) => u && typeof u.id === 'number' && typeof u.name === 'string' && typeof u.email === 'string'
-    );
-  } catch {
-    return null;
-  }
-}
-
-function insertUsers(users) {
-  const database = getDb();
-  const insert = database.prepare('INSERT INTO users (id, name, email) VALUES (?, ?, ?)');
-  for (const user of users) {
-    insert.run(user.id, user.name, user.email);
-  }
-}
-
-function populateIfEmpty() {
-  const database = getDb();
-  const { count } = database.prepare('SELECT COUNT(*) AS count FROM users').get();
-  if (count > 0) {
-    return;
-  }
-
-  const fromJson = tryParseUsersJson();
-  let users;
-
-  if (fromJson === null) {
-    console.warn('[warn] data/users.json corrupto — restaurando semilla');
-    users = DEFAULT_SEED;
-  } else if (fromJson.length === 0) {
-    users = DEFAULT_SEED;
-  } else {
-    console.log(`Migrados ${fromJson.length} usuarios desde users.json`);
-    users = fromJson;
-  }
-
-  insertUsers(users);
-}
-
 async function initDb(options = {}) {
   if (db) {
     db.close();
@@ -103,7 +48,7 @@ async function initDb(options = {}) {
   db.exec(schema);
 
   if (!options.skipSeed) {
-    populateIfEmpty();
+    populateIfEmptySqlite(getDb);
   }
 }
 
