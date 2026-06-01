@@ -15,8 +15,8 @@ Requirements for the Frontend Framework Comparison milestone. Phases start at **
 
 ### Vue Dashboard
 
-- [ ] **FRWK-04**: `dashboard-vue/` exists with Vite + Vue 3; learner runs dev server on a documented port (e.g. 5175).
-- [ ] **FRWK-05**: Vue app achieves the same feature parity as FRWK-02 and FRWK-03.
+- [x] **FRWK-04**: `dashboard-vue/` exists with Vite + Vue 3; learner runs dev server on a documented port (e.g. 5175).
+- [x] **FRWK-05**: Vue app achieves the same feature parity as FRWK-02 and FRWK-03.
 
 ### API Contract & Integration
 
@@ -65,8 +65,8 @@ Deferred to future release.
 | FRWK-06 | Phase 15 | Complete |
 | FRWK-07 | Phase 15 | Complete |
 | FRWK-08 | Phase 15 | Complete |
-| FRWK-04 | Phase 16 | Pending |
-| FRWK-05 | Phase 16 | Pending |
+| FRWK-04 | Phase 16 | Complete |
+| FRWK-05 | Phase 16 | Complete |
 | FRWK-09 | Phase 17 | Pending |
 | FRWK-10 | Phase 17 | Pending |
 | FRWK-11 | Phase 17 | Pending |

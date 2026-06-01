@@ -7,6 +7,7 @@ El proyecto está compuesto por:
 - `api/`: API REST con Node.js, Express, Lodash y CORS.
 - `dashboard/`: frontend estático en HTML, CSS y JavaScript vanilla que consume la API con `fetch()`.
 - `dashboard-react/` *(opcional, v1.4)*: misma API con Vite + React + Tailwind en el puerto **5174**.
+- `dashboard-vue/` *(opcional, v1.4)*: misma API con Vite + Vue 3 + Tailwind en el puerto **5175**.
 
 ---
 
@@ -39,7 +40,8 @@ EDF-Lab-Educativo/
 ├── missions/
 ├── api/
 ├── dashboard/
-└── dashboard-react/   # opcional (v1.4)
+├── dashboard-react/   # opcional (v1.4)
+└── dashboard-vue/     # opcional (v1.4)
 ```
 
 ---
@@ -102,6 +104,18 @@ npm run dev
 ```
 
 Abre **http://localhost:5174**. Detalle: [`dashboard-react/README.md`](./dashboard-react/README.md).
+
+### Opcional (avanzado): dashboard Vue
+
+Misma API, stack Vue para comparar `ref()` y reactividad del template:
+
+```bash
+cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-vue
+npm install
+npm run dev
+```
+
+Abre **http://localhost:5175**. Detalle: [`dashboard-vue/README.md`](./dashboard-vue/README.md).
 
 ---
 

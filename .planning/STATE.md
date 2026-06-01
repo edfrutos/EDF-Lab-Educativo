@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.4
 milestone_name: Frontend Framework Comparison
-status: planned
-last_updated: "2026-06-01T15:00:00.000Z"
-last_activity: 2026-06-01 — Phase 16 planned (3 plans)
+status: executing
+last_updated: "2026-06-01T16:00:00.000Z"
+last_activity: 2026-06-01 — Phase 16 complete (Vue dashboard)
 progress:
   total_phases: 3
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 3
-  percent: 50
+  completed_plans: 6
+  percent: 67
 ---
 
 # Project State
@@ -20,14 +20,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-06-01)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
-**Current focus:** `/gsd-execute-phase 16` or `/gsd-execute-phase 16 --plan 01`
+**Current focus:** `/gsd-discuss-phase 17` or `/gsd-plan-phase 17`
 
 ## Current Position
 
-Phase: 16 planned
-Plan: 16-01 next
-Status: Ready for execution
-Last activity: 2026-06-01 — Phase 16 planned (3 plans)
+Phase: 16 complete
+Plan: —
+Status: Ready for Phase 17 (Framework Learning Material)
+Last activity: 2026-06-01 — Phase 16 executed (dashboard-vue)
 
 ## Shipped Milestones
 
@@ -51,15 +51,15 @@ Items acknowledged and deferred at milestone close on 2026-06-01:
 
 ### Decisions (carried forward)
 
-- `dashboard-react/` on **5174**; `dashboard-vue/` planned on **5175**
-- Vue: `<script setup>`, `ref()` in App.vue, mirror React component names
-- Vanilla `:5173` remains primary learning path
+- Three dashboards: vanilla **5173**, React **5174**, Vue **5175**; API **3100**
+- Vue: `<script setup>`, `ref()` in App.vue, props/emits, mirror React components
+- Phase 17: `docs/16-frameworks.md`, Mission 13, NOTEBOOK frameworks
 
 ### Operator Next Steps
 
-- `/gsd-execute-phase 16` — ejecutar planes 16-01 → 16-02 → 16-03
-- Resume: `.planning/phases/16-vue-dashboard-parity/16-01-PLAN.md`
+- `/gsd-discuss-phase 17` — material didáctico comparativo
+- Manual: checklist `.planning/phases/16-vue-dashboard-parity/16-UAT.md` en navegador
 
 ## Session Continuity
 
-Resume file: `.planning/phases/16-vue-dashboard-parity/16-01-PLAN.md`
+Resume file: Phase 17 planning (not started)
