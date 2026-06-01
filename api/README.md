@@ -82,11 +82,38 @@ curl -b /tmp/edf-cj http://localhost:3100/users
 curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/logout
 ```
 
-El dashboard vanilla aún no tiene formulario de login (fase 19). Mientras tanto verás **401** en `/users` desde el navegador hasta integrar `credentials: 'include'`.
-
 **Tests:** `AUTH_DISABLED=1` en `npm test` desactiva la protección solo en la suite CRUD. Los tests del bloque «Autenticación API» validan login real. No uses `AUTH_DISABLED` en producción.
 
 Contrato OpenAPI: [`openapi.yaml`](openapi.yaml) — esquema `cookieAuth` y rutas `/auth/*`.
+
+### Clientes frontend (credentials)
+
+La sesión es la cookie httpOnly `edf_session`. El navegador **no** la envía en peticiones cross-origin salvo que el cliente pida credenciales explícitamente:
+
+- `fetch(url, { credentials: 'include' })`
+- Axios: `{ withCredentials: true }`
+
+No uses `localStorage` ni cabecera `Authorization` con JWT en este laboratorio v1.5: el token vive solo en la cookie.
+
+**Orígenes permitidos:** en `.env`, `CORS_ORIGINS` debe incluir los puertos del dashboard (`http://localhost:5173` vanilla, `5174` React, `5175` Vue) con `credentials: true` en el servidor (ya configurado en fase 18).
+
+| App | Ruta del cliente | Puerto típico |
+|-----|------------------|-----------------|
+| Vanilla | `dashboard/app.js` — `fetchJson` con `credentials: 'include'` por defecto | 5173 |
+| React | `dashboard-react/src/api.js` — añade `credentials: 'include'` en cada `fetch` | 5174 |
+| Vue | `dashboard-vue/src/api.js` — mismo patrón que React | 5175 |
+
+Ejemplo mínimo (vanilla):
+
+```javascript
+const response = await fetch('http://localhost:3100/users', {
+  credentials: 'include'
+});
+```
+
+Tras `POST /auth/login` con credenciales correctas, las peticiones a `:3100` deben llevar la cookie en la pestaña Network.
+
+Narrativa didáctica completa: fase 21 — `docs/17-authentication.md`.
 
 ---
 
