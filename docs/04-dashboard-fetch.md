@@ -97,3 +97,5 @@ DELETE /users/:id -> usuario eliminado
 - Datos recibidos.
 - Operación completada.
 - Error al crear, editar o eliminar.
+
+Para la misma API con React o Vue (estado y formularios con otro enfoque), ver [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*.

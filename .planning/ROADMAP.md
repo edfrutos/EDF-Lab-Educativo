@@ -54,7 +54,7 @@
 
 - [x] **Phase 15: React Dashboard Parity** — Vite + React app with full CRUD and CORS/ports (FRWK-01–03, 06–08)
 - [x] **Phase 16: Vue Dashboard Parity** — Vite + Vue 3 app with same parity (FRWK-04–05)
-- [ ] **Phase 17: Framework Learning Material** — Comparison doc, mission, index/README, NOTEBOOK, UAT checklist (FRWK-09–13)
+- [x] **Phase 17: Framework Learning Material** — Comparison doc, mission, index/README, NOTEBOOK, UAT checklist (FRWK-09–13)
 
 ## Phase Details
 
@@ -113,10 +113,10 @@
 **Plans:** 2 plans in 2 waves
 
 **Wave 1**
-- [ ] 17-01: `docs/16-frameworks.md` + Mission 13 (FRWK-09, FRWK-10)
+- [x] 17-01: `docs/16-frameworks.md` + Mission 13 (FRWK-09, FRWK-10)
 
 **Wave 2** *(depends on 17-01)*
-- [ ] 17-02: Index, README, NOTEBOOK, unified 17-UAT (FRWK-11, FRWK-12, FRWK-13)
+- [x] 17-02: Index, README, NOTEBOOK, unified 17-UAT (FRWK-11, FRWK-12, FRWK-13)
 
 **Cross-cutting constraints:**
 - Do not remove or replace `dashboard/` vanilla app

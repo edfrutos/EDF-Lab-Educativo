@@ -117,6 +117,8 @@ npm run dev
 
 Abre **http://localhost:5175**. Detalle: [`dashboard-vue/README.md`](./dashboard-vue/README.md).
 
+Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks.md`](./docs/16-frameworks.md). Misión práctica con pestaña Network: [`missions/13-frameworks-network-tab.md`](./missions/13-frameworks-network-tab.md).
+
 ---
 
 ## Qué aprenderás

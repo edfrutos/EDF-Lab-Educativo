@@ -21,6 +21,9 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 13. [`12-docker.md`](./12-docker.md) para arrancar la API en un contenedor Docker. *(avanzado, opcional)*
 14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard + Postgres con Compose. *(avanzado, opcional)*
 15. [`15-postgresql.md`](./15-postgresql.md) para PostgreSQL: conexión, esquema, `psql` y tests. *(avanzado, opcional)*
+16. [`16-frameworks.md`](./16-frameworks.md) para comparar vanilla, React y Vue (estado, formularios, `fetch`). *(avanzado, opcional)*
+
+**Rutas opcionales (frameworks):** [`dashboard-react/`](../dashboard-react/) en el puerto **5174** y [`dashboard-vue/`](../dashboard-vue/) en el **5175**, además del dashboard vanilla en **5173**.
 
 ## Documentos
 
@@ -69,6 +72,9 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 15. [`15-postgresql.md`](./15-postgresql.md) *(avanzado, opcional)*  
     Explica `DATABASE_URL`, esquema Postgres, inspección con `psql`, volumen `postgres_data` y tests contra `edf_lab_test`.
 
+16. [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*  
+    Compara estado, formularios, HTTP y estilos entre `dashboard/`, `dashboard-react/` y `dashboard-vue/` con excerpts del repo.
+
 ## Misiones prácticas
 
 - [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md) — Inspecciona `users.db`, observa la migración desde JSON y verifica persistencia tras reinicio.
@@ -79,3 +85,4 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 - [`missions/09-arrancar-con-docker.md`](../missions/09-arrancar-con-docker.md) — Construye la imagen Docker y arranca la API en un contenedor. *(avanzado, opcional)*
 - [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y el bind mount `./api/data`. *(avanzado, opcional)*
 - [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md) — Stack Compose con Postgres: CRUD, `psql` y persistencia en `postgres_data`. *(avanzado, opcional)*
+- [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) — API + React o Vue: CRUD e inspección en pestaña Network. *(avanzado, opcional)*

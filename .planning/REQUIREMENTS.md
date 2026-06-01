@@ -26,14 +26,14 @@ Requirements for the Frontend Framework Comparison milestone. Phases start at **
 
 ### Comparison & Learning
 
-- [ ] **FRWK-09**: New doc explains vanilla vs React vs Vue for **state** and **forms** with excerpts from this repo.
-- [ ] **FRWK-10**: New mission guides running API + at least one framework dashboard, CRUD, and browser Network inspection.
-- [ ] **FRWK-11**: `docs/00-indice.md`, `README.md` list framework path as **advanced optional**; vanilla remains primary.
-- [ ] **FRWK-12**: Real framework integration errors (CORS, ports, env) recorded in `NOTEBOOK.md`.
+- [x] **FRWK-09**: New doc explains vanilla vs React vs Vue for **state** and **forms** with excerpts from this repo.
+- [x] **FRWK-10**: New mission guides running API + at least one framework dashboard, CRUD, and browser Network inspection.
+- [x] **FRWK-11**: `docs/00-indice.md`, `README.md` list framework path as **advanced optional**; vanilla remains primary.
+- [x] **FRWK-12**: Real framework integration errors (CORS, ports, env) recorded in `NOTEBOOK.md`.
 
 ### Verification
 
-- [ ] **FRWK-13**: Documented manual UAT checklist or smoke steps confirming parity across three dashboards against the same API.
+- [x] **FRWK-13**: Documented manual UAT checklist or smoke steps confirming parity across three dashboards against the same API.
 
 ## v1.5 Requirements
 
@@ -67,11 +67,11 @@ Deferred to future release.
 | FRWK-08 | Phase 15 | Complete |
 | FRWK-04 | Phase 16 | Complete |
 | FRWK-05 | Phase 16 | Complete |
-| FRWK-09 | Phase 17 | Pending |
-| FRWK-10 | Phase 17 | Pending |
-| FRWK-11 | Phase 17 | Pending |
-| FRWK-12 | Phase 17 | Pending |
-| FRWK-13 | Phase 17 | Pending |
+| FRWK-09 | Phase 17 | Complete |
+| FRWK-10 | Phase 17 | Complete |
+| FRWK-11 | Phase 17 | Complete |
+| FRWK-12 | Phase 17 | Complete |
+| FRWK-13 | Phase 17 | Complete |
 
 **Coverage:**
 - v1.4 requirements: 13 total

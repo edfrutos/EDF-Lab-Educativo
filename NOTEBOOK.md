@@ -6,6 +6,85 @@ Aquí se documentan decisiones, errores reales, soluciones aplicadas y aprendiza
 
 ---
 
+## Frameworks (v1.4)
+
+Errores y patrones al usar `dashboard-react/` (`:5174`) o `dashboard-vue/` (`:5175`) contra la misma API. Guía: [`docs/16-frameworks.md`](./docs/16-frameworks.md), CORS: [`docs/05-cors-explicado.md`](./docs/05-cors-explicado.md).
+
+### Error CORS al abrir :5174 o :5175
+
+**Síntoma:** La consola del navegador muestra *blocked by CORS policy*; la tabla de usuarios no carga.
+
+**Causa:** El frontend se sirve desde un origen distinto al de la API (`http://localhost:3100`). Si la API no está en marcha o `cors()` no responde al preflight, el navegador bloquea la petición.
+
+**Solución:**
+
+```bash
+cd api && PORT=3100 npm start
+```
+
+Comprueba en Network que las peticiones van a `:3100` y devuelven 200. En este lab `api/index.js` ya usa `cors()` abierto; no hace falta whitelist salvo entornos restrictivos.
+
+**Aprendizaje:** CORS es del **navegador**, no de Express “fallando”. El mismo `fetch` en vanilla `:5173` puede funcionar y en `:5174` fallar si solo arrancaste un servidor y no el otro.
+
+*Patrón documentado (fases 15–16).*
+
+---
+
+### Puerto en uso (EADDRINUSE) — 5173 vs Vite
+
+**Síntoma:** `Error: listen EADDRINUSE: address already in use :::5174` (o 5175) al hacer `npm run dev`.
+
+**Causa:** Otro proceso (a menudo otro dev server o un intento previo) ya ocupa ese puerto. **No** uses 5173 para Vite: ese puerto está reservado al dashboard vanilla con `python3 -m http.server 5173`.
+
+**Solución:**
+
+```bash
+lsof -i :5174   # o :5175
+# termina el proceso que liste el puerto, o cierra la terminal anterior
+```
+
+**Aprendizaje:** Tres frontends = tres puertos fijos documentados: **5173**, **5174**, **5175**.
+
+*Patrón documentado.*
+
+---
+
+### `VITE_API_BASE_URL` incorrecta o ausente
+
+**Síntoma:** El panel framework muestra error de conexión aunque la API responde en `:3100`; la barra de herramientas puede mostrar una URL inesperada.
+
+**Causa:** Variable de entorno mal copiada en `.env`, o apuntas a otro host/puerto. Si omites `.env`, el default en código es `http://localhost:3100`.
+
+**Solución:**
+
+```bash
+cd dashboard-react   # o dashboard-vue
+cp .env.example .env
+# VITE_API_BASE_URL=http://localhost:3100
+```
+
+Reinicia `npm run dev` tras cambiar `.env`.
+
+**Aprendizaje:** Vite solo expone variables con prefijo `VITE_` al cliente. Vanilla no usa `.env`: la URL está en `dashboard/app.js`.
+
+*Patrón documentado.*
+
+---
+
+### `strictPort` — Vite no cambia de puerto solo
+
+**Síntoma:** Vite termina con error indicando que el puerto 5174 (o 5175) está ocupado y **no** arranca en otro puerto.
+
+**Causa:** `vite.config.js` define `strictPort: true` a propósito, para que la documentación y CORS coincidan siempre con el mismo origen.
+
+**Solución:** Libera el puerto (ver EADDRINUSE) en lugar de esperar que Vite use 5176.
+
+**Aprendizaje:** Coherencia didáctica > comodidad automática de puerto.
+
+*Patrón documentado.*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres
