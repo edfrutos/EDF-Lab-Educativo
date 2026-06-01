@@ -3,7 +3,7 @@
 const { readFileSync } = require('fs');
 const path = require('path');
 const { Pool } = require('pg');
-const { populateIfEmptyPg } = require('./seed');
+const { populateIfEmptyPg, seedAdminIfEmptyAccounts } = require('./seed');
 
 const SCHEMA_PATH = path.join(__dirname, 'schema.pg.sql');
 
@@ -33,9 +33,41 @@ async function initDb(options = {}) {
 
   if (!options.skipSeed) {
     await populateIfEmptyPg(pool);
+    await seedAdminIfEmptyAccounts({
+      countAccounts: async () => {
+        const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM accounts');
+        return rows[0].count;
+      },
+      insertAccount: async (email, passwordHash) => {
+        await pool.query(
+          'INSERT INTO accounts (email, password_hash) VALUES ($1, $2)',
+          [email, passwordHash]
+        );
+      }
+    });
   }
 
   console.log('[db] Using PostgreSQL');
+}
+
+async function countAccounts() {
+  const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM accounts');
+  return rows[0].count;
+}
+
+async function findAccountByEmail(email) {
+  const { rows } = await pool.query(
+    'SELECT id, email, password_hash FROM accounts WHERE email = $1',
+    [email]
+  );
+  return rows[0] || null;
+}
+
+async function insertAccount(email, passwordHash) {
+  await pool.query(
+    'INSERT INTO accounts (email, password_hash) VALUES ($1, $2)',
+    [email, passwordHash]
+  );
 }
 
 async function resetUsersForTests() {
@@ -110,5 +142,8 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  countAccounts,
+  findAccountByEmail,
+  insertAccount
 };

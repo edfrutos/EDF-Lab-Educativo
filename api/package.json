@@ -4,21 +4,30 @@
   "description": "API REST educativa para EDF Lab — enseña Express, JSON y CRUD a principiantes",
   "main": "index.js",
   "scripts": {
-    "start":        "node index.js",
-    "dev":          "nodemon index.js",
-    "test":         "node --test index.test.js --test-force-exit && node --test index.pg.test.js --test-force-exit",
-    "test:sqlite":  "node --test index.test.js --test-force-exit",
-    "test:pg":      "node --test index.pg.test.js --test-force-exit",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "node --test index.test.js --test-force-exit && node --test index.pg.test.js --test-force-exit",
+    "test:sqlite": "node --test index.test.js --test-force-exit",
+    "test:pg": "node --test index.pg.test.js --test-force-exit",
     "test:db:prepare": "node scripts/prepare-test-db.js",
     "docker:build": "docker build -t edf-lab-api .",
     "docker:start": "docker run --rm -p 3100:3100 --name edf-lab-api edf-lab-api"
   },
-  "keywords": ["educativo", "express", "rest-api", "crud", "node"],
+  "keywords": [
+    "educativo",
+    "express",
+    "rest-api",
+    "crud",
+    "node"
+  ],
   "author": "edefrutos",
   "license": "MIT",
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
     "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.3",
     "lodash": "^4.17.21",
     "pg": "^8.13.1"
   },

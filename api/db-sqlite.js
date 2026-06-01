@@ -4,7 +4,7 @@ const { readFileSync } = require('fs');
 const { mkdir } = require('fs/promises');
 const path = require('path');
 const { DatabaseSync } = require('node:sqlite');
-const { populateIfEmptySqlite } = require('./seed');
+const { populateIfEmptySqlite, seedAdminIfEmptyAccounts } = require('./seed');
 
 const DATA_DIR = path.join(__dirname, 'data');
 const DB_FILE_PATH = process.env.DB_FILE
@@ -49,7 +49,28 @@ async function initDb(options = {}) {
 
   if (!options.skipSeed) {
     populateIfEmptySqlite(getDb);
+    await seedAdminIfEmptyAccounts({
+      countAccounts: () => getDb().prepare('SELECT COUNT(*) AS count FROM accounts').get().count,
+      insertAccount: async (email, passwordHash) => {
+        getDb().prepare('INSERT INTO accounts (email, password_hash) VALUES (?, ?)').run(email, passwordHash);
+      }
+    });
   }
+}
+
+function countAccounts() {
+  return getDb().prepare('SELECT COUNT(*) AS count FROM accounts').get().count;
+}
+
+function findAccountByEmail(email) {
+  const row = getDb()
+    .prepare('SELECT id, email, password_hash FROM accounts WHERE email = ?')
+    .get(email);
+  return row || null;
+}
+
+function insertAccount(email, passwordHash) {
+  getDb().prepare('INSERT INTO accounts (email, password_hash) VALUES (?, ?)').run(email, passwordHash);
 }
 
 async function getAllUsers() {
@@ -115,5 +136,8 @@ module.exports = {
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  countAccounts,
+  findAccountByEmail,
+  insertAccount
 };

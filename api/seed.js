@@ -2,6 +2,9 @@
 
 const { readFileSync, existsSync } = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
+
+const BCRYPT_ROUNDS = 10;
 
 const USERS_JSON_PATH = path.join(__dirname, 'data', 'users.json');
 
@@ -82,11 +85,25 @@ async function populateIfEmptyPg(pool) {
   );
 }
 
+async function seedAdminIfEmptyAccounts({ countAccounts, insertAccount }) {
+  const count = await countAccounts();
+  if (count > 0) {
+    return;
+  }
+
+  const email = process.env.ADMIN_EMAIL || 'admin@lab.local';
+  const password = process.env.ADMIN_PASSWORD || 'changeme';
+  const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
+  await insertAccount(email, passwordHash);
+  console.log('[seed] Cuenta operador creada');
+}
+
 module.exports = {
   DEFAULT_SEED,
   USERS_JSON_PATH,
   tryParseUsersJson,
   resolveSeedUsers,
   populateIfEmptySqlite,
-  populateIfEmptyPg
+  populateIfEmptyPg,
+  seedAdminIfEmptyAccounts
 };
