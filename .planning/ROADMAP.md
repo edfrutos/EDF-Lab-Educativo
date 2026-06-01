@@ -110,7 +110,13 @@
   3. Index and README mark frameworks as advanced optional.
   4. NOTEBOOK documents real CORS/port/env errors from framework setup.
 
-**Plans:** ~2 plans (doc 16 + mission; index/README/NOTEBOOK/UAT)
+**Plans:** 2 plans in 2 waves
+
+**Wave 1**
+- [ ] 17-01: `docs/16-frameworks.md` + Mission 13 (FRWK-09, FRWK-10)
+
+**Wave 2** *(depends on 17-01)*
+- [ ] 17-02: Index, README, NOTEBOOK, unified 17-UAT (FRWK-11, FRWK-12, FRWK-13)
 
 **Cross-cutting constraints:**
 - Do not remove or replace `dashboard/` vanilla app
