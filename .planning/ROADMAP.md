@@ -72,7 +72,12 @@
 3. `docker compose` stack reads secrets from env file (not committed).
 4. Deploy doc describes nginx TLS termination pattern for the lab stack.
 
-**Plans:** TBD (via `/gsd-plan-phase 20`)
+**Plans:** 2 plans in 2 waves
+
+| Wave | Plan | Focus |
+|------|------|-------|
+| 1 | 20-01 | `.env.example`, production fail-fast, api/README |
+| 2 | 20-02 | Compose `env_file`, `docs/18-production-deploy.md`, cross-links |
 
 ---
 
@@ -134,13 +139,13 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 ## Progress
 
-**Overall (v1.5):** 0/4 phases
+**Overall (v1.5):** 3/4 phases
 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 18. Auth API & Protected Routes | v1.5 | 3/3 | Complete | 2026-06-01 |
 | 19. Vanilla Dashboard Login | v1.5 | 2/2 | Complete    | 2026-06-01 |
-| 20. Secrets & Deploy Hardening | v1.5 | 0/? | Not started | — |
+| 20. Secrets & Deploy Hardening | v1.5 | 2/2 | Complete | 2026-06-02 |
 | 21. Auth & Deploy Learning Material | v1.5 | 0/? | Not started | — |
 
 | Phase | Milestone | Status | Completed |

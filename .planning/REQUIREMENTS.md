@@ -30,10 +30,10 @@ Requirements for **Production Auth & Deployment**. Phases start at **18**.
 
 ### Deployment & Secrets
 
-- [ ] **DEPLOY-01**: `api/.env.example` lists all required secrets (`JWT_SECRET`, `ADMIN_*`, `DATABASE_URL`, etc.) with comments.
-- [ ] **DEPLOY-02**: `.env` is gitignored; Compose uses `env_file` for API (no secrets baked into images).
-- [ ] **DEPLOY-03**: API refuses to start in production mode without `JWT_SECRET` (fail-fast lesson).
-- [ ] **DEPLOY-04**: Documentation explains TLS termination at reverse proxy (nginx) vs Node — suitable for lab self-host.
+- [x] **DEPLOY-01**: `api/.env.example` lists all required secrets (`JWT_SECRET`, `ADMIN_*`, `DATABASE_URL`, etc.) with comments.
+- [x] **DEPLOY-02**: `.env` is gitignored; Compose uses `env_file` for API (no secrets baked into images).
+- [x] **DEPLOY-03**: API refuses to start in production mode without `JWT_SECRET` (fail-fast lesson).
+- [x] **DEPLOY-04**: Documentation explains TLS termination at reverse proxy (nginx) vs Node — suitable for lab self-host.
 
 ### Learning Documentation
 
@@ -76,10 +76,10 @@ Requirements for **Production Auth & Deployment**. Phases start at **18**.
 | AUTH-10 | Phase 19 | Complete |
 | AUTH-11 | Phase 19 | Complete |
 | AUTH-12 | Phase 19 | Complete |
-| DEPLOY-01 | Phase 20 | Pending |
-| DEPLOY-02 | Phase 20 | Pending |
-| DEPLOY-03 | Phase 20 | Pending |
-| DEPLOY-04 | Phase 20 | Pending |
+| DEPLOY-01 | Phase 20 | Complete |
+| DEPLOY-02 | Phase 20 | Complete |
+| DEPLOY-03 | Phase 20 | Complete |
+| DEPLOY-04 | Phase 20 | Complete |
 | DOCS-01 | Phase 21 | Pending |
 | DOCS-02 | Phase 21 | Pending |
 | DOCS-03 | Phase 21 | Pending |

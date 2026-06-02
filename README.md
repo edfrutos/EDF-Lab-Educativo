@@ -51,14 +51,15 @@ EDF-Lab-Educativo/
 ### Terminal 1: API
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+cd api
+cp .env.example .env   # primera vez
 PORT=3100 npm start
 ```
 
 ### Terminal 2: dashboard
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard
+cd dashboard
 python3 -m http.server 5173
 ```
 
@@ -69,6 +70,13 @@ http://localhost:5173
 ```
 
 ### Opcional: Docker Compose (avanzado)
+
+Antes de levantar el stack, prepara secretos en la API:
+
+```bash
+cp api/.env.example api/.env
+# Edita api/.env: define JWT_SECRET y descomenta DATABASE_URL para Compose
+```
 
 Desde la raíz del repositorio:
 
@@ -87,9 +95,11 @@ Dashboard: http://localhost:5173 — API: http://localhost:3100 — PostgreSQL: 
 
 En **v1.3**, `npm run compose:up` levanta **tres servicios** (Postgres + API + dashboard). La API usa **PostgreSQL** vía `DATABASE_URL`; los datos persisten en el volumen Docker `postgres_data`. En el host, `cd api && npm start` **sin** `DATABASE_URL` sigue usando SQLite en `api/data/users.db`.
 
-Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-postgresql.md`](./docs/15-postgresql.md). Misiones: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md), [`missions/12-postgres-compose-crud.md`](./missions/12-postgres-compose-crud.md).
+Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-postgresql.md`](./docs/15-postgresql.md), [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) (secretos y TLS). Misiones: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md), [`missions/12-postgres-compose-crud.md`](./missions/12-postgres-compose-crud.md).
 
-Tests con Postgres: `npm run test:db:prepare` (desde la raíz) y luego `cd api && npm test` (32 tests si Postgres está en marcha).
+Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **46 tests** si Postgres está en marcha (16 CRUD + 7 auth en SQLite, y lo mismo en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (23 tests).
+
+Autenticación: las rutas `/users` requieren login de operador. Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). En el dashboard vanilla usa `admin@lab.local` / `changeme` por defecto (`api/.env`).
 
 El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`.
 
@@ -128,6 +138,7 @@ Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks
 - Cómo un frontend consume JSON con `fetch()`.
 - Cómo la API persiste usuarios en SQLite (`users.db`) y migra la semilla desde `users.json` — ver [`docs/13-sqlite.md`](./docs/13-sqlite.md).
 - Qué es CORS y por qué aparece al separar frontend/backend.
+- Cómo funciona la sesión del operador (cookie, `/auth/login`, rutas protegidas).
 - Cómo depurar errores de conexión, puertos y rutas.
 - Cómo documentar decisiones técnicas.
 - Cómo evolucionar una demo hacia un proyecto educativo completo.
@@ -137,7 +148,8 @@ Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks
 ## Documentación principal
 
 - [`NOTEBOOK.md`](./NOTEBOOK.md): diario vivo de decisiones, errores y aprendizajes.
-- [`ROADMAP.md`](./ROADMAP.md): plan de evolución por fases.
+- [`ROADMAP.md`](./ROADMAP.md): plan histórico resumido del repo.
+- [`.planning/ROADMAP.md`](./.planning/ROADMAP.md): roadmap GSD actual (milestones v1.x).
 - [`AGENTS.md`](./AGENTS.md): roles de trabajo y reglas del laboratorio.
 - [`CHANGELOG.md`](./CHANGELOG.md): cambios relevantes del proyecto.
 - [`docs/`](./docs): documentación conceptual.

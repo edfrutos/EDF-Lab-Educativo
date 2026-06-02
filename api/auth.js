@@ -12,9 +12,16 @@ const accountsDb = process.env.DATABASE_URL
   ? require('./db-pg')
   : require('./db-sqlite');
 
+const FATAL_JWT_SECRET_MESSAGE =
+  '[fatal] JWT_SECRET es obligatorio cuando NODE_ENV=production. Copia api/.env.example a api/.env y define una clave larga.';
+
 function getJwtSecret() {
-  if (process.env.JWT_SECRET) {
-    return process.env.JWT_SECRET;
+  if (process.env.JWT_SECRET?.trim()) {
+    return process.env.JWT_SECRET.trim();
+  }
+  if (process.env.NODE_ENV === 'production') {
+    console.error(FATAL_JWT_SECRET_MESSAGE);
+    process.exit(1);
   }
   console.warn('[auth] JWT_SECRET no definido — usando valor solo para desarrollo local');
   return 'dev-only-change-in-production';

@@ -10,6 +10,8 @@ El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.s
 
 > Contraste rápido con contenedor único: [`docs/12-docker.md`](./12-docker.md) — tabla de tres modos de arranque (host / `docker run` / Compose).
 
+> **Secretos y despliegue en producción (v1.5):** la API lee `api/.env` vía `env_file` en Compose. Guía completa: [`docs/18-production-deploy.md`](./18-production-deploy.md).
+
 ---
 
 ## ¿Qué es Docker Compose?

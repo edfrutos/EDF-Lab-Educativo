@@ -113,7 +113,22 @@ const response = await fetch('http://localhost:3100/users', {
 
 Tras `POST /auth/login` con credenciales correctas, las peticiones a `:3100` deben llevar la cookie en la pestaña Network.
 
-Narrativa didáctica completa: fase 21 — `docs/17-authentication.md`.
+Narrativa didáctica completa: [`docs/17-autenticacion.md`](../docs/17-autenticacion.md).
+
+### Producción y secretos
+
+1. Copia la plantilla: `cp .env.example .env`
+2. Define `JWT_SECRET` con una cadena larga y aleatoria (nunca la subas al repositorio).
+3. Con `NODE_ENV=production`, la API **no arranca** sin `JWT_SECRET` (fail-fast con mensaje en español).
+4. Nunca uses `AUTH_DISABLED=1` en producción.
+
+Ejemplo de arranque en modo producción (con `JWT_SECRET` ya definido en `.env`):
+
+```bash
+NODE_ENV=production PORT=3100 npm start
+```
+
+En Docker Compose, el mismo archivo `api/.env` se carga con `env_file` (ver plan de despliegue en [`docs/18-production-deploy.md`](../docs/18-production-deploy.md)).
 
 ---
 
@@ -377,7 +392,7 @@ node --check index.js
 npm audit --audit-level=high
 ```
 
-**Tests automáticos** — 16 tests contra SQLite y 16 contra PostgreSQL (encadenados):
+**Tests automáticos** — por cada backend: 16 tests CRUD + 7 de autenticación:
 
 ```bash
 npm test
@@ -387,9 +402,9 @@ Requisitos para la suite completa: Postgres en `localhost:5432` y base de test c
 
 | Script | Qué hace |
 |--------|----------|
-| `npm test` | SQLite + Postgres (32 tests si Postgres está en marcha) |
-| `npm run test:sqlite` | Solo SQLite (no requiere Postgres) |
-| `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
+| `npm test` | SQLite + Postgres (**46 tests** si Postgres está en marcha) |
+| `npm run test:sqlite` | Solo SQLite (**23 tests**, no requiere Postgres) |
+| `npm run test:pg` | Solo Postgres (`edf_lab_test`, 23 tests) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` si no existe |
 
 Más contexto SQLite vs PostgreSQL: [`docs/13-sqlite.md`](../docs/13-sqlite.md) (sección «Hacia PostgreSQL») y guía dedicada [`docs/15-postgresql.md`](../docs/15-postgresql.md).
@@ -410,24 +425,14 @@ npm run dev
 
 ## Relacion con el dashboard
 
-El dashboard esta en:
+El dashboard vanilla esta en `dashboard/` (puerto **5173**).
 
-```txt
-/Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard
-```
+Flujo actual:
 
-Actualmente consume:
+1. `POST /auth/login` — sesión del operador (cookie httpOnly).
+2. `GET /health`, `GET /`, `GET /users` — con `credentials: 'include'`.
+3. CRUD: `POST`, `PUT`, `DELETE` en `/users`.
 
-```txt
-GET /health
-GET /
-GET /users
-```
+Tambien existen `GET /about` y `GET /time` (publicos).
 
-La API ya tiene endpoints adicionales para futuras misiones:
-
-- mostrar `/about`,
-- mostrar `/time`,
-- crear formularios para `POST /users`,
-- editar usuarios con `PUT /users/:id`,
-- eliminar usuarios con `DELETE /users/:id`.
+Paneles opcionales React (`:5174`) y Vue (`:5175`): ver [`docs/16-frameworks.md`](../docs/16-frameworks.md). En v1.4 no incluyen pantalla de login; para pruebas locales puedes usar `AUTH_DISABLED=1` en `.env`.

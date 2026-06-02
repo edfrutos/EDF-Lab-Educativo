@@ -206,7 +206,17 @@ module.exports = app;
 // Exportado para tests: permite a beforeEach reinicializar SQLite con initDb()
 module.exports.initDb = initDb;
 
+function validateProductionEnv() {
+  if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET?.trim()) {
+    console.error(
+      '[fatal] JWT_SECRET es obligatorio cuando NODE_ENV=production. Copia api/.env.example a api/.env y define una clave larga.'
+    );
+    process.exit(1);
+  }
+}
+
 async function startServer() {
+  validateProductionEnv();
   await initDb();
   app.listen(PORT, () => {
     console.log(`Servidor arrancado en http://localhost:${PORT}`);

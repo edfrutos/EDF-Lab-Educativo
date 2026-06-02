@@ -29,10 +29,11 @@ services:
   # API Express — usa PostgreSQL vía DATABASE_URL cuando corre en Compose
   edf-lab-api:
     build: ./api
+    # Crear api/.env desde api/.env.example antes de compose up (secretos fuera del YAML)
+    env_file:
+      - ./api/.env
     ports:
       - "3100:3100"
-    environment:
-      DATABASE_URL: postgresql://edf_lab:edf_lab_dev@edf-lab-postgres:5432/edf_lab
     # Bind mount: la carpeta api/data del host se comparte con el contenedor.
     # users.json sigue disponible; SQLite no se usa cuando DATABASE_URL está definida.
     volumes:
