@@ -137,6 +137,45 @@
 
 ---
 
+## Milestone: v1.5 — Production Auth & Deployment
+
+**Shipped:** 2026-06-02  
+**Phases:** 4 | **Plans:** 9
+
+### What Was Built
+
+- JWT session auth with httpOnly cookie; bcrypt operator accounts; protected `/users` routes
+- Vanilla dashboard login gate, logout, and credentialed fetch with Spanish error UX
+- Production secrets discipline: `.env.example`, fail-fast, Compose `env_file`, nginx TLS doc
+- Learning path: `docs/17-autenticacion.md`, Mission 14, index ruta v1.5, NOTEBOOK auth/deploy
+
+### What Worked
+
+- Layering auth on dual persistence without breaking host-dev SQLite path
+- Test split: `AUTH_DISABLED` for CRUD suites + dedicated auth test block (7 tests)
+- Docs-only phase 21 closed milestone cleanly after code phases 18–20
+- Phase 19 UAT reused in 21-UAT consolidation
+
+### What Was Inefficient
+
+- No v1.5 milestone audit before close; REQUIREMENTS body checkboxes lagged traceability table
+- git-secrets hook blocked JWT placeholders in committed templates — required comment-only docs
+- Phase 20 commit bundled in single monolithic commit after delayed background git hook
+
+### Patterns Established
+
+- Operator (`accounts`) ≠ CRUD users (`users`)
+- Advanced v1.5 path after frameworks in index (not in beginner numbered list)
+- Production fail-fast for missing secrets before `listen()`
+
+### Key Lessons
+
+1. Document secrets in comments when git-secrets blocks `VAR=` patterns in tracked files
+2. Run `/gsd-audit-milestone` before `/gsd-complete-milestone` for multi-phase auth milestones
+3. Keep vanilla as auth teaching surface; frameworks stay comparison-focused
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -147,6 +186,8 @@
 | v1.1 | ~2 | 3 | SQLite migration + docs; audit cleanup before archive |
 | v1.2 | ~2 | 3 | Compose orchestration; bind mount persistence |
 | v1.3 | ~2 | 3 | PostgreSQL additive; dual test matrix |
+| v1.4 | ~1 | 3 | Parallel framework dashboards; docs-only close |
+| v1.5 | ~2 | 4 | Auth + deploy as advanced track; 4-phase milestone |
 
 ### Cumulative Quality
 
@@ -156,6 +197,8 @@
 | v1.1 | 16 API tests | Dashboard UAT 5/5 (Phase 7) | node:sqlite (built-in) |
 | v1.2 | 16 API tests | Compose E2E UAT | nginx + compose only |
 | v1.3 | 32 API tests | Phase 14 verification 5/5 | `pg` (educational) |
+| v1.4 | 32 API tests | Three-dashboard UAT | Vite + React/Vue |
+| v1.5 | 46 API tests | 19-UAT + 21-UAT | bcrypt, jsonwebtoken, cookie-parser |
 
 ### Top Lessons (Verified Across Milestones)
 

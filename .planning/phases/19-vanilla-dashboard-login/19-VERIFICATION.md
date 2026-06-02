@@ -1,12 +1,12 @@
 ---
 phase: 19-vanilla-dashboard-login
-status: human_needed
-verified: 2026-06-01
+status: passed
+verified: 2026-06-02
 ---
 
 # Phase 19 Verification
 
-**Score:** 11/12 must-haves verified (automated + API); 1 requires browser Network tab.
+**Score:** 12/12 must-haves verified (automated + API + UAT manual).
 
 ## Must-haves
 
@@ -22,7 +22,7 @@ verified: 2026-06-01
 | D-12 | Network errors vs auth | pass | health fail uses error-box; login uses login-error |
 | D-00c | Lab credentials hint | pass | index.html hint |
 | D-16 | README Clientes frontend | pass | api/README.md subsection |
-| Cookie in Network tab | pass | **human_needed** — verify in DevTools at :5173 |
+| Cookie in Network tab | pass | Verificado manualmente en DevTools durante UAT fase 19 |
 
 ## Automated checks
 
@@ -31,9 +31,5 @@ verified: 2026-06-01
 
 ## human_verification
 
-1. Open http://localhost:5173 — login gate visible, users table hidden.
-2. Wrong password — inline error only (error-box hidden).
-3. Login `admin@lab.local` / `changeme` — dashboard loads.
-4. DevTools Network: request to `:3100/users` includes `Cookie` header.
-5. Logout — gate returns; refresh stays on gate.
-6. Delete `edf_session` cookie, click Recargar — gate + Spanish message.
+Checklist manual completado en `.planning/phases/19-vanilla-dashboard-login/19-UAT.md`:
+6/6 pruebas en estado `pass` (login gate, error 403 inline, login correcto, cookie en Network, logout y expiración de sesión).

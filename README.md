@@ -99,9 +99,21 @@ Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-po
 
 Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **46 tests** si Postgres está en marcha (16 CRUD + 7 auth en SQLite, y lo mismo en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (23 tests).
 
-Autenticación: las rutas `/users` requieren login de operador. Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). En el dashboard vanilla usa `admin@lab.local` / `changeme` por defecto (`api/.env`).
+Autenticación: las rutas `/users` requieren login de operador. Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). Misión práctica: [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md). En el dashboard vanilla usa `admin@lab.local` / `changeme` por defecto (`api/.env`).
 
 El camino principal de aprendizaje sigue siendo `npm start` + `python3 -m http.server`.
+
+### Ruta avanzada: autenticación y despliegue (v1.5)
+
+Orden sugerido cuando ya dominas el recorrido vanilla (y opcionalmente frameworks):
+
+1. [`docs/16-frameworks.md`](./docs/16-frameworks.md) *(opcional)* — comparar vanilla, React y Vue.
+2. [`docs/17-autenticacion.md`](./docs/17-autenticacion.md) — operador, bcrypt, cookie JWT, CORS con credenciales.
+3. [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md) — práctica guiada con DevTools.
+4. [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) — secretos, Compose `env_file`, TLS en nginx.
+5. Docker Compose — sección [Opcional: Docker Compose](#opcional-docker-compose-avanzado) arriba (requiere `api/.env`).
+
+Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 
 ### Opcional (avanzado): dashboard React
 
@@ -162,6 +174,8 @@ Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks
 ```txt
 GET /
 GET /health
+POST /auth/login
+POST /auth/logout
 GET /users
 GET /users/:id
 POST /users

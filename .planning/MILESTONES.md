@@ -1,5 +1,23 @@
 # Milestones
 
+## v1.5 Production Auth & Deployment (Shipped: 2026-06-02)
+
+**Phases completed:** 4 phases, 9 plans  
+**Timeline:** 2026-06-01 → 2026-06-02  
+**Known deferred items at close:** No milestone audit run; Phase 11 UAT artifact status open (pre-existing)
+
+**Key accomplishments:**
+
+- API auth: `accounts` + bcrypt; JWT in httpOnly `edf_session`; `/users` protected; OpenAPI cookieAuth
+- Vanilla dashboard login gate, logout, `credentials: 'include'`, Spanish 401/403 UX (19-UAT 6/6)
+- Secrets: grouped `api/.env.example`, production fail-fast, Compose `env_file` for API
+- `docs/17-autenticacion.md`, `docs/18-production-deploy.md`, Mission 14, NOTEBOOK v1.5 errors
+- Advanced learning path in index/README after frameworks; 46-test suite with auth block
+
+**Delivered:** Learners can authenticate as operator, manage protected CRUD, configure secrets for Compose/production, and follow documented deploy/TLS patterns — vanilla remains the primary auth teaching path.
+
+---
+
 ## v1.4 Frontend Framework Comparison (Shipped: 2026-06-01)
 
 **Phases completed:** 3 phases, 8 plans  

@@ -10,34 +10,38 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current State (v1.4 shipped 2026-06-01)
+## Current State (v1.5 shipped 2026-06-02)
 
-**Stack:** Express + `node:sqlite` / `pg` + vanilla dashboard + React (`dashboard-react/`) + Vue (`dashboard-vue/`) + Docker Compose (Postgres + API + nginx)  
-**Persistence:** Host — `api/data/users.db` (SQLite, default). Compose — PostgreSQL `edf_lab` on volume `postgres_data`. `users.json` is seed only.  
-**Tests:** 32/32 API tests when Postgres is up (`npm test` in `api/`); `test:db:prepare` for `edf_lab_test`  
-**Frontends:** Vanilla `:5173` (primary) · React `:5174` · Vue `:5175` — all consume `http://localhost:3100`  
-**Docs:** Through `docs/16-frameworks.md` + Missions 10–13; see `docs/00-indice.md`  
-**Compose:** `npm run compose:up` — dashboard :5173, API :3100, Postgres :5432
+**Stack:** Express + auth (bcrypt, JWT cookie) + `node:sqlite` / `pg` + vanilla dashboard (login) + React/Vue + Docker Compose  
+**Persistence:** Host — SQLite `api/data/users.db`. Compose — PostgreSQL on `postgres_data`. Operator accounts in `accounts` table.  
+**Tests:** 46 API tests when Postgres is up (16 CRUD + 7 auth × SQLite + Postgres); `test:sqlite` 23 tests  
+**Frontends:** Vanilla `:5173` (login + CRUD) · React `:5174` · Vue `:5175` — credentialed fetch documented  
+**Auth:** httpOnly cookie `edf_session`; `/users` protected; `POST /auth/login`, `POST /auth/logout`  
+**Secrets:** `api/.env` from `.env.example`; production fail-fast; Compose `env_file`  
+**Docs:** Through `docs/18-production-deploy.md`; Mission 14; advanced v1.5 path in index  
+**Compose:** `npm run compose:up` — requires `api/.env` with JWT_SECRET + DATABASE_URL
 
-**Active milestone:** v1.5 Production Auth & Deployment (planning)
+**Next milestone:** Run `/gsd-new-milestone` to define v1.6+
 
-## Current Milestone: v1.5 Production Auth & Deployment
+<details>
+<summary>Previous milestone: v1.5 planning context (archived)</summary>
 
-**Goal:** Teach authentication and production-minded deployment as explicit advanced phases — without breaking the beginner vanilla path or the existing API/dashboard contract for unauthenticated local dev.
+**Goal:** Teach authentication and production-minded deployment without breaking the beginner path.
 
-**Target features:**
+**Shipped:** Phases 18–21 — API auth, vanilla login, secrets/deploy hardening, learning material.
 
-- Didactic API authentication (sessions or JWT — chosen after research) with protected user routes
-- Login/logout flow in the primary vanilla dashboard; document implications for React/Vue optional apps
-- Environment variables and secrets discipline (`api/.env.example`, no secrets in repo)
-- Deployment hardening guide: TLS concepts, reverse proxy or platform deploy path suitable for learners
-- New doc + mission + NOTEBOOK entries; API tests for auth success/failure paths
-- Preserve SQLite/Postgres dual persistence and Compose stack; auth layers on top
+See `.planning/milestones/v1.5-ROADMAP.md`.
 
-## Next Milestone Goals (v1.6+ — deferred)
+</details>
 
-- OAuth / social login — only if a future phase has clear teaching value
-- Kubernetes — out of scope for this lab's progression
+<details>
+<summary>Previous milestone: v1.4 (archived)</summary>
+
+**Shipped:** React/Vue dashboards, `docs/16-frameworks.md`, Mission 13.
+
+See `.planning/milestones/v1.4-ROADMAP.md`.
+
+</details>
 
 ## Requirements
 
@@ -70,11 +74,14 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ `dashboard-react/` — Vite + React 18, port 5174, full CRUD parity — v1.4 Phase 15
 - ✓ `dashboard-vue/` — Vite + Vue 3 Composition API, port 5175, full CRUD parity — v1.4 Phase 16
 - ✓ `docs/16-frameworks.md`, Mission 13, NOTEBOOK framework errors — v1.4 Phase 17
+- ✓ JWT httpOnly cookie auth; protected `/users`; bcrypt operator accounts — v1.5 Phase 18
+- ✓ Vanilla dashboard login/logout; credentialed fetch; 401 UX — v1.5 Phase 19
+- ✓ Secrets via `.env`, Compose `env_file`, production fail-fast, doc 18 — v1.5 Phase 20
+- ✓ `docs/17-autenticacion.md`, Mission 14, NOTEBOOK auth/deploy, ruta v1.5 — v1.5 Phase 21
 
 ### Active
 
-- [ ] Production authentication (PROD-01 → v1.5 AUTH-*)
-- [ ] Production deployment hardening (PROD-02 → v1.5 DEPLOY-*)
+- [ ] Next milestone scope — run `/gsd-new-milestone` (OAuth, rate limiting, etc. deferred to v1.6+ discussion)
 
 ### Out of Scope
 
@@ -91,8 +98,8 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 
 The lab is organized around a learning route:
 
-- `docs/` explains concepts in reading order (through doc 16 frameworks).
-- `missions/` provides executable practice (13 missions).
+- `docs/` explains concepts in reading order (through doc 18 deploy; auth doc 17 on advanced path).
+- `missions/` provides executable practice (14 missions).
 - `ROADMAP.md` lists educational evolution; v1.0–v1.4 milestones complete.
 - `NOTEBOOK.md` captures real decisions, errors, and lessons.
 - `api/` — Express backend, dual DB adapters, tests, OpenAPI, Dockerfile.
@@ -101,6 +108,8 @@ The lab is organized around a learning route:
 - `docker-compose.yml` — optional Postgres + API + dashboard stack.
 
 **v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
+
+**v1.5 milestone shipped 2026-06-02:** 4 phases, 9 plans, 20/20 requirements.
 
 **v1.4 milestone shipped 2026-06-01:** 3 phases, 8 plans, 13/13 requirements (FRWK-01–FRWK-13).
 
@@ -159,10 +168,14 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 | Allow frameworks later | Future phases may benefit once fundamentals are established | ✓ Good — v1.4 |
 | Vanilla primary; React/Vue optional | Beginner path unchanged; frameworks on 5174/5175 | ✓ Good — v1.4 |
 | No Pinia/Redux/axios in v1.4 | Keep `fetch` and state visible for teaching | ✓ Good — v1.4 |
+| JWT in httpOnly cookie (not localStorage) | Teaches XSS risk; browser sends cookie with credentials | ✓ Good — v1.5 |
+| `accounts` separate from CRUD `users` | Operator ≠ data being managed | ✓ Good — v1.5 |
+| `AUTH_DISABLED=1` test-only | CRUD tests without login friction | ✓ Good — v1.5 |
+| Secrets outside Compose YAML (`env_file`) | Production discipline; no secrets in git | ✓ Good — v1.5 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-01 — v1.5 milestone started*
+*Last updated: 2026-06-02 after v1.5 milestone*

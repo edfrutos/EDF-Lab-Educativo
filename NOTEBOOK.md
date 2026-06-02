@@ -30,6 +30,66 @@ Comprueba en Network que las peticiones van a `:3100` y devuelven 200. En este l
 
 ---
 
+## Autenticación y despliegue (v1.5)
+
+Errores y patrones de las fases 18–21: sesión del operador, cookies, secretos y Compose. Guías: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md), [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+
+### 401 en `/users` con la API en marcha
+
+**Síntoma:** `GET /health` responde 200, pero `/users` devuelve 401; en Network la petición no lleva cabecera `Cookie`.
+
+**Causa:** Sin login previo, o el cliente no envía credenciales cross-origin. En este lab, `fetch` debe incluir `credentials: 'include'` (ya lo hace `fetchJson` en vanilla).
+
+**Solución:** Completa `POST /auth/login` desde el dashboard o curl con `-c` cookie jar. Verifica en DevTools → Network → Request Headers → `Cookie: edf_session=...`.
+
+**Aprendizaje:** 401 aquí significa **sesión ausente o inválida**, no que la API esté caída.
+
+*Error real (fases 18–19).*
+
+---
+
+### Fail-fast sin JWT_SECRET en producción
+
+**Síntoma:** Al arrancar con `NODE_ENV=production`, la consola muestra `[fatal] JWT_SECRET es obligatorio...` y el proceso termina.
+
+**Causa:** En producción la API exige una clave de firma en `api/.env`; no usa el valor solo-desarrollo.
+
+**Solución:** Copia `api/.env.example` → `api/.env`, define una clave larga para JWT y vuelve a arrancar. En desarrollo local (sin `NODE_ENV=production`) puedes omitirla con aviso.
+
+**Aprendizaje:** **Fail-fast** evita desplegar sin secretos — preferible a firmar tokens con una clave por defecto.
+
+*Error real (fase 20).*
+
+---
+
+### git-secrets bloquea commits con JWT_SECRET en el repo
+
+**Síntoma:** `git commit` falla con `[ERROR] Matched one or more prohibited patterns` en líneas que contienen la variable JWT con signo igual.
+
+**Causa:** Hook `git-secrets` del repositorio prohíbe patrones que parecen secretos en archivos trackeados (`.env.example`, docs, planes).
+
+**Solución:** En plantillas y documentación, **documenta** la variable en comentarios sin asignación literal en archivos que van a git. Los valores reales viven solo en `api/.env` (gitignored).
+
+**Aprendizaje:** Proteger secretos incluye **no commitear** placeholders que activen hooks o filtros CI.
+
+*Error real (fase 20).*
+
+---
+
+### 403 en login vs 401 en `/users`
+
+**Síntoma:** Contraseña incorrecta → mensaje bajo el formulario de login (403). Sin sesión en rutas protegidas → 401.
+
+**Causa:** `POST /auth/login` devuelve **403** para credenciales inválidas; `requireAuth` devuelve **401** cuando falta o expiró la cookie.
+
+**Solución:** Distingue en la UI: error de login inline vs gate de sesión. Ver [`docs/06-debugging.md`](./docs/06-debugging.md).
+
+**Aprendizaje:** No mezclar mensajes de **autenticación fallida** (login) con **autorización/sesión** (recursos protegidos).
+
+*Patrón documentado (fase 19).*
+
+---
+
 ### Puerto en uso (EADDRINUSE) — 5173 vs Vite
 
 **Síntoma:** `Error: listen EADDRINUSE: address already in use :::5174` (o 5175) al hacer `npm run dev`.

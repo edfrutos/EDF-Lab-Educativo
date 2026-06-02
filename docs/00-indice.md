@@ -16,7 +16,7 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 8. [`08-memoria-vs-persistencia.md`](./08-memoria-vs-persistencia.md) para entender cómo persisten los datos entre reinicios.
 9. [`13-sqlite.md`](./13-sqlite.md) para profundizar en SQLite: esquema, consultas e inspección de `users.db`.
 10. [`09-glosario.md`](./09-glosario.md) para consultar los términos clave del laboratorio.
-11. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API.
+11. [`10-tests.md`](./10-tests.md) para entender la suite de tests de la API (SQLite, Postgres y autenticación).
 12. [`11-openapi.md`](./11-openapi.md) para entender el contrato formal de la API. *(avanzado, opcional)*
 13. [`12-docker.md`](./12-docker.md) para arrancar la API en un contenedor Docker. *(avanzado, opcional)*
 14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard + Postgres con Compose. *(avanzado, opcional)*
@@ -24,6 +24,15 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 16. [`16-frameworks.md`](./16-frameworks.md) para comparar vanilla, React y Vue (estado, formularios, `fetch`). *(avanzado, opcional)*
 
 **Rutas opcionales (frameworks):** [`dashboard-react/`](../dashboard-react/) en el puerto **5174** y [`dashboard-vue/`](../dashboard-vue/) en el **5175**, además del dashboard vanilla en **5173**.
+
+### Ruta avanzada v1.5 (autenticación y despliegue)
+
+Después del recorrido inicial y, si quieres, de frameworks:
+
+1. [`17-autenticacion.md`](./17-autenticacion.md) — sesión del operador, bcrypt, JWT en cookie, CORS con credenciales. *(avanzado, v1.5)*
+2. [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — práctica guiada login → CRUD → logout.
+3. [`18-production-deploy.md`](./18-production-deploy.md) — secretos `.env`, Compose `env_file`, TLS en nginx. *(avanzado, v1.5)*
+4. Misiones Compose opcionales: [`11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md), [`12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md).
 
 ## Documentos
 
@@ -58,7 +67,7 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
     Define los términos clave del laboratorio organizados por bloques temáticos.
 
 11. [`10-tests.md`](./10-tests.md)  
-    Explica la suite de tests de la API: cómo ejecutarla, leer el output y añadir un test nuevo.
+    Explica la suite de tests: SQLite, Postgres, autenticación y scripts `test:pg` / `test:db:prepare`.
 
 12. [`11-openapi.md`](./11-openapi.md) *(avanzado, opcional)*  
     Explica qué es OpenAPI, cómo leer el YAML de la spec y por qué los equipos usan contratos formales.
@@ -75,7 +84,25 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 16. [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*  
     Compara estado, formularios, HTTP y estilos entre `dashboard/`, `dashboard-react/` y `dashboard-vue/` con excerpts del repo.
 
+17. [`17-autenticacion.md`](./17-autenticacion.md) *(avanzado, v1.5)*  
+    Sesión del operador, bcrypt, JWT en cookie httpOnly, `credentials: 'include'` y rutas `/auth/*`.
+
+18. [`18-production-deploy.md`](./18-production-deploy.md) *(avanzado, v1.5)*  
+    Secretos con `.env`, `env_file` en Compose, fail-fast en producción y terminación TLS en nginx.
+
 ## Misiones prácticas
+
+### Recorrido inicial
+
+1. [`missions/01-arrancar-api.md`](../missions/01-arrancar-api.md) — Arranca la API y comprueba `/health`.
+2. [`missions/02-arrancar-dashboard.md`](../missions/02-arrancar-dashboard.md) — Sirve el dashboard en `:5173`.
+3. [`missions/03-consumir-json.md`](../missions/03-consumir-json.md) — Observa el flujo JSON en el navegador.
+4. [`missions/04-romper-y-arreglar-cors.md`](../missions/04-romper-y-arreglar-cors.md) — Diagnostica CORS.
+5. [`missions/05-mejorar-dashboard.md`](../missions/05-mejorar-dashboard.md) — Mejora la interfaz.
+6. [`missions/06-restart-y-persistencia.md`](../missions/06-restart-y-persistencia.md) — Reinicio y datos en disco.
+7. [`missions/07-corrupcion-y-restauracion.md`](../missions/07-corrupcion-y-restauracion.md) — JSON corrupto y semilla.
+
+### Base de datos y tests
 
 - [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md) — Inspecciona `users.db`, observa la migración desde JSON y verifica persistencia tras reinicio.
 
@@ -86,3 +113,4 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 - [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y el bind mount `./api/data`. *(avanzado, opcional)*
 - [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md) — Stack Compose con Postgres: CRUD, `psql` y persistencia en `postgres_data`. *(avanzado, opcional)*
 - [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) — API + React o Vue: CRUD e inspección en pestaña Network. *(avanzado, opcional)*
+- [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — Login, CRUD protegido, logout e inspección de cookie en DevTools. *(avanzado, v1.5)*

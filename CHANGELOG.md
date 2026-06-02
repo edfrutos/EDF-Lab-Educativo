@@ -4,6 +4,32 @@ Registro de cambios relevantes del laboratorio.
 
 ---
 
+## v1.5 · Material didáctico auth y despliegue (2026-06)
+
+### Documentado
+
+- [`docs/17-autenticacion.md`](./docs/17-autenticacion.md) ampliado: bcrypt, JWT httpOnly, producción → doc 18.
+- Nueva misión [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md).
+- [`docs/00-indice.md`](./docs/00-indice.md): ruta avanzada v1.5 tras frameworks; doc 18 y misión 14.
+- [`README.md`](./README.md): subsección ruta v1.5; endpoints `/auth/*`.
+- [`NOTEBOOK.md`](./NOTEBOOK.md): sección Autenticación y despliegue (v1.5).
+
+---
+
+## Documentación · sincronización auth y tests (2026-06)
+
+### Documentado
+
+- Nuevo [`docs/17-autenticacion.md`](./docs/17-autenticacion.md): sesión del operador, cookies, curl, React/Vue y tests.
+- Actualizados índice, puesta en marcha, API, dashboard, debugging, tests (46), frameworks y READMEs.
+- Aviso en `ROADMAP.md` raíz apuntando a `.planning/ROADMAP.md`.
+
+### Ajustado en código (clientes)
+
+- `credentials: 'include'` en `dashboard-react/src/api.js` y `dashboard-vue/src/api.js`.
+
+---
+
 ## 0.2.0 · API CRUD y sincronizacion documental
 
 ### Añadido
