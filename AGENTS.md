@@ -108,3 +108,29 @@ También disponible:
 $gsd-plan-phase 1
 ```
 <!-- GSD:workflow-end -->
+
+## Cursor Cloud specific instructions
+
+### Servicios para desarrollo (flujo principal)
+
+| Servicio | Puerto | Arranque |
+|---|---|---|
+| API Express (`api/`) | 3100 | `cd api && PORT=3100 npm start` |
+| Dashboard vanilla (`dashboard/`) | 5173 | `cd dashboard && python3 -m http.server 5173` |
+
+El dashboard consume `http://localhost:3100` (hardcodeado en `dashboard/app.js`). Sin `DATABASE_URL`, la API usa SQLite en `api/data/users.db` (requiere Node.js 22+).
+
+Usa sesiones **tmux** para procesos en segundo plano (API y servidor estático). Ejemplo: `edf-api` y `edf-dashboard`.
+
+### Validación y tests
+
+Comandos estándar en `README.md` y `CLAUDE.md`:
+
+- Sintaxis: `node --check index.js` (api), `node --check app.js` (dashboard)
+- Tests SQLite (16): `cd api && npm run test:sqlite`
+- Tests PostgreSQL (32 total): requieren Postgres en marcha (`npm run test:db:prepare` desde la raíz, luego `cd api && npm test`)
+
+### Opcional (no necesario para el flujo principal)
+
+- **Docker Compose** (`npm run compose:up`): Postgres + API + dashboard nginx en 3100/5173/5432
+- **dashboard-react** (5174) y **dashboard-vue** (5175): requieren `npm install` en cada carpeta
