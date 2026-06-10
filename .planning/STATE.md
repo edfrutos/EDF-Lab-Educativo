@@ -6,16 +6,16 @@ See: `.planning/PROJECT.md` (updated 2026-06-10)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone **v1.5** — Phase 18 complete; next Phase 19 (dashboard login).
+**Current focus:** Milestone **v1.5** — Phase 19 complete; next Phase 20 (docs y misión).
 
 ## Current Position
 
-Phase: **19** of 20 (Dashboard Login Flow) — **milestone v1.5 in progress**
-Plan: 3/8 v1.5 plans complete (Phase 18)
-Status: Phase 18 shipped — ready for `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`
-Last activity: 2026-06-10 — Phase 18 executed (AUTH-01–07, 23 tests)
+Phase: **20** of 20 (Auth & Production Learning Material) — **milestone v1.5 in progress**
+Plan: 6/8 v1.5 plans complete (Phases 18–19)
+Status: Phase 19 shipped — ready for `/gsd-execute-phase 20`
+Last activity: 2026-06-10 — Phase 19 executed (AUTH-08–12, login en dashboard)
 
-Progress: [██████████] 100% (v1.4) | [███░░░░░░░] ~33% (v1.5)
+Progress: [██████████] 100% (v1.4) | [██████░░░░] ~67% (v1.5)
 
 ## Milestone Status
 
@@ -33,7 +33,7 @@ Progress: [██████████] 100% (v1.4) | [███░░░░�
 | Phase | Name | Requirements | Plans |
 |-------|------|--------------|-------|
 | 18 | API Authentication Layer | AUTH-01–07 | 3/3 complete |
-| 19 | Dashboard Login Flow | AUTH-08–12 | 0/3 |
+| 19 | Dashboard Login Flow | AUTH-08–12 | 3/3 complete |
 | 20 | Auth & Production Learning Material | DEPLOY-01–06 | 0/2 |
 
 ## Accumulated Decisions
@@ -54,7 +54,7 @@ Decisions logged in PROJECT.md Key Decisions table.
 Last session: 2026-06-10
 Stopped at: v1.5 milestone defined — no phase 18 plans yet
 Resume file: None
-Next suggested command: `/gsd-discuss-phase 19` or `/gsd-plan-phase 19`
+Next suggested command: `/gsd-execute-phase 20`
 
 ## Deferred Items
 

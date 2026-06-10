@@ -19,11 +19,11 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 
 ### Dashboard Login
 
-- [ ] **AUTH-08**: Vanilla dashboard shows login form when API requires auth and no valid token is stored.
-- [ ] **AUTH-09**: Successful login stores JWT in `sessionStorage`; logout clears token and returns to login state.
-- [ ] **AUTH-10**: `fetchJson` (or equivalent) sends `Authorization: Bearer` header when a token exists.
-- [ ] **AUTH-11**: Dashboard handles **401** from API by clearing stale token and showing login (visible Spanish feedback).
-- [ ] **AUTH-12**: With `AUTH_ENABLED=false`, dashboard works without login (backward compatible with missions 01–13).
+- [x] **AUTH-08**: Vanilla dashboard shows login form when API requires auth and no valid token is stored.
+- [x] **AUTH-09**: Successful login stores JWT in `sessionStorage`; logout clears token and returns to login state.
+- [x] **AUTH-10**: `fetchJson` (or equivalent) sends `Authorization: Bearer` header when a token exists.
+- [x] **AUTH-11**: Dashboard handles **401** from API by clearing stale token and showing login (visible Spanish feedback).
+- [x] **AUTH-12**: With `AUTH_ENABLED=false`, dashboard works without login (backward compatible with missions 01–13).
 
 ### Production & Learning Material
 
@@ -45,11 +45,11 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 | AUTH-05 | Phase 18 | Complete |
 | AUTH-06 | Phase 18 | Complete |
 | AUTH-07 | Phase 18 | Complete |
-| AUTH-08 | Phase 19 | Pending |
-| AUTH-09 | Phase 19 | Pending |
-| AUTH-10 | Phase 19 | Pending |
-| AUTH-11 | Phase 19 | Pending |
-| AUTH-12 | Phase 19 | Pending |
+| AUTH-08 | Phase 19 | Complete |
+| AUTH-09 | Phase 19 | Complete |
+| AUTH-10 | Phase 19 | Complete |
+| AUTH-11 | Phase 19 | Complete |
+| AUTH-12 | Phase 19 | Complete |
 | DEPLOY-01 | Phase 20 | Pending |
 | DEPLOY-02 | Phase 20 | Pending |
 | DEPLOY-03 | Phase 20 | Pending |
@@ -57,7 +57,7 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 | DEPLOY-05 | Phase 20 | Pending |
 | DEPLOY-06 | Phase 20 | Pending |
 
-**Coverage:** 8/18 requirements complete (Phase 18 shipped)
+**Coverage:** 13/18 requirements complete (Phases 18–19 shipped)
 
 ## Out of Scope (v1.5)
 

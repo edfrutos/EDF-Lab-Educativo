@@ -86,7 +86,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md) for full 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 18. API Authentication Layer | v1.5 | 3/3 | Complete | 2026-06-10 |
-| 19. Dashboard Login Flow | v1.5 | 0/3 | Planned | — |
+| 19. Dashboard Login Flow | v1.5 | 3/3 | Complete | 2026-06-10 |
 | 20. Auth & Production Learning Material | v1.5 | 0/2 | Planned | — |
 | 1. API Foundation | v1.0 | 3/3 | Complete | 2026-05-26 |
 | 2. Dashboard Fetch | v1.0 | 2/2 | Complete | 2026-05-26 |

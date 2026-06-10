@@ -150,6 +150,40 @@ h2 {
   padding: 18px;
 }
 
+.toolbar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.login-card {
+  margin-bottom: 24px;
+}
+
+.login-form .form-grid {
+  margin-top: 16px;
+}
+
+.login-feedback {
+  min-height: 1.25rem;
+  margin: 12px 0 0;
+  font-weight: 700;
+}
+
+.login-feedback.is-error {
+  color: var(--danger);
+}
+
+.login-feedback.is-success {
+  color: var(--success);
+}
+
+.status-dot.is-auth-required {
+  background: var(--warning);
+  box-shadow: 0 0 0 6px rgba(245, 158, 11, 0.14);
+}
+
 .toolbar code {
   display: inline-block;
   padding: 8px 10px;

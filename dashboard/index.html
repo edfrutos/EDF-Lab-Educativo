@@ -32,7 +32,52 @@
           <p class="small-label">API base</p>
           <code id="api-base-url">http://localhost:3100</code>
         </div>
-        <button type="button" id="reload-button">Recargar datos</button>
+        <div class="toolbar-actions">
+          <button type="button" class="secondary-button" id="logout-button" hidden>
+            Cerrar sesión
+          </button>
+          <button type="button" id="reload-button">Recargar datos</button>
+        </div>
+      </section>
+
+      <section class="card login-card" id="login-section" hidden>
+        <header class="card-header">
+          <div>
+            <p class="small-label">Autenticación</p>
+            <h2>POST /auth/login</h2>
+          </div>
+        </header>
+        <p class="hint">
+          La API tiene <code>AUTH_ENABLED=true</code>. Inicia sesión para acceder a los endpoints de usuarios.
+        </p>
+        <form class="login-form" id="login-form">
+          <div class="form-grid">
+            <label class="field-group" for="login-username-input">
+              <span>Usuario</span>
+              <input
+                id="login-username-input"
+                name="username"
+                type="text"
+                autocomplete="username"
+                required
+              />
+            </label>
+            <label class="field-group" for="login-password-input">
+              <span>Contraseña</span>
+              <input
+                id="login-password-input"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+            </label>
+            <div class="form-actions">
+              <button type="submit" id="login-submit-button">Iniciar sesión</button>
+            </div>
+          </div>
+          <p class="login-feedback" id="login-feedback" aria-live="polite"></p>
+        </form>
       </section>
 
       <section class="grid">
@@ -75,7 +120,7 @@
         </article>
       </section>
 
-      <section class="card users-card">
+      <section class="card users-card" id="users-section">
         <header class="card-header users-header">
           <div>
             <p class="small-label">Endpoint</p>
@@ -157,6 +202,6 @@ PORT=3100 npm start</code></pre>
       </section>
     </main>
 
-    <script src="./app.js?v=phase-01-crud"></script>
+    <script src="./app.js?v=phase-19-auth"></script>
   </body>
 </html>
