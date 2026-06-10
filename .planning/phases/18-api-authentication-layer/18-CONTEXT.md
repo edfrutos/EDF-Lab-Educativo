@@ -1,7 +1,8 @@
 # Phase 18: API Authentication Layer - Context
 
-**Gathered:** 2026-06-10
-**Status:** Ready for discussion / planning
+**Gathered:** 2026-06-10  
+**Discussed:** 2026-06-10 (`18-DISCUSSION-LOG.md`)  
+**Status:** Ready for planning
 
 <domain>
 ## Phase Boundary
@@ -15,38 +16,58 @@ Deliver: `POST /auth/login`, auth middleware, env configuration, tests, and phas
 </domain>
 
 <decisions>
-## Implementation Decisions (proposed)
+## Implementation Decisions
+
+### Module layout
+- **D-01:** New **`api/auth.js`** — `isAuthEnabled()`, `requireAuth`, `loginHandler`, JWT sign/verify helpers (mirror `db.js` separation).
+- **D-02:** Export test helpers from `auth.js` if needed (`signToken`); keep `index.js` changes minimal.
 
 ### Login endpoint — AUTH-01, AUTH-02
-- **D-01:** `POST /auth/login` body: `{ "username": "...", "password": "..." }`.
-- **D-02:** Compare against `process.env.AUTH_USER` and `process.env.AUTH_PASSWORD`.
-- **D-03:** On success: `{ "token": "<jwt>", "expiresIn": "<seconds or ISO>" }` with HTTP 201 or 200 (pick one in plan; document in OpenAPI).
-- **D-04:** On failure: HTTP 401 with Spanish error message (consistent with existing API style).
+- **D-03:** `POST /auth/login` body: `{ "username": "...", "password": "..." }`.
+- **D-04:** Compare against `process.env.AUTH_USER` and `process.env.AUTH_PASSWORD` (plaintext lab only).
+- **D-05:** Success: HTTP **200** with `{ "token": "<jwt>", "expiresIn": 3600 }` (seconds).
+- **D-06:** Wrong credentials: HTTP **401** `{ "error": "Credenciales incorrectas." }`.
+- **D-07:** Missing fields: HTTP **400** with Spanish validation message.
+- **D-08:** When `AUTH_ENABLED=false`: HTTP **404** `{ "error": "La autenticación no está activada (AUTH_ENABLED=false)." }`.
 
 ### JWT — AUTH-06
-- **D-05:** Use `jsonwebtoken` package (educational dependency; document in NOTEBOOK).
-- **D-06:** Sign with `JWT_SECRET` from env; reasonable expiry (e.g. 1h for lab).
-- **D-07:** Payload minimal: `{ sub: username }` — no roles in v1.5.
+- **D-09:** Dependency **`jsonwebtoken`** in `dependencies`.
+- **D-10:** Sign with `JWT_SECRET`; expiry **1 hour** (`expiresIn: '1h'` in `jwt.sign`).
+- **D-11:** Payload minimal: `{ sub: username }` — no roles in v1.5.
 
 ### Middleware — AUTH-03, AUTH-04, AUTH-05
-- **D-08:** `AUTH_ENABLED` parsed as boolean; default `false` when unset.
-- **D-09:** When enabled, apply middleware to all `/users` routes (GET list, GET :id, POST, PUT, DELETE).
-- **D-10:** When enabled, **do not** protect `GET /health`, `GET /`, `GET /about`, `GET /time`.
-- **D-11:** Missing header → 401 `{ error: "..." }`; invalid/expired token → 401.
+- **D-12:** `AUTH_ENABLED` true only when `process.env.AUTH_ENABLED === 'true'`; default false when unset.
+- **D-13:** `requireAuth` no-op when auth disabled.
+- **D-14:** When enabled: mount **`usersRouter`** at `/users` behind `requireAuth` (all CRUD routes).
+- **D-15:** When enabled, keep **public**: `GET /`, `GET /health`, `GET /about`, `GET /time`, `POST /auth/login`.
+- **D-16:** Missing Bearer → **401** `{ "error": "Token no proporcionado." }`; invalid/expired → **401** `{ "error": "Token inválido o caducado." }`.
 
-### Configuration — DEPLOY-04 (partial)
-- **D-12:** Add `api/.env.example` with all auth vars and prominent "solo laboratorio" warning.
-- **D-13:** Document loading `.env` — if not using dotenv package, document `export VAR=...` in shell (prefer **no** dotenv dep unless plan justifies it).
+### Startup & configuration — DEPLOY-04 (partial)
+- **D-17:** **Fail-fast** on `startServer()` when `AUTH_ENABLED=true` and any of `JWT_SECRET`, `AUTH_USER`, `AUTH_PASSWORD` is missing.
+- **D-18:** Add **`api/.env.example`** with all auth vars and "solo laboratorio" warning.
+- **D-19:** **No `dotenv`** — document `export VAR=...` in shell and README/api docs.
+
+### CORS
+- **D-20:** No CORS code change unless `18-UAT` proves otherwise; verify `Authorization` header in manual checklist.
 
 ### Tests — AUTH-07
-- **D-14:** Extend `index.test.js` with auth-off regression (existing 16 tests pass).
-- **D-15:** Auth-on suite: login ok/fail, GET /users without token → 401, with token → 200.
-- **D-16:** Use env override in test setup (same pattern as `DB_FILE` isolation).
+- **D-21:** New **`api/index.auth.test.js`**; chain in `npm run test:sqlite`.
+- **D-22:** Set `AUTH_*` env in `beforeEach`/`afterEach` **before** `require('./index')` in auth suite (or re-require pattern documented in plan).
+- **D-23:** Cases: login ok/fail, `/users` 401 without token, `/users` 200 with Bearer; existing **16/16** pass unchanged with auth off.
+- **D-24:** Postgres auth tests **out of scope** for Phase 18.
+
+### OpenAPI & discovery
+- **D-25:** Update **`GET /` endpoints list** to include `POST /auth/login`.
+- **D-26:** Plan **18-03**: draft `/auth/login` in `openapi.yaml`; full `securitySchemes` deferred to Phase 20 (DEPLOY-06).
+
+### Explicitly out of scope (Phase 18)
+- **D-27:** No `GET /auth/me` (reto extra in doc 17).
+- **D-28:** No `bcryptjs`; no dashboard changes; no NOTEBOOK section yet.
 
 ### Claude's Discretion
-- Exact file split (`auth.js` middleware module vs inline in `index.js`).
-- Whether `GET /auth/me` is added as teaching endpoint (optional, not required).
-- HTTP status for successful login (200 vs 201).
+- Exact `usersRouter` refactor vs per-route middleware.
+- Whether auth tests use `delete require.cache` to reload app per file.
+- Wording of fail-fast console message on startup.
 
 </decisions>
 
@@ -54,8 +75,8 @@ Deliver: `POST /auth/login`, auth middleware, env configuration, tests, and phas
 ## Constraints
 
 - No breaking changes when `AUTH_ENABLED=false`.
-- CORS must continue to work; plan must note `Authorization` header for Phase 19.
 - SQLite and Postgres test paths both pass with auth off.
 - Keep Spanish error messages for learner-facing responses.
+- CORS must continue to work; `Authorization` noted for Phase 19.
 
 </constraints>

@@ -12,8 +12,8 @@ See: `.planning/PROJECT.md` (updated 2026-06-10)
 
 Phase: **18** of 20 (API Authentication Layer) — **milestone v1.5 planned**
 Plan: 0/8 v1.5 plans complete
-Status: Milestone defined — ready for `/gsd-discuss-phase 18`
-Last activity: 2026-06-10 — v1.5 milestone defined (requirements, roadmap, research)
+Status: Phase 18 discussed — ready for `/gsd-plan-phase 18`
+Last activity: 2026-06-10 — `/gsd-discuss-phase 18` completed (DISCUSSION-LOG, RESEARCH, CONTEXT)
 
 Progress: [██████████] 100% (v1.4) | [░░░░░░░░░░] 0% (v1.5)
 
@@ -54,7 +54,7 @@ Decisions logged in PROJECT.md Key Decisions table.
 Last session: 2026-06-10
 Stopped at: v1.5 milestone defined — no phase 18 plans yet
 Resume file: None
-Next suggested command: `/gsd-discuss-phase 18` or `/gsd-plan-phase 18`
+Next suggested command: `/gsd-plan-phase 18`
 
 ## Deferred Items
 
