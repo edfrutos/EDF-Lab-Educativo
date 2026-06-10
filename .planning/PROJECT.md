@@ -10,7 +10,7 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current State (v1.4 shipped 2026-06-01)
+## Current State (v1.5 planned 2026-06-10)
 
 **Stack:** Express + `node:sqlite` / `pg` + vanilla dashboard + React (`dashboard-react/`) + Vue (`dashboard-vue/`) + Docker Compose (Postgres + API + nginx)  
 **Persistence:** Host — `api/data/users.db` (SQLite, default). Compose — PostgreSQL `edf_lab` on volume `postgres_data`. `users.json` is seed only.  
@@ -19,12 +19,14 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Docs:** Through `docs/16-frameworks.md` + Missions 10–13; see `docs/00-indice.md`  
 **Compose:** `npm run compose:up` — dashboard :5173, API :3100, Postgres :5432
 
-**Active milestone:** None — run `/gsd-new-milestone` for v1.5.
+**Active milestone:** **v1.5 Authentication & Production Readiness** — Phases 18–20. See `.planning/milestones/v1.5-ROADMAP.md`.
 
-## Next Milestone Goals (v1.5+ — deferred)
+**v1.5 target:** Optional JWT auth (`AUTH_ENABLED`), vanilla login flow, `docs/17-autenticacion.md`, `docs/18-despliegue.md`, Mission 14.
 
-- Production authentication when a learning phase explicitly teaches auth (PROD-01, PROD-02)
-- Production deployment hardening (TLS, secrets) — PROD-02
+## Next Milestone Goals (v1.6+ — deferred)
+
+- Framework dashboard auth parity (stretch from Mission 14 reto extra)
+- Rate limiting, refresh tokens, database-backed user accounts
 
 ## Requirements
 
@@ -58,17 +60,19 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 - ✓ `dashboard-vue/` — Vite + Vue 3 Composition API, port 5175, full CRUD parity — v1.4 Phase 16
 - ✓ `docs/16-frameworks.md`, Mission 13, NOTEBOOK framework errors — v1.4 Phase 17
 
-### Active
+### Active (v1.5)
 
-- [ ] Production authentication and deployment hardening — v1.5+ (PROD-01, PROD-02)
+- [ ] JWT authentication with optional `AUTH_ENABLED` — AUTH-01–AUTH-07
+- [ ] Vanilla dashboard login/logout and Bearer token — AUTH-08–AUTH-12
+- [ ] Auth and deployment learning material — DEPLOY-01–DEPLOY-06
 
 ### Out of Scope
 
-- Full production authentication — not needed for the current beginner-focused API/data-flow lab.
+- OAuth2 / OIDC / social login — JWT lab admin is sufficient for v1.5.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
 - nginx reverse proxy `/api` in Compose — documented as advanced reto only.
 - Additional frameworks beyond React/Vue (Svelte, Angular, etc.) — v1.4 delivered the comparison milestone.
-- Production deployment hardening — local learning remains the first target.
+- Real cloud deployment or Kubernetes — doc 18 teaches concepts; hosting is out of scope.
 - ORM / managed cloud Postgres — raw SQL + local Compose keep the layer transparent.
 - Removing SQLite entirely — host dev stays low-friction; Postgres is additive.
 - Complex dependency additions without educational payoff — project rules explicitly prefer avoiding unnecessary dependencies.
@@ -151,4 +155,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-01 — v1.4 milestone shipped*
+*Last updated: 2026-06-10 — v1.5 milestone defined*

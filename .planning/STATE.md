@@ -2,64 +2,59 @@
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-06-01)
+See: `.planning/PROJECT.md` (updated 2026-06-10)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v1.4 shipped — no active milestone. Run `/gsd-new-milestone` to start v1.5.
+**Current focus:** Milestone **v1.5 Authentication & Production Readiness** — Phases 18–20 defined, implementation not started.
 
 ## Current Position
 
-Phase: 17 of 17 (Framework Learning Material) — **milestone v1.4 complete**
-Plan: All v1.4 plans complete (8/8)
-Status: Milestone shipped
-Last activity: 2026-06-01 — v1.4 milestone archived and tagged
+Phase: **18** of 20 (API Authentication Layer) — **milestone v1.5 planned**
+Plan: 0/8 v1.5 plans complete
+Status: Milestone defined — ready for `/gsd-discuss-phase 18`
+Last activity: 2026-06-10 — v1.5 milestone defined (requirements, roadmap, research)
 
-Progress: [██████████] 100% (v1.4) | [██████████] 100% (all milestones through v1.4)
+Progress: [██████████] 100% (v1.4) | [░░░░░░░░░░] 0% (v1.5)
 
 ## Milestone Status
 
-| Milestone | Status | Shipped |
-|-----------|--------|---------|
+| Milestone | Status | Shipped / Defined |
+|-----------|--------|-------------------|
 | v1.0 Educational Lab MVP | Shipped | 2026-05-30 |
 | v1.1 SQLite Persistence | Shipped | 2026-05-30 |
 | v1.2 Docker & Compose | Shipped | 2026-05-31 |
 | v1.3 PostgreSQL Persistence | Shipped | 2026-06-01 |
 | v1.4 Frontend Framework Comparison | Shipped | 2026-06-01 |
+| v1.5 Authentication & Production Readiness | **Planned** | 2026-06-10 |
 
-## Performance Metrics
+## v1.5 Phase Overview
 
-**Velocity:**
-
-- Total plans completed (v1.4): 8
-- Average duration: ~1 day (milestone executed 2026-06-01)
-- Total milestone duration: 1 day (phases 15–17)
-
-**By phase (v1.4):**
-
-| Phase | Plans | Notes |
-|-------|-------|-------|
-| 15 React | 3 | dashboard-react :5174 |
-| 16 Vue | 3 | dashboard-vue :5175 |
-| 17 Learning | 2 | docs/16-frameworks.md, Mission 13 |
+| Phase | Name | Requirements | Plans |
+|-------|------|--------------|-------|
+| 18 | API Authentication Layer | AUTH-01–07 | 0/3 |
+| 19 | Dashboard Login Flow | AUTH-08–12 | 0/3 |
+| 20 | Auth & Production Learning Material | DEPLOY-01–06 | 0/2 |
 
 ## Accumulated Decisions
 
 Decisions logged in PROJECT.md Key Decisions table.
 
-**v1.4 highlights:**
+**v1.5 proposed (pending implementation):**
 
-- No Pinia/Redux/router/axios in framework dashboards
-- `fetchJson` visible; `VITE_API_BASE_URL` for React/Vue
-- Vanilla `:5173` remains primary; React `:5174`, Vue `:5175` optional
-- Comparison doc: `docs/16-frameworks.md` (not 17-frameworks)
+- `AUTH_ENABLED=false` by default — missions 01–13 unchanged
+- `jsonwebtoken` for JWT signing (new runtime dependency)
+- Single admin from env vars (`AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET`)
+- Protect `/users` routes when auth on; `/health` and `/` stay public
+- Vanilla dashboard only for required login UI; React/Vue as Mission 14 reto extra
+- Docs: `docs/17-autenticacion.md`, `docs/18-despliegue.md`, Mission 14
 
 ## Session Continuity
 
-Last session: 2026-06-01
-Stopped at: v1.4 milestone complete — archived and tagged `v1.4`
+Last session: 2026-06-10
+Stopped at: v1.5 milestone defined — no phase 18 plans yet
 Resume file: None
-Next suggested command: `/gsd-new-milestone` (v1.5 — PROD-01/02 deferred in REQUIREMENTS.md)
+Next suggested command: `/gsd-discuss-phase 18` or `/gsd-plan-phase 18`
 
 ## Deferred Items
 
@@ -67,8 +62,9 @@ Next suggested command: `/gsd-new-milestone` (v1.5 — PROD-01/02 deferred in RE
 |------|--------|--------|
 | Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open — see v1.2 archive |
 | Phase 02 HUMAN-UAT | Flagged at v1.0 close | Verified — no action needed |
-| PROD-01 Auth | Out of v1.4 scope | Deferred to v1.5+ |
-| PROD-02 Production deploy | Out of v1.4 scope | Deferred to v1.5+ |
+| Framework auth parity | Out of v1.5 required scope | Deferred to v1.6+ / Mission 14 reto |
+| OAuth2 / refresh tokens | Advanced auth topics | Deferred to v1.6+ |
+| Real TLS / cloud deploy | Conceptual doc only in v1.5 | Deferred |
 
 ---
-*Last updated: 2026-06-01 after v1.4 milestone completion*
+*Last updated: 2026-06-10 after v1.5 milestone definition*

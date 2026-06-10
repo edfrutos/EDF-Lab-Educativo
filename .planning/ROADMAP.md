@@ -1,14 +1,26 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** None (v1.4 shipped 2026-06-01 — run `/gsd-new-milestone` for v1.5)
+**Current Milestone:** v1.5 Authentication & Production Readiness (defined 2026-06-10)
 
 ## Milestones
 
+- 🚧 **v1.5 Authentication & Production Readiness** — Phases 18–20 (planned 2026-06-10)
 - ✅ **v1.0 Educational Lab MVP** — Phases 1–5 (shipped 2026-05-30)
 - ✅ **v1.1 SQLite Persistence** — Phases 6–8 (shipped 2026-05-30)
 - ✅ **v1.2 Docker & Compose** — Phases 9–11 (shipped 2026-05-31)
 - ✅ **v1.3 PostgreSQL Persistence** — Phases 12–14 (shipped 2026-06-01)
 - ✅ **v1.4 Frontend Framework Comparison** — Phases 15–17 (shipped 2026-06-01)
+
+<details>
+<summary>🚧 v1.5 Authentication & Production Readiness (Phases 18–20) — PLANNED 2026-06-10</summary>
+
+- [ ] **Phase 18: API Authentication Layer** — `POST /auth/login`, JWT middleware, `AUTH_ENABLED`, tests
+- [ ] **Phase 19: Dashboard Login Flow** — vanilla login/logout, Bearer in `fetch`, 401 handling
+- [ ] **Phase 20: Auth & Production Learning Material** — docs 17–18, Mission 14, `.env.example`, OpenAPI
+
+See [.planning/milestones/v1.5-ROADMAP.md](milestones/v1.5-ROADMAP.md) for full phase details.
+
+</details>
 
 <details>
 <summary>✅ v1.4 Frontend Framework Comparison (Phases 15–17) — SHIPPED 2026-06-01</summary>
@@ -69,10 +81,13 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md) for full 
 
 ## Progress
 
-**Overall:** 17/17 phases complete across all milestones
+**Overall:** 17/20 phases complete across all milestones (v1.5 in progress)
 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
+| 18. API Authentication Layer | v1.5 | 0/3 | Planned | — |
+| 19. Dashboard Login Flow | v1.5 | 0/3 | Planned | — |
+| 20. Auth & Production Learning Material | v1.5 | 0/2 | Planned | — |
 | 1. API Foundation | v1.0 | 3/3 | Complete | 2026-05-26 |
 | 2. Dashboard Fetch | v1.0 | 2/2 | Complete | 2026-05-26 |
 | 3. API CRUD | v1.0 | 3/3 | Complete | 2026-05-27 |

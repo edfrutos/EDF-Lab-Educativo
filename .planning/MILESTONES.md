@@ -1,5 +1,24 @@
 # Milestones
 
+## v1.5 Authentication & Production Readiness (Planned: 2026-06-10)
+
+**Phases planned:** 3 phases, ~8 plans  
+**Status:** Defined — implementation not started  
+**Carried from v1.4 close:** PROD-01 (auth) and PROD-02 (deployment) reframed as AUTH-* and DEPLOY-* requirements
+
+**Planned deliverables:**
+
+- Optional JWT auth on `/users` routes (`AUTH_ENABLED`, default `false`)
+- `POST /auth/login` with env-based admin credentials
+- Vanilla dashboard login/logout + `Authorization: Bearer` in `fetch`
+- `docs/17-autenticacion.md` and `docs/18-despliegue.md`
+- Mission 14 — login flow + Network tab Bearer inspection
+- `api/.env.example`, OpenAPI securitySchemes, NOTEBOOK auth/deploy errors
+
+**Entry:** `.planning/milestones/v1.5-ROADMAP.md` · `/gsd-discuss-phase 18`
+
+---
+
 ## v1.4 Frontend Framework Comparison (Shipped: 2026-06-01)
 
 **Phases completed:** 3 phases, 8 plans  

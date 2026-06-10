@@ -2,6 +2,9 @@
 
 Plan de evolución del laboratorio educativo.
 
+> **Hito activo (GSD):** v1.5 *Autenticación y preparación para producción* — fases 18–20.  
+> Planificación detallada: [`.planning/milestones/v1.5-ROADMAP.md`](./.planning/milestones/v1.5-ROADMAP.md) · estado: [`.planning/STATE.md`](./.planning/STATE.md)
+
 ---
 
 ## Fase 0 · Estructura base
