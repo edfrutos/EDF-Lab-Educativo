@@ -12,8 +12,8 @@ See: `.planning/PROJECT.md` (updated 2026-06-10)
 
 Phase: **18** of 20 (API Authentication Layer) — **milestone v1.5 planned**
 Plan: 0/8 v1.5 plans complete
-Status: Phase 18 discussed — ready for `/gsd-plan-phase 18`
-Last activity: 2026-06-10 — `/gsd-discuss-phase 18` completed (DISCUSSION-LOG, RESEARCH, CONTEXT)
+Status: Phase 18 planned — ready for `/gsd-execute-phase 18` (start 18-01)
+Last activity: 2026-06-10 — `/gsd-plan-phase 18` completed (3 plans, PLAN-CHECK PASS)
 
 Progress: [██████████] 100% (v1.4) | [░░░░░░░░░░] 0% (v1.5)
 
