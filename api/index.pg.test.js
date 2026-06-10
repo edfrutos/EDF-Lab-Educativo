@@ -12,6 +12,7 @@ const DEFAULT_TEST_URL =
   'postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test';
 process.env.DATABASE_URL = process.env.TEST_DATABASE_URL || DEFAULT_TEST_URL;
 delete process.env.DB_FILE;
+delete process.env.AUTH_ENABLED;
 
 const app = require('./index.js');
 const request = require('supertest');

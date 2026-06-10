@@ -36,7 +36,53 @@ paths:
                     example:
                       - GET /
                       - GET /health
+                      - POST /auth/login
                       - GET /users
+  /auth/login:
+    post:
+      summary: Iniciar sesión (JWT)
+      description: |
+        Devuelve un token Bearer cuando AUTH_ENABLED=true.
+        Si AUTH_ENABLED=false, responde 404.
+        securitySchemes en rutas /users — Fase 20 (DEPLOY-06).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - username
+                - password
+              properties:
+                username:
+                  type: string
+                  example: admin
+                password:
+                  type: string
+                  example: cambiar-en-local
+      responses:
+        "200":
+          description: Token JWT emitido
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - token
+                  - expiresIn
+                properties:
+                  token:
+                    type: string
+                  expiresIn:
+                    type: integer
+                    example: 3600
+        "400":
+          description: Campos obligatorios faltantes
+        "401":
+          description: Credenciales incorrectas
+        "404":
+          description: Autenticación desactivada (AUTH_ENABLED=false)
   /health:
     get:
       summary: Comprobar estado del servidor

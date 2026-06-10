@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const auth = require('./auth');
 const {
   initDb,
   getAllUsers,
@@ -38,30 +39,13 @@ function validateUserPayload(body) {
   return null;
 }
 
-// Routes
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Welcome to the Test Project API',
-    version: '1.0.0',
-    endpoints: [
-      'GET /',
-      'GET /health',
-      'GET /users',
-      'GET /users/:id',
-      'POST /users',
-      'PUT /users/:id',
-      'DELETE /users/:id',
-      'GET /about',
-      'GET /time'
-    ]
-  });
-});
+const usersRouter = express.Router();
 
-app.get('/users', async (req, res) => {
+usersRouter.get('/', async (req, res) => {
   res.json(await getAllUsers());
 });
 
-app.get('/users/:id', async (req, res) => {
+usersRouter.get('/:id', async (req, res) => {
   const userId = parseUserId(req.params.id);
 
   if (userId === null) {
@@ -77,7 +61,7 @@ app.get('/users/:id', async (req, res) => {
   res.json(user);
 });
 
-app.post('/users', async (req, res) => {
+usersRouter.post('/', async (req, res) => {
   const validationError = validateUserPayload(req.body);
 
   if (validationError) {
@@ -96,7 +80,7 @@ app.post('/users', async (req, res) => {
   }
 });
 
-app.put('/users/:id', async (req, res) => {
+usersRouter.put('/:id', async (req, res) => {
   const userId = parseUserId(req.params.id);
 
   if (userId === null) {
@@ -127,7 +111,7 @@ app.put('/users/:id', async (req, res) => {
   }
 });
 
-app.delete('/users/:id', async (req, res) => {
+usersRouter.delete('/:id', async (req, res) => {
   const userId = parseUserId(req.params.id);
 
   if (userId === null) {
@@ -147,6 +131,29 @@ app.delete('/users/:id', async (req, res) => {
     return res.status(500).json({ error: 'No se pudo persistir el cambio. Comprueba los permisos del archivo.' });
   }
 });
+
+// Routes
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Welcome to the Test Project API',
+    version: '1.0.0',
+    endpoints: [
+      'GET /',
+      'GET /health',
+      'POST /auth/login',
+      'GET /users',
+      'GET /users/:id',
+      'POST /users',
+      'PUT /users/:id',
+      'DELETE /users/:id',
+      'GET /about',
+      'GET /time'
+    ]
+  });
+});
+
+app.post('/auth/login', auth.loginHandler);
+app.use('/users', auth.requireAuth, usersRouter);
 
 app.get('/health', (req, res) => {
   res.json({
@@ -181,9 +188,13 @@ module.exports = app;
 module.exports.initDb = initDb;
 
 async function startServer() {
+  auth.validateAuthConfig();
   await initDb();
   app.listen(PORT, () => {
     console.log(`Servidor arrancado en http://localhost:${PORT}`);
+    if (auth.isAuthEnabled()) {
+      console.log('Autenticación JWT activa (rutas /users protegidas).');
+    }
   });
 }
 

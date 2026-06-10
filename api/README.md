@@ -53,6 +53,39 @@ Resultado esperado:
 
 ---
 
+## Autenticación (opcional, v1.5)
+
+Por defecto la API está **abierta** (`AUTH_ENABLED` no definido o `false`) — igual que en v1.4.
+
+Para activar JWT en rutas `/users`:
+
+```bash
+export AUTH_ENABLED=true
+export AUTH_USER=admin
+export AUTH_PASSWORD=tu-clave-local
+export JWT_SECRET=un-secreto-largo-y-aleatorio
+PORT=3100 npm start
+```
+
+Plantilla de variables: [`api/.env.example`](./.env.example). **No** commitees un `.env` real.
+
+Login y token:
+
+```bash
+curl -s -X POST http://localhost:3100/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"tu-clave-local"}'
+
+curl -s http://localhost:3100/users \
+  -H 'Authorization: Bearer <token>'
+```
+
+Sin token, `GET /users` responde **401** cuando auth está activa. `GET /health` sigue siendo público.
+
+El login en el dashboard vanilla llega en la **Fase 19** del hito v1.5.
+
+---
+
 ## Opcional: Docker Compose
 
 Desde la **raíz del repositorio** (no desde `api/`):

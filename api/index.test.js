@@ -14,6 +14,8 @@ const TEST_DB = path.join(__dirname, 'data', 'users.test.db');
 process.env.DB_FILE = TEST_DB;
 // Tests SQLite: no usar Postgres aunque DATABASE_URL esté en el shell o en Compose.
 delete process.env.DATABASE_URL;
+// Regresión auth: suite base asume API abierta (v1.4).
+delete process.env.AUTH_ENABLED;
 
 const app = require('./index.js');
 const request = require('supertest');

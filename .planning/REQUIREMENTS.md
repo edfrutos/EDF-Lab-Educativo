@@ -9,13 +9,13 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 
 ### API Authentication
 
-- [ ] **AUTH-01**: `POST /auth/login` accepts `username` and `password` JSON body; returns JWT and expiry on success.
-- [ ] **AUTH-02**: Credentials validated against `AUTH_USER` and `AUTH_PASSWORD` environment variables (documented as lab-only).
-- [ ] **AUTH-03**: `AUTH_ENABLED` environment variable (default `false`) toggles auth middleware without code changes.
-- [ ] **AUTH-04**: When `AUTH_ENABLED=true`, all `/users` routes require valid `Authorization: Bearer <token>`; missing/invalid token returns **401**.
-- [ ] **AUTH-05**: When `AUTH_ENABLED=true`, `GET /health` and `GET /` remain **public** (no token required).
-- [ ] **AUTH-06**: JWT signed with `JWT_SECRET` from environment; invalid/expired tokens return **401**.
-- [ ] **AUTH-07**: Automated tests cover login success/failure and protected routes with auth on/off (`test:sqlite` minimum).
+- [x] **AUTH-01**: `POST /auth/login` accepts `username` and `password` JSON body; returns JWT and expiry on success.
+- [x] **AUTH-02**: Credentials validated against `AUTH_USER` and `AUTH_PASSWORD` environment variables (documented as lab-only).
+- [x] **AUTH-03**: `AUTH_ENABLED` environment variable (default `false`) toggles auth middleware without code changes.
+- [x] **AUTH-04**: When `AUTH_ENABLED=true`, all `/users` routes require valid `Authorization: Bearer <token>`; missing/invalid token returns **401**.
+- [x] **AUTH-05**: When `AUTH_ENABLED=true`, `GET /health` and `GET /` remain **public** (no token required).
+- [x] **AUTH-06**: JWT signed with `JWT_SECRET` from environment; invalid/expired tokens return **401**.
+- [x] **AUTH-07**: Automated tests cover login success/failure and protected routes with auth on/off (`test:sqlite` minimum).
 
 ### Dashboard Login
 
@@ -30,7 +30,7 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 - [ ] **DEPLOY-01**: `docs/17-autenticacion.md` explains JWT flow, public vs protected routes, 401, and token storage with repo excerpts.
 - [ ] **DEPLOY-02**: `docs/18-despliegue.md` covers env vars, secrets, CORS hardening, TLS overview (reverse proxy), and a production checklist.
 - [ ] **DEPLOY-03**: `missions/14-login-y-token.md` — login, CRUD with token, Network tab inspection of Bearer header; reto extra for React/Vue.
-- [ ] **DEPLOY-04**: `api/.env.example` documents `AUTH_ENABLED`, `AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET` with security warnings.
+- [x] **DEPLOY-04**: `api/.env.example` documents `AUTH_ENABLED`, `AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET` with security warnings.
 - [ ] **DEPLOY-05**: Real auth/deploy integration errors recorded in `NOTEBOOK.md` (CORS + Authorization, wrong secret, expired token).
 - [ ] **DEPLOY-06**: OpenAPI spec updated with `/auth/login` and `securitySchemes` for Bearer JWT on protected routes.
 
@@ -38,13 +38,13 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 | Phase 18 | Pending |
-| AUTH-02 | Phase 18 | Pending |
-| AUTH-03 | Phase 18 | Pending |
-| AUTH-04 | Phase 18 | Pending |
-| AUTH-05 | Phase 18 | Pending |
-| AUTH-06 | Phase 18 | Pending |
-| AUTH-07 | Phase 18 | Pending |
+| AUTH-01 | Phase 18 | Complete |
+| AUTH-02 | Phase 18 | Complete |
+| AUTH-03 | Phase 18 | Complete |
+| AUTH-04 | Phase 18 | Complete |
+| AUTH-05 | Phase 18 | Complete |
+| AUTH-06 | Phase 18 | Complete |
+| AUTH-07 | Phase 18 | Complete |
 | AUTH-08 | Phase 19 | Pending |
 | AUTH-09 | Phase 19 | Pending |
 | AUTH-10 | Phase 19 | Pending |
@@ -53,11 +53,11 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 | DEPLOY-01 | Phase 20 | Pending |
 | DEPLOY-02 | Phase 20 | Pending |
 | DEPLOY-03 | Phase 20 | Pending |
-| DEPLOY-04 | Phase 20 | Pending |
+| DEPLOY-04 | Phase 18 | Complete |
 | DEPLOY-05 | Phase 20 | Pending |
 | DEPLOY-06 | Phase 20 | Pending |
 
-**Coverage:** 0/18 requirements complete
+**Coverage:** 8/18 requirements complete (Phase 18 shipped)
 
 ## Out of Scope (v1.5)
 
