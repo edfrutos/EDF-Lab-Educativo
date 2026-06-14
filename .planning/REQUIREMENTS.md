@@ -21,10 +21,10 @@ Requirements for **Framework Auth & CI**. Phases 22–25.
 
 ### CI & API Hardening
 
-- [ ] **CI-01**: GitHub Actions workflow runs `npm run test:sqlite` (or documented test script) on push to `main`.
-- [ ] **CI-02**: Workflow documents how to add Postgres job as optional/advanced step in README or doc.
-- [ ] **RATE-01**: `POST /auth/login` is rate-limited (e.g. express-rate-limit) with JSON 429 response.
-- [ ] **RATE-02**: Rate limit configuration is env-driven and documented in `api/.env.example` comments.
+- [x] **CI-01**: GitHub Actions workflow runs `npm run test:sqlite` (or documented test script) on push to `main`.
+- [x] **CI-02**: Workflow documents how to add Postgres job as optional/advanced step in README or doc.
+- [x] **RATE-01**: `POST /auth/login` is rate-limited (e.g. express-rate-limit) with JSON 429 response.
+- [x] **RATE-02**: Rate limit configuration is env-driven and documented in `api/.env.example` comments.
 
 ### Learning Documentation
 
@@ -71,7 +71,7 @@ Deferred to future milestones. Tracked but not in v1.6 roadmap.
 |-------------|-------|--------|
 | FRWK-AUTH-01 … FRWK-AUTH-04 | Phase 22 | Complete |
 | FRWK-AUTH-05 … FRWK-AUTH-06 | Phase 23 | Complete |
-| CI-01 … CI-02, RATE-01 … RATE-02 | Phase 24 | Pending |
+| CI-01 … CI-02, RATE-01 … RATE-02 | Phase 24 | Complete |
 | DOCS-01 … DOCS-04 | Phase 25 | Pending |
 
 **Coverage:**

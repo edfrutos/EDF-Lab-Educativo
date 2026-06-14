@@ -37,10 +37,11 @@ npm audit --audit-level=high
 
 ```bash
 cd api
-npm test
+npm run test:sqlite   # 24 tests — suite usada en CI
+npm test              # SQLite + Postgres (47 si PG disponible)
 ```
 
-`npm test` existe en `api/package.json`, pero ahora mismo es un placeholder que termina con `Error: no test specified`. No hay suite automatizada ni comando para ejecutar un test individual.
+La suite SQLite (`index.test.js` + `rate-limit.test.js`) cubre CRUD, autenticación y rate limit de login. GitHub Actions ejecuta `test:sqlite` en cada push/PR a `main` (ver `.github/workflows/ci.yml`).
 
 ## Arquitectura de alto nivel
 

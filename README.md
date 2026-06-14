@@ -97,7 +97,7 @@ En **v1.3**, `npm run compose:up` levanta **tres servicios** (Postgres + API + d
 
 Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-postgresql.md`](./docs/15-postgresql.md), [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) (secretos y TLS). Misiones: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md), [`missions/12-postgres-compose-crud.md`](./missions/12-postgres-compose-crud.md).
 
-Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **46 tests** si Postgres está en marcha (16 CRUD + 7 auth en SQLite, y lo mismo en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (23 tests).
+Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **47 tests** si Postgres está en marcha (24 en SQLite + 23 en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (**24 tests**). **CI:** cada push a `main` ejecuta `test:sqlite` en GitHub Actions — ver [`docs/10-tests.md`](./docs/10-tests.md#ci-en-github-actions).
 
 Autenticación: las rutas `/users` requieren login de operador. Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). Misión práctica: [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md). En el dashboard vanilla usa `admin@lab.local` / `changeme` por defecto (`api/.env`).
 

@@ -17,16 +17,55 @@ cd api
 npm test
 ```
 
-Ejemplo de output de una ejecución correcta:
+Desde la **raíz del repositorio** (equivalente):
+
+```bash
+npm test
+```
+
+### Qué incluye `npm test`
+
+| Bloque | Archivo | Tests | Backend |
+|--------|---------|-------|---------|
+| CRUD + validación | `index.test.js` | 16 | SQLite (`DB_FILE` → `users.test.db`) |
+| Autenticación | `index.test.js` (final) | 7 | SQLite |
+| Rate limiting login | `rate-limit.test.js` | 1 | SQLite |
+| CRUD + validación | `index.pg.test.js` | 16 | PostgreSQL (`edf_lab_test`) |
+| Autenticación | `index.pg.test.js` (final) | 7 | PostgreSQL |
+
+**Total con Postgres en marcha: 47 tests** (24 + 23).
+
+Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable la define el script en `package.json`). El bloque «Autenticación API» **sí** prueba login, cookies y 401 reales.
+
+### Scripts útiles
+
+| Script | Qué hace |
+|--------|----------|
+| `npm test` | SQLite + Postgres (46 si PG disponible) |
+| `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
+| `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
+| `npm run test:db:prepare` | Crea la base `edf_lab_test` si no existe |
+
+Antes de la suite Postgres:
+
+```bash
+# Desde la raíz
+npm run test:db:prepare
+docker compose up -d edf-lab-postgres   # si no tienes Postgres local
+```
+
+Si Postgres **no** está en `localhost:5432`, la segunda mitad de `npm test` falla (no hay skip silencioso).
+
+Ejemplo de output de una ejecución correcta (fragmento):
 
 ```
 ▶ GET /health
   ✔ responde 200 con status healthy y timestamp
-▶ Email duplicado
-  ✔ POST /users responde 409 si el email ya existe
+▶ Autenticación API
+  ✔ GET /users sin cookie responde 401
 
-ℹ tests 16
-ℹ pass 16
+ℹ tests 24
+ℹ pass 24
 ℹ fail 0
 ```
 
@@ -34,29 +73,93 @@ Ejemplo de output de una ejecución correcta:
 
 - `✔` — el test pasó: la API respondió exactamente lo esperado.
 - `✗` — el test falló: algo no coincide. El mensaje de error indica qué valor se obtuvo y qué se esperaba.
-- La línea `ℹ fail 0` es la que importa al final: si es `0`, la suite está en verde.
+- La línea `ℹ fail 0` es la que importa al final de cada archivo: si es `0`, ese bloque está en verde.
 
 **Nota sobre `--test-force-exit`:** El script de `npm test` incluye el flag `--test-force-exit`. Supertest mantiene abierta la conexión HTTP del servidor mientras está en uso. Sin este flag, el runner de Node.js (`node:test`) esperaría indefinidamente a que el servidor cerrara, y el proceso nunca terminaría.
 
+Más contexto SQLite vs PostgreSQL: [`13-sqlite.md`](./13-sqlite.md) (sección «Hacia PostgreSQL») y [`15-postgresql.md`](./15-postgresql.md).
+
+## CI en GitHub Actions
+
+Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml):
+
+1. Checkout del repositorio
+2. Node.js 20 con caché de `npm`
+3. `npm ci` y `npm run test:sqlite` dentro de `api/`
+
+Eso corre **24 tests** (CRUD, autenticación y rate limit de login) sin necesitar Postgres ni Docker. Así cualquier contribución recibe feedback automático aunque no tengas una base PostgreSQL local.
+
+### Job Postgres opcional (avanzado)
+
+El workflow por defecto **no** incluye Postgres: muchos alumnos trabajan solo con SQLite. Si quieres extender CI con la suite Postgres, añade un segundo job (o sustituye el existente) con un servicio de base de datos y los mismos pasos que usas en local:
+
+**Prerrequisitos locales (referencia):**
+
+```bash
+npm run test:db:prepare
+docker compose up -d edf-lab-postgres
+cd api && npm run test:pg
+```
+
+**Ejemplo de fragmento YAML** (no está en el repo por defecto — cópialo como extensión didáctica):
+
+```yaml
+  test-postgres:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: edf_lab
+          POSTGRES_PASSWORD: edf_lab_dev
+          POSTGRES_DB: edf_lab_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U edf_lab -d edf_lab_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+      - run: npm run test:pg
+        env:
+          DATABASE_URL: postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test
+```
+
+Ajusta usuario, contraseña y nombre de base si tu entorno de pruebas difiere. Ver también [`15-postgresql.md`](./15-postgresql.md).
+
 ## JSON vs SQLite (cuándo usar cada uno)
 
-Un archivo JSON (`users.json`) basta para aprender persistencia en disco con pocos datos y un solo proceso: es fácil de abrir, editar y entender. SQLite entra cuando necesitas reglas en el esquema (por ejemplo `UNIQUE` en email), consultas más expresivas o preparar el terreno para acceso concurrente. En este laboratorio, `users.json` sigue siendo la **fuente de semilla** al arrancar con una base vacía; el **almacén en runtime** es `data/users.db`.
+Un archivo JSON (`users.json`) basta para aprender persistencia en disco con pocos datos y un solo proceso: es fácil de abrir, editar y entender. SQLite entra cuando necesitas reglas en el esquema (por ejemplo `UNIQUE` en email), consultas más expresivas o preparar el terreno para acceso concurrente. En este laboratorio, `users.json` sigue siendo la **fuente de semilla** al arrancar con una base vacía; el **almacén en runtime** es `data/users.db` (o Postgres si `DATABASE_URL` está definida).
 
 ## Cómo está estructurado index.test.js
 
 ### Setup: el orden de importación importa
 
-El archivo empieza asignando la variable de entorno `DB_FILE` **antes** de importar `index.js`. Este orden es crítico:
+El archivo empieza asignando la variable de entorno `DB_FILE` **antes** de importar `index.js`. También fija `AUTH_DISABLED=1` para los tests CRUD:
 
 ```javascript
 const TEST_DB = path.join(__dirname, 'data', 'users.test.db');
 process.env.DB_FILE = TEST_DB;
+process.env.AUTH_DISABLED = '1';
 
 const app = require('./index.js');
 const request = require('supertest');
 ```
 
 Node.js cachea los módulos la primera vez que se importan. Si `index.js` se importara antes de asignar `DB_FILE`, el módulo usaría `data/users.db` de producción en lugar del archivo aislado `data/users.test.db`.
+
+Al final del archivo, `registerAuthApiTests()` (desde `test-auth-helpers.js`) registra el bloque «Autenticación API», que **quita** `AUTH_DISABLED` durante esos tests.
 
 ### beforeEach y afterEach: estado limpio en cada test
 
@@ -73,11 +176,15 @@ afterEach(async () => {
 
 `beforeEach` elimina el `.db` de test y llama a `initDb()`, que crea la tabla y, si está vacía, importa desde `users.json`. Para probar una base **sin filas**, un test puede llamar `await app.initDb({ skipSeed: true })` después del `unlink`.
 
+### index.pg.test.js
+
+Misma estructura de 16 tests CRUD, pero con `DATABASE_URL` apuntando a `edf_lab_test` y `TRUNCATE users RESTART IDENTITY` en `beforeEach` en lugar de borrar un archivo `.db`. Ver [`15-postgresql.md`](./15-postgresql.md).
+
 ### Patrón Arrange-Act-Assert
 
 Cada test sigue el patrón AAA (Arrange-Act-Assert): preparar estado, ejecutar la petición HTTP, comprobar la respuesta.
 
-### Grupos describe de la suite
+### Grupos describe de la suite CRUD
 
 1. `GET /health` — estado del servidor
 2. `GET /users` — listado de usuarios
@@ -88,6 +195,20 @@ Cada test sigue el patrón AAA (Arrange-Act-Assert): preparar estado, ejecutar l
 7. `Base de datos vacía` — listado con cero usuarios
 8. `Email duplicado` — respuestas 409 y PUT con el mismo email
 
+### Grupo «Autenticación API»
+
+1. `GET /users` sin cookie → 401
+2. `POST /auth/login` válido → 200 + cookie `edf_session`
+3. `GET /users` con cookie → 200
+4. Login con contraseña incorrecta → 403
+5. `POST /auth/logout` invalida la sesión
+6. `GET /health` público sin cookie
+7. Cookie inválida → 401
+
+Narrativa de login y cookies: [`17-autenticacion.md`](./17-autenticacion.md).
+
 ## Cómo añadir un test nuevo
 
-Añade un bloque `describe`/`it` al final de `api/index.test.js` y ejecuta `npm test`. El contador de tests subirá en uno.
+Añade un bloque `describe`/`it` en `api/index.test.js` (y, si aplica, el mismo caso en `index.pg.test.js`). Ejecuta `npm test`. El contador subirá en uno o dos según dupliques el caso para Postgres.
+
+Si el test llama a `/users` dentro del bloque CRUD, déjalo bajo el `AUTH_DISABLED` del setup del archivo. Si prueba auth, añádelo en `test-auth-helpers.js` o en un `describe` que no dependa de `AUTH_DISABLED`.

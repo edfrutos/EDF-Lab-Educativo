@@ -4,13 +4,13 @@ milestone: v1.6
 milestone_name: Framework Auth & CI
 status: executing
 last_updated: "2026-06-02"
-last_activity: 2026-06-02 — Phase 23 complete
+last_activity: 2026-06-02 — Phase 24 complete
 progress:
   total_phases: 8
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 15
-  completed_plans: 13
-  percent: 27
+  completed_plans: 15
+  percent: 38
 ---
 
 # Project State
@@ -21,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v1.6 — Phase 24 CI & Rate Limiting next
+**Current focus:** v1.6 — Phase 25 Framework Auth Learning Material next
 
 ## Current Position
 
-Phase: 24 — CI & Rate Limiting
-Plan: 24-01 (ready)
-Status: Planned — ready to execute
-Last activity: 2026-06-02 — Phase 24 plans created
+Phase: 25 — Framework Auth Learning Material
+Plan: —
+Status: Ready to plan
+Last activity: 2026-06-02 — Phase 24 complete
 
 ## Milestone Status
 
@@ -45,8 +45,8 @@ Last activity: 2026-06-02 — Phase 24 plans created
 ## Session Continuity
 
 Last session: 2026-06-02
-Stopped at: Phase 23 complete
-Next suggested command: `/gsd-execute-phase 24`
+Stopped at: Phase 24 complete
+Next suggested command: `/gsd-plan-phase 25`
 
 ## Deferred Items
 
