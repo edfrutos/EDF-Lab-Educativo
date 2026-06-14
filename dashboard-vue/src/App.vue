@@ -1,15 +1,27 @@
 <script setup>
 import { computed, onMounted, ref } from 'vue';
-import { API_BASE_URL, fetchJson } from './api.js';
+import { API_BASE_URL, fetchJson, login, logout } from './api.js';
 import ApiInfoCard from './components/ApiInfoCard.vue';
 import ConnectionStatus from './components/ConnectionStatus.vue';
 import HealthCard from './components/HealthCard.vue';
+import LoginGate from './components/LoginGate.vue';
 import UserForm from './components/UserForm.vue';
 import UsersTable from './components/UsersTable.vue';
+
+const AUTH_FALLBACK = 'Inicia sesión para ver y gestionar usuarios.';
 
 function getMutationErrorMessage(error) {
   return `No se ha podido completar la operación. Revisa la API y vuelve a intentarlo. ${error.message}`;
 }
+
+function getAuthMessage(error) {
+  return error?.message || AUTH_FALLBACK;
+}
+
+const isAuthenticated = ref(false);
+const isBootstrapping = ref(true);
+const loginError = ref('');
+const isLoginSubmitting = ref(false);
 
 const users = ref([]);
 const healthStatus = ref('-');
@@ -47,6 +59,13 @@ function clearDashboardData() {
   users.value = [];
 }
 
+function returnToLoginGate(message) {
+  clearDashboardData();
+  isAuthenticated.value = false;
+  loadError.value = '';
+  loginError.value = message;
+}
+
 async function loadDashboardData() {
   isLoading.value = true;
   loadError.value = '';
@@ -67,6 +86,11 @@ async function loadDashboardData() {
     isOnline.value = true;
     connectionText.value = 'API conectada';
   } catch (error) {
+    if (error.status === 401) {
+      returnToLoginGate(getAuthMessage(error));
+      return;
+    }
+
     clearDashboardData();
     isOnline.value = false;
     connectionText.value = 'API no disponible';
@@ -74,6 +98,75 @@ async function loadDashboardData() {
   } finally {
     isLoading.value = false;
   }
+}
+
+async function bootstrapAuth() {
+  isBootstrapping.value = true;
+  loginError.value = '';
+  loadError.value = '';
+
+  try {
+    await fetchJson('/health');
+    isOnline.value = true;
+    connectionText.value = 'API conectada';
+  } catch (error) {
+    clearDashboardData();
+    isOnline.value = false;
+    connectionText.value = 'API no disponible';
+    loadError.value = `${error.message} Comprueba que el backend está arrancado y que CORS está habilitado.`;
+    isAuthenticated.value = false;
+    isBootstrapping.value = false;
+    return;
+  }
+
+  try {
+    await fetchJson('/users');
+    isAuthenticated.value = true;
+    await loadDashboardData();
+  } catch (error) {
+    isAuthenticated.value = false;
+    if (error.status === 401) {
+      loginError.value = '';
+    } else {
+      loginError.value = error.message || 'No se ha podido comprobar la sesión.';
+    }
+  } finally {
+    isBootstrapping.value = false;
+  }
+}
+
+async function handleLogin(loginEmail, loginPassword) {
+  isLoginSubmitting.value = true;
+  loginError.value = '';
+
+  try {
+    await login(loginEmail, loginPassword);
+    isAuthenticated.value = true;
+    loginError.value = '';
+    await loadDashboardData();
+  } catch (error) {
+    if (error.status === 403) {
+      loginError.value = error.message || 'Credenciales inválidas';
+    } else {
+      loginError.value = error.message || 'No se ha podido iniciar sesión.';
+    }
+  } finally {
+    isLoginSubmitting.value = false;
+  }
+}
+
+async function handleLogout() {
+  try {
+    await logout();
+  } catch {
+    // Return to gate even if logout request fails.
+  }
+
+  clearDashboardData();
+  resetUserForm();
+  loginError.value = '';
+  loadError.value = '';
+  isAuthenticated.value = false;
 }
 
 function clearMutationFeedback() {
@@ -96,6 +189,12 @@ function showMutationFeedback(message, type) {
 }
 
 function handleMutationError(error) {
+  if (error.status === 401) {
+    resetUserForm();
+    returnToLoginGate(getAuthMessage(error));
+    return;
+  }
+
   showMutationFeedback(getMutationErrorMessage(error), 'error');
   if (error.status === 409) {
     emailFieldError.value = error.message;
@@ -188,12 +287,35 @@ function handleEmailUpdate(value) {
 }
 
 onMounted(() => {
-  loadDashboardData();
+  bootstrapAuth();
 });
 </script>
 
 <template>
-  <main class="mx-auto max-w-5xl space-y-6 px-4 py-8">
+  <main v-if="isBootstrapping" class="mx-auto max-w-5xl px-4 py-16 text-center">
+    <p class="text-sm text-slate-600">Comprobando sesión…</p>
+  </main>
+
+  <main v-else-if="!isAuthenticated" class="mx-auto max-w-5xl space-y-6 px-4 py-8">
+    <LoginGate
+      :error="loginError"
+      :is-submitting="isLoginSubmitting"
+      @login="handleLogin"
+    />
+
+    <section
+      v-if="loadError"
+      class="rounded-xl border border-rose-200 bg-rose-50 p-5 text-rose-900"
+    >
+      <h2 class="text-lg font-semibold">No se ha podido conectar con la API</h2>
+      <p class="mt-2 text-sm">{{ loadError }}</p>
+      <p class="mt-4 text-sm">Asegúrate de arrancar el backend con:</p>
+      <pre class="mt-2 overflow-x-auto rounded-lg bg-slate-900 p-3 text-xs text-slate-100"><code>cd api
+PORT=3100 npm start</code></pre>
+    </section>
+  </main>
+
+  <main v-else class="mx-auto max-w-5xl space-y-6 px-4 py-8">
     <section class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
       <div class="max-w-2xl">
         <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">
@@ -222,14 +344,23 @@ onMounted(() => {
         <p class="text-xs font-medium uppercase tracking-wide text-slate-500">API base</p>
         <code class="text-sm text-slate-800">{{ API_BASE_URL }}</code>
       </div>
-      <button
-        type="button"
-        :disabled="isLoading"
-        class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
-        @click="loadDashboardData"
-      >
-        {{ isLoading ? 'Cargando...' : 'Recargar datos' }}
-      </button>
+      <div class="flex flex-wrap gap-2">
+        <button
+          type="button"
+          class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          @click="handleLogout"
+        >
+          Cerrar sesión
+        </button>
+        <button
+          type="button"
+          :disabled="isLoading"
+          class="rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800 disabled:opacity-50"
+          @click="loadDashboardData"
+        >
+          {{ isLoading ? 'Cargando...' : 'Recargar datos' }}
+        </button>
+      </div>
     </section>
 
     <section class="grid gap-6 md:grid-cols-2">
@@ -286,7 +417,7 @@ onMounted(() => {
         <li>El backend Express expone datos JSON mediante endpoints HTTP.</li>
         <li>
           Este frontend independiente llama a esos endpoints con
-          <code class="rounded bg-slate-100 px-1">fetch()</code>.
+          <code class="rounded bg-slate-100 px-1">fetch()</code> y cookie de sesión.
         </li>
         <li>
           Los datos recibidos se transforman en interfaz visual: estado, versión y tabla de

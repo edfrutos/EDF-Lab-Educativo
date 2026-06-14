@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.6
 milestone_name: Framework Auth & CI
-status: planning
-last_updated: "2026-06-14T10:35:59.849Z"
-last_activity: 2026-06-02 — Phase 22 complete
+status: executing
+last_updated: "2026-06-02"
+last_activity: 2026-06-02 — Phase 23 complete
 progress:
   total_phases: 8
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 15
-  completed_plans: 11
-  percent: 13
+  completed_plans: 13
+  percent: 27
 ---
 
 # Project State
@@ -21,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v1.6 — Phase 23 Vue Dashboard Auth next
+**Current focus:** v1.6 — Phase 24 CI & Rate Limiting next
 
 ## Current Position
 
-Phase: 23 — Vue Dashboard Auth
-Plan: 23-01 (ready)
-Status: Planned — ready to execute
-Last activity: 2026-06-02 — Phase 23 plans created
+Phase: 24 — CI & Rate Limiting
+Plan: —
+Status: Ready to plan
+Last activity: 2026-06-02 — Phase 23 complete
 
 ## Milestone Status
 
@@ -44,16 +44,16 @@ Last activity: 2026-06-02 — Phase 23 plans created
 
 ## Session Continuity
 
-Last session: 2026-06-14T10:35:59.842Z
-Stopped at: Phase 23 context gathered
-Next suggested command: `/gsd-execute-phase 23`
+Last session: 2026-06-02
+Stopped at: Phase 23 complete
+Next suggested command: `/gsd-plan-phase 24`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
 | Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open |
-| React/Vue login UI | v1.6 Phases 22–23 | In progress |
+| React/Vue login UI | v1.6 Phases 22–23 | Complete (22–23) |
 | OAuth / refresh tokens | v2+ | Deferred |
 | Let's Encrypt automation | v2+ | Deferred |
 

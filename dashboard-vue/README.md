@@ -16,7 +16,22 @@ El camino principal de aprendizaje sigue siendo el dashboard vanilla en el puert
 ## Requisitos
 
 - Node.js 18+
-- API Express en `http://localhost:3100`
+- API Express en `http://localhost:3100` (con autenticación activa; sin `AUTH_DISABLED` para el recorrido con login)
+- Credenciales del operador del lab en `api/.env` (ver `api/.env.example`)
+
+## Autenticación
+
+Este panel **incluye login** en el puerto **5175**. La sesión es una cookie httpOnly (`edf_session`) que el navegador envía con `credentials: 'include'` en cada `fetch` (ver `src/api.js`).
+
+**Credenciales por defecto del lab:** `admin@lab.local` / `changeme` (mismas que vanilla y React).
+
+Flujo: iniciar sesión → CRUD protegido → cerrar sesión. Narrativa completa en [`docs/17-autenticacion.md`](../docs/17-autenticacion.md).
+
+### Patrón Vue: `emit` en LoginGate
+
+A diferencia de React (callback `onLogin`), el formulario vive en **`LoginGate.vue`** y comunica al padre con `defineEmits(['login'])`. `App.vue` escucha `@login="handleLogin"` — patrón idiomático de Vue para hijo → padre.
+
+> `AUTH_DISABLED=1` en `api/.env` es solo para **tests automatizados** de la API, no para el camino didáctico con login.
 
 ## Configuración
 
@@ -58,10 +73,10 @@ Abre **http://localhost:5175**.
 
 ## Paridad con vanilla y React
 
-- Carga inicial: `GET /health`, `GET /`, `GET /users` en paralelo.
+- Bootstrap: comprobación de sesión con `GET /users`; si hay cookie válida, carga `GET /health`, `GET /`, `GET /users` en paralelo.
 - CRUD con los mismos métodos y cuerpos JSON.
 - Email duplicado: **409** con feedback global e inline bajo el email.
-- HTTP en `src/api.js` (`fetchJson`, sin axios).
+- HTTP en `src/api.js` (`fetchJson`, `login`, `logout`; sin axios).
 
 ## Estado y reactividad (didáctica)
 
@@ -73,14 +88,18 @@ Tres formas de gestionar el mismo estado de UI en este repo:
 | **React** | `dashboard-react/src/App.jsx` | `useState` — el componente se vuelve a renderizar |
 | **Vue** | `dashboard-vue/src/App.vue` | `ref()` — el template reacciona cuando cambia `.value` |
 
-Aquí el estado vive en **`App.vue`** con `ref()` sueltos; los hijos reciben **props** y emiten eventos (`defineEmits`). No usamos Pinia ni Vue Router en v1.4.
+Aquí el estado vive en **`App.vue`** con `ref()` sueltos; los hijos reciben **props** y emiten eventos (`defineEmits`). No usamos Pinia ni Vue Router en v1.6.
 
-La comparación ampliada (formularios, `fetch`, CORS) está en la fase 17: `docs/16-frameworks.md` (cuando se publique).
+Comparación ampliada: [`docs/16-frameworks.md`](../docs/16-frameworks.md).
 
-## CORS
+## CORS y cookies
 
-El dashboard Vue se sirve desde `http://localhost:5175`. La API usa `cors()` abierto; no hace falta cambiar `api/index.js` para el laboratorio.
+El dashboard Vue se sirve desde `http://localhost:5175`. La API usa `CORS_ORIGINS` en `.env` (incluye `:5175`) y `fetchJson` envía `credentials: 'include'`. Tras iniciar sesión, las peticiones a `:3100` llevan la cookie `edf_session`.
+
+Si ves **401** en `/users` sin haber iniciado sesión, es el comportamiento esperado: usa el formulario de login. Si ves CORS, comprueba que la API está en `:3100`.
 
 ## Verificación manual
 
-Checklist: [`.planning/phases/16-vue-dashboard-parity/16-UAT.md`](../.planning/phases/16-vue-dashboard-parity/16-UAT.md)
+Checklist de paridad CRUD: [`.planning/phases/16-vue-dashboard-parity/16-UAT.md`](../.planning/phases/16-vue-dashboard-parity/16-UAT.md)
+
+Checklist de autenticación (fase 23): ver plan `23-02-PLAN.md` — login, cookie en Network tab, logout, 401 tras borrar cookie.

@@ -16,8 +16,8 @@ Requirements for **Framework Auth & CI**. Phases 22–25.
 
 ### Framework Authentication (Vue)
 
-- [ ] **FRWK-AUTH-05**: Vue dashboard has login/logout parity with React (gate, credentials, 401 UX).
-- [ ] **FRWK-AUTH-06**: Vue `fetchJson` uses `credentials: 'include'` on all API calls.
+- [x] **FRWK-AUTH-05**: Vue dashboard has login/logout parity with React (gate, credentials, 401 UX).
+- [x] **FRWK-AUTH-06**: Vue `fetchJson` uses `credentials: 'include'` on all API calls.
 
 ### CI & API Hardening
 
@@ -70,7 +70,7 @@ Deferred to future milestones. Tracked but not in v1.6 roadmap.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | FRWK-AUTH-01 … FRWK-AUTH-04 | Phase 22 | Complete |
-| FRWK-AUTH-05 … FRWK-AUTH-06 | Phase 23 | Pending |
+| FRWK-AUTH-05 … FRWK-AUTH-06 | Phase 23 | Complete |
 | CI-01 … CI-02, RATE-01 … RATE-02 | Phase 24 | Pending |
 | DOCS-01 … DOCS-04 | Phase 25 | Pending |
 
