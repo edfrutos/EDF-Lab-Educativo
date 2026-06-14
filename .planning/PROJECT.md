@@ -10,20 +10,14 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: None (v1.6 shipped 2026-06-14)
+## Current Milestone: v2.0 Quality & CI
 
-**Last shipped:** v1.6 Framework Auth & CI — tag `v1.6`  
-**Next:** `/gsd-new-milestone` for v2 planning
+**Goal:** Automatizar confianza end-to-end en los tres dashboards y exigir la suite Postgres en cada PR.
 
-<details>
-<summary>v1.6 shipped scope (2026-06-14)</summary>
-
-- React/Vue login parity with vanilla; CI on `main` (24 tests, Node 22)
-- Login rate limiting; Mission 15; doc 16 auth comparison; NOTEBOOK v1.6
-
-See [`.planning/milestones/v1.6-ROADMAP.md`](./milestones/v1.6-ROADMAP.md).
-
-</details>
+**Target features:**
+- Playwright smoke auth: login → tabla visible → logout en vanilla `:5173`, React `:5174`, Vue `:5175`
+- CI: job Postgres **obligatorio** en pull requests (además de SQLite)
+- Documentación y misión: ejecutar E2E en local, NOTEBOOK con errores reales
 
 ## Current State (v1.6 shipped 2026-06-14)
 
@@ -92,12 +86,13 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 - ✓ Secrets via `.env`, Compose `env_file`, production fail-fast, doc 18 — v1.5 Phase 20
 - ✓ `docs/17-autenticacion.md`, Mission 14, NOTEBOOK auth/deploy, ruta v1.5 — v1.5 Phase 21
 
+- ✓ React/Vue login parity; CI SQLite 24 tests; Mission 15 — v1.6 Phases 22–25
+
 ### Active
 
-- [ ] React dashboard login gate and credentialed fetch — v1.6 Phase 22
-- [ ] Vue dashboard auth parity — v1.6 Phase 23
-- [ ] GitHub Actions CI + login rate limiting — v1.6 Phase 24
-- [ ] Framework auth learning material (Mission 15, doc 16) — v1.6 Phase 25
+- [ ] Playwright smoke auth E2E across vanilla, React, Vue — v2.0
+- [ ] Postgres CI job required on every PR — v2.0
+- [ ] E2E + CI learning material (docs, NOTEBOOK, mission) — v2.0
 
 ### Out of Scope
 
@@ -126,7 +121,9 @@ The lab is organized around a learning route:
 
 **v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
 
-**v1.5 milestone shipped 2026-06-02:** 4 phases, 9 plans, 20/20 requirements.
+**v1.6 milestone shipped 2026-06-14:** 4 phases, 8 plans, 14/14 requirements (tag `v1.6`).
+
+**v2.0 milestone planning started 2026-06-14:** Quality & CI — E2E Playwright + Postgres CI on PRs.
 
 **v1.4 milestone shipped 2026-06-01:** 3 phases, 8 plans, 13/13 requirements (FRWK-01–FRWK-13).
 
@@ -195,4 +192,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-02 — v1.6 milestone planning started*
+*Last updated: 2026-06-14 — v2.0 milestone planning started*
