@@ -2,6 +2,7 @@
 
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 
 const COOKIE_NAME = 'edf_session';
 const DEFAULT_CORS_ORIGINS = 'http://localhost:5173,http://localhost:5174,http://localhost:5175';
@@ -102,11 +103,28 @@ function logoutHandler(req, res) {
   return res.json({ message: 'Sesión cerrada' });
 }
 
+function createLoginRateLimiter() {
+  const windowMs = Number(process.env.LOGIN_RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000;
+  const max = Number(process.env.LOGIN_RATE_LIMIT_MAX) || 10;
+  return rateLimit({
+    windowMs,
+    max,
+    standardHeaders: true,
+    legacyHeaders: false,
+    handler(req, res) {
+      res.status(429).json({
+        error: 'Demasiados intentos de inicio de sesión. Espera un momento e inténtalo de nuevo.'
+      });
+    }
+  });
+}
+
 module.exports = {
   COOKIE_NAME,
   getAllowedOrigins,
   getCookieOptions,
   requireAuth,
   loginHandler,
-  logoutHandler
+  logoutHandler,
+  createLoginRateLimiter
 };

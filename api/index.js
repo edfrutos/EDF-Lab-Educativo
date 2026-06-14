@@ -14,11 +14,13 @@ const {
   getAllowedOrigins,
   requireAuth,
   loginHandler,
-  logoutHandler
+  logoutHandler,
+  createLoginRateLimiter
 } = require('./auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+const loginRateLimiter = createLoginRateLimiter();
 
 const allowedOrigins = getAllowedOrigins();
 
@@ -78,7 +80,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.post('/auth/login', loginHandler);
+app.post('/auth/login', loginRateLimiter, loginHandler);
 app.post('/auth/logout', logoutHandler);
 
 app.use('/users', requireAuth);
