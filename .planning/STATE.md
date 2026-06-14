@@ -1,34 +1,34 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.6
-milestone_name: Framework Auth & CI
-status: complete
-last_updated: "2026-06-02"
-last_activity: 2026-06-02 — Phase 25 complete; v1.6 ready to ship
+milestone: none
+milestone_name: —
+status: shipped
+last_updated: "2026-06-14"
+last_activity: 2026-06-14 — v1.6 tagged and milestone closed
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-06-02)
+See: `.planning/PROJECT.md` (updated 2026-06-14)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v1.6 complete — optional tag `v1.6` and milestone archive
+**Current focus:** v1.6 shipped — start v2 with `/gsd-new-milestone`
 
 ## Current Position
 
-Phase: 25 — Framework Auth Learning Material
-Plan: 25-02 (complete)
-Status: Complete
-Last activity: 2026-06-02 — Phase 25 executed; all DOCS requirements satisfied
+Phase: — (no active milestone)  
+Plan: —  
+Status: Between milestones  
+Last activity: 2026-06-14 — Tag `v1.6` on `main`; PR #6 merged; CI green
 
 ## Milestone Status
 
@@ -40,13 +40,13 @@ Last activity: 2026-06-02 — Phase 25 executed; all DOCS requirements satisfied
 | v1.3 PostgreSQL Persistence | Shipped | 2026-06-01 |
 | v1.4 Frontend Framework Comparison | Shipped | 2026-06-01 |
 | v1.5 Production Auth & Deployment | Shipped | 2026-06-02 |
-| v1.6 Framework Auth & CI | Complete (unshipped) | — |
+| v1.6 Framework Auth & CI | Shipped | 2026-06-14 |
 
 ## Session Continuity
 
-Last session: 2026-06-02
-Stopped at: Phase 25 complete
-Next suggested command: `/gsd-complete-milestone` or `/gsd-ship`
+Last session: 2026-06-14  
+Stopped at: v1.6 milestone closed  
+Next suggested command: `/gsd-new-milestone`
 
 ## Deferred Items
 
@@ -55,6 +55,7 @@ Next suggested command: `/gsd-complete-milestone` or `/gsd-ship`
 | Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open |
 | OAuth / refresh tokens | v2+ | Deferred |
 | Let's Encrypt automation | v2+ | Deferred |
+| Postgres CI required on PR | v2 QA-02 | Deferred |
 
 ---
-*Last updated: 2026-06-02 — v1.6 milestone complete*
+*Last updated: 2026-06-14 — v1.6 shipped (tag v1.6)*

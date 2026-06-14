@@ -1,5 +1,24 @@
 # Milestones
 
+## v1.6 Framework Auth & CI (Shipped: 2026-06-14)
+
+**Phases completed:** 4 phases, 8 plans  
+**Timeline:** 2026-06-02 → 2026-06-14  
+**Tag:** `v1.6`  
+**Known deferred items at close:** Phase 11 UAT artifact (pre-existing); Postgres CI job optional (v2 QA-02)
+
+**Key accomplishments:**
+
+- React (`:5174`) and Vue (`:5175`) login/logout parity with vanilla — `LoginGate`, `credentials: 'include'`, Spanish 401 UX
+- GitHub Actions CI on `main` — 24 SQLite tests, Node 22, green after script + runtime fixes
+- `express-rate-limit` on `POST /auth/login` with env config and 429 test
+- `docs/16-frameworks.md` three-panel auth (`onLogin` vs `emit`); Mission 15; NOTEBOOK Framework Auth & CI (v1.6)
+- README CI badge; ruta avanzada v1.6 in index
+
+**Delivered:** Learners can authenticate on any of the three dashboards, compare framework auth patterns, and rely on automated CI feedback on every push to `main`.
+
+---
+
 ## v1.5 Production Auth & Deployment (Shipped: 2026-06-02)
 
 **Phases completed:** 4 phases, 9 plans  

@@ -10,26 +10,30 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: v1.6 Framework Auth & CI
+## Current Milestone: None (v1.6 shipped 2026-06-14)
 
-**Goal:** Complete auth parity on React/Vue dashboards, add GitHub Actions CI, and teach basic login rate limiting — extending v1.5 auth to all three frontends.
+**Last shipped:** v1.6 Framework Auth & CI — tag `v1.6`  
+**Next:** `/gsd-new-milestone` for v2 planning
 
-**Target features:**
-- React dashboard login/logout with `credentials: 'include'` (port 5174)
-- Vue dashboard auth parity (port 5175)
-- GitHub Actions running SQLite tests on push to `main`
-- Rate limiting on `POST /auth/login` with env-driven config
-- Mission 15 + doc 16 auth comparison + NOTEBOOK entries
+<details>
+<summary>v1.6 shipped scope (2026-06-14)</summary>
 
-## Current State (v1.5 shipped 2026-06-02)
+- React/Vue login parity with vanilla; CI on `main` (24 tests, Node 22)
+- Login rate limiting; Mission 15; doc 16 auth comparison; NOTEBOOK v1.6
 
-**Stack:** Express + auth (bcrypt, JWT cookie) + `node:sqlite` / `pg` + vanilla dashboard (login) + React/Vue + Docker Compose  
+See [`.planning/milestones/v1.6-ROADMAP.md`](./milestones/v1.6-ROADMAP.md).
+
+</details>
+
+## Current State (v1.6 shipped 2026-06-14)
+
+**Stack:** Express + auth (bcrypt, JWT cookie) + `node:sqlite` / `pg` + vanilla dashboard (login) + React/Vue (login) + Docker Compose  
 **Persistence:** Host — SQLite `api/data/users.db`. Compose — PostgreSQL on `postgres_data`. Operator accounts in `accounts` table.  
-**Tests:** 46 API tests when Postgres is up (16 CRUD + 7 auth × SQLite + Postgres); `test:sqlite` 23 tests  
-**Frontends:** Vanilla `:5173` (login + CRUD) · React `:5174` · Vue `:5175` — credentialed fetch documented  
-**Auth:** httpOnly cookie `edf_session`; `/users` protected; `POST /auth/login`, `POST /auth/logout`  
-**Secrets:** `api/.env` from `.env.example`; production fail-fast; Compose `env_file`  
-**Docs:** Through `docs/18-production-deploy.md`; Mission 14; advanced v1.5 path in index  
+**Tests:** `test:sqlite` 24 tests (CI on push to `main`); `test:pg` when Postgres is up  
+**Frontends:** Vanilla `:5173` · React `:5174` · Vue `:5175` — all with login gate + `credentials: 'include'`  
+**Auth:** httpOnly cookie `edf_session`; `/users` protected; rate limit on login  
+**CI:** GitHub Actions `.github/workflows/ci.yml` — Node 22, badge in README  
+**Docs:** Through Mission 15; ruta avanzada v1.6 in index; NOTEBOOK Framework Auth & CI  
 **Compose:** `npm run compose:up` — requires `api/.env` with JWT secret + DATABASE_URL
 
 <details>

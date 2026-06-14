@@ -4,7 +4,9 @@ Registro de cambios relevantes del laboratorio.
 
 ---
 
-## v1.6 · Framework Auth & CI (2026-06)
+## v1.6 · Framework Auth & CI (2026-06-14)
+
+**Tag:** `v1.6` · **Shipped:** merge PR #6
 
 ### Implementado (fases 22–24)
 
