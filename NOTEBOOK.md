@@ -145,6 +145,52 @@ Reinicia `npm run dev` tras cambiar `.env`.
 
 ---
 
+## Framework Auth & CI (v1.6)
+
+Errores y patrones de las fases 22–25: login en React/Vue, rate limit, CI y documentación. Guías: [`docs/16-frameworks.md`](./docs/16-frameworks.md), [`missions/15-framework-auth-login-crud.md`](./missions/15-framework-auth-login-crud.md), [`docs/10-tests.md`](./docs/10-tests.md).
+
+### Documentación frameworks desactualizada (401 en React/Vue)
+
+**Síntoma:** Sigues `docs/16-frameworks.md` o misión 13 de v1.4 y esperas CRUD sin login; `GET /users` devuelve **401**.
+
+**Causa:** Desde v1.6, React y Vue tienen `LoginGate`. La documentación antigua recomendaba `AUTH_DISABLED=1` como camino principal.
+
+**Solución:** Usa el formulario de login (`admin@lab.local` / `changeme`) o la [`missions/15-framework-auth-login-crud.md`](./missions/15-framework-auth-login-crud.md). Actualiza lecturas a la sección auth de doc 16.
+
+**Aprendizaje:** La documentación es producto del lab — debe actualizarse cuando el código avanza.
+
+*Error real (fase 25 / transición v1.4 → v1.6).*
+
+---
+
+### HTTP 429 al probar login repetidamente
+
+**Síntoma:** Tras muchos intentos fallidos en el formulario de login, la API responde **429** con JSON en español.
+
+**Causa:** `express-rate-limit` en `POST /auth/login` (fase 24). Por defecto: 10 intentos por ventana de 15 minutos por IP.
+
+**Solución:** Espera la ventana, o en desarrollo local baja `LOGIN_RATE_LIMIT_MAX` en `api/.env`. No desactives el limiter en producción.
+
+**Aprendizaje:** El rate limit protege el endpoint de autenticación sin bloquear el resto de la API.
+
+*Error real (fase 24).*
+
+---
+
+### CI en GitHub: script `test:sqlite` y flag `--test-force-exit`
+
+**Síntoma:** El workflow CI falla con `Could not find '.../api/--test-force-exit'`.
+
+**Causa:** Con varios archivos de test, el flag `--test-force-exit` debe ir **antes** de los nombres de archivo: `node --test --test-force-exit index.test.js rate-limit.test.js`.
+
+**Solución:** Corregido en `api/package.json`. Localmente: `cd api && npm run test:sqlite` (24 tests).
+
+**Aprendizaje:** El orden de argumentos de `node --test` importa en CI igual que en local.
+
+*Error real (fase 24 / push a main).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

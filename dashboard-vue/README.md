@@ -103,3 +103,7 @@ Si ves **401** en `/users` sin haber iniciado sesión, es el comportamiento espe
 Checklist de paridad CRUD: [`.planning/phases/16-vue-dashboard-parity/16-UAT.md`](../.planning/phases/16-vue-dashboard-parity/16-UAT.md)
 
 Checklist de autenticación (fase 23): ver plan `23-02-PLAN.md` — login, cookie en Network tab, logout, 401 tras borrar cookie.
+
+**Misión práctica v1.6:** [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — login → CRUD → logout en `:5175`.
+
+**CI:** [`docs/10-tests.md`](../docs/10-tests.md#ci-en-github-actions). Comparar patrón auth con React (`onLogin`) en [`docs/16-frameworks.md`](../docs/16-frameworks.md).

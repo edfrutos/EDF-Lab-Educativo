@@ -4,6 +4,24 @@ Registro de cambios relevantes del laboratorio.
 
 ---
 
+## v1.6 · Framework Auth & CI (2026-06)
+
+### Implementado (fases 22–24)
+
+- Login en **React** (`:5174`) y **Vue** (`:5175`) con paridad al vanilla: `LoginGate`, cookie `edf_session`, bootstrap de sesión.
+- **Rate limiting** en `POST /auth/login` (`express-rate-limit`).
+- **CI** en GitHub Actions (`.github/workflows/ci.yml`) con `npm run test:sqlite` (24 tests).
+
+### Documentado (fase 25)
+
+- [`docs/16-frameworks.md`](./docs/16-frameworks.md): comparativa auth en tres paneles (`onLogin` vs `emit`).
+- Nueva misión [`missions/15-framework-auth-login-crud.md`](./missions/15-framework-auth-login-crud.md).
+- [`missions/13-frameworks-network-tab.md`](./missions/13-frameworks-network-tab.md) actualizada (v1.6).
+- [`docs/00-indice.md`](./docs/00-indice.md): ruta avanzada v1.6; badge CI en [`README.md`](./README.md).
+- [`NOTEBOOK.md`](./NOTEBOOK.md): sección Framework Auth & CI (v1.6).
+
+---
+
 ## v1.5 · Material didáctico auth y despliegue (2026-06)
 
 ### Documentado

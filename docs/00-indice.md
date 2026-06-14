@@ -34,6 +34,15 @@ Después del recorrido inicial y, si quieres, de frameworks:
 3. [`18-production-deploy.md`](./18-production-deploy.md) — secretos `.env`, Compose `env_file`, TLS en nginx. *(avanzado, v1.5)*
 4. Misiones Compose opcionales: [`11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md), [`12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md).
 
+### Ruta avanzada v1.6 (auth en frameworks y CI)
+
+Después de v1.5 y con React/Vue opcionales:
+
+1. [`16-frameworks.md`](./16-frameworks.md) — sección **Autenticación y los tres paneles** (vanilla / React `onLogin` / Vue `emit`).
+2. [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — login → CRUD → logout en `:5174` o `:5175`.
+3. [`10-tests.md`](./10-tests.md#ci-en-github-actions) — CI en GitHub Actions y tests SQLite (24).
+4. READMEs [`dashboard-react/`](../dashboard-react/) y [`dashboard-vue/`](../dashboard-vue/).
+
 ## Documentos
 
 1. [`01-arquitectura.md`](./01-arquitectura.md)  
@@ -67,7 +76,7 @@ Después del recorrido inicial y, si quieres, de frameworks:
     Define los términos clave del laboratorio organizados por bloques temáticos.
 
 11. [`10-tests.md`](./10-tests.md)  
-    Explica la suite de tests: SQLite, Postgres, autenticación y scripts `test:pg` / `test:db:prepare`.
+    Suite de tests, CI en GitHub Actions y scripts `test:sqlite` / `test:pg`.
 
 12. [`11-openapi.md`](./11-openapi.md) *(avanzado, opcional)*  
     Explica qué es OpenAPI, cómo leer el YAML de la spec y por qué los equipos usan contratos formales.
@@ -82,7 +91,7 @@ Después del recorrido inicial y, si quieres, de frameworks:
     Explica `DATABASE_URL`, esquema Postgres, inspección con `psql`, volumen `postgres_data` y tests contra `edf_lab_test`.
 
 16. [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*  
-    Compara estado, formularios, HTTP y estilos entre `dashboard/`, `dashboard-react/` y `dashboard-vue/` con excerpts del repo.
+    Compara estado, formularios, **auth en tres paneles** y HTTP entre `dashboard/`, `dashboard-react/` y `dashboard-vue/`.
 
 17. [`17-autenticacion.md`](./17-autenticacion.md) *(avanzado, v1.5)*  
     Sesión del operador, bcrypt, JWT en cookie httpOnly, `credentials: 'include'` y rutas `/auth/*`.
@@ -114,3 +123,4 @@ Después del recorrido inicial y, si quieres, de frameworks:
 - [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md) — Stack Compose con Postgres: CRUD, `psql` y persistencia en `postgres_data`. *(avanzado, opcional)*
 - [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) — API + React o Vue: CRUD e inspección en pestaña Network. *(avanzado, opcional)*
 - [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — Login, CRUD protegido, logout e inspección de cookie en DevTools. *(avanzado, v1.5)*
+- [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — Mismo flujo en React `:5174` o Vue `:5175` (v1.6). *(avanzado, opcional)*
