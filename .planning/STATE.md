@@ -26,9 +26,9 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 ## Current Position
 
 Phase: 22 — React Dashboard Auth
-Plan: —
-Status: Ready to plan
-Last activity: 2026-06-02 — v1.6 requirements and roadmap defined
+Plan: 22-01 (ready)
+Status: Planned — ready to execute
+Last activity: 2026-06-02 — Phase 22 plans created
 
 ## Milestone Status
 
@@ -46,7 +46,7 @@ Last activity: 2026-06-02 — v1.6 requirements and roadmap defined
 
 Last session: 2026-06-14T09:53:07.240Z
 Stopped at: Phase 22 context gathered
-Next suggested command: `/gsd-discuss-phase 22`
+Next suggested command: `/gsd-execute-phase 22`
 
 ## Deferred Items
 
