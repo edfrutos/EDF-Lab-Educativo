@@ -8,23 +8,33 @@ Lecturas previas recomendadas: [`04-dashboard-fetch.md`](./04-dashboard-fetch.md
 
 ---
 
-## Autenticación y los tres paneles
+## Autenticación y los tres paneles (v1.6)
 
-La API protege **`/users`** con sesión de operador (cookie `edf_session`).
+La API protege **`/users`** con sesión de operador (cookie httpOnly `edf_session`). Los **tres** frontends incluyen pantalla de login desde v1.6.
 
-| Panel | Login en la UI | Estado en v1.4 |
-|-------|----------------|----------------|
-| **Vanilla** (`:5173`) | Sí — formulario en `dashboard/index.html` | Camino principal para aprender auth |
-| **React** (`:5174`) | No | `GET /users` devuelve **401** salvo que desactives auth en dev |
-| **Vue** (`:5175`) | No | Igual que React |
+| Panel | Puerto | Login en la UI | Hijo → padre | Bootstrap de sesión |
+|-------|--------|----------------|--------------|---------------------|
+| **Vanilla** | `:5173` | Formulario en `dashboard/index.html` | Objeto `elements` + handlers en `app.js` | `bootstrapAuth()` al cargar |
+| **React** | `:5174` | `LoginGate.jsx` | Prop **`onLogin(email, password)`** | `useEffect` → `bootstrapAuth` |
+| **Vue** | `:5175` | `LoginGate.vue` | **`emit('login', email, password)`** | `onMounted` → `bootstrapAuth` |
 
-Para practicar **solo** estado y formularios en React/Vue sin implementar login:
+**Comportamiento compartido:**
 
-1. En `api/.env`, descomenta temporalmente `AUTH_DISABLED=1`.
-2. Reinicia la API.
-3. No uses esa variable fuera de tu máquina de desarrollo.
+- `fetchJson` / `fetch` con **`credentials: 'include'`** en todas las peticiones a `:3100`.
+- Sin sesión: solo el gate de login (CRUD oculto).
+- Tras `POST /auth/login`: carga paralela de health, `/` y `/users`.
+- **Cerrar sesión** en la barra de herramientas → `POST /auth/logout` → vuelta al gate.
+- **401** en `/users` o mutaciones → gate con mensaje en español bajo el formulario.
 
-Los clientes Vite deben enviar `credentials: 'include'` en `fetch` cuando añadas login (ya preparado en `dashboard-react/src/api.js` y `dashboard-vue/src/api.js`).
+**Dónde leer el código:**
+
+- Vanilla: [`dashboard/app.js`](../dashboard/app.js) — `bootstrapAuth`, `returnToLoginGate`.
+- React: [`dashboard-react/src/App.jsx`](../dashboard-react/src/App.jsx) + [`LoginGate.jsx`](../dashboard-react/src/components/LoginGate.jsx).
+- Vue: [`dashboard-vue/src/App.vue`](../dashboard-vue/src/App.vue) + [`LoginGate.vue`](../dashboard-vue/src/components/LoginGate.vue).
+
+Narrativa completa: [`17-autenticacion.md`](./17-autenticacion.md). Práctica en framework: [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md).
+
+> **`AUTH_DISABLED=1`** en `api/.env` es solo para **tests automatizados** de la API (`npm run test:sqlite`), no para el recorrido didáctico con login en los tres paneles.
 
 ---
 
@@ -293,11 +303,11 @@ La **estructura de secciones** (hero, tarjetas health/API, tabla, formulario) es
 
 ---
 
-## Qué no incluimos en v1.4
+## Qué no incluimos (alcance didáctico)
 
-Para mantener el foco en **fetch, estado local y formularios**:
+Para mantener el foco en **fetch, estado local, formularios y auth de operador**:
 
-- **Pantalla de login** en React/Vue — usar vanilla o `AUTH_DISABLED=1` en dev (ver arriba)
+- **Rate limiting global** — solo `POST /auth/login` (ver [`api/README.md`](../api/README.md))
 - **Redux**, **Pinia**, **Vuex** — estado global (futuro milestone si hace falta)
 - **React Router** / **Vue Router** — una sola página basta
 - **axios** o clientes HTTP que oculten `fetch`
@@ -309,5 +319,7 @@ Para mantener el foco en **fetch, estado local y formularios**:
 ## Siguiente paso
 
 1. Completa [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) con la pestaña Network.
-2. Compara en vivo: abre vanilla, React y Vue con la API en marcha y localiza en código `loadDashboardData` / `handleUserFormSubmit` en cada carpeta.
-3. Si algo falla (CORS, puerto ocupado, variable de entorno), revisa la sección **Frameworks (v1.4)** en [`NOTEBOOK.md`](../NOTEBOOK.md).
+2. Si aún no practicaste auth en vanilla: [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md).
+3. **Auth en framework:** [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) (React `:5174` o Vue `:5175`).
+4. Compara en vivo: abre los tres paneles con la API en marcha y localiza `bootstrapAuth` / `LoginGate` en cada carpeta.
+5. Si algo falla (CORS, puerto, 401, 429), revisa [`NOTEBOOK.md`](../NOTEBOOK.md) — secciones Frameworks (v1.4) y Framework Auth & CI (v1.6).

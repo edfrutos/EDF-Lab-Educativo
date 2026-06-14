@@ -4,6 +4,8 @@
 
 Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar carga inicial y una operación CRUD, e **inspeccionar las peticiones HTTP** en las DevTools del navegador (pestaña Network).
 
+> **Actualización v1.6:** React (`:5174`) y Vue (`:5175`) **incluyen login**. Para el flujo completo con cookie y gate, usa [`15-framework-auth-login-crud.md`](./15-framework-auth-login-crud.md). Esta misión puede seguir con `AUTH_DISABLED=1` si solo quieres inspeccionar CRUD sin autenticación.
+
 ## Requisitos previos
 
 - Haber completado las misiones vanilla (p. ej. [`02-arrancar-dashboard.md`](./02-arrancar-dashboard.md), [`03-consumir-json.md`](./03-consumir-json.md)).
@@ -18,7 +20,9 @@ Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar car
    cp .env.example .env   # si es la primera vez
    ```
 
-   Para esta misión con React/Vue, descomenta **`AUTH_DISABLED=1`** en `api/.env` (solo desarrollo local) y reinicia. Los paneles framework aún no tienen pantalla de login.
+   **Opción A (rápida, sin login):** descomenta **`AUTH_DISABLED=1`** en `api/.env` (solo desarrollo local) y reinicia. El panel carga CRUD sin gate.
+
+   **Opción B (recomendada v1.6):** deja la auth activa y sigue [`15-framework-auth-login-crud.md`](./15-framework-auth-login-crud.md) para login → CRUD → logout. En esta misión 13 con auth activa, el paso 4 puede mostrar **401** en `GET /users` hasta que inicies sesión.
 
    ```bash
    PORT=3100 npm start
@@ -59,7 +63,7 @@ Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar car
 
    Para cada una anota en tu cuaderno o en `NOTEBOOK.md`:
 
-   - **Status** (debe ser 200)
+   - **Status** (200 con `AUTH_DISABLED=1`; 401 en `/users` sin sesión si usas opción B hasta login)
    - **Request URL** completa
    - Un vistazo al **Response** (JSON)
 
@@ -96,6 +100,7 @@ Documenta una diferencia que hayas observado (aunque el JSON sea el mismo).
 
 ## Enlaces
 
-- [`docs/16-frameworks.md`](../docs/16-frameworks.md) — comparativa de estado y formularios
+- [`docs/16-frameworks.md`](../docs/16-frameworks.md) — comparativa de estado, formularios y auth
+- [`missions/15-framework-auth-login-crud.md`](./15-framework-auth-login-crud.md) — login en React o Vue (v1.6)
 - [`dashboard-react/README.md`](../dashboard-react/README.md) — puerto 5174
 - [`dashboard-vue/README.md`](../dashboard-vue/README.md) — puerto 5175
