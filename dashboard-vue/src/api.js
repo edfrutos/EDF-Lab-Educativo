@@ -3,7 +3,10 @@ export const API_BASE_URL =
 
 export async function fetchJson(path, options = {}) {
   const url = `${API_BASE_URL}${path}`;
-  const response = await fetch(url, options);
+  const response = await fetch(url, {
+    credentials: 'include',
+    ...options
+  });
 
   if (!response.ok) {
     let detail = `estado HTTP ${response.status}`;
@@ -21,4 +24,16 @@ export async function fetchJson(path, options = {}) {
   }
 
   return response.json();
+}
+
+export async function login(email, password) {
+  return fetchJson('/auth/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email, password })
+  });
+}
+
+export async function logout() {
+  return fetchJson('/auth/logout', { method: 'POST' });
 }
