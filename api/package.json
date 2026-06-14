@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "test": "AUTH_DISABLED=1 node --test index.test.js --test-force-exit && AUTH_DISABLED=1 node --test index.pg.test.js --test-force-exit",
-    "test:sqlite": "AUTH_DISABLED=1 node --test index.test.js rate-limit.test.js --test-force-exit",
-    "test:pg": "AUTH_DISABLED=1 node --test index.pg.test.js --test-force-exit",
+    "test": "AUTH_DISABLED=1 node --test --test-force-exit index.test.js && AUTH_DISABLED=1 node --test --test-force-exit index.pg.test.js",
+    "test:sqlite": "AUTH_DISABLED=1 node --test --test-force-exit index.test.js rate-limit.test.js",
+    "test:pg": "AUTH_DISABLED=1 node --test --test-force-exit index.pg.test.js",
     "test:db:prepare": "node scripts/prepare-test-db.js",
     "docker:build": "docker build -t edf-lab-api .",
     "docker:start": "docker run --rm -p 3100:3100 --name edf-lab-api edf-lab-api"
