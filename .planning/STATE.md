@@ -1,10 +1,10 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: —
-status: shipped
-last_updated: "2026-06-14"
-last_activity: 2026-06-14 — v1.6 tagged and milestone closed
+milestone: v2.0
+milestone_name: Quality & CI
+status: planning
+last_updated: "2026-06-14T18:37:50.818Z"
+last_activity: 2026-06-14
 progress:
   total_phases: 0
   completed_phases: 0
@@ -21,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-14)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v1.6 shipped — start v2 with `/gsd-new-milestone`
+**Current focus:** v2.0 Quality & CI — defining requirements (E2E Playwright + Postgres CI)
 
 ## Current Position
 
-Phase: — (no active milestone)  
-Plan: —  
-Status: Between milestones  
-Last activity: 2026-06-14 — Tag `v1.6` on `main`; PR #6 merged; CI green
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-14 — Milestone v2.0 started
 
 ## Milestone Status
 
@@ -46,16 +46,16 @@ Last activity: 2026-06-14 — Tag `v1.6` on `main`; PR #6 merged; CI green
 
 Last session: 2026-06-14  
 Stopped at: v1.6 milestone closed  
-Next suggested command: `/gsd-new-milestone`
+Next suggested command: `/gsd-plan-phase 26` (after roadmap approval)
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
 | Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open |
-| OAuth / refresh tokens | v2+ | Deferred |
-| Let's Encrypt automation | v2+ | Deferred |
-| Postgres CI required on PR | v2 QA-02 | Deferred |
+| OAuth / refresh tokens | Post-v2.0 | Deferred |
+| Let's Encrypt automation | Post-v2.0 | Deferred |
+| nginx /api proxy in Compose | Post-v2.0 PROD-02 | Deferred |
 
 ---
-*Last updated: 2026-06-14 — v1.6 shipped (tag v1.6)*
+*Last updated: 2026-06-14 — v2.0 milestone started*
