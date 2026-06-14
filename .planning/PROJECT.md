@@ -10,6 +10,17 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
+## Current Milestone: v1.6 Framework Auth & CI
+
+**Goal:** Complete auth parity on React/Vue dashboards, add GitHub Actions CI, and teach basic login rate limiting — extending v1.5 auth to all three frontends.
+
+**Target features:**
+- React dashboard login/logout with `credentials: 'include'` (port 5174)
+- Vue dashboard auth parity (port 5175)
+- GitHub Actions running SQLite tests on push to `main`
+- Rate limiting on `POST /auth/login` with env-driven config
+- Mission 15 + doc 16 auth comparison + NOTEBOOK entries
+
 ## Current State (v1.5 shipped 2026-06-02)
 
 **Stack:** Express + auth (bcrypt, JWT cookie) + `node:sqlite` / `pg` + vanilla dashboard (login) + React/Vue + Docker Compose  
@@ -19,9 +30,7 @@ Make the backend -> JSON -> frontend flow visible, executable, and teachable, tu
 **Auth:** httpOnly cookie `edf_session`; `/users` protected; `POST /auth/login`, `POST /auth/logout`  
 **Secrets:** `api/.env` from `.env.example`; production fail-fast; Compose `env_file`  
 **Docs:** Through `docs/18-production-deploy.md`; Mission 14; advanced v1.5 path in index  
-**Compose:** `npm run compose:up` — requires `api/.env` with JWT_SECRET + DATABASE_URL
-
-**Next milestone:** Run `/gsd-new-milestone` to define v1.6+
+**Compose:** `npm run compose:up` — requires `api/.env` with JWT secret + DATABASE_URL
 
 <details>
 <summary>Previous milestone: v1.5 planning context (archived)</summary>
@@ -81,11 +90,15 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 
 ### Active
 
-- [ ] Next milestone scope — run `/gsd-new-milestone` (OAuth, rate limiting, etc. deferred to v1.6+ discussion)
+- [ ] React dashboard login gate and credentialed fetch — v1.6 Phase 22
+- [ ] Vue dashboard auth parity — v1.6 Phase 23
+- [ ] GitHub Actions CI + login rate limiting — v1.6 Phase 24
+- [ ] Framework auth learning material (Mission 15, doc 16) — v1.6 Phase 25
 
 ### Out of Scope
 
-- OAuth / social providers in v1.5 — email/password or session/JWT lab path first.
+- OAuth / social providers — email/password + JWT cookie remains the teaching baseline (v2).
+- Let's Encrypt automation — manual TLS pattern in doc 18; scripts deferred to v2.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
 - nginx reverse proxy `/api` in Compose — documented as advanced reto only.
 - Additional frameworks beyond React/Vue (Svelte, Angular, etc.) — v1.4 delivered the comparison milestone.
@@ -178,4 +191,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-02 after v1.5 milestone*
+*Last updated: 2026-06-02 — v1.6 milestone planning started*
