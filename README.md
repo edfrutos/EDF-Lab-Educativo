@@ -1,5 +1,7 @@
 # Express API Demo Learning Lab
 
+[![CI](https://github.com/edfrutos/EDF-Lab-Educativo/actions/workflows/ci.yml/badge.svg)](https://github.com/edfrutos/EDF-Lab-Educativo/actions/workflows/ci.yml)
+
 Laboratorio educativo para aprender, de forma aplicada, cómo funciona una arquitectura web moderna separando un **backend API** y un **frontend consumidor**.
 
 El proyecto está compuesto por:
@@ -112,6 +114,14 @@ Orden sugerido cuando ya dominas el recorrido vanilla (y opcionalmente framework
 3. [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md) — práctica guiada con DevTools.
 4. [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) — secretos, Compose `env_file`, TLS en nginx.
 5. Docker Compose — sección [Opcional: Docker Compose](#opcional-docker-compose-avanzado) arriba (requiere `api/.env`).
+
+### Ruta avanzada v1.6 (auth en frameworks y CI)
+
+Tras v1.5, con React/Vue opcionales:
+
+1. [`docs/16-frameworks.md`](./docs/16-frameworks.md) — auth en vanilla, React (`onLogin`) y Vue (`emit`).
+2. [`missions/15-framework-auth-login-crud.md`](./missions/15-framework-auth-login-crud.md) — práctica en `:5174` o `:5175`.
+3. [`docs/10-tests.md`](./docs/10-tests.md#ci-en-github-actions) — CI y suite SQLite (24 tests).
 
 Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 

@@ -84,7 +84,7 @@ Más contexto SQLite vs PostgreSQL: [`13-sqlite.md`](./13-sqlite.md) (sección �
 Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/workflows/ci.yml`](../.github/workflows/ci.yml):
 
 1. Checkout del repositorio
-2. Node.js 20 con caché de `npm`
+2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
 3. `npm ci` y `npm run test:sqlite` dentro de `api/`
 
 Eso corre **24 tests** (CRUD, autenticación y rate limit de login) sin necesitar Postgres ni Docker. Así cualquier contribución recibe feedback automático aunque no tengas una base PostgreSQL local.
@@ -127,7 +127,7 @@ cd api && npm run test:pg
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: npm
           cache-dependency-path: api/package-lock.json
       - run: npm ci

@@ -28,10 +28,10 @@ Requirements for **Framework Auth & CI**. Phases 22–25.
 
 ### Learning Documentation
 
-- [ ] **DOCS-01**: `docs/16-frameworks.md` (or new section) compares auth flow across vanilla, React, and Vue.
-- [ ] **DOCS-02**: Mission 15 guides login on React or Vue, protected CRUD, logout, and DevTools cookie inspection.
-- [ ] **DOCS-03**: `docs/00-indice.md` and framework READMEs updated; CI badge or link in root README.
-- [ ] **DOCS-04**: Real framework-auth and CI errors recorded in `NOTEBOOK.md`.
+- [x] **DOCS-01**: `docs/16-frameworks.md` (or new section) compares auth flow across vanilla, React, and Vue.
+- [x] **DOCS-02**: Mission 15 guides login on React or Vue, protected CRUD, logout, and DevTools cookie inspection.
+- [x] **DOCS-03**: `docs/00-indice.md` and framework READMEs updated; CI badge or link in root README.
+- [x] **DOCS-04**: Real framework-auth and CI errors recorded in `NOTEBOOK.md`.
 
 ## v2 Requirements
 
@@ -72,7 +72,7 @@ Deferred to future milestones. Tracked but not in v1.6 roadmap.
 | FRWK-AUTH-01 … FRWK-AUTH-04 | Phase 22 | Complete |
 | FRWK-AUTH-05 … FRWK-AUTH-06 | Phase 23 | Complete |
 | CI-01 … CI-02, RATE-01 … RATE-02 | Phase 24 | Complete |
-| DOCS-01 … DOCS-04 | Phase 25 | Pending |
+| DOCS-01 … DOCS-04 | Phase 25 | Complete |
 
 **Coverage:**
 - v1.6 requirements: 14 total
@@ -81,4 +81,4 @@ Deferred to future milestones. Tracked but not in v1.6 roadmap.
 
 ---
 *Requirements defined: 2026-06-02*
-*Last updated: 2026-06-02 after v1.6 milestone initialization*
+*Last updated: 2026-06-02 after Phase 25 complete*

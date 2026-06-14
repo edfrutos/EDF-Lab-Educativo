@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v1.6 Framework Auth & CI (planning)
+**Current Milestone:** v1.6 Framework Auth & CI (complete — ready to ship)
 
 ## Milestones
 
@@ -10,20 +10,20 @@
 - ✅ **v1.3 PostgreSQL Persistence** — Phases 12–14 (shipped 2026-06-01)
 - ✅ **v1.4 Frontend Framework Comparison** — Phases 15–17 (shipped 2026-06-01)
 - ✅ **v1.5 Production Auth & Deployment** — Phases 18–21 (shipped 2026-06-02)
-- 🚧 **v1.6 Framework Auth & CI** — Phases 22–25 (in progress)
+- ✅ **v1.6 Framework Auth & CI** — Phases 22–25 (complete 2026-06-02)
 
 ## Phases
 
-### 🚧 v1.6 Framework Auth & CI (Phases 22–25)
+### ✅ v1.6 Framework Auth & CI (Phases 22–25) — COMPLETE 2026-06-02
 
 **Goal:** Auth parity on React/Vue dashboards, automated CI on push, and basic login rate limiting — completing the three-frontend auth story started in v1.5.
 
 | Phase | Name | Goal | Requirements | Plans |
 |-------|------|------|--------------|-------|
-| 22 | React Dashboard Auth | Login gate, credentialed fetch, logout, 401 UX on :5174 | FRWK-AUTH-01 … 04 | 0/2 → planned |
+| 22 | React Dashboard Auth | Login gate, credentialed fetch, logout, 401 UX on :5174 | FRWK-AUTH-01 … 04 | 2/2 |
 | 23 | Vue Dashboard Auth | Same auth parity on :5175 | FRWK-AUTH-05 … 06 | 2/2 |
 | 24 | CI & Rate Limiting | GitHub Actions + login rate limit with env config | CI-01 … 02, RATE-01 … 02 | 2/2 |
-| 25 | Framework Auth Learning Material | Doc 16 auth section, Mission 15, index, NOTEBOOK | DOCS-01 … 04 | 0/2 → planned |
+| 25 | Framework Auth Learning Material | Doc 16 auth section, Mission 15, index, NOTEBOOK | DOCS-01 … 04 | 2/2 |
 
 #### Phase 22: React Dashboard Auth
 
@@ -84,7 +84,19 @@
 3. Index and framework READMEs link auth + CI sections; root README mentions CI workflow.
 4. At least two real framework-auth or CI friction points recorded in `NOTEBOOK.md`.
 
-**Plans:** 2 (docs/mission + index/README/NOTEBOOK)
+**Plans:** 2 (docs/mission + index/README/NOTEBOOK) — **Complete**
+
+---
+
+<details>
+<summary>✅ v1.6 Framework Auth & CI (Phases 22–25) — COMPLETE 2026-06-02</summary>
+
+- [x] **Phase 22: React Dashboard Auth**
+- [x] **Phase 23: Vue Dashboard Auth**
+- [x] **Phase 24: CI & Rate Limiting**
+- [x] **Phase 25: Framework Auth Learning Material**
+
+</details>
 
 ---
 
