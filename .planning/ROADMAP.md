@@ -22,7 +22,7 @@
 |-------|------|------|--------------|-------|
 | 22 | React Dashboard Auth | Login gate, credentialed fetch, logout, 401 UX on :5174 | FRWK-AUTH-01 … 04 | 0/2 → planned |
 | 23 | Vue Dashboard Auth | Same auth parity on :5175 | FRWK-AUTH-05 … 06 | 2/2 |
-| 24 | CI & Rate Limiting | GitHub Actions + login rate limit with env config | CI-01 … 02, RATE-01 … 02 | 0/2 |
+| 24 | CI & Rate Limiting | GitHub Actions + login rate limit with env config | CI-01 … 02, RATE-01 … 02 | 0/2 → planned |
 | 25 | Framework Auth Learning Material | Doc 16 auth section, Mission 15, index, NOTEBOOK | DOCS-01 … 04 | 0/2 |
 
 #### Phase 22: React Dashboard Auth
@@ -141,7 +141,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 |-------|-----------|-------|--------|-----------|
 | 22. React Dashboard Auth | v1.6 | 2/2 | Complete | 2026-06-02 |
 | 23. Vue Dashboard Auth | v1.6 | 2/2 | Complete | 2026-06-02 |
-| 24. CI & Rate Limiting | v1.6 | 0/2 | Not started | — |
+| 24. CI & Rate Limiting | v1.6 | 0/2 | Planned | — |
 | 25. Framework Auth Learning Material | v1.6 | 0/2 | Not started | — |
 | 18–21 | v1.5 | 9/9 | Complete | 2026-06-02 |
 | 1–17 | v1.0–v1.4 | — | Complete | 2026-05-26 → 2026-06-01 |

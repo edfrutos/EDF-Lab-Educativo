@@ -26,9 +26,9 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 ## Current Position
 
 Phase: 24 — CI & Rate Limiting
-Plan: —
-Status: Ready to plan
-Last activity: 2026-06-02 — Phase 23 complete
+Plan: 24-01 (ready)
+Status: Planned — ready to execute
+Last activity: 2026-06-02 — Phase 24 plans created
 
 ## Milestone Status
 
@@ -46,7 +46,7 @@ Last activity: 2026-06-02 — Phase 23 complete
 
 Last session: 2026-06-02
 Stopped at: Phase 23 complete
-Next suggested command: `/gsd-plan-phase 24`
+Next suggested command: `/gsd-execute-phase 24`
 
 ## Deferred Items
 
