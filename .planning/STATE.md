@@ -26,9 +26,9 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 ## Current Position
 
 Phase: 23 — Vue Dashboard Auth
-Plan: —
-Status: Ready to plan
-Last activity: 2026-06-02 — Phase 22 complete
+Plan: 23-01 (ready)
+Status: Planned — ready to execute
+Last activity: 2026-06-02 — Phase 23 plans created
 
 ## Milestone Status
 
@@ -46,7 +46,7 @@ Last activity: 2026-06-02 — Phase 22 complete
 
 Last session: 2026-06-14T10:35:59.842Z
 Stopped at: Phase 23 context gathered
-Next suggested command: `/gsd-discuss-phase 23`
+Next suggested command: `/gsd-execute-phase 23`
 
 ## Deferred Items
 

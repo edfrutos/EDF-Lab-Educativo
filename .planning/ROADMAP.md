@@ -140,7 +140,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 22. React Dashboard Auth | v1.6 | 2/2 | Complete | 2026-06-02 |
-| 23. Vue Dashboard Auth | v1.6 | 0/2 | Not started | — |
+| 23. Vue Dashboard Auth | v1.6 | 0/2 | Planned | — |
 | 24. CI & Rate Limiting | v1.6 | 0/2 | Not started | — |
 | 25. Framework Auth Learning Material | v1.6 | 0/2 | Not started | — |
 | 18–21 | v1.5 | 9/9 | Complete | 2026-06-02 |
