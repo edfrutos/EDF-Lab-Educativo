@@ -26,9 +26,9 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 ## Current Position
 
 Phase: 25 — Framework Auth Learning Material
-Plan: —
-Status: Ready to plan
-Last activity: 2026-06-02 — Phase 24 complete
+Plan: 25-01 (ready)
+Status: Planned — ready to execute
+Last activity: 2026-06-02 — Phase 25 plans created
 
 ## Milestone Status
 
@@ -46,7 +46,7 @@ Last activity: 2026-06-02 — Phase 24 complete
 
 Last session: 2026-06-02
 Stopped at: Phase 24 complete
-Next suggested command: `/gsd-plan-phase 25`
+Next suggested command: `/gsd-execute-phase 25`
 
 ## Deferred Items
 
