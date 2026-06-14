@@ -36,8 +36,12 @@
   3. E2E nunca usa `AUTH_DISABLED`; la cookie `edf_session` se obtiene solo por formulario de login (UI real)
   4. Entorno E2E seguro: credenciales de operador configurables y rate limit elevado para evitar 429 en CI/local
   5. Artefactos Playwright (`test-results/`, `playwright-report/`, `playwright/.auth/`) están en `.gitignore`; cero secretos commiteados
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
+
+Plans:
+- [ ] 26-01-PLAN.md — Scaffold Playwright: config dual webServer, smoke auth vanilla, toolchain raíz
+- [ ] 26-02-PLAN.md — Documentación E2E en docs/10-tests.md + job CI e2e-smoke vanilla
 
 ### Phase 27: E2E multi-dashboard
 **Goal**: Los tres dashboards pasan el mismo smoke de autenticación y CI ejecuta la suite completa en cada pull request.
@@ -136,7 +140,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 26. Fundación E2E Playwright (vanilla) | v2.0 | 0/TBD | Not started | - |
+| 26. Fundación E2E Playwright (vanilla) | v2.0 | 0/2 | Not started | - |
 | 27. E2E multi-dashboard | v2.0 | 0/TBD | Not started | - |
 | 28. Postgres CI obligatorio | v2.0 | 0/TBD | Not started | - |
 | 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |
