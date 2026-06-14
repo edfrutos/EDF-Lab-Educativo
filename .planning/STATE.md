@@ -4,13 +4,13 @@ milestone: v1.6
 milestone_name: Framework Auth & CI
 status: planning
 last_updated: "2026-06-14T09:53:07.247Z"
-last_activity: 2026-06-02 — v1.6 requirements and roadmap defined
+last_activity: 2026-06-02 — Phase 22 React Dashboard Auth complete
 progress:
-  total_phases: 8
+  total_phases: 4
   completed_phases: 1
-  total_plans: 12
-  completed_plans: 9
-  percent: 13
+  total_plans: 8
+  completed_plans: 2
+  percent: 25
 ---
 
 # Project State
@@ -21,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-02)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v1.6 Framework Auth & CI — Phase 22 next
+**Current focus:** v1.6 — Phase 23 Vue Dashboard Auth next
 
 ## Current Position
 
-Phase: 22 — React Dashboard Auth
-Plan: 22-01 (ready)
-Status: Planned — ready to execute
-Last activity: 2026-06-02 — Phase 22 plans created
+Phase: 23 — Vue Dashboard Auth
+Plan: —
+Status: Ready to plan
+Last activity: 2026-06-02 — Phase 22 complete
 
 ## Milestone Status
 
@@ -46,7 +46,7 @@ Last activity: 2026-06-02 — Phase 22 plans created
 
 Last session: 2026-06-14T09:53:07.240Z
 Stopped at: Phase 22 context gathered
-Next suggested command: `/gsd-execute-phase 22`
+Next suggested command: `/gsd-discuss-phase 23`
 
 ## Deferred Items
 

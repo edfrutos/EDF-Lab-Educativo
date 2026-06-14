@@ -9,10 +9,10 @@ Requirements for **Framework Auth & CI**. Phases 22–25.
 
 ### Framework Authentication (React)
 
-- [ ] **FRWK-AUTH-01**: React dashboard shows login form when unauthenticated; hides CRUD until session exists.
-- [ ] **FRWK-AUTH-02**: React `fetchJson` (or equivalent) sends `credentials: 'include'` on all API calls.
-- [ ] **FRWK-AUTH-03**: React dashboard has logout control that calls `POST /auth/logout` and returns to login state.
-- [ ] **FRWK-AUTH-04**: React handles 401 with Spanish guidance consistent with vanilla dashboard.
+- [x] **FRWK-AUTH-01**: React dashboard shows login form when unauthenticated; hides CRUD until session exists.
+- [x] **FRWK-AUTH-02**: React `fetchJson` (or equivalent) sends `credentials: 'include'` on all API calls.
+- [x] **FRWK-AUTH-03**: React dashboard has logout control that calls `POST /auth/logout` and returns to login state.
+- [x] **FRWK-AUTH-04**: React handles 401 with Spanish guidance consistent with vanilla dashboard.
 
 ### Framework Authentication (Vue)
 
@@ -69,7 +69,7 @@ Deferred to future milestones. Tracked but not in v1.6 roadmap.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| FRWK-AUTH-01 … FRWK-AUTH-04 | Phase 22 | Pending |
+| FRWK-AUTH-01 … FRWK-AUTH-04 | Phase 22 | Complete |
 | FRWK-AUTH-05 … FRWK-AUTH-06 | Phase 23 | Pending |
 | CI-01 … CI-02, RATE-01 … RATE-02 | Phase 24 | Pending |
 | DOCS-01 … DOCS-04 | Phase 25 | Pending |
