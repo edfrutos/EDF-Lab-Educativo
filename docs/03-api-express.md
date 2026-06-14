@@ -7,14 +7,18 @@ La API está en `api/index.js`.
 ```txt
 GET /
 GET /health
-GET /users
+GET /about
+GET /time
+POST /auth/login
+POST /auth/logout
+GET /users          ← requiere sesión de operador
 GET /users/:id
 POST /users
 PUT /users/:id
 DELETE /users/:id
-GET /about
-GET /time
 ```
+
+Las rutas `/users` devuelven **401** sin cookie de sesión válida. Antes de probar CRUD con `curl`, inicia sesión o lee [`17-autenticacion.md`](./17-autenticacion.md).
 
 ## Conceptos clave
 
@@ -78,7 +82,7 @@ Devuelve un usuario concreto.
 
 ### `POST /users`
 
-Crea un usuario nuevo en memoria.
+Crea un usuario nuevo en la base de datos (SQLite o Postgres según configuración).
 
 Payload esperado:
 
@@ -91,7 +95,7 @@ Payload esperado:
 
 ### `PUT /users/:id`
 
-Actualiza un usuario existente en memoria.
+Actualiza un usuario existente en la base de datos.
 
 ### `DELETE /users/:id`
 
@@ -117,21 +121,26 @@ app.get('/health', (req, res) => {
 ```
 
 ```bash
-curl http://localhost:3100/users/1
+# Login (guarda cookie)
+curl -c /tmp/edf-cj -X POST http://localhost:3100/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"admin@lab.local","password":"changeme"}'
+
+curl -b /tmp/edf-cj http://localhost:3100/users/1
 ```
 
 ```bash
-curl -X POST http://localhost:3100/users \
+curl -b /tmp/edf-cj -X POST http://localhost:3100/users \
   -H "Content-Type: application/json" \
   -d '{"name":"Ada Lovelace","email":"ada@example.com"}'
 ```
 
 ```bash
-curl -X PUT http://localhost:3100/users/1 \
+curl -b /tmp/edf-cj -X PUT http://localhost:3100/users/1 \
   -H "Content-Type: application/json" \
   -d '{"name":"Jane Doe","email":"jane.doe@example.com"}'
 ```
 
 ```bash
-curl -X DELETE http://localhost:3100/users/1
+curl -b /tmp/edf-cj -X DELETE http://localhost:3100/users/1
 ```

@@ -4,7 +4,27 @@ A partir de la versión **v1.4**, el laboratorio incluye **tres frontends** que 
 
 > El camino principal sigue siendo el dashboard **vanilla** en `dashboard/`. Las carpetas `dashboard-react/` y `dashboard-vue/` son **opcionales y avanzadas**.
 
-Lecturas previas recomendadas: [`04-dashboard-fetch.md`](./04-dashboard-fetch.md), [`05-cors-explicado.md`](./05-cors-explicado.md).
+Lecturas previas recomendadas: [`04-dashboard-fetch.md`](./04-dashboard-fetch.md), [`05-cors-explicado.md`](./05-cors-explicado.md), [`17-autenticacion.md`](./17-autenticacion.md).
+
+---
+
+## Autenticación y los tres paneles
+
+La API protege **`/users`** con sesión de operador (cookie `edf_session`).
+
+| Panel | Login en la UI | Estado en v1.4 |
+|-------|----------------|----------------|
+| **Vanilla** (`:5173`) | Sí — formulario en `dashboard/index.html` | Camino principal para aprender auth |
+| **React** (`:5174`) | No | `GET /users` devuelve **401** salvo que desactives auth en dev |
+| **Vue** (`:5175`) | No | Igual que React |
+
+Para practicar **solo** estado y formularios en React/Vue sin implementar login:
+
+1. En `api/.env`, descomenta temporalmente `AUTH_DISABLED=1`.
+2. Reinicia la API.
+3. No uses esa variable fuera de tu máquina de desarrollo.
+
+Los clientes Vite deben enviar `credentials: 'include'` en `fetch` cuando añadas login (ya preparado en `dashboard-react/src/api.js` y `dashboard-vue/src/api.js`).
 
 ---
 
@@ -277,6 +297,7 @@ La **estructura de secciones** (hero, tarjetas health/API, tabla, formulario) es
 
 Para mantener el foco en **fetch, estado local y formularios**:
 
+- **Pantalla de login** en React/Vue — usar vanilla o `AUTH_DISABLED=1` en dev (ver arriba)
 - **Redux**, **Pinia**, **Vuex** — estado global (futuro milestone si hace falta)
 - **React Router** / **Vue Router** — una sola página basta
 - **axios** o clientes HTTP que oculten `fetch`

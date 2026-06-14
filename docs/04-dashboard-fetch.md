@@ -2,6 +2,14 @@
 
 El dashboard está en `dashboard/`.
 
+## Sesión antes del CRUD
+
+Las rutas `/users` exigen **login de operador**. La página muestra un formulario de inicio de sesión; tras `POST /auth/login` correcto, el panel carga health, metadatos y la tabla de usuarios.
+
+Todas las peticiones autenticadas usan `fetchJson`, que incluye **`credentials: 'include'`** para enviar la cookie `edf_session`. Sin eso, verías 401 aunque la API esté en marcha.
+
+Guía completa: [`17-autenticacion.md`](./17-autenticacion.md).
+
 ## Función principal
 
 `app.js` llama a la API con `fetch()`:
@@ -92,10 +100,12 @@ DELETE /users/:id -> usuario eliminado
 ## Estados importantes
 
 - Cargando.
+- Sin sesión / formulario de login.
 - API conectada.
 - API no disponible.
 - Datos recibidos.
 - Operación completada.
 - Error al crear, editar o eliminar.
+- Credenciales inválidas (login).
 
 Para la misma API con React o Vue (estado y formularios con otro enfoque), ver [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*.

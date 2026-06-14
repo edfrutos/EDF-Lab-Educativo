@@ -248,6 +248,26 @@ fetch('http://localhost:3100/health')
 
 ---
 
+### sesión del operador
+
+Cuenta en la tabla `accounts` que **no** es un usuario CRUD. Sirve para iniciar sesión en el panel y acceder a `/users`. Se obtiene con `POST /auth/login`.
+
+> Ver más: [`docs/17-autenticacion.md`](./17-autenticacion.md)
+
+---
+
+### credentials: 'include'
+
+Opción de `fetch` que envía cookies al origen de la API. Obligatoria para que la cookie `edf_session` viaje desde `:5173`, `:5174` o `:5175` a `:3100`.
+
+```js
+fetch('http://localhost:3100/users', { credentials: 'include' });
+```
+
+> Ver más: [`docs/17-autenticacion.md`](./17-autenticacion.md), [`docs/05-cors-explicado.md`](./05-cors-explicado.md)
+
+---
+
 ## Persistencia y tests
 
 ### memoria vs disco

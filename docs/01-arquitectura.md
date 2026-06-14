@@ -5,9 +5,11 @@ Este laboratorio separa backend y frontend para mostrar una arquitectura web hab
 ```txt
 dashboard/                  api/
 HTML + CSS + JS vanilla ->  Express
-fetch() -> peticiones HTTP  rutas GET
-renderizado <- JSON         respuestas JSON
+fetch() + cookie sesión     rutas públicas (/health, /auth/*)
+renderizado <- JSON         rutas protegidas (/users CRUD)
 ```
+
+Opcional (v1.4): `dashboard-react/` (`:5174`) y `dashboard-vue/` (`:5175`) — misma API, otro origen para CORS.
 
 ## Flujo completo
 
@@ -56,7 +58,10 @@ El laboratorio funciona porque backend y frontend comparten un contrato simple:
 - la API publica endpoints HTTP,
 - el dashboard conoce la URL base de la API,
 - las respuestas llegan como JSON,
-- la interfaz espera claves concretas como `status`, `timestamp`, `message`, `version`, `id`, `name` y `email`.
+- la interfaz espera claves concretas como `status`, `timestamp`, `message`, `version`, `id`, `name` y `email`,
+- el operador inicia sesión con `POST /auth/login` y las peticiones a `/users` llevan la cookie de sesión (`credentials: 'include'`).
+
+Detalle: [`17-autenticacion.md`](./17-autenticacion.md).
 
 ## Por qué separarlos
 

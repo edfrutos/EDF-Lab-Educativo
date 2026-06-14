@@ -18,7 +18,8 @@ En este laboratorio:
 api/data/users.db   ← almacén en runtime (lecturas/escrituras CRUD)
 api/data/users.json ← semilla/migración (solo si la tabla está vacía al arrancar)
 api/schema.sql      ← definición legible de la tabla users
-api/db.js           ← conexión y consultas SQL
+api/db.js           ← router (SQLite o Postgres según entorno)
+api/db-sqlite.js    ← consultas SQL con node:sqlite
 ```
 
 ---
@@ -71,7 +72,7 @@ La restricción **`UNIQUE`** en `email` hace que la base rechace duplicados. La 
 npm start (PORT=3100)
   │
   ▼
-initDb() en api/db.js
+initDb() en db-sqlite.js (vía router api/db.js)
   │
   ├── Crea data/ si no existe
   ├── Abre users.db (o ruta en DB_FILE)
@@ -113,7 +114,7 @@ curl -s http://localhost:3100/users
 
 ## Consultas que usa la API
 
-En `api/db.js` las operaciones CRUD usan **prepared statements** (consultas preparadas con `?` como marcadores):
+En `api/db-sqlite.js` las operaciones CRUD usan **prepared statements** (consultas preparadas con `?` como marcadores):
 
 | Operación | SQL (simplificado) |
 |-----------|-------------------|
@@ -245,7 +246,7 @@ Inspeccionar datos en la BD de desarrollo:
 psql postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab -c "SELECT id, name, email FROM users;"
 ```
 
-Suite completa (16 tests SQLite + 16 Postgres). **Postgres debe estar escuchando en `localhost:5432`**; si no, la segunda mitad falla (no hay skip silencioso):
+Suite completa: **46 tests** (23 SQLite + 23 Postgres: 16 CRUD + 7 autenticación por backend). **Postgres debe estar escuchando en `localhost:5432`**; si no, la segunda mitad falla (no hay skip silencioso):
 
 ```bash
 cd api && npm test
@@ -269,7 +270,7 @@ TEST_DATABASE_URL=postgresql://usuario:clave@localhost:5432/otra_bd npm run test
 
 ## Resumen
 
-- **Runtime:** `users.db` con SQL explícito en `db.js` y esquema en `schema.sql`.
+- **Runtime:** `users.db` con SQL explícito en `db-sqlite.js` (router en `db.js`) y esquema en `schema.sql`.
 - **Semilla:** `users.json` solo cuando la tabla está vacía al arrancar (SQLite y Postgres comparten `api/seed.js`).
 - **Inspección:** `sqlite3` CLI; el `.db` no se lee con `cat` como JSON.
 - **Duplicados:** constraint `UNIQUE` → API responde 409.

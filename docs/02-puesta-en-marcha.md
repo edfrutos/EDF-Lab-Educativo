@@ -12,21 +12,18 @@ Antes de arrancar el laboratorio, asegúrate de tener:
 ## 1. Arrancar API
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+cd api
+cp .env.example .env   # primera vez: JWT_SECRET y operador por defecto
+npm install            # si faltan dependencias
 PORT=3100 npm start
 ```
 
-Si acabas de copiar el proyecto y faltan dependencias en `api/`, ejecuta antes:
-
-```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
-npm install
-```
+Si acabas de copiar el proyecto y faltan dependencias en `api/`, ejecuta `npm install` antes de `npm start`.
 
 ## 2. Arrancar dashboard
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard
+cd dashboard
 python3 -m http.server 5173
 ```
 
@@ -50,9 +47,20 @@ Resultado esperado:
 http://localhost:5173
 ```
 
-## 5. Comprobaciones visuales
+## 5. Iniciar sesión en el dashboard
 
-El dashboard debe mostrar:
+Las rutas `/users` requieren **sesión de operador**. En `http://localhost:5173` verás un formulario de login.
+
+Credenciales por defecto del laboratorio (si no cambiaste `api/.env`):
+
+- Email: `admin@lab.local`
+- Contraseña: `changeme`
+
+Más detalle: [`17-autenticacion.md`](./17-autenticacion.md).
+
+## 6. Comprobaciones visuales
+
+Tras el login, el dashboard debe mostrar:
 
 - API conectada,
 - estado `healthy`,

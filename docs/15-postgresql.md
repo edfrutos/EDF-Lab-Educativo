@@ -188,7 +188,7 @@ docker compose up -d edf-lab-postgres
 # Crear BD de test (una vez)
 npm run test:db:prepare
 
-# Suite completa: 16 SQLite + 16 Postgres
+# Suite completa: 46 tests (23 SQLite + 23 Postgres, incluye autenticación)
 cd api && npm test
 
 # Solo Postgres

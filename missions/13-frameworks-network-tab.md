@@ -7,14 +7,20 @@ Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar car
 ## Requisitos previos
 
 - Haber completado las misiones vanilla (p. ej. [`02-arrancar-dashboard.md`](./02-arrancar-dashboard.md), [`03-consumir-json.md`](./03-consumir-json.md)).
-- Lectura recomendada: [`docs/16-frameworks.md`](../docs/16-frameworks.md), [`docs/05-cors-explicado.md`](../docs/05-cors-explicado.md).
+- Lectura recomendada: [`docs/16-frameworks.md`](../docs/16-frameworks.md), [`docs/05-cors-explicado.md`](../docs/05-cors-explicado.md), [`docs/17-autenticacion.md`](../docs/17-autenticacion.md).
 
 ## Pasos
 
 1. **Arranca la API** (terminal 1):
 
    ```bash
-   cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+   cd api
+   cp .env.example .env   # si es la primera vez
+   ```
+
+   Para esta misión con React/Vue, descomenta **`AUTH_DISABLED=1`** en `api/.env` (solo desarrollo local) y reinicia. Los paneles framework aún no tienen pantalla de login.
+
+   ```bash
    PORT=3100 npm start
    ```
 
@@ -23,7 +29,7 @@ Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar car
    **Opción A — React:**
 
    ```bash
-   cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-react
+   cd dashboard-react
    npm install
    npm run dev
    ```
@@ -33,7 +39,7 @@ Arrancar la API y **un** dashboard con framework (React **o** Vue), ejecutar car
    **Opción B — Vue:**
 
    ```bash
-   cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-vue
+   cd dashboard-vue
    npm install
    npm run dev
    ```

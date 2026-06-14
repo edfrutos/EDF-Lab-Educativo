@@ -2,6 +2,8 @@
 
 Plan de evolución del laboratorio educativo.
 
+> **Roadmap activo (milestones v1.0–v1.4, fases GSD):** ver [`.planning/ROADMAP.md`](./.planning/ROADMAP.md). Este archivo conserva el recorrido didáctico original por fases 0–3.
+
 ---
 
 ## Fase 0 · Estructura base
