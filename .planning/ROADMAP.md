@@ -22,12 +22,17 @@
 **Depends on:** v2.0 (smoke auth + quad `webServer`)  
 **Requirements:** QA-ADV-01  
 **Plans:** 0/2
-
 Plans:
+**Wave 1**
+
 - [ ] 30-01-PLAN.md — Helper `crud-flow.js` + spec `crud.vanilla.spec.js`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 30-02-PLAN.md — Config Playwright, docs CRUD y verificación `npm run test:e2e`
 
 **Success criteria:**
+
 1. Tras login UI, el spec crea un usuario con email único y lo ve en la tabla.
 2. El spec edita nombre y/o email y verifica el cambio en UI.
 3. El spec elimina el usuario y la fila desaparece.
@@ -43,6 +48,7 @@ Plans:
 **Plans:** 0/0
 
 **Success criteria:**
+
 1. Spec React (`:5174`) pasa create → edit → delete con el helper compartido.
 2. Spec Vue (`:5175`) pasa el mismo flujo.
 3. `npm run test:e2e` ejecuta smoke auth + CRUD (6 specs o proyectos equivalentes).
@@ -58,6 +64,7 @@ Plans:
 **Plans:** 0/0
 
 **Success criteria:**
+
 1. Config o perfil Playwright arranca API con `DATABASE_URL` apuntando a BD de test (`edf_lab_e2e`).
 2. Auth smoke pasa contra Postgres; CRUD smoke pasa o queda documentado si se limita a smoke en PG.
 3. CI o script local documentado para levantar Postgres de test antes de E2E PG.
@@ -73,6 +80,7 @@ Plans:
 **Plans:** 0/0
 
 **Success criteria:**
+
 1. Job `e2e-smoke` (o hermano) ejecuta Chromium y Firefox en CI.
 2. WebKit: job opcional en CI o instrucción explícita `npx playwright install webkit` en docs.
 3. Mission 17 publicada con objetivo, pasos, resultado y reto extra.

@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Advanced E2E
-status: planning
-last_updated: "2026-06-15"
-last_activity: 2026-06-15 — Milestone v2.1 started (requirements + roadmap)
+status: executing
+last_updated: "2026-06-15T10:08:46.264Z"
+last_activity: 2026-06-15 -- Phase 30 planning complete
 progress:
   total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 2
   completed_plans: 0
   percent: 0
 ---
@@ -27,8 +27,8 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 Phase: **30 — CRUD E2E vanilla** (not started)  
 Plan: —  
-Status: Requirements and roadmap defined  
-Last activity: 2026-06-15 — Milestone v2.1 initialized
+Status: Ready to execute
+Last activity: 2026-06-15 -- Phase 30 planning complete
 
 ## Milestone Status
 
