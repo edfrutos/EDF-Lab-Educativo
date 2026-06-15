@@ -9,14 +9,14 @@ Requirements for **Advanced E2E**. Phases 30–33.
 
 ### CRUD E2E (Playwright)
 
-- [ ] **QA-ADV-01**: Shared `crud-flow` helper (unique email per run, create → edit name/email → delete) and vanilla CRUD E2E spec after UI login (`:5173`).
-- [ ] **QA-ADV-02**: React (`:5174`) and Vue (`:5175`) CRUD E2E specs using the same helper and assertions as QA-ADV-01.
+- [x] **QA-ADV-01**: Shared `crud-flow` helper (unique email per run, create → edit name/email → delete) and vanilla CRUD E2E spec after UI login (`:5173`).
+- [x] **QA-ADV-02**: React (`:5174`) and Vue (`:5175`) CRUD E2E specs using the same helper and assertions as QA-ADV-01.
 
 ### Postgres & Multi-browser E2E
 
-- [ ] **QA-ADV-03**: Playwright `webServer` can start the API with `DATABASE_URL` against an isolated Postgres test DB; auth smoke (and CRUD smoke if PG-stable) passes without SQLite `DB_FILE`.
+- [x] **QA-ADV-03**: Playwright `webServer` can start the API with `DATABASE_URL` against an isolated Postgres test DB; auth smoke (and CRUD smoke if PG-stable) passes without SQLite `DB_FILE`.
 - [ ] **QA-ADV-04**: CI E2E job runs Chromium and Firefox; WebKit runs locally or via documented optional CI step (no silent skip without doc).
-- [ ] **QA-CI-05**: Postgres E2E uses a dedicated test database name (e.g. `edf_lab_e2e`), never the dev `edf_lab` volume.
+- [x] **QA-CI-05**: Postgres E2E uses a dedicated test database name (e.g. `edf_lab_e2e`), never the dev `edf_lab` volume.
 
 ### Learning Documentation
 
@@ -56,10 +56,10 @@ Requirements for **Advanced E2E**. Phases 30–33.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| QA-ADV-01 | Phase 30 | Pending |
-| QA-ADV-02 | Phase 31 | Pending |
-| QA-ADV-03 | Phase 32 | Pending |
-| QA-CI-05 | Phase 32 | Pending |
+| QA-ADV-01 | Phase 30 | Complete |
+| QA-ADV-02 | Phase 31 | Complete |
+| QA-ADV-03 | Phase 32 | Complete |
+| QA-CI-05 | Phase 32 | Complete |
 | QA-ADV-04 | Phase 33 | Pending |
 | DOCS-01 | Phase 33 | Pending |
 | DOCS-02 | Phase 33 | Pending |

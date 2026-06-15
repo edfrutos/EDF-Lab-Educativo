@@ -65,12 +65,12 @@ Plans:
 
 ---
 
-### Phase 32: E2E contra API Postgres
+### Phase 32: E2E contra API Postgres ✅
 
 **Goal:** La suite E2E puede arrancar la API contra Postgres aislado, no solo SQLite `e2e.users.db`.  
 **Depends on:** Phase 31 (CRUD estable en SQLite)  
 **Requirements:** QA-ADV-03, QA-CI-05  
-**Plans:** 2/2 complete — executed 2026-06-15
+**Plans:** 2/2 complete — **Verified 2026-06-15** (`32-VERIFICATION.md`, passed 8/8)
 
 Plans:
 **Wave 1**
@@ -134,7 +134,8 @@ See `.planning/milestones/` archives.
 |-------|-----------|----------------|--------|-----------|
 | 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 31 | v2.1 | 2/2 | Complete | 2026-06-15 |
-| 32 | v2.1 | 2/2 | Executed | 2026-06-15 |
+| 32 | v2.1 | 2/2 | Complete | 2026-06-15 |
+| 33 | v2.1 | — | Not started | — |
 | 33 | v2.1 | — | Not started | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
