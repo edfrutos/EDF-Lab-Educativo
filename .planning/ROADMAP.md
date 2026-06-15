@@ -144,8 +144,7 @@ See `.planning/milestones/` archives.
 | 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 31 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 32 | v2.1 | 2/2 | Complete | 2026-06-15 |
-| 33 | v2.1 | — | Not started | — |
-| 33 | v2.1 | — | Not started | — |
+| 33 | v2.1 | 0/2 | Planned | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 

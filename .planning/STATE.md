@@ -25,12 +25,12 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 ## Current Position
 
-Phase: 32 — COMPLETE
-Plan: —  
-Status: Ready to execute
-Last activity: 2026-06-15 -- Phase 33 planning complete
+Phase: **33 — Multi-browser CI y material didáctico**  
+Plan: 0/2 planned  
+Status: Ready to execute  
+Last activity: 2026-06-15 — Phase 33 planned (2 plans, 2 waves)
 
-**Current focus:** Milestone v2.1 Advanced E2E — Phase 33 next
+**Current focus:** Milestone v2.1 Advanced E2E — execute Phase 33 (última fase v2.1)
 
 ## Milestone Status
 
@@ -50,7 +50,7 @@ Last activity: 2026-06-15 -- Phase 33 planning complete
 
 Last session: 2026-06-15  
 Stopped at: Phase 32 verified  
-Next suggested command: `/gsd-plan-phase 33`
+Next suggested command: `/gsd-execute-phase 33`
 
 ## Deferred Items
 
