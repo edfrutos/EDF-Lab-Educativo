@@ -191,6 +191,58 @@ Errores y patrones de las fases 22–25: login en React/Vue, rate limit, CI y do
 
 ---
 
+## Quality & CI (v2.0)
+
+Errores y patrones de las fases 26–29: Playwright E2E, tres dashboards en CI y Postgres obligatorio en PRs. Guías: [`docs/10-tests.md`](./docs/10-tests.md), [`missions/16-smoke-e2e-playwright.md`](./missions/16-smoke-e2e-playwright.md).
+
+### Playwright: `getByLabel('Email')` resuelve a 2 elementos
+
+**Síntoma:** `npm run test:e2e` falla en vanilla con *strict mode violation*: `getByLabel('Email') resolved to 2 elements` (`#login-email` y `#user-email-input` del CRUD).
+
+**Causa:** El dashboard vanilla muestra el formulario de login y, en el DOM, el input de email del CRUD (aunque el panel esté oculto). Playwright cuenta ambos labels «Email».
+
+**Solución:** Acota el selector al formulario de login — por ejemplo `page.locator('#login-form').getByLabel('Email')` o `page.locator('#login-email')`. El helper [`e2e/helpers/auth-smoke-flow.js`](./e2e/helpers/auth-smoke-flow.js) usa `#login-email`, válido también en React/Vue.
+
+**Aprendizaje:** `getByRole` / `getByLabel` globales pueden colisionar; alinea selectores entre los tres paneles.
+
+*Error real (fase 26 / primer smoke E2E).*
+
+---
+
+### Playwright: `ERR_CONNECTION_REFUSED` con tres proyectos en paralelo
+
+**Síntoma:** Los tres specs (`vanilla`, `react`, `vue`) fallan al instante con `net::ERR_CONNECTION_REFUSED` en `:5173`, `:5174` o `:5175`.
+
+**Causa:** Cada proyecto tenía su propio `webServer` incluyendo la API en `:3100`. Con **varios workers**, varios procesos intentan bindear el mismo puerto o los servidores no llegan a estar listos.
+
+**Solución:** Un único array `webServer` en la raíz de `e2e/playwright.config.js` (API + vanilla + React + Vue) y tres **proyectos** que solo cambian `baseURL` y `testMatch`. En CI, `workers: 1` reduce flakes.
+
+**Aprendizaje:** Orquestación de puertos es responsabilidad del config E2E, no del código de producción.
+
+*Error real (fase 27 / multi-dashboard).*
+
+---
+
+### `test:pg` en local sin Postgres en marcha
+
+**Síntoma:** `cd api && npm run test:pg` falla con `ECONNREFUSED` o timeout al conectar a `localhost:5432`.
+
+**Causa:** La suite Postgres necesita un servidor escuchando con la base `edf_lab_test`. En CI, el job `test-postgres` levanta `postgres:16`; en local debes arrancarlo tú.
+
+**Solución:**
+
+```bash
+npm run test:db:prepare
+docker compose up -d edf-lab-postgres
+cd api && npm run test:pg
+```
+
+**Aprendizaje:** Desde v2.0, Postgres en PRs no es opcional — el mismo contrato debe funcionar en tu máquina antes de abrir el PR.
+
+*Error real (fase 28 / adopción CI obligatorio).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

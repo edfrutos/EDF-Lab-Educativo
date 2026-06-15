@@ -123,6 +123,14 @@ Tras v1.5, con React/Vue opcionales:
 2. [`missions/15-framework-auth-login-crud.md`](./missions/15-framework-auth-login-crud.md) — práctica en `:5174` o `:5175`.
 3. [`docs/10-tests.md`](./docs/10-tests.md#ci-en-github-actions) — CI: sqlite + postgres + E2E smoke (tres jobs en PRs).
 
+### Ruta avanzada v2.0 (Quality & CI)
+
+Tras v1.6:
+
+1. [`docs/10-tests.md`](./docs/10-tests.md#smoke-e2e-playwright) — E2E local y matriz de tres jobs.
+2. [`missions/16-smoke-e2e-playwright.md`](./missions/16-smoke-e2e-playwright.md) — práctica smoke y lectura de fallos.
+3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Quality & CI (v2.0).
+
 Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 
 ### Opcional (avanzado): dashboard React

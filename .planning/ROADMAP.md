@@ -22,7 +22,7 @@
 - [x] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
 - [x] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
 - [x] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
-- [ ] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
+- [x] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
 
 ## Phase Details
 
@@ -82,7 +82,11 @@ Plans:
   2. Mission 16 guía ejecutar smoke E2E en local e interpretar un trace/screenshot de fallo
   3. `NOTEBOOK.md` incluye al menos dos entradas reales v2.0 (fricción E2E o Postgres CI) con causa y solución
   4. Tabla didáctica contrasta `AUTH_DISABLED=1` (supertest) vs login UI en E2E; duración esperada de CI documentada
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [x] 29-01 — docs/10-tests.md v2.0 + Mission 16 + índice
+- [x] 29-02 — NOTEBOOK v2.0 + CHANGELOG + README ruta v2.0
 
 <details>
 <summary>✅ v1.6 Framework Auth & CI (Phases 22–25) — SHIPPED 2026-06-14</summary>
@@ -150,7 +154,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 | 26. Fundación E2E Playwright (vanilla) | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 27. E2E multi-dashboard | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 28. Postgres CI obligatorio | v2.0 | 2/2 | Complete | 2026-06-15 |
-| 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |
+| 29. Material didáctico Quality & CI | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 | 18–21 | v1.5 | 9/9 | Complete | 2026-06-02 |
 | 1–17 | v1.0–v1.4 | — | Complete | 2026-05-26 → 2026-06-01 |

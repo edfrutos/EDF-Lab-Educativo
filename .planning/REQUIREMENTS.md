@@ -24,9 +24,9 @@ Requirements for **Quality & CI**. Phases 26–29.
 
 ### Learning Documentation
 
-- [ ] **DOCS-01**: `docs/10-tests.md` documents local E2E setup, CI job matrix, and Postgres PR requirement.
-- [ ] **DOCS-02**: Mission 16 guides running smoke E2E locally and reading a failing trace.
-- [ ] **DOCS-03**: At least two real E2E or Postgres-CI friction entries in `NOTEBOOK.md` (v2.0 section).
+- [x] **DOCS-01**: `docs/10-tests.md` documents local E2E setup, CI job matrix, and Postgres PR requirement.
+- [x] **DOCS-02**: Mission 16 guides running smoke E2E locally and reading a failing trace.
+- [x] **DOCS-03**: At least two real E2E or Postgres-CI friction entries in `NOTEBOOK.md` (v2.0 section).
 
 ## Future Requirements (post-v2.0)
 
@@ -72,9 +72,9 @@ Requirements for **Quality & CI**. Phases 26–29.
 | QA-CI-02 | Phase 27 | Complete |
 | QA-CI-01 | Phase 28 | Complete |
 | QA-CI-03 | Phase 28 | Complete |
-| DOCS-01 | Phase 29 | Pending |
-| DOCS-02 | Phase 29 | Pending |
-| DOCS-03 | Phase 29 | Pending |
+| DOCS-01 | Phase 29 | Complete |
+| DOCS-02 | Phase 29 | Complete |
+| DOCS-03 | Phase 29 | Complete |
 
 **Coverage:**
 - v2.0 requirements: 12 total
