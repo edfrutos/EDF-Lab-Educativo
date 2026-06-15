@@ -10,9 +10,15 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone
+## Current Milestone: v2.1 Advanced E2E
 
-**v2.0 Quality & CI** shipped 2026-06-15 (tag `v2.0`). Planning next milestone with `/gsd-new-milestone`.
+**Goal:** Extender Playwright más allá del smoke de auth — CRUD UI en los tres dashboards, API Postgres en E2E, y multi-browser en CI — con material didáctico que documenta la fricción real.
+
+**Target features:**
+- CRUD E2E completo (vanilla → React/Vue) con helper compartido
+- E2E contra API con `DATABASE_URL` / Postgres aislado
+- Firefox (y WebKit documentado) en la matriz CI
+- Mission 17 + NOTEBOOK v2.1 + `docs/10-tests.md` ampliado
 
 ## Current State (v2.0 shipped 2026-06-15)
 
@@ -94,7 +100,12 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 
 ### Active
 
-_(None — run `/gsd-new-milestone` to define next scope.)_
+- [ ] **QA-ADV-01**: Vanilla CRUD E2E + helper compartido — Phase 30
+- [ ] **QA-ADV-02**: React/Vue CRUD E2E — Phase 31
+- [ ] **QA-ADV-03**: E2E contra API Postgres — Phase 32
+- [ ] **QA-ADV-04**: Multi-browser en CI — Phase 33
+- [ ] **QA-CI-05**: BD Postgres aislada para E2E — Phase 32
+- [ ] **DOCS-01/02/03**: Mission 17, docs tests, NOTEBOOK v2.1 — Phase 33
 
 ### Out of Scope
 
@@ -198,4 +209,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-15 after v2.0 milestone*
+*Last updated: 2026-06-15 — milestone v2.1 Advanced E2E started*
