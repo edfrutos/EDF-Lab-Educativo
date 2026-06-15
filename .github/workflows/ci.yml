@@ -22,7 +22,37 @@ jobs:
       - run: npm ci
       - run: npm run test:sqlite
 
-  # Phase 28: add test-postgres job (postgres:16 + test:pg)
+  test-postgres:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: api
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: edf_lab
+          POSTGRES_PASSWORD: edf_lab_dev
+          POSTGRES_DB: edf_lab_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U edf_lab -d edf_lab_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: api/package-lock.json
+      - run: npm ci
+      - run: npm run test:pg
+        env:
+          DATABASE_URL: postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test
+
   e2e-smoke:
     runs-on: ubuntu-latest
     steps:
