@@ -132,7 +132,41 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
    - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
    - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth en vanilla, React y Vue; **sin** `AUTH_DISABLED`)
 
-La matriz didáctica completa (duración esperada, troubleshooting) se amplía en la fase 29.
+La matriz didáctica completa está en las secciones siguientes. Misión práctica: [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md).
+
+### Por qué Postgres es obligatorio en PRs
+
+Hasta v1.6, CI solo ejecutaba SQLite (`test-sqlite`). Eso cubre CRUD y auth con `node:sqlite`, pero **no** ejercita el camino PostgreSQL: `TRUNCATE`, secuencias, pool `pg` y errores de conexión reales.
+
+| Motivo | Qué evita |
+|--------|-----------|
+| Paridad con Compose/producción | Mergear código que rompe solo con `DATABASE_URL` |
+| Suite duplicada (`index.pg.test.js`) | Regresiones en el adaptador Postgres |
+| Healthcheck en CI | Arrancar tests antes de que Postgres acepte conexiones |
+
+En local puedes seguir con solo SQLite; en **cada PR a `main`**, los tres jobs deben pasar.
+
+### Duración esperada de CI (orientativa)
+
+Los tres jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más lento (suele ser `e2e-smoke`).
+
+| Job | Alcance | Tiempo típico (GitHub Actions) |
+|-----|---------|--------------------------------|
+| `test-sqlite` | 24 tests API (SQLite) | ~20–40 s |
+| `test-postgres` | 23 tests API (Postgres 16) | ~40–90 s |
+| `e2e-smoke` | 3 specs Playwright (Chromium) | ~2–8 min |
+
+Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright install --with-deps`).
+
+### Tres capas de confianza (tabla didáctica)
+
+| Capa | Comando / job | `AUTH_DISABLED` | Qué valida |
+|------|---------------|-----------------|------------|
+| API SQLite | `npm run test:sqlite` / `test-sqlite` | Sí en bloque CRUD | Lógica HTTP, validación, auth en supertest |
+| API Postgres | `npm run test:pg` / `test-postgres` | Sí en bloque CRUD (script) | Lo mismo contra `edf_lab_test` |
+| Browser E2E | `npm run test:e2e` / `e2e-smoke` | **Nunca** | Login UI real, cookie httpOnly, tres orígenes |
+
+`AUTH_DISABLED=1` acelera tests CRUD en supertest **sin** simular al operador en el navegador. E2E enseña el camino que ve el alumno: formulario → cookie → tabla → logout.
 
 ### Postgres en CI (detalle)
 
