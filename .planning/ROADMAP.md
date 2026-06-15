@@ -19,10 +19,10 @@
 
 **Milestone Goal:** Automatizar confianza end-to-end en los tres dashboards y exigir la suite Postgres en cada PR — con material didáctico que convierte fricción real en aprendizaje.
 
-- [ ] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
-- [ ] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
-- [ ] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
-- [ ] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
+- [x] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
+- [x] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
+- [x] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
+- [x] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
 
 ## Phase Details
 
@@ -36,8 +36,12 @@
   3. E2E nunca usa `AUTH_DISABLED`; la cookie `edf_session` se obtiene solo por formulario de login (UI real)
   4. Entorno E2E seguro: credenciales de operador configurables y rate limit elevado para evitar 429 en CI/local
   5. Artefactos Playwright (`test-results/`, `playwright-report/`, `playwright/.auth/`) están en `.gitignore`; cero secretos commiteados
-**Plans**: TBD
+**Plans**: 2 plans
 **UI hint**: yes
+
+Plans:
+- [x] 26-01-PLAN.md — Scaffold Playwright: config dual webServer, smoke auth vanilla, toolchain raíz
+- [x] 26-02-PLAN.md — Documentación E2E en docs/10-tests.md + job CI e2e-smoke vanilla
 
 ### Phase 27: E2E multi-dashboard
 **Goal**: Los tres dashboards pasan el mismo smoke de autenticación y CI ejecuta la suite completa en cada pull request.
@@ -48,8 +52,11 @@
   2. Smoke Vue en `:5175` replica el mismo flujo con proyecto Playwright separado (cookies por origen)
   3. Job GitHub Actions `e2e-smoke` corre Chromium contra los tres dashboards en cada PR a `main`
   4. Selectores estables (`getByRole`/`getByLabel`; `data-testid` mínimos solo si hace falta) no rompen entre vanilla, React y Vue
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 2 plans
+
+Plans:
+- [x] 27-01 — Smoke React/Vue specs + Playwright projects + shared auth flow helper
+- [x] 27-02 — Documentación multi-dashboard + CI e2e-smoke completo
 
 ### Phase 28: Postgres CI obligatorio
 **Goal**: Ningún PR puede mergearse sin pasar la suite Postgres además de SQLite y E2E.
@@ -60,7 +67,11 @@
   2. Job `test-sqlite` existente se mantiene; los tres jobs (`test-sqlite`, `test-postgres`, `e2e-smoke`) son checks requeridos para merge
   3. Postgres CI usa healthcheck con `pg_isready -d edf_lab_test`, DB aislada y `AUTH_DISABLED=1` solo en job API (nunca en E2E)
   4. README/badge reflejan la matriz de tres jobs obligatorios en PRs
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [x] 28-01 — Job test-postgres (postgres:16 + test:pg)
+- [x] 28-02 — Documentación matriz CI tres jobs + README
 
 ### Phase 29: Material didáctico Quality & CI
 **Goal**: El alumno puede reproducir la puerta de calidad v2.0 en local y aprender de errores reales documentados.
@@ -71,7 +82,11 @@
   2. Mission 16 guía ejecutar smoke E2E en local e interpretar un trace/screenshot de fallo
   3. `NOTEBOOK.md` incluye al menos dos entradas reales v2.0 (fricción E2E o Postgres CI) con causa y solución
   4. Tabla didáctica contrasta `AUTH_DISABLED=1` (supertest) vs login UI en E2E; duración esperada de CI documentada
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [x] 29-01 — docs/10-tests.md v2.0 + Mission 16 + índice
+- [x] 29-02 — NOTEBOOK v2.0 + CHANGELOG + README ruta v2.0
 
 <details>
 <summary>✅ v1.6 Framework Auth & CI (Phases 22–25) — SHIPPED 2026-06-14</summary>
@@ -136,10 +151,10 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 26. Fundación E2E Playwright (vanilla) | v2.0 | 0/TBD | Not started | - |
-| 27. E2E multi-dashboard | v2.0 | 0/TBD | Not started | - |
-| 28. Postgres CI obligatorio | v2.0 | 0/TBD | Not started | - |
-| 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |
+| 26. Fundación E2E Playwright (vanilla) | v2.0 | 2/2 | Complete | 2026-06-15 |
+| 27. E2E multi-dashboard | v2.0 | 2/2 | Complete | 2026-06-15 |
+| 28. Postgres CI obligatorio | v2.0 | 2/2 | Complete | 2026-06-15 |
+| 29. Material didáctico Quality & CI | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 | 18–21 | v1.5 | 9/9 | Complete | 2026-06-02 |
 | 1–17 | v1.0–v1.4 | — | Complete | 2026-05-26 → 2026-06-01 |

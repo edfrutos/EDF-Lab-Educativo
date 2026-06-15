@@ -407,7 +407,7 @@ Requisitos para la suite completa: Postgres en `localhost:5432` y base de test c
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`, 23 tests) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` si no existe |
 
-**CI:** push o PR a `main` ejecuta `npm run test:sqlite` en [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Detalle y job Postgres opcional: [`docs/10-tests.md`](../docs/10-tests.md#ci-en-github-actions).
+**CI:** push o PR a `main` ejecuta `test-sqlite`, `test-postgres` y `e2e-smoke` en [`.github/workflows/ci.yml`](../.github/workflows/ci.yml). Detalle: [`docs/10-tests.md`](../docs/10-tests.md#ci-en-github-actions).
 
 **Rate limiting (login):** `POST /auth/login` usa `express-rate-limit`. Variables opcionales en `.env` (ver `.env.example`): `LOGIN_RATE_LIMIT_WINDOW_MS` (por defecto 15 min), `LOGIN_RATE_LIMIT_MAX` (por defecto 10 intentos por IP). Respuesta **429** con JSON en español si se supera el máximo.
 

@@ -8,6 +8,13 @@
     "compose:logs": "docker compose logs -f",
     "test": "npm test --prefix api",
     "test:pg": "npm run test:pg --prefix api",
-    "test:db:prepare": "npm run test:db:prepare --prefix api"
+    "test:db:prepare": "npm run test:db:prepare --prefix api",
+    "test:e2e": "playwright test --config=e2e/playwright.config.js",
+    "test:e2e:ui": "playwright test --config=e2e/playwright.config.js --ui",
+    "test:e2e:headed": "playwright test --config=e2e/playwright.config.js --headed",
+    "playwright:install": "playwright install chromium"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
   }
 }

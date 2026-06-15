@@ -4,6 +4,25 @@ Registro de cambios relevantes del laboratorio.
 
 ---
 
+## v2.0 · Quality & CI (en curso)
+
+**Milestone:** Playwright smoke E2E (3 dashboards) + Postgres CI obligatorio en PRs.
+
+### Implementado (fases 26–28)
+
+- **Playwright** en raíz (`e2e/`): smoke auth vanilla, React y Vue; job `e2e-smoke` en GitHub Actions.
+- Job **`test-postgres`** obligatorio (`postgres:16`, `npm run test:pg`).
+- Matriz CI: `test-sqlite` + `test-postgres` + `e2e-smoke` en paralelo.
+
+### Documentado (fase 29)
+
+- [`docs/10-tests.md`](./docs/10-tests.md): matriz CI, duración orientativa, por qué Postgres en PRs, tabla tres capas.
+- Nueva misión [`missions/16-smoke-e2e-playwright.md`](./missions/16-smoke-e2e-playwright.md).
+- [`docs/00-indice.md`](./docs/00-indice.md) y [`README.md`](./README.md): ruta v2.0.
+- [`NOTEBOOK.md`](./NOTEBOOK.md): sección Quality & CI (v2.0).
+
+---
+
 ## v1.6 · Framework Auth & CI (2026-06-14)
 
 **Tag:** `v1.6` · **Shipped:** merge PR #6

@@ -45,6 +45,48 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea la base `edf_lab_test` si no existe |
+| `npm run test:e2e` | Smoke auth en los 3 dashboards (Playwright; raíz del repo) |
+| `npm run test:e2e:ui` | Modo UI Playwright para depurar |
+| `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
+
+## Smoke E2E (Playwright)
+
+Prueba de humo en el **navegador** de los tres dashboards (`:5173` vanilla, `:5174` React, `:5175` Vue): gate de login → credenciales del operador → tabla de usuarios visible → cerrar sesión → gate de nuevo. Playwright arranca la API (`:3100`) y el frontend de cada proyecto; no hace falta levantar terminales a mano.
+
+### Setup (primera vez)
+
+```bash
+# Desde la raíz del repositorio
+npm install
+npm run playwright:install
+cd api && npm ci && cd ..
+cd dashboard-react && npm ci && cd ..
+cd dashboard-vue && npm ci && cd ..
+```
+
+### Ejecutar
+
+```bash
+npm run test:e2e
+npm run test:e2e:ui    # depuración interactiva
+```
+
+### Auth en tests API vs E2E
+
+| Contexto | `AUTH_DISABLED` | Autenticación |
+|----------|-----------------|---------------|
+| Tests API (`npm run test:sqlite`) | Sí (CRUD sin cookie) | Bloque «Autenticación API» prueba login real |
+| Smoke E2E (`npm run test:e2e`) | **No** | Solo login UI (3 proyectos Playwright) |
+
+Más contexto: [`17-autenticacion.md`](./17-autenticacion.md).
+
+La matriz CI completa (sqlite + postgres + e2e en PRs) está en [CI en GitHub Actions](#ci-en-github-actions).
+
+### Troubleshooting E2E
+
+- **Puertos ocupados:** `lsof -i :3100 -i :5173 -i :5174 -i :5175` — cierra procesos viejos antes de `npm run test:e2e`.
+- **Estado raro en SQLite E2E:** borra `api/data/e2e.users.db` y vuelve a ejecutar.
+- **CI:** con `CI=true`, Playwright no reutiliza servidores locales (`reuseExistingServer: false`).
 
 Antes de la suite Postgres:
 
@@ -85,13 +127,59 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
-3. `npm ci` y `npm run test:sqlite` dentro de `api/`
+3. **Tres jobs en paralelo** (todos obligatorios en PRs a `main`):
+   - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
+   - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
+   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth en vanilla, React y Vue; **sin** `AUTH_DISABLED`)
 
-Eso corre **24 tests** (CRUD, autenticación y rate limit de login) sin necesitar Postgres ni Docker. Así cualquier contribución recibe feedback automático aunque no tengas una base PostgreSQL local.
+La matriz didáctica completa está en las secciones siguientes. Misión práctica: [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md).
 
-### Job Postgres opcional (avanzado)
+### Por qué Postgres es obligatorio en PRs
 
-El workflow por defecto **no** incluye Postgres: muchos alumnos trabajan solo con SQLite. Si quieres extender CI con la suite Postgres, añade un segundo job (o sustituye el existente) con un servicio de base de datos y los mismos pasos que usas en local:
+Hasta v1.6, CI solo ejecutaba SQLite (`test-sqlite`). Eso cubre CRUD y auth con `node:sqlite`, pero **no** ejercita el camino PostgreSQL: `TRUNCATE`, secuencias, pool `pg` y errores de conexión reales.
+
+| Motivo | Qué evita |
+|--------|-----------|
+| Paridad con Compose/producción | Mergear código que rompe solo con `DATABASE_URL` |
+| Suite duplicada (`index.pg.test.js`) | Regresiones en el adaptador Postgres |
+| Healthcheck en CI | Arrancar tests antes de que Postgres acepte conexiones |
+
+En local puedes seguir con solo SQLite; en **cada PR a `main`**, los tres jobs deben pasar.
+
+### Duración esperada de CI (orientativa)
+
+Los tres jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más lento (suele ser `e2e-smoke`).
+
+| Job | Alcance | Tiempo típico (GitHub Actions) |
+|-----|---------|--------------------------------|
+| `test-sqlite` | 24 tests API (SQLite) | ~20–40 s |
+| `test-postgres` | 23 tests API (Postgres 16) | ~40–90 s |
+| `e2e-smoke` | 3 specs Playwright (Chromium) | ~2–8 min |
+
+Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright install --with-deps`).
+
+### Tres capas de confianza (tabla didáctica)
+
+| Capa | Comando / job | `AUTH_DISABLED` | Qué valida |
+|------|---------------|-----------------|------------|
+| API SQLite | `npm run test:sqlite` / `test-sqlite` | Sí en bloque CRUD | Lógica HTTP, validación, auth en supertest |
+| API Postgres | `npm run test:pg` / `test-postgres` | Sí en bloque CRUD (script) | Lo mismo contra `edf_lab_test` |
+| Browser E2E | `npm run test:e2e` / `e2e-smoke` | **Nunca** | Login UI real, cookie httpOnly, tres orígenes |
+
+`AUTH_DISABLED=1` acelera tests CRUD en supertest **sin** simular al operador en el navegador. E2E enseña el camino que ve el alumno: formulario → cookie → tabla → logout.
+
+### Postgres en CI (detalle)
+
+El job `test-postgres` usa el mismo contrato que en local:
+
+| Variable / servicio | Valor |
+|---------------------|-------|
+| Imagen | `postgres:16` |
+| Usuario / contraseña | `edf_lab` / `edf_lab_dev` |
+| Base de tests | `edf_lab_test` |
+| `DATABASE_URL` | `postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test` |
+
+`POSTGRES_DB: edf_lab_test` en el servicio crea la base al arrancar; no hace falta `npm run test:db:prepare` en CI.
 
 **Prerrequisitos locales (referencia):**
 
@@ -101,42 +189,7 @@ docker compose up -d edf-lab-postgres
 cd api && npm run test:pg
 ```
 
-**Ejemplo de fragmento YAML** (no está en el repo por defecto — cópialo como extensión didáctica):
-
-```yaml
-  test-postgres:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: api
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: edf_lab
-          POSTGRES_PASSWORD: edf_lab_dev
-          POSTGRES_DB: edf_lab_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U edf_lab -d edf_lab_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: api/package-lock.json
-      - run: npm ci
-      - run: npm run test:pg
-        env:
-          DATABASE_URL: postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test
-```
-
-Ajusta usuario, contraseña y nombre de base si tu entorno de pruebas difiere. Ver también [`15-postgresql.md`](./15-postgresql.md).
+Fragmento equivalente en [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (job `test-postgres`). Más contexto: [`15-postgresql.md`](./15-postgresql.md).
 
 ## JSON vs SQLite (cuándo usar cada uno)
 

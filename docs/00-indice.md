@@ -40,8 +40,17 @@ Después de v1.5 y con React/Vue opcionales:
 
 1. [`16-frameworks.md`](./16-frameworks.md) — sección **Autenticación y los tres paneles** (vanilla / React `onLogin` / Vue `emit`).
 2. [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — login → CRUD → logout en `:5174` o `:5175`.
-3. [`10-tests.md`](./10-tests.md#ci-en-github-actions) — CI en GitHub Actions y tests SQLite (24).
-4. READMEs [`dashboard-react/`](../dashboard-react/) y [`dashboard-vue/`](../dashboard-vue/).
+3. [`10-tests.md`](./10-tests.md#ci-en-github-actions) — CI: sqlite + postgres + E2E smoke (tres jobs en PRs).
+4. [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — práctica Playwright smoke local.
+5. READMEs [`dashboard-react/`](../dashboard-react/) y [`dashboard-vue/`](../dashboard-vue/).
+
+### Ruta avanzada v2.0 (Quality & CI)
+
+Tras v1.6, cuando quieras reproducir la puerta de calidad completa:
+
+1. [`10-tests.md`](./10-tests.md#smoke-e2e-playwright) — setup E2E, matriz CI y tabla `AUTH_DISABLED` vs browser.
+2. [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — `npm run test:e2e`, traces y screenshots.
+3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Quality & CI (v2.0)** (errores reales E2E y Postgres CI).
 
 ## Documentos
 
@@ -76,7 +85,7 @@ Después de v1.5 y con React/Vue opcionales:
     Define los términos clave del laboratorio organizados por bloques temáticos.
 
 11. [`10-tests.md`](./10-tests.md)  
-    Suite de tests, CI en GitHub Actions y scripts `test:sqlite` / `test:pg`.
+    Suite de tests, smoke E2E Playwright, CI (sqlite + postgres + e2e) y scripts `test:sqlite` / `test:pg` / `test:e2e`.
 
 12. [`11-openapi.md`](./11-openapi.md) *(avanzado, opcional)*  
     Explica qué es OpenAPI, cómo leer el YAML de la spec y por qué los equipos usan contratos formales.
@@ -124,3 +133,4 @@ Después de v1.5 y con React/Vue opcionales:
 - [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) — API + React o Vue: CRUD e inspección en pestaña Network. *(avanzado, opcional)*
 - [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — Login, CRUD protegido, logout e inspección de cookie en DevTools. *(avanzado, v1.5)*
 - [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — Mismo flujo en React `:5174` o Vue `:5175` (v1.6). *(avanzado, opcional)*
+- [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — Smoke E2E con Playwright (tres dashboards, traces). *(avanzado, v2.0)*
