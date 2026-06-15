@@ -45,7 +45,16 @@ Plans:
 **Goal:** React y Vue repiten el mismo ciclo CRUD que vanilla sin duplicar lógica de aserciones.  
 **Depends on:** Phase 30  
 **Requirements:** QA-ADV-02  
-**Plans:** 0/0
+**Plans:** 0/2
+
+Plans:
+**Wave 1**
+
+- [ ] 31-01-PLAN.md — IDs CRUD en React/Vue + specs `crud.react` / `crud.vue`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 31-02-PLAN.md — testMatch Playwright, docs multi-dashboard, verificación 6 tests
 
 **Success criteria:**
 

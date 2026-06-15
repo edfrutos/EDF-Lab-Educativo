@@ -2,14 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Advanced E2E
-status: completed
-stopped_at: v2.1 milestone initialized (phases 30–33)
-last_updated: "2026-06-15T14:55:25.092Z"
-last_activity: 2026-06-15 -- Phase 30 marked complete
+status: executing
+last_updated: "2026-06-15T15:48:28.839Z"
+last_activity: 2026-06-15 -- Phase 31 planning complete
 progress:
   total_phases: 4
   completed_phases: 1
-  total_plans: 2
+  total_plans: 4
   completed_plans: 2
   percent: 25
 ---
@@ -28,8 +27,8 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 Phase: **31 — CRUD E2E multi-dashboard** (not started)  
 Plan: —  
-Status: Phase 30 verified (passed 7/7)  
-Last activity: 2026-06-15 — Phase 30 verification passed
+Status: Ready to execute
+Last activity: 2026-06-15 -- Phase 31 planning complete
 
 ## Milestone Status
 
