@@ -67,7 +67,11 @@ Plans:
   2. Job `test-sqlite` existente se mantiene; los tres jobs (`test-sqlite`, `test-postgres`, `e2e-smoke`) son checks requeridos para merge
   3. Postgres CI usa healthcheck con `pg_isready -d edf_lab_test`, DB aislada y `AUTH_DISABLED=1` solo en job API (nunca en E2E)
   4. README/badge reflejan la matriz de tres jobs obligatorios en PRs
-**Plans**: TBD
+**Plans**: 2 plans
+
+Plans:
+- [x] 28-01 — Job test-postgres (postgres:16 + test:pg)
+- [x] 28-02 — Documentación matriz CI tres jobs + README
 
 ### Phase 29: Material didáctico Quality & CI
 **Goal**: El alumno puede reproducir la puerta de calidad v2.0 en local y aprender de errores reales documentados.

@@ -17,9 +17,9 @@ Requirements for **Quality & CI**. Phases 26–29.
 
 ### CI (Postgres + E2E)
 
-- [ ] **QA-CI-01**: GitHub Actions job runs `npm run test:pg` against `postgres:16` service on every pull request to `main`.
+- [x] **QA-CI-01**: GitHub Actions job runs `npm run test:pg` against `postgres:16` service on every pull request to `main`.
 - [x] **QA-CI-02**: GitHub Actions job runs Playwright smoke suite on every pull request (Chromium; API on isolated SQLite).
-- [ ] **QA-CI-03**: Existing `test-sqlite` job remains; all three jobs (sqlite, postgres, e2e) are required for merge.
+- [x] **QA-CI-03**: Existing `test-sqlite` job remains; all three jobs (sqlite, postgres, e2e) are required for merge.
 - [x] **QA-CI-04**: CI sets safe test env for E2E (admin seed credentials, elevated `LOGIN_RATE_LIMIT_MAX` or equivalent to avoid 429 flakes).
 
 ### Learning Documentation
