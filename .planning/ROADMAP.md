@@ -20,7 +20,7 @@
 **Milestone Goal:** Automatizar confianza end-to-end en los tres dashboards y exigir la suite Postgres en cada PR — con material didáctico que convierte fricción real en aprendizaje.
 
 - [x] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
-- [ ] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
+- [x] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
 - [ ] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
 - [ ] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
 
@@ -52,8 +52,11 @@ Plans:
   2. Smoke Vue en `:5175` replica el mismo flujo con proyecto Playwright separado (cookies por origen)
   3. Job GitHub Actions `e2e-smoke` corre Chromium contra los tres dashboards en cada PR a `main`
   4. Selectores estables (`getByRole`/`getByLabel`; `data-testid` mínimos solo si hace falta) no rompen entre vanilla, React y Vue
-**Plans**: TBD
-**UI hint**: yes
+**Plans**: 2 plans
+
+Plans:
+- [x] 27-01 — Smoke React/Vue specs + Playwright projects + shared auth flow helper
+- [x] 27-02 — Documentación multi-dashboard + CI e2e-smoke completo
 
 ### Phase 28: Postgres CI obligatorio
 **Goal**: Ningún PR puede mergearse sin pasar la suite Postgres además de SQLite y E2E.
@@ -141,7 +144,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 26. Fundación E2E Playwright (vanilla) | v2.0 | 2/2 | Complete | 2026-06-15 |
-| 27. E2E multi-dashboard | v2.0 | 0/TBD | Not started | - |
+| 27. E2E multi-dashboard | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 28. Postgres CI obligatorio | v2.0 | 0/TBD | Not started | - |
 | 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |

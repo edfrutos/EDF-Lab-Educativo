@@ -9,18 +9,18 @@ Requirements for **Quality & CI**. Phases 26–29.
 
 ### E2E Smoke Auth (Playwright)
 
-- [ ] **QA-E2E-01**: Playwright (`@playwright/test`) lives at repo root in `e2e/` with config that starts API `:3100` and dashboards as needed (no `AUTH_DISABLED` in E2E).
-- [ ] **QA-E2E-02**: Vanilla smoke (`:5173`): login gate → valid operator login → users table shows data → logout → gate returns.
-- [ ] **QA-E2E-03**: React smoke (`:5174`): same auth flow as QA-E2E-02.
-- [ ] **QA-E2E-04**: Vue smoke (`:5175`): same auth flow as QA-E2E-02.
-- [ ] **QA-E2E-05**: Root script (e.g. `npm run test:e2e`) runs the smoke suite locally; documented in `docs/10-tests.md`.
+- [x] **QA-E2E-01**: Playwright (`@playwright/test`) lives at repo root in `e2e/` with config that starts API `:3100` and dashboards as needed (no `AUTH_DISABLED` in E2E).
+- [x] **QA-E2E-02**: Vanilla smoke (`:5173`): login gate → valid operator login → users table shows data → logout → gate returns.
+- [x] **QA-E2E-03**: React smoke (`:5174`): same auth flow as QA-E2E-02.
+- [x] **QA-E2E-04**: Vue smoke (`:5175`): same auth flow as QA-E2E-02.
+- [x] **QA-E2E-05**: Root script (e.g. `npm run test:e2e`) runs the smoke suite locally; documented in `docs/10-tests.md`.
 
 ### CI (Postgres + E2E)
 
 - [ ] **QA-CI-01**: GitHub Actions job runs `npm run test:pg` against `postgres:16` service on every pull request to `main`.
-- [ ] **QA-CI-02**: GitHub Actions job runs Playwright smoke suite on every pull request (Chromium; API on isolated SQLite).
+- [x] **QA-CI-02**: GitHub Actions job runs Playwright smoke suite on every pull request (Chromium; API on isolated SQLite).
 - [ ] **QA-CI-03**: Existing `test-sqlite` job remains; all three jobs (sqlite, postgres, e2e) are required for merge.
-- [ ] **QA-CI-04**: CI sets safe test env for E2E (admin seed credentials, elevated `LOGIN_RATE_LIMIT_MAX` or equivalent to avoid 429 flakes).
+- [x] **QA-CI-04**: CI sets safe test env for E2E (admin seed credentials, elevated `LOGIN_RATE_LIMIT_MAX` or equivalent to avoid 429 flakes).
 
 ### Learning Documentation
 
@@ -63,13 +63,13 @@ Requirements for **Quality & CI**. Phases 26–29.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| QA-E2E-01 | Phase 26 | Pending |
-| QA-E2E-02 | Phase 26 | Pending |
-| QA-E2E-05 | Phase 26 | Pending |
-| QA-CI-04 | Phase 26 | Pending |
-| QA-E2E-03 | Phase 27 | Pending |
-| QA-E2E-04 | Phase 27 | Pending |
-| QA-CI-02 | Phase 27 | Pending |
+| QA-E2E-01 | Phase 26 | Complete |
+| QA-E2E-02 | Phase 26 | Complete |
+| QA-E2E-05 | Phase 26 | Complete |
+| QA-CI-04 | Phase 26 | Complete |
+| QA-E2E-03 | Phase 27 | Complete |
+| QA-E2E-04 | Phase 27 | Complete |
+| QA-CI-02 | Phase 27 | Complete |
 | QA-CI-01 | Phase 28 | Pending |
 | QA-CI-03 | Phase 28 | Pending |
 | DOCS-01 | Phase 29 | Pending |
