@@ -99,7 +99,7 @@ En **v1.3**, `npm run compose:up` levanta **tres servicios** (Postgres + API + d
 
 Guías: [`docs/14-docker-compose.md`](./docs/14-docker-compose.md), [`docs/15-postgresql.md`](./docs/15-postgresql.md), [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) (secretos y TLS). Misiones: [`missions/11-arrancar-con-compose.md`](./missions/11-arrancar-con-compose.md), [`missions/12-postgres-compose-crud.md`](./missions/12-postgres-compose-crud.md).
 
-Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **47 tests** si Postgres está en marcha (24 en SQLite + 23 en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (**24 tests**). **CI:** cada push o PR a `main` ejecuta cuatro jobs en paralelo (`test-sqlite`, `test-postgres`, `e2e-smoke`, `e2e-postgres`) — ver [`docs/10-tests.md`](./docs/10-tests.md#ci-en-github-actions).
+Tests: `npm run test:db:prepare` (desde la raíz) y luego `npm test` — **47 tests** si Postgres está en marcha (24 en SQLite + 23 en Postgres). Solo SQLite: `npm run test:sqlite --prefix api` (**24 tests**). **CI:** cada push o PR a `main` ejecuta cuatro jobs en paralelo (`test-sqlite`, `test-postgres`, `e2e-smoke` con Chromium+Firefox, `e2e-postgres`) — ver [`docs/10-tests.md`](./docs/10-tests.md#ci-en-github-actions).
 
 Autenticación: las rutas `/users` requieren login de operador. Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). Misión práctica: [`missions/14-auth-vanilla-login-crud.md`](./missions/14-auth-vanilla-login-crud.md). En el dashboard vanilla usa `admin@lab.local` / `changeme` por defecto (`api/.env`).
 
@@ -127,9 +127,17 @@ Tras v1.5, con React/Vue opcionales:
 
 Tras v1.6:
 
-1. [`docs/10-tests.md`](./docs/10-tests.md#smoke-e2e-playwright) — E2E local y matriz de tres jobs.
+1. [`docs/10-tests.md`](./docs/10-tests.md#smoke-e2e-playwright) — E2E local y matriz de jobs CI.
 2. [`missions/16-smoke-e2e-playwright.md`](./missions/16-smoke-e2e-playwright.md) — práctica smoke y lectura de fallos.
 3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Quality & CI (v2.0).
+
+### Ruta avanzada v2.1 (Advanced E2E)
+
+Tras v2.0:
+
+1. [`docs/10-tests.md`](./docs/10-tests.md#matriz-de-navegadores-local-vs-ci) — CRUD E2E, Postgres y multi-browser (Chromium/Firefox en CI).
+2. [`missions/17-crud-e2e-playwright.md`](./missions/17-crud-e2e-playwright.md) — CRUD E2E, trace y Network.
+3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Advanced E2E (v2.1).
 
 Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 

@@ -45,10 +45,13 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` y `edf_lab_e2e` si no existen |
-| `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Playwright; SQLite) |
+| `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Chromium; SQLite) |
+| `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (12 tests; usa CI) |
+| `npm run test:e2e:firefox` | Solo Firefox (6 tests; opt-in local) |
 | `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
+| `npm run playwright:install:ci` | Instala Chromium + Firefox (CI / multi-browser local) |
 
 ## Smoke E2E (Playwright)
 
@@ -86,9 +89,9 @@ Mismo ciclo en vanilla (`:5173`), React (`:5174`) y Vue (`:5175`): login UI → 
 Ejecutar solo un spec CRUD:
 
 ```bash
-npx playwright test crud.vanilla --config=e2e/playwright.config.js
-npx playwright test crud.react --config=e2e/playwright.config.js
-npx playwright test crud.vue --config=e2e/playwright.config.js
+npx playwright test crud.vanilla --config=e2e/playwright.config.js --project=vanilla-chromium
+npx playwright test crud.react --config=e2e/playwright.config.js --project=react-chromium
+npx playwright test crud.vue --config=e2e/playwright.config.js --project=vue-chromium
 ```
 
 **Notas didácticas:**
@@ -126,7 +129,31 @@ Config: `e2e/playwright.config.pg.js` inyecta `DATABASE_URL` en el `webServer` d
 
 #### CI
 
-El job **`e2e-postgres`** ejecuta `npm run test:e2e:pg` con servicio `postgres:16` y `POSTGRES_DB: edf_lab_e2e`. Corre en paralelo con `test-sqlite`, `test-postgres` y `e2e-smoke` (SQLite).
+El job **`e2e-postgres`** ejecuta `npm run test:e2e:pg` con servicio `postgres:16` y `POSTGRES_DB: edf_lab_e2e`. Corre en paralelo con `test-sqlite`, `test-postgres` y `e2e-smoke`.
+
+### Matriz de navegadores (local vs CI)
+
+Los proyectos Playwright siguen el patrón `{dashboard}-{browser}` en `e2e/playwright.config.js` (vanilla, react, vue × chromium, firefox). WebKit solo en vanilla.
+
+| Motor | Local | CI `e2e-smoke` | CI `e2e-postgres` |
+|-------|-------|----------------|-------------------|
+| **Chromium** | `npm run test:e2e` (6 tests) | ✓ vía `test:e2e:ci` | ✓ `test:e2e:pg` (6 tests) |
+| **Firefox** | `npm run test:e2e:firefox` (6 tests) | ✓ vía `test:e2e:ci` | — |
+| **WebKit** | `npx playwright install webkit` + `--project=vanilla-webkit` | — (documentado) | — |
+
+Comandos útiles:
+
+```bash
+npm run test:e2e              # 6 tests Chromium (SQLite)
+npm run test:e2e:ci           # 12 tests Chromium + Firefox (como CI e2e-smoke)
+npm run test:e2e:firefox      # 6 tests Firefox
+npx playwright install webkit
+npx playwright test --config=e2e/playwright.config.js --project=vanilla-webkit
+```
+
+Misión CRUD E2E y depuración con trace: [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md).
+
+Resumen v2.1: **CRUD** (`runCrudFlow`, tres dashboards) + **Postgres E2E** (`test:e2e:pg`, `edf_lab_e2e`) + **multi-browser** (Chromium/Firefox en CI).
 
 ### Auth en tests API vs E2E
 
@@ -187,7 +214,7 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 3. **Cuatro jobs en paralelo** (todos obligatorios en PRs a `main`):
    - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
    - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
-   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth + CRUD en vanilla, React y Vue; SQLite; **sin** `AUTH_DISABLED`)
+   - **`e2e-smoke`** — Chromium + Firefox; `npm run test:e2e:ci` (12 tests: smoke auth + CRUD × 3 dashboards × 2 browsers; SQLite; **sin** `AUTH_DISABLED`)
    - **`e2e-postgres`** — mismo setup que `e2e-smoke` pero `npm run test:e2e:pg` contra `edf_lab_e2e` (servicio Postgres con `POSTGRES_DB: edf_lab_e2e`)
 
 La matriz didáctica completa está en las secciones siguientes. Misión práctica: [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md).
@@ -212,7 +239,7 @@ Los cuatro jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más
 |-----|---------|--------------------------------|
 | `test-sqlite` | 24 tests API (SQLite) | ~20–40 s |
 | `test-postgres` | 23 tests API (Postgres 16) | ~40–90 s |
-| `e2e-smoke` | 6 specs Playwright Chromium (SQLite) | ~2–8 min |
+| `e2e-smoke` | 12 specs Playwright Chromium + Firefox (SQLite) | ~3–10 min |
 | `e2e-postgres` | 6 specs Playwright Chromium (Postgres `edf_lab_e2e`) | ~2–8 min |
 
 Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright install --with-deps`).
@@ -223,7 +250,8 @@ Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright i
 |------|---------------|-----------------|------------|
 | API SQLite | `npm run test:sqlite` / `test-sqlite` | Sí en bloque CRUD | Lógica HTTP, validación, auth en supertest |
 | API Postgres | `npm run test:pg` / `test-postgres` | Sí en bloque CRUD (script) | Lo mismo contra `edf_lab_test` |
-| Browser E2E (SQLite) | `npm run test:e2e` / `e2e-smoke` | **Nunca** | Login UI real, cookie httpOnly, tres orígenes |
+| Browser E2E (SQLite, CI) | `npm run test:e2e:ci` / `e2e-smoke` | **Nunca** | 12 tests Chromium + Firefox |
+| Browser E2E (SQLite, local) | `npm run test:e2e` | **Nunca** | 6 tests Chromium |
 | Browser E2E (Postgres) | `npm run test:e2e:pg` / `e2e-postgres` | **Nunca** | Mismos 6 tests con API en `edf_lab_e2e` |
 
 `AUTH_DISABLED=1` acelera tests CRUD en supertest **sin** simular al operador en el navegador. E2E enseña el camino que ve el alumno: formulario → cookie → tabla → logout.

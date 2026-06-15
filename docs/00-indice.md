@@ -52,6 +52,14 @@ Tras v1.6, cuando quieras reproducir la puerta de calidad completa:
 2. [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — `npm run test:e2e`, traces y screenshots.
 3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Quality & CI (v2.0)** (errores reales E2E y Postgres CI).
 
+### Ruta avanzada v2.1 (Advanced E2E)
+
+Tras v2.0, cuando quieras CRUD E2E, Postgres y multi-browser:
+
+1. [`10-tests.md`](./10-tests.md#crud-e2e-tres-dashboards) — CRUD E2E, Postgres (`test:e2e:pg`) y [matriz de navegadores](./10-tests.md#matriz-de-navegadores-local-vs-ci).
+2. [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md) — `runCrudFlow`, trace y Network.
+3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Advanced E2E (v2.1)**.
+
 ## Documentos
 
 1. [`01-arquitectura.md`](./01-arquitectura.md)  
@@ -134,3 +142,4 @@ Tras v1.6, cuando quieras reproducir la puerta de calidad completa:
 - [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — Login, CRUD protegido, logout e inspección de cookie en DevTools. *(avanzado, v1.5)*
 - [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — Mismo flujo en React `:5174` o Vue `:5175` (v1.6). *(avanzado, opcional)*
 - [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — Smoke E2E con Playwright (tres dashboards, traces). *(avanzado, v2.0)*
+- [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md) — CRUD E2E, trace y depuración Network (v2.1). *(avanzado, v2.1)*

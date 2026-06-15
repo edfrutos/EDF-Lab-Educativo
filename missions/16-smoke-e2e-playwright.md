@@ -41,12 +41,12 @@ Cierra procesos viejos (tmux, `npm start`, `npm run dev`) si los hay.
 npm run test:e2e
 ```
 
-Debes ver **3 tests passed** (proyectos `vanilla`, `react`, `vue`). Playwright arranca la API y los tres frontends vía `e2e/playwright.config.js`.
+Debes ver **6 tests passed** (proyectos `vanilla-chromium`, `react-chromium`, `vue-chromium`: smoke auth + CRUD). Playwright arranca la API y los tres frontends vía `e2e/playwright.config.js`.
 
 ### 4. Un solo dashboard (opcional)
 
 ```bash
-npx playwright test --config=e2e/playwright.config.js --project=vanilla
+npx playwright test --config=e2e/playwright.config.js --project=vanilla-chromium
 ```
 
 Útil para depurar sin levantar React/Vue.
@@ -89,8 +89,9 @@ Puedes explicar en tus palabras:
 ## Reto extra
 
 1. Ejecuta `npm run test:e2e:headed` y observa Chromium completar login en los tres dashboards.
-2. En GitHub, abre un PR y localiza los tres checks: `test-sqlite`, `test-postgres`, `e2e-smoke`.
+2. En GitHub, abre un PR y localiza los **cuatro** checks: `test-sqlite`, `test-postgres`, `e2e-smoke`, `e2e-postgres`.
 3. Compara duración total del workflow con la tabla «Duración esperada» en [`docs/10-tests.md`](../docs/10-tests.md#duración-esperada-de-ci-orientativa).
+4. Continúa con [`17-crud-e2e-playwright.md`](./17-crud-e2e-playwright.md) para CRUD E2E y traces.
 
 ## Enlaces
 

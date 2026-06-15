@@ -243,6 +243,72 @@ cd api && npm run test:pg
 
 ---
 
+## Advanced E2E (v2.1)
+
+Errores y patrones de las fases 30–33: CRUD E2E compartido, Postgres E2E y multi-browser en CI. Guías: [`docs/10-tests.md`](./docs/10-tests.md), [`missions/17-crud-e2e-playwright.md`](./missions/17-crud-e2e-playwright.md).
+
+### API stale al alternar `test:e2e` y `test:e2e:pg`
+
+**Síntoma:** `test:e2e:pg` pasa en CI pero falla en local con errores de datos, 409 en email duplicado, o la API parece seguir en SQLite (logs sin `[db] Using PostgreSQL`).
+
+**Causa:** En local, `reuseExistingServer: true` reutiliza el proceso en `:3100` arrancado por un `test:e2e` anterior con `DB_FILE` (SQLite). Playwright no reinicia la API con `DATABASE_URL`.
+
+**Solución:**
+
+```bash
+lsof -i :3100   # identifica el PID
+kill <pid>      # o cierra la sesión tmux edf-api
+npm run test:e2e:pg
+```
+
+Alternativa: `CI=true npm run test:e2e:pg` fuerza servidores frescos.
+
+**Aprendizaje:** El backend E2E depende del env con el que arrancó la API; alternar SQLite ↔ Postgres requiere reiniciar `:3100`.
+
+*Error real (fase 32 / perfil Postgres E2E).*
+
+---
+
+### Postgres E2E sin base `edf_lab_e2e`
+
+**Síntoma:** `npm run test:e2e:pg` falla al arrancar la API con error de conexión o «database edf_lab_e2e does not exist».
+
+**Causa:** El perfil `playwright.config.pg.js` apunta a `edf_lab_e2e`, distinta de `edf_lab_test` (tests API) y de `edf_lab` (Compose dev).
+
+**Solución:**
+
+```bash
+docker compose up -d edf-lab-postgres
+npm run test:db:prepare    # crea edf_lab_test y edf_lab_e2e
+npm run test:e2e:pg
+```
+
+**Aprendizaje:** Tres bases, tres propósitos — ver tabla en [`docs/10-tests.md`](./docs/10-tests.md#e2e-contra-postgres).
+
+*Error real (fase 32 / bootstrap edf_lab_e2e).*
+
+---
+
+### Firefox: primera ejecución local
+
+**Síntoma:** `npm run test:e2e:firefox` o `test:e2e:ci` falla con mensaje de browser no instalado.
+
+**Causa:** Solo `playwright:install` instala Chromium; Firefox requiere instalación explícita.
+
+**Solución:**
+
+```bash
+npm run playwright:install:ci
+# o: npx playwright install firefox
+npm run test:e2e:firefox
+```
+
+**Aprendizaje:** CI instala `chromium firefox` en `e2e-smoke`; en local debes hacerlo tú para probar multi-browser.
+
+*Error real (fase 33 / multi-browser CI).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres
