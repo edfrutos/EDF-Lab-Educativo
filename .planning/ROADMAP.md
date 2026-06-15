@@ -21,7 +21,11 @@
 **Goal:** El operador puede ejecutar localmente un ciclo CRUD completo en el dashboard vanilla vía Playwright, con datos únicos por ejecución.  
 **Depends on:** v2.0 (smoke auth + quad `webServer`)  
 **Requirements:** QA-ADV-01  
-**Plans:** 0/0
+**Plans:** 0/2
+
+Plans:
+- [ ] 30-01-PLAN.md — Helper `crud-flow.js` + spec `crud.vanilla.spec.js`
+- [ ] 30-02-PLAN.md — Config Playwright, docs CRUD y verificación `npm run test:e2e`
 
 **Success criteria:**
 1. Tras login UI, el spec crea un usuario con email único y lo ve en la tabla.
@@ -102,7 +106,7 @@ See `.planning/milestones/` archives.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 30–33 | v2.1 | 0/0 | Not started | — |
+| 30–33 | v2.1 | 0/2 | Phase 30 planned | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 
