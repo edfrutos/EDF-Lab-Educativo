@@ -4,13 +4,13 @@ milestone: v2.0
 milestone_name: Quality & CI
 status: in_progress
 last_updated: "2026-06-15"
-last_activity: 2026-06-15 — Phase 27 executed (3 E2E projects, VERIFICATION passed)
+last_activity: 2026-06-15 — Phase 28 executed (test-postgres CI, VERIFICATION passed)
 progress:
   total_phases: 4
-  completed_phases: 2
-  total_plans: 4
-  completed_plans: 4
-  percent: 50
+  completed_phases: 3
+  total_plans: 6
+  completed_plans: 6
+  percent: 75
 ---
 
 # Project State
@@ -25,12 +25,12 @@ See: `.planning/PROJECT.md` (updated 2026-06-14)
 
 ## Current Position
 
-Phase: 28 — Postgres CI obligatorio
+Phase: 29 — Material didáctico Quality & CI
 Plan: TBD
 Status: Ready to plan
-Last activity: 2026-06-15 — Phase 27 complete (E2E multi-dashboard)
+Last activity: 2026-06-15 — Phase 28 complete (Postgres CI obligatorio)
 
-**Milestone progress:** 2/4 phases · 4/4 plans phases 26–27 complete
+**Milestone progress:** 3/4 phases · 6/6 plans phases 26–28 complete
 
 ## Milestone Status
 
@@ -51,14 +51,14 @@ Last activity: 2026-06-15 — Phase 27 complete (E2E multi-dashboard)
 |-------|------|--------------|--------|
 | 26 | Fundación E2E Playwright (vanilla) | QA-E2E-01, QA-E2E-02, QA-E2E-05, QA-CI-04 | Complete |
 | 27 | E2E multi-dashboard | QA-E2E-03, QA-E2E-04, QA-CI-02 | Complete |
-| 28 | Postgres CI obligatorio | QA-CI-01, QA-CI-03 | Not started |
+| 28 | Postgres CI obligatorio | QA-CI-01, QA-CI-03 | Complete |
 | 29 | Material didáctico Quality & CI | DOCS-01, DOCS-02, DOCS-03 | Not started |
 
 ## Session Continuity
 
 Last session: 2026-06-15  
-Stopped at: Phase 27 complete  
-Next suggested command: `/gsd-plan-phase 28`
+Stopped at: Phase 28 complete  
+Next suggested command: `/gsd-execute-phase 29`
 
 ## Deferred Items
 
@@ -72,4 +72,4 @@ Next suggested command: `/gsd-plan-phase 28`
 | E2E against Postgres API | QA-ADV-03 — post-v2.0 | Deferred |
 
 ---
-*Last updated: 2026-06-15 — Phase 27 complete*
+*Last updated: 2026-06-15 — Phase 28 complete*

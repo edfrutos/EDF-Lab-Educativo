@@ -80,7 +80,7 @@ npm run test:e2e:ui    # depuración interactiva
 
 Más contexto: [`17-autenticacion.md`](./17-autenticacion.md).
 
-La matriz CI completa (sqlite + postgres + e2e en PRs) se documenta en las fases 28–29 del roadmap v2.0.
+La matriz CI completa (sqlite + postgres + e2e en PRs) está en [CI en GitHub Actions](#ci-en-github-actions).
 
 ### Troubleshooting E2E
 
@@ -127,15 +127,25 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
-3. Jobs en **paralelo**:
+3. **Tres jobs en paralelo** (todos obligatorios en PRs a `main`):
    - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
-   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth en vanilla, React y Vue)
+   - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
+   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth en vanilla, React y Vue; **sin** `AUTH_DISABLED`)
 
-La fase 28 añadirá el job **`test-postgres`** obligatorio.
+La matriz didáctica completa (duración esperada, troubleshooting) se amplía en la fase 29.
 
-### Job Postgres opcional (avanzado)
+### Postgres en CI (detalle)
 
-El workflow por defecto **no** incluye Postgres: muchos alumnos trabajan solo con SQLite. Si quieres extender CI con la suite Postgres, añade un segundo job (o sustituye el existente) con un servicio de base de datos y los mismos pasos que usas en local:
+El job `test-postgres` usa el mismo contrato que en local:
+
+| Variable / servicio | Valor |
+|---------------------|-------|
+| Imagen | `postgres:16` |
+| Usuario / contraseña | `edf_lab` / `edf_lab_dev` |
+| Base de tests | `edf_lab_test` |
+| `DATABASE_URL` | `postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test` |
+
+`POSTGRES_DB: edf_lab_test` en el servicio crea la base al arrancar; no hace falta `npm run test:db:prepare` en CI.
 
 **Prerrequisitos locales (referencia):**
 
@@ -145,42 +155,7 @@ docker compose up -d edf-lab-postgres
 cd api && npm run test:pg
 ```
 
-**Ejemplo de fragmento YAML** (no está en el repo por defecto — cópialo como extensión didáctica):
-
-```yaml
-  test-postgres:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: api
-    services:
-      postgres:
-        image: postgres:16
-        env:
-          POSTGRES_USER: edf_lab
-          POSTGRES_PASSWORD: edf_lab_dev
-          POSTGRES_DB: edf_lab_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd "pg_isready -U edf_lab -d edf_lab_test"
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 5
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '22'
-          cache: npm
-          cache-dependency-path: api/package-lock.json
-      - run: npm ci
-      - run: npm run test:pg
-        env:
-          DATABASE_URL: postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_test
-```
-
-Ajusta usuario, contraseña y nombre de base si tu entorno de pruebas difiere. Ver también [`15-postgresql.md`](./15-postgresql.md).
+Fragmento equivalente en [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (job `test-postgres`). Más contexto: [`15-postgresql.md`](./15-postgresql.md).
 
 ## JSON vs SQLite (cuándo usar cada uno)
 

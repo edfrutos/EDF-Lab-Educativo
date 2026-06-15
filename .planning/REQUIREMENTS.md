@@ -70,8 +70,8 @@ Requirements for **Quality & CI**. Phases 26–29.
 | QA-E2E-03 | Phase 27 | Complete |
 | QA-E2E-04 | Phase 27 | Complete |
 | QA-CI-02 | Phase 27 | Complete |
-| QA-CI-01 | Phase 28 | Pending |
-| QA-CI-03 | Phase 28 | Pending |
+| QA-CI-01 | Phase 28 | Complete |
+| QA-CI-03 | Phase 28 | Complete |
 | DOCS-01 | Phase 29 | Pending |
 | DOCS-02 | Phase 29 | Pending |
 | DOCS-03 | Phase 29 | Pending |

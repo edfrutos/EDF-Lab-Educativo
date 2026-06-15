@@ -21,7 +21,7 @@
 
 - [x] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
 - [x] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
-- [ ] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
+- [x] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
 - [ ] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
 
 ## Phase Details
@@ -145,7 +145,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 |-------|-----------|----------------|--------|-----------|
 | 26. Fundación E2E Playwright (vanilla) | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 27. E2E multi-dashboard | v2.0 | 2/2 | Complete | 2026-06-15 |
-| 28. Postgres CI obligatorio | v2.0 | 0/TBD | Not started | - |
+| 28. Postgres CI obligatorio | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 | 18–21 | v1.5 | 9/9 | Complete | 2026-06-02 |
