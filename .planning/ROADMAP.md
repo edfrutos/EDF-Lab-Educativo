@@ -70,7 +70,16 @@ Plans:
 **Goal:** La suite E2E puede arrancar la API contra Postgres aislado, no solo SQLite `e2e.users.db`.  
 **Depends on:** Phase 31 (CRUD estable en SQLite)  
 **Requirements:** QA-ADV-03, QA-CI-05  
-**Plans:** 0/0
+**Plans:** 0/2 planned — 2026-06-15
+
+Plans:
+**Wave 1**
+
+- [ ] 32-01-PLAN.md — `edf_lab_e2e`, `playwright.config.pg.js`, `test:e2e:pg`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 32-02-PLAN.md — Job CI `e2e-postgres`, docs y verificación
 
 **Success criteria:**
 
@@ -125,7 +134,8 @@ See `.planning/milestones/` archives.
 |-------|-----------|----------------|--------|-----------|
 | 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 31 | v2.1 | 2/2 | Complete | 2026-06-15 |
-| 32–33 | v2.1 | — | Not started | — |
+| 32 | v2.1 | 0/2 | Planned | — |
+| 33 | v2.1 | — | Not started | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 

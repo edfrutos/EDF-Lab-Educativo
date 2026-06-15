@@ -2,14 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Advanced E2E
-status: completed
-stopped_at: v2.1 milestone initialized (phases 30–33)
-last_updated: "2026-06-15T15:51:47.674Z"
-last_activity: 2026-06-15 -- Phase 31 marked complete
+status: executing
+last_updated: "2026-06-15T16:09:06.583Z"
+last_activity: 2026-06-15 -- Phase 32 planning complete
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 4
+  total_plans: 6
   completed_plans: 4
   percent: 50
 ---
@@ -22,14 +21,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v2.1 Advanced E2E — Phase 31 next
+**Current focus:** Milestone v2.1 Advanced E2E — Phase 32 next
 
 ## Current Position
 
-Phase: 31 — COMPLETE
-Plan: —  
-Status: Phase 31 complete
-Last activity: 2026-06-15 -- Phase 31 marked complete
+Phase: **32 — E2E contra API Postgres**  
+Plan: 0/2 planned  
+Status: Ready to execute  
+Last activity: 2026-06-15 — Phase 32 planned (2 plans, 2 waves)
 
 **Current focus:** Milestone v2.1 Advanced E2E — Phase 32 next
 
@@ -51,7 +50,7 @@ Last activity: 2026-06-15 -- Phase 31 marked complete
 
 Last session: 2026-06-15  
 Stopped at: v2.1 milestone initialized (phases 30–33)  
-Next suggested command: `/gsd-verify-phase 31`
+Next suggested command: `/gsd-execute-phase 32`
 
 ## Deferred Items
 
