@@ -19,7 +19,7 @@
 
 **Milestone Goal:** Automatizar confianza end-to-end en los tres dashboards y exigir la suite Postgres en cada PR — con material didáctico que convierte fricción real en aprendizaje.
 
-- [ ] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
+- [x] **Phase 26: Fundación E2E Playwright (vanilla)** — Scaffold `e2e/`, webServer API+5173, smoke auth vanilla, script local
 - [ ] **Phase 27: E2E multi-dashboard** — Smoke React `:5174` y Vue `:5175`; job CI Playwright completo en PRs
 - [ ] **Phase 28: Postgres CI obligatorio** — Job `test-postgres` en cada PR; tres checks requeridos para merge
 - [ ] **Phase 29: Material didáctico Quality & CI** — Doc 10-tests, Mission 16, NOTEBOOK v2.0
@@ -40,8 +40,8 @@
 **UI hint**: yes
 
 Plans:
-- [ ] 26-01-PLAN.md — Scaffold Playwright: config dual webServer, smoke auth vanilla, toolchain raíz
-- [ ] 26-02-PLAN.md — Documentación E2E en docs/10-tests.md + job CI e2e-smoke vanilla
+- [x] 26-01-PLAN.md — Scaffold Playwright: config dual webServer, smoke auth vanilla, toolchain raíz
+- [x] 26-02-PLAN.md — Documentación E2E en docs/10-tests.md + job CI e2e-smoke vanilla
 
 ### Phase 27: E2E multi-dashboard
 **Goal**: Los tres dashboards pasan el mismo smoke de autenticación y CI ejecuta la suite completa en cada pull request.
@@ -140,7 +140,7 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md).
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 26. Fundación E2E Playwright (vanilla) | v2.0 | 0/2 | Not started | - |
+| 26. Fundación E2E Playwright (vanilla) | v2.0 | 2/2 | Complete | 2026-06-15 |
 | 27. E2E multi-dashboard | v2.0 | 0/TBD | Not started | - |
 | 28. Postgres CI obligatorio | v2.0 | 0/TBD | Not started | - |
 | 29. Material didáctico Quality & CI | v2.0 | 0/TBD | Not started | - |

@@ -45,6 +45,46 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea la base `edf_lab_test` si no existe |
+| `npm run test:e2e` | Smoke auth vanilla (Playwright; raíz del repo) |
+| `npm run test:e2e:ui` | Modo UI Playwright para depurar |
+| `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
+
+## Smoke E2E (Playwright)
+
+Prueba de humo en el **navegador** del dashboard vanilla (`:5173`): gate de login → credenciales del operador → tabla de usuarios visible → cerrar sesión → gate de nuevo. Playwright arranca la API (`:3100`) y el servidor estático del dashboard; no hace falta levantar terminales a mano.
+
+### Setup (primera vez)
+
+```bash
+# Desde la raíz del repositorio
+npm install
+npm run playwright:install
+cd api && npm ci && cd ..
+```
+
+### Ejecutar
+
+```bash
+npm run test:e2e
+npm run test:e2e:ui    # depuración interactiva
+```
+
+### Auth en tests API vs E2E
+
+| Contexto | `AUTH_DISABLED` | Autenticación |
+|----------|-----------------|---------------|
+| Tests API (`npm run test:sqlite`) | Sí (CRUD sin cookie) | Bloque «Autenticación API» prueba login real |
+| Smoke E2E (`npm run test:e2e`) | **No** | Solo login por formulario (cookie httpOnly) |
+
+Más contexto: [`17-autenticacion.md`](./17-autenticacion.md).
+
+La matriz CI completa (sqlite + postgres + e2e en PRs) se documenta en las fases 28–29 del roadmap v2.0.
+
+### Troubleshooting E2E
+
+- **Puertos ocupados:** `lsof -i :3100 -i :5173` — cierra procesos viejos antes de `npm run test:e2e`.
+- **Estado raro en SQLite E2E:** borra `api/data/e2e.users.db` y vuelve a ejecutar.
+- **CI:** con `CI=true`, Playwright no reutiliza servidores locales (`reuseExistingServer: false`).
 
 Antes de la suite Postgres:
 
@@ -85,9 +125,11 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
-3. `npm ci` y `npm run test:sqlite` dentro de `api/`
+3. Jobs en **paralelo**:
+   - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
+   - **`e2e-smoke`** — `npm ci` en raíz y `api/`, Chromium, `npm run test:e2e` (smoke auth vanilla)
 
-Eso corre **24 tests** (CRUD, autenticación y rate limit de login) sin necesitar Postgres ni Docker. Así cualquier contribución recibe feedback automático aunque no tengas una base PostgreSQL local.
+La fase 28 añadirá el job **`test-postgres`** obligatorio; la fase 27 extenderá E2E a React y Vue.
 
 ### Job Postgres opcional (avanzado)
 

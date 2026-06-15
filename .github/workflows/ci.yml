@@ -21,3 +21,28 @@ jobs:
           cache-dependency-path: api/package-lock.json
       - run: npm ci
       - run: npm run test:sqlite
+
+  # Phase 27: extend e2e-smoke to React :5174 and Vue :5175
+  # Phase 28: add test-postgres job (postgres:16 + test:pg)
+  e2e-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+      - run: npm ci
+      - run: npm ci
+        working-directory: api
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+        env:
+          CI: true
+          E2E_OPERATOR_EMAIL: admin@lab.local
+          E2E_OPERATOR_PASSWORD: changeme
+          LOGIN_RATE_LIMIT_MAX: '1000'
+          E2E_JWT_SECRET: e2e-ci-secret-not-for-production
