@@ -95,7 +95,16 @@ Plans:
 **Goal:** CI cubre más de un motor de navegador y el alumno tiene misión + NOTEBOOK para la puerta E2E avanzada.  
 **Depends on:** Phase 32  
 **Requirements:** QA-ADV-04, DOCS-01, DOCS-02, DOCS-03  
-**Plans:** 0/0
+**Plans:** 0/2 planned — 2026-06-15
+
+Plans:
+**Wave 1**
+
+- [ ] 33-01-PLAN.md — Proyectos Firefox + CI `test:e2e:ci` + WebKit local
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 33-02-PLAN.md — Mission 17, NOTEBOOK v2.1, matriz navegadores en docs
 
 **Success criteria:**
 
