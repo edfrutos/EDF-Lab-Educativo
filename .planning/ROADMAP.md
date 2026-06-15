@@ -40,21 +40,21 @@ Plans:
 
 ---
 
-### Phase 31: CRUD E2E multi-dashboard
+### Phase 31: CRUD E2E multi-dashboard ✅
 
 **Goal:** React y Vue repiten el mismo ciclo CRUD que vanilla sin duplicar lógica de aserciones.  
 **Depends on:** Phase 30  
 **Requirements:** QA-ADV-02  
-**Plans:** 0/2
+**Plans:** 2/2 complete — **Verified 2026-06-15** (`31-VERIFICATION.md`, passed 6/6)
 
 Plans:
 **Wave 1**
 
-- [ ] 31-01-PLAN.md — IDs CRUD en React/Vue + specs `crud.react` / `crud.vue`
+- [x] 31-01-PLAN.md — IDs CRUD en React/Vue + specs `crud.react` / `crud.vue`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 31-02-PLAN.md — testMatch Playwright, docs multi-dashboard, verificación 6 tests
+- [x] 31-02-PLAN.md — testMatch Playwright, docs multi-dashboard, verificación 6 tests
 
 **Success criteria:**
 
@@ -124,7 +124,8 @@ See `.planning/milestones/` archives.
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
-| 31–33 | v2.1 | — | Not started | — |
+| 31 | v2.1 | 2/2 | Complete | 2026-06-15 |
+| 32–33 | v2.1 | — | Not started | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 
