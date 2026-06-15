@@ -176,6 +176,43 @@
 
 ---
 
+## Milestone: v2.0 — Quality & CI
+
+**Shipped:** 2026-06-15  
+**Phases:** 4 | **Plans:** 8
+
+### What Was Built
+
+- Playwright E2E smoke auth on vanilla, React, and Vue (`npm run test:e2e`)
+- CI matrix: `test-sqlite` + `test-postgres` + `e2e-smoke` on every PR
+- Shared `auth-smoke-flow.js` helper; quad `webServer` orchestration
+- Mission 16; expanded `docs/10-tests.md`; NOTEBOOK v2.0 friction entries
+
+### What Worked
+
+- Phased rollout (vanilla E2E → multi-dashboard → Postgres CI → docs) kept debugging surface small
+- Real selector and webServer errors documented in NOTEBOOK became teaching material in phase 29
+- Reusing Spanish UI copy across dashboards enabled one shared E2E helper
+
+### What Was Inefficient
+
+- No milestone audit before close (recurring gap since v1.5)
+- Initial Playwright project-per-`webServer` design failed under parallel workers — required config rework
+
+### Patterns Established
+
+- E2E never sets `AUTH_DISABLED`; API tests keep supertest shortcut
+- Root `e2e/` + `@playwright/test` devDep (not nested package)
+- CI `workers: 1` for E2E stability; three jobs parallel at workflow level
+
+### Key Lessons
+
+1. Scope Playwright selectors to login form (`#login-email`) when CRUD forms share labels
+2. One global `webServer` array when all projects share API port 3100
+3. Postgres CI on PRs closes the gap between “works on SQLite” and “works on PG”
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -188,6 +225,7 @@
 | v1.3 | ~2 | 3 | PostgreSQL additive; dual test matrix |
 | v1.4 | ~1 | 3 | Parallel framework dashboards; docs-only close |
 | v1.5 | ~2 | 4 | Auth + deploy as advanced track; 4-phase milestone |
+| v2.0 | ~2 | 4 | Playwright E2E + Postgres CI; docs close milestone |
 
 ### Cumulative Quality
 
@@ -199,6 +237,7 @@
 | v1.3 | 32 API tests | Phase 14 verification 5/5 | `pg` (educational) |
 | v1.4 | 32 API tests | Three-dashboard UAT | Vite + React/Vue |
 | v1.5 | 46 API tests | 19-UAT + 21-UAT | bcrypt, jsonwebtoken, cookie-parser |
+| v2.0 | 47 API + 3 E2E | CI 3 jobs on PR | `@playwright/test` |
 
 ### Top Lessons (Verified Across Milestones)
 

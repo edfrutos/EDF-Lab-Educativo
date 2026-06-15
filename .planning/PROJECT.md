@@ -10,25 +10,28 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: v2.0 Quality & CI
+## Current Milestone
 
-**Goal:** Automatizar confianza end-to-end en los tres dashboards y exigir la suite Postgres en cada PR.
+**v2.0 Quality & CI** shipped 2026-06-15 (tag `v2.0`). Planning next milestone with `/gsd-new-milestone`.
 
-**Target features:**
-- Playwright smoke auth: login → tabla visible → logout en vanilla `:5173`, React `:5174`, Vue `:5175`
-- CI: job Postgres **obligatorio** en pull requests (además de SQLite)
-- Documentación y misión: ejecutar E2E en local, NOTEBOOK con errores reales
+## Current State (v2.0 shipped 2026-06-15)
 
-## Current State (v1.6 shipped 2026-06-14)
+**Stack:** Express + auth + `node:sqlite` / `pg` + vanilla / React / Vue dashboards + Playwright E2E  
+**Persistence:** SQLite host dev; PostgreSQL in Compose; E2E uses isolated `api/data/e2e.users.db`  
+**Tests:** `test:sqlite` 24 · `test:pg` 23 · `test:e2e` 3 Playwright specs (vanilla, React, Vue)  
+**CI:** Three parallel jobs on every PR — `test-sqlite`, `test-postgres`, `e2e-smoke` (Node 22)  
+**Frontends:** `:5173` vanilla · `:5174` React · `:5175` Vue — login gate + `credentials: 'include'`  
+**Docs:** Mission 16 (E2E smoke); `docs/10-tests.md` matriz CI; NOTEBOOK Quality & CI (v2.0)  
+**Compose:** `npm run compose:up` — Postgres + API + dashboard nginx
 
-**Stack:** Express + auth (bcrypt, JWT cookie) + `node:sqlite` / `pg` + vanilla dashboard (login) + React/Vue (login) + Docker Compose  
-**Persistence:** Host — SQLite `api/data/users.db`. Compose — PostgreSQL on `postgres_data`. Operator accounts in `accounts` table.  
-**Tests:** `test:sqlite` 24 tests (CI on push to `main`); `test:pg` when Postgres is up  
-**Frontends:** Vanilla `:5173` · React `:5174` · Vue `:5175` — all with login gate + `credentials: 'include'`  
-**Auth:** httpOnly cookie `edf_session`; `/users` protected; rate limit on login  
-**CI:** GitHub Actions `.github/workflows/ci.yml` — Node 22, badge in README  
-**Docs:** Through Mission 15; ruta avanzada v1.6 in index; NOTEBOOK Framework Auth & CI  
-**Compose:** `npm run compose:up` — requires `api/.env` with JWT secret + DATABASE_URL
+<details>
+<summary>Previous milestone: v1.6 (archived)</summary>
+
+**Shipped 2026-06-14:** React/Vue auth parity, CI SQLite 24 tests, rate limit, Mission 15.
+
+See `.planning/milestones/v1.6-ROADMAP.md`.
+
+</details>
 
 <details>
 <summary>Previous milestone: v1.5 planning context (archived)</summary>
@@ -87,12 +90,11 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 - ✓ `docs/17-autenticacion.md`, Mission 14, NOTEBOOK auth/deploy, ruta v1.5 — v1.5 Phase 21
 
 - ✓ React/Vue login parity; CI SQLite 24 tests; Mission 15 — v1.6 Phases 22–25
+- ✓ Playwright smoke E2E (3 dashboards); Postgres CI on PRs; Mission 16 — v2.0 Phases 26–29
 
 ### Active
 
-- [ ] Playwright smoke auth E2E across vanilla, React, Vue — v2.0
-- [ ] Postgres CI job required on every PR — v2.0
-- [ ] E2E + CI learning material (docs, NOTEBOOK, mission) — v2.0
+_(None — run `/gsd-new-milestone` to define next scope.)_
 
 ### Out of Scope
 
@@ -111,7 +113,7 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 The lab is organized around a learning route:
 
 - `docs/` explains concepts in reading order (through doc 18 deploy; auth doc 17 on advanced path).
-- `missions/` provides executable practice (14 missions).
+- `missions/` provides executable practice (16 missions).
 - `ROADMAP.md` lists educational evolution; v1.0–v1.4 milestones complete.
 - `NOTEBOOK.md` captures real decisions, errors, and lessons.
 - `api/` — Express backend, dual DB adapters, tests, OpenAPI, Dockerfile.
@@ -121,9 +123,9 @@ The lab is organized around a learning route:
 
 **v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
 
-**v1.6 milestone shipped 2026-06-14:** 4 phases, 8 plans, 14/14 requirements (tag `v1.6`).
+**v2.0 milestone shipped 2026-06-15:** 4 phases, 8 plans, 12/12 requirements (tag `v2.0`, PR #8).
 
-**v2.0 milestone planning started 2026-06-14:** Quality & CI — E2E Playwright + Postgres CI on PRs.
+**v1.6 milestone shipped 2026-06-14:** 4 phases, 8 plans, 14/14 requirements (tag `v1.6`).
 
 **v1.4 milestone shipped 2026-06-01:** 3 phases, 8 plans, 13/13 requirements (FRWK-01–FRWK-13).
 
@@ -186,10 +188,14 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 | `accounts` separate from CRUD `users` | Operator ≠ data being managed | ✓ Good — v1.5 |
 | `AUTH_DISABLED=1` test-only | CRUD tests without login friction | ✓ Good — v1.5 |
 | Secrets outside Compose YAML (`env_file`) | Production discipline; no secrets in git | ✓ Good — v1.5 |
+| Playwright at repo root (`e2e/`) | One harness for 3 dashboards; no nested lockfile | ✓ Good — v2.0 |
+| E2E login via UI only (no `AUTH_DISABLED`) | Didactic: browser path ≠ supertest shortcut | ✓ Good — v2.0 |
+| Global quad `webServer` in Playwright | Avoid port 3100 races with parallel workers | ✓ Good — v2.0 |
+| Postgres CI mandatory on PRs | Catch PG-only regressions before merge | ✓ Good — v2.0 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-14 — v2.0 milestone planning started*
+*Last updated: 2026-06-15 after v2.0 milestone*

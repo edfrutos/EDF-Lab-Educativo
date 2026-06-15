@@ -1,35 +1,32 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.0
-milestone_name: Quality & CI
-status: complete
+milestone: none
+milestone_name: —
+status: planning_next
 last_updated: "2026-06-15"
-last_activity: 2026-06-15 — Phase 29 executed; milestone v2.0 complete
+last_activity: 2026-06-15 — v2.0 milestone archived (tag v2.0)
 progress:
-  total_phases: 4
-  completed_phases: 4
-  total_plans: 8
-  completed_plans: 8
-  percent: 100
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-06-14)
+See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** v2.0 Quality & CI — **complete** (phases 26–29)
+**Current focus:** Planning next milestone (`/gsd-new-milestone`)
 
 ## Current Position
 
-Phase: 29 — Material didáctico Quality & CI
-Status: Complete
-Last activity: 2026-06-15 — Milestone v2.0 delivered
-
-**Milestone progress:** 4/4 phases · 8/8 plans complete
+Milestone: **v2.0 Quality & CI** — SHIPPED 2026-06-15 (tag `v2.0`)  
+Last activity: 2026-06-15 — Milestone archived
 
 ## Milestone Status
 
@@ -42,22 +39,25 @@ Last activity: 2026-06-15 — Milestone v2.0 delivered
 | v1.4 Frontend Framework Comparison | Shipped | 2026-06-01 |
 | v1.5 Production Auth & Deployment | Shipped | 2026-06-02 |
 | v1.6 Framework Auth & CI | Shipped | 2026-06-14 |
-| v2.0 Quality & CI | Complete | 2026-06-15 |
-
-## v2.0 Phase Overview
-
-| Phase | Name | Status |
-|-------|------|--------|
-| 26 | Fundación E2E Playwright (vanilla) | Complete |
-| 27 | E2E multi-dashboard | Complete |
-| 28 | Postgres CI obligatorio | Complete |
-| 29 | Material didáctico Quality & CI | Complete |
+| v2.0 Quality & CI | Shipped | 2026-06-15 |
 
 ## Session Continuity
 
 Last session: 2026-06-15  
-Stopped at: v2.0 milestone complete  
-Next suggested command: `/gsd-complete-milestone` or merge PR #8 + tag `v2.0`
+Stopped at: v2.0 milestone complete and archived  
+Next suggested command: `/gsd-new-milestone`
+
+## Deferred Items
+
+| Item | Reason | Status |
+|------|--------|--------|
+| Phase 11 UAT artifact | Unknown if `11-UAT.md` exists | Open |
+| Full CRUD E2E | QA-ADV-01 — post-v2.0 | Deferred |
+| E2E against Postgres API | QA-ADV-03 — post-v2.0 | Deferred |
+| Firefox/WebKit in CI | QA-ADV-04 — post-v2.0 | Deferred |
+| OAuth / refresh tokens | Post-v2.0 | Deferred |
+| Let's Encrypt automation | Post-v2.0 | Deferred |
+| nginx /api proxy in Compose | Post-v2.0 PROD-02 | Deferred |
 
 ---
-*Last updated: 2026-06-15 — v2.0 milestone complete*
+*Last updated: 2026-06-15 — v2.0 archived*

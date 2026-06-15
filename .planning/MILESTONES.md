@@ -1,5 +1,25 @@
 # Milestones
 
+## v2.0 Quality & CI (Shipped: 2026-06-15)
+
+**Phases completed:** 4 phases, 8 plans  
+**Timeline:** 2026-06-14 → 2026-06-15  
+**Tag:** `v2.0`  
+**Merge:** PR #8  
+**Known deferred items at close:** No milestone audit run; QA-ADV-* (full CRUD E2E, multi-browser) deferred post-v2.0
+
+**Key accomplishments:**
+
+- Playwright smoke auth E2E en vanilla (`:5173`), React (`:5174`) y Vue (`:5175`) — login UI real, sin `AUTH_DISABLED`
+- CI en paralelo: `test-sqlite` (24) + `test-postgres` (23) + `e2e-smoke` (3 specs Chromium)
+- Helper `auth-smoke-flow.js`; quad `webServer` en `e2e/playwright.config.js`
+- `docs/10-tests.md` matriz CI, duración orientativa, por qué Postgres en PRs
+- Mission 16; NOTEBOOK Quality & CI (v2.0); ruta v2.0 en índice/README
+
+**Delivered:** Learners can run `npm run test:e2e` locally, understand the three CI gates on PRs, and learn from documented E2E/Postgres friction.
+
+---
+
 ## v1.6 Framework Auth & CI (Shipped: 2026-06-14)
 
 **Phases completed:** 4 phases, 8 plans  
