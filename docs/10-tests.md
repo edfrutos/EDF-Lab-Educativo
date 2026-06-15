@@ -44,8 +44,9 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm test` | SQLite + Postgres (46 si PG disponible) |
 | `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
-| `npm run test:db:prepare` | Crea la base `edf_lab_test` si no existe |
-| `npm run test:e2e` | Smoke auth en los 3 dashboards (Playwright; raíz del repo) |
+| `npm run test:db:prepare` | Crea `edf_lab_test` y `edf_lab_e2e` si no existen |
+| `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Playwright; SQLite) |
+| `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
 
@@ -71,12 +72,68 @@ npm run test:e2e
 npm run test:e2e:ui    # depuración interactiva
 ```
 
+### CRUD E2E (tres dashboards)
+
+Mismo ciclo en vanilla (`:5173`), React (`:5174`) y Vue (`:5175`): login UI → crear usuario con email único → editar nombre y email → eliminar con confirmación del navegador. Los tres dashboards comparten el helper `runCrudFlow` y los mismos `id` en formulario y tabla (`#user-name-input`, `#user-email-input`, `#user-submit-button`, `#users-table-body`).
+
+| Pieza | Ubicación |
+|-------|-----------|
+| Helper | `e2e/helpers/crud-flow.js` — `runCrudFlow`, `buildCrudTestUser` |
+| Spec vanilla | `e2e/tests/crud.vanilla.spec.js` |
+| Spec React | `e2e/tests/crud.react.spec.js` |
+| Spec Vue | `e2e/tests/crud.vue.spec.js` |
+
+Ejecutar solo un spec CRUD:
+
+```bash
+npx playwright test crud.vanilla --config=e2e/playwright.config.js
+npx playwright test crud.react --config=e2e/playwright.config.js
+npx playwright test crud.vue --config=e2e/playwright.config.js
+```
+
+**Notas didácticas:**
+
+- Cada ejecución genera emails `@lab.local` únicos para evitar duplicados en `api/data/e2e.users.db`.
+- El delete del dashboard usa `confirm()` — el helper registra `page.once('dialog', accept)` antes del click en «Eliminar».
+- Usa `#login-email` para el operador y `#user-email-input` para el usuario CRUD (no `getByLabel('Email')` global — ver `NOTEBOOK.md`, sección Quality & CI v2.0).
+- React/Vue recibieron los mismos `id` que vanilla en `UserForm` y `UsersTable` para reutilizar el helper sin duplicar aserciones.
+
+### E2E contra Postgres
+
+Playwright puede arrancar la API con **PostgreSQL** en lugar de SQLite. Usa una base dedicada — nunca la de desarrollo Compose ni la de tests API.
+
+| Base | Uso | Cómo se crea |
+|------|-----|--------------|
+| `edf_lab` | Desarrollo Compose (`docker compose up`) | Volumen `postgres_data` |
+| `edf_lab_test` | Tests API (`npm run test:pg`) | `npm run test:db:prepare` o `POSTGRES_DB` en CI |
+| `edf_lab_e2e` | E2E Playwright Postgres (`npm run test:e2e:pg`) | `npm run test:db:prepare` o `POSTGRES_DB: edf_lab_e2e` en CI |
+
+**No uses `edf_lab` para E2E** — mezclarías datos del laboratorio con ejecuciones automatizadas.
+
+#### Local
+
+```bash
+docker compose up -d edf-lab-postgres   # o Postgres en localhost:5432
+npm run test:db:prepare
+npm run test:e2e:pg
+```
+
+Override opcional: `E2E_DATABASE_URL=postgresql://usuario:clave@host:5432/edf_lab_e2e`.
+
+`npm run test:e2e` sigue siendo **SQLite** (`api/data/e2e.users.db`); Postgres E2E es opt-in vía `test:e2e:pg`.
+
+Config: `e2e/playwright.config.pg.js` inyecta `DATABASE_URL` en el `webServer` de la API y **no** define `DB_FILE`.
+
+#### CI
+
+El job **`e2e-postgres`** ejecuta `npm run test:e2e:pg` con servicio `postgres:16` y `POSTGRES_DB: edf_lab_e2e`. Corre en paralelo con `test-sqlite`, `test-postgres` y `e2e-smoke` (SQLite).
+
 ### Auth en tests API vs E2E
 
 | Contexto | `AUTH_DISABLED` | Autenticación |
 |----------|-----------------|---------------|
 | Tests API (`npm run test:sqlite`) | Sí (CRUD sin cookie) | Bloque «Autenticación API» prueba login real |
-| Smoke E2E (`npm run test:e2e`) | **No** | Solo login UI (3 proyectos Playwright) |
+| Smoke E2E (`npm run test:e2e`) | **No** | Login UI + CRUD en 3 dashboards (6 tests Playwright) |
 
 Más contexto: [`17-autenticacion.md`](./17-autenticacion.md).
 
@@ -127,10 +184,11 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
-3. **Tres jobs en paralelo** (todos obligatorios en PRs a `main`):
+3. **Cuatro jobs en paralelo** (todos obligatorios en PRs a `main`):
    - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
    - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
-   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth en vanilla, React y Vue; **sin** `AUTH_DISABLED`)
+   - **`e2e-smoke`** — `npm ci` en raíz, `api/`, `dashboard-react/` y `dashboard-vue/`; Chromium; `npm run test:e2e` (smoke auth + CRUD en vanilla, React y Vue; SQLite; **sin** `AUTH_DISABLED`)
+   - **`e2e-postgres`** — mismo setup que `e2e-smoke` pero `npm run test:e2e:pg` contra `edf_lab_e2e` (servicio Postgres con `POSTGRES_DB: edf_lab_e2e`)
 
 La matriz didáctica completa está en las secciones siguientes. Misión práctica: [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md).
 
@@ -144,17 +202,18 @@ Hasta v1.6, CI solo ejecutaba SQLite (`test-sqlite`). Eso cubre CRUD y auth con 
 | Suite duplicada (`index.pg.test.js`) | Regresiones en el adaptador Postgres |
 | Healthcheck en CI | Arrancar tests antes de que Postgres acepte conexiones |
 
-En local puedes seguir con solo SQLite; en **cada PR a `main`**, los tres jobs deben pasar.
+En local puedes seguir con solo SQLite; en **cada PR a `main`**, los cuatro jobs deben pasar.
 
 ### Duración esperada de CI (orientativa)
 
-Los tres jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más lento (suele ser `e2e-smoke`).
+Los cuatro jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más lento (suele ser `e2e-smoke` o `e2e-postgres`).
 
 | Job | Alcance | Tiempo típico (GitHub Actions) |
 |-----|---------|--------------------------------|
 | `test-sqlite` | 24 tests API (SQLite) | ~20–40 s |
 | `test-postgres` | 23 tests API (Postgres 16) | ~40–90 s |
-| `e2e-smoke` | 3 specs Playwright (Chromium) | ~2–8 min |
+| `e2e-smoke` | 6 specs Playwright Chromium (SQLite) | ~2–8 min |
+| `e2e-postgres` | 6 specs Playwright Chromium (Postgres `edf_lab_e2e`) | ~2–8 min |
 
 Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright install --with-deps`).
 
@@ -164,7 +223,8 @@ Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright i
 |------|---------------|-----------------|------------|
 | API SQLite | `npm run test:sqlite` / `test-sqlite` | Sí en bloque CRUD | Lógica HTTP, validación, auth en supertest |
 | API Postgres | `npm run test:pg` / `test-postgres` | Sí en bloque CRUD (script) | Lo mismo contra `edf_lab_test` |
-| Browser E2E | `npm run test:e2e` / `e2e-smoke` | **Nunca** | Login UI real, cookie httpOnly, tres orígenes |
+| Browser E2E (SQLite) | `npm run test:e2e` / `e2e-smoke` | **Nunca** | Login UI real, cookie httpOnly, tres orígenes |
+| Browser E2E (Postgres) | `npm run test:e2e:pg` / `e2e-postgres` | **Nunca** | Mismos 6 tests con API en `edf_lab_e2e` |
 
 `AUTH_DISABLED=1` acelera tests CRUD en supertest **sin** simular al operador en el navegador. E2E enseña el camino que ve el alumno: formulario → cookie → tabla → logout.
 

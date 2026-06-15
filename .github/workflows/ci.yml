@@ -81,3 +81,47 @@ jobs:
           E2E_OPERATOR_PASSWORD: changeme
           LOGIN_RATE_LIMIT_MAX: '1000'
           E2E_JWT_SECRET: e2e-ci-secret-not-for-production
+
+  e2e-postgres:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: edf_lab
+          POSTGRES_PASSWORD: edf_lab_dev
+          POSTGRES_DB: edf_lab_e2e
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U edf_lab -d edf_lab_e2e"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+            dashboard-react/package-lock.json
+            dashboard-vue/package-lock.json
+      - run: npm ci
+      - run: npm ci
+        working-directory: api
+      - run: npm ci
+        working-directory: dashboard-react
+      - run: npm ci
+        working-directory: dashboard-vue
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:pg
+        env:
+          CI: true
+          E2E_DATABASE_URL: postgresql://edf_lab:edf_lab_dev@localhost:5432/edf_lab_e2e
+          E2E_OPERATOR_EMAIL: admin@lab.local
+          E2E_OPERATOR_PASSWORD: changeme
+          LOGIN_RATE_LIMIT_MAX: '1000'
+          E2E_JWT_SECRET: e2e-ci-secret-not-for-production
