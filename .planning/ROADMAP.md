@@ -16,20 +16,20 @@
 
 ## Phases
 
-### Phase 30: CRUD E2E vanilla
+### Phase 30: CRUD E2E vanilla ✅
 
 **Goal:** El operador puede ejecutar localmente un ciclo CRUD completo en el dashboard vanilla vía Playwright, con datos únicos por ejecución.  
 **Depends on:** v2.0 (smoke auth + quad `webServer`)  
 **Requirements:** QA-ADV-01  
-**Plans:** 0/2
+**Plans:** 2/2 complete — **Verified 2026-06-15** (`30-VERIFICATION.md`, passed 7/7)
 Plans:
 **Wave 1**
 
-- [ ] 30-01-PLAN.md — Helper `crud-flow.js` + spec `crud.vanilla.spec.js`
+- [x] 30-01-PLAN.md — Helper `crud-flow.js` + spec `crud.vanilla.spec.js`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 30-02-PLAN.md — Config Playwright, docs CRUD y verificación `npm run test:e2e`
+- [x] 30-02-PLAN.md — Config Playwright, docs CRUD y verificación `npm run test:e2e`
 
 **Success criteria:**
 
@@ -114,7 +114,8 @@ See `.planning/milestones/` archives.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 30–33 | v2.1 | 0/2 | Phase 30 planned | — |
+| 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
+| 31–33 | v2.1 | — | Not started | — |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 

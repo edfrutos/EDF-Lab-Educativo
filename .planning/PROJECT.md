@@ -97,10 +97,11 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 
 - ✓ React/Vue login parity; CI SQLite 24 tests; Mission 15 — v1.6 Phases 22–25
 - ✓ Playwright smoke E2E (3 dashboards); Postgres CI on PRs; Mission 16 — v2.0 Phases 26–29
+- ✓ CRUD E2E vanilla + `crud-flow` helper — v2.1 Phase 30
 
 ### Active
 
-- [ ] **QA-ADV-01**: Vanilla CRUD E2E + helper compartido — Phase 30
+- [x] **QA-ADV-01**: Vanilla CRUD E2E + helper compartido — Phase 30 ✓
 - [ ] **QA-ADV-02**: React/Vue CRUD E2E — Phase 31
 - [ ] **QA-ADV-03**: E2E contra API Postgres — Phase 32
 - [ ] **QA-ADV-04**: Multi-browser en CI — Phase 33
