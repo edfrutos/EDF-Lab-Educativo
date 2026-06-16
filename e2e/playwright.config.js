@@ -58,6 +58,27 @@ projects.push({
   }
 });
 
+// Regresión visual multi-dashboard (fase 35): React y Vue.
+projects.push({
+  name: 'react-chromium-visual',
+  testMatch: /visual\.react\.spec\.js/,
+  use: {
+    ...devices['Desktop Chrome'],
+    baseURL: 'http://localhost:5174',
+    viewport: { width: 1280, height: 720 }
+  }
+});
+
+projects.push({
+  name: 'vue-chromium-visual',
+  testMatch: /visual\.vue\.spec\.js/,
+  use: {
+    ...devices['Desktop Chrome'],
+    baseURL: 'http://localhost:5175',
+    viewport: { width: 1280, height: 720 }
+  }
+});
+
 // WebKit solo local — ver docs/10-tests.md (no forma parte de test:e2e:ci)
 projects.push({
   name: 'vanilla-webkit',

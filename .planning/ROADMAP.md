@@ -47,16 +47,16 @@ Plans:
 **Goal:** React y Vue repiten snapshots equivalentes a vanilla sin duplicar lógica de preparación de estado.  
 **Depends on:** Phase 34  
 **Requirements:** QA-VIS-02  
-**Plans:** 0/2
+**Plans:** 2/2
 
 Plans:
 **Wave 1**
 
-- [ ] 35-01-PLAN.md — Specs `visual.react` / `visual.vue` reutilizando helper compartido
+- [x] 35-01-PLAN.md — Specs `visual.react` / `visual.vue` reutilizando helper compartido
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 35-02-PLAN.md — Proyectos Playwright, viewport unificado, verificación 3 dashboards
+- [x] 35-02-PLAN.md — Proyectos Playwright, viewport unificado, verificación 3 dashboards
 
 **Success criteria:**
 
@@ -143,7 +143,7 @@ See `.planning/milestones/` archives.
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 34 | v2.2 | 2/2 | Complete    | 2026-06-16 |
-| 35 | v2.2 | 0/2 | Not started | — |
+| 35 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 36 | v2.2 | 0/2 | Not started | — |
 | 37 | v2.2 | 0/2 | Not started | — |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |

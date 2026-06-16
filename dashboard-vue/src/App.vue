@@ -315,7 +315,7 @@ PORT=3100 npm start</code></pre>
     </section>
   </main>
 
-  <main v-else class="mx-auto max-w-5xl space-y-6 px-4 py-8">
+  <main v-else id="dashboard-panel" class="mx-auto max-w-5xl space-y-6 px-4 py-8">
     <section class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
       <div class="max-w-2xl">
         <p class="text-xs font-semibold uppercase tracking-wide text-indigo-600">

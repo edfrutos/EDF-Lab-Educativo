@@ -13,7 +13,9 @@ export default function HealthCard({ healthStatus, healthTimestamp }) {
       </div>
       <div className="mb-4 flex justify-between gap-4 text-sm">
         <span className="text-slate-600">Última comprobación</span>
-        <strong className="text-right text-slate-900">{healthTimestamp}</strong>
+        <strong id="health-timestamp" className="text-right text-slate-900">
+          {healthTimestamp}
+        </strong>
       </div>
       <p className="text-sm text-slate-600">
         Este endpoint sirve para comprobar que el backend está vivo y respondiendo.

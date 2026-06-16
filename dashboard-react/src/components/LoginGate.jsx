@@ -11,6 +11,7 @@ export default function LoginGate({ onLogin, error = '', isSubmitting = false })
 
   return (
     <section
+      id="login-gate"
       className="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
       aria-labelledby="login-gate-title"
     >

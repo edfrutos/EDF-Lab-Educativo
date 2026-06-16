@@ -18,6 +18,7 @@ function handleSubmit() {
 
 <template>
   <section
+    id="login-gate"
     class="mx-auto max-w-md rounded-xl border border-slate-200 bg-white p-6 shadow-sm"
     aria-labelledby="login-gate-title"
   >

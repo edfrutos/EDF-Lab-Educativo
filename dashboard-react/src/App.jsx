@@ -323,7 +323,7 @@ export default function App() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl space-y-6 px-4 py-8">
+    <main id="dashboard-panel" className="mx-auto max-w-5xl space-y-6 px-4 py-8">
       <section className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="max-w-2xl">
           <p className="text-xs font-semibold uppercase tracking-wide text-indigo-600">

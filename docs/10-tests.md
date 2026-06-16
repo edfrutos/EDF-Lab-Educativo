@@ -48,7 +48,7 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Chromium; SQLite) |
 | `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (12 tests; usa CI) |
 | `npm run test:e2e:firefox` | Solo Firefox (6 tests; opt-in local) |
-| `npm run test:visual` | Regresión visual vanilla (Chromium, baseline snapshot) |
+| `npm run test:visual` | Regresión visual en vanilla, React y Vue (3 tests Chromium) |
 | `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
@@ -102,16 +102,17 @@ npx playwright test crud.vue --config=e2e/playwright.config.js --project=vue-chr
 - Usa `#login-email` para el operador y `#user-email-input` para el usuario CRUD (no `getByLabel('Email')` global — ver `NOTEBOOK.md`, sección Quality & CI v2.0).
 - React/Vue recibieron los mismos `id` que vanilla en `UserForm` y `UsersTable` para reutilizar el helper sin duplicar aserciones.
 
-### Regresión visual (vanilla, borrador fase 34)
+### Regresión visual (tres dashboards, fase 35)
 
-La suite visual añade una puerta de calidad enfocada en cambios de UI intencionales: compara un snapshot del panel autenticado y falla si el diff supera el threshold configurado.
+La suite visual compara snapshots del panel autenticado en cada dashboard. Cada framework tiene su **baseline propia** (no se espera pixel-idéntico entre vanilla, React y Vue).
 
-- Comando: `npm run test:visual`
-- Captura: `#dashboard-panel` post-login (`dashboard-post-login.png`)
+- Comando: `npm run test:visual` — **3 tests** (vanilla `:5173`, React `:5174`, Vue `:5175`)
+- Captura: `#dashboard-panel` post-login (`dashboard-post-login.png` por spec)
 - Masks anti-flake: `#health-timestamp`, `#users-table-body`
 - Threshold inicial: `maxDiffPixelRatio: 0.01`
 - Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
 - Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
+- IDs visuales en React/Vue: `#dashboard-panel`, `#login-gate`, `#health-timestamp` (paridad con vanilla para `visual-flow.js`)
 
 ### E2E contra Postgres
 
