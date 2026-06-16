@@ -9,9 +9,9 @@ Requirements for **Visual Regression**. Phases 34–37.
 
 ### Visual Snapshots (Playwright)
 
-- [ ] **QA-VIS-01**: Vanilla dashboard (`:5173`) has Playwright `toHaveScreenshot` specs for stable post-login UI states (gate hidden, users table visible) with baselines committed to the repo.
+- [x] **QA-VIS-01**: Vanilla dashboard (`:5173`) has Playwright `toHaveScreenshot` specs for stable post-login UI states (gate hidden, users table visible) with baselines committed to the repo.
 - [ ] **QA-VIS-02**: React (`:5174`) and Vue (`:5175`) have equivalent visual snapshot specs using the same viewport, auth flow, and comparable UI states as QA-VIS-01.
-- [ ] **QA-VIS-03**: Snapshot policy is documented and enforced: `snapshotPathTemplate`, `maxDiffPixelRatio` (or equivalent threshold), and a documented `--update-snapshots` workflow for intentional UI changes.
+- [x] **QA-VIS-03**: Snapshot policy is documented and enforced: `snapshotPathTemplate`, `maxDiffPixelRatio` (or equivalent threshold), and a documented `--update-snapshots` workflow for intentional UI changes.
 
 ### CI Integration
 
@@ -56,8 +56,8 @@ Requirements for **Visual Regression**. Phases 34–37.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| QA-VIS-01 | Phase 34 | Pending |
-| QA-VIS-03 | Phase 34 | Pending |
+| QA-VIS-01 | Phase 34 | Complete |
+| QA-VIS-03 | Phase 34 | Complete |
 | QA-VIS-02 | Phase 35 | Pending |
 | QA-VIS-04 | Phase 36 | Pending |
 | QA-CI-06 | Phase 36 | Pending |

@@ -22,7 +22,7 @@
 **Goal:** El operador puede ejecutar snapshots Playwright estables en el dashboard vanilla con baselines versionadas y política anti-flake documentada.  
 **Depends on:** v2.1 (auth smoke + CRUD E2E estables)  
 **Requirements:** QA-VIS-01, QA-VIS-03  
-**Plans:** 0/2
+**Plans:** 2/2 plans complete
 
 Plans:
 **Wave 1**
@@ -142,7 +142,7 @@ See `.planning/milestones/` archives.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 34 | v2.2 | 2/2 | Complete   | 2026-06-16 |
+| 34 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 35 | v2.2 | 0/2 | Not started | — |
 | 36 | v2.2 | 0/2 | Not started | — |
 | 37 | v2.2 | 0/2 | Not started | — |
