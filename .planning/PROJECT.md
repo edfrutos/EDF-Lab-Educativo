@@ -10,24 +10,24 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: v2.1 Advanced E2E
+## Current Milestone: v2.2 Visual Regression
 
-**Goal:** Extender Playwright más allá del smoke de auth — CRUD UI en los tres dashboards, API Postgres en E2E, y multi-browser en CI — con material didáctico que documenta la fricción real.
+**Goal:** Añadir regresión visual con Playwright (`toHaveScreenshot`) en los tres dashboards, con job CI obligatorio en PRs y material didáctico sobre baselines, diffs y política anti-flake.
 
 **Target features:**
-- CRUD E2E completo (vanilla → React/Vue) con helper compartido
-- E2E contra API con `DATABASE_URL` / Postgres aislado
-- Firefox (y WebKit documentado) en la matriz CI
-- Mission 17 + NOTEBOOK v2.1 + `docs/10-tests.md` ampliado
+- Snapshots visuales en vanilla, React y Vue (misma superficie que E2E CRUD)
+- Playwright nativo (sin servicio externo)
+- Job CI obligatorio + flujo documentado para actualizar baselines
+- Mission 18 + NOTEBOOK v2.2 + ampliación de `docs/10-tests.md`
 
-## Current State (v2.0 shipped 2026-06-15)
+## Current State (v2.1 shipped 2026-06-16)
 
 **Stack:** Express + auth + `node:sqlite` / `pg` + vanilla / React / Vue dashboards + Playwright E2E  
-**Persistence:** SQLite host dev; PostgreSQL in Compose; E2E uses isolated `api/data/e2e.users.db`  
-**Tests:** `test:sqlite` 24 · `test:pg` 23 · `test:e2e` 3 Playwright specs (vanilla, React, Vue)  
-**CI:** Three parallel jobs on every PR — `test-sqlite`, `test-postgres`, `e2e-smoke` (Node 22)  
-**Frontends:** `:5173` vanilla · `:5174` React · `:5175` Vue — login gate + `credentials: 'include'`  
-**Docs:** Mission 16 (E2E smoke); `docs/10-tests.md` matriz CI; NOTEBOOK Quality & CI (v2.0)  
+**Persistence:** SQLite host dev; PostgreSQL in Compose; E2E SQLite `e2e.users.db` + Postgres `edf_lab_e2e`  
+**Tests:** `test:sqlite` 24 · `test:pg` 23 · `test:e2e` 6 Chromium · `test:e2e:ci` 12 Chromium+Firefox · `test:e2e:pg`  
+**CI:** Four parallel jobs — `test-sqlite`, `test-postgres`, `e2e-smoke` (Chromium+Firefox), `e2e-postgres`  
+**Frontends:** `:5173` vanilla · `:5174` React · `:5175` Vue — login gate + CRUD E2E alineado  
+**Docs:** Mission 17 (CRUD E2E); `docs/10-tests.md` matriz multi-browser + Postgres E2E; NOTEBOOK Advanced E2E (v2.1)  
 **Compose:** `npm run compose:up` — Postgres + API + dashboard nginx
 
 <details>
@@ -99,15 +99,17 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 - ✓ Playwright smoke E2E (3 dashboards); Postgres CI on PRs; Mission 16 — v2.0 Phases 26–29
 - ✓ CRUD E2E vanilla + `crud-flow` helper — v2.1 Phase 30
 - ✓ CRUD E2E React/Vue con ids alineados — v2.1 Phase 31
+- ✓ E2E Postgres aislado (`edf_lab_e2e`) — v2.1 Phase 32
+- ✓ Multi-browser CI (Chromium+Firefox) + Mission 17 — v2.1 Phase 33
 
 ### Active
 
-- [x] **QA-ADV-01**: Vanilla CRUD E2E + helper compartido — Phase 30 ✓
-- [x] **QA-ADV-02**: React/Vue CRUD E2E — Phase 31
-- [x] **QA-ADV-03**: E2E contra API Postgres — Phase 32
-- [x] **QA-ADV-04**: Multi-browser en CI — Phase 33
-- [x] **QA-CI-05**: BD Postgres aislada para E2E — Phase 32
-- [x] **DOCS-01/02/03**: Mission 17, docs tests, NOTEBOOK v2.1 — Phase 33
+- [ ] **QA-VIS-01**: Snapshots Playwright en dashboard vanilla (estado estable post-login)
+- [ ] **QA-VIS-02**: Snapshots en React y Vue con viewport y flujo auth alineados
+- [ ] **QA-VIS-03**: Baselines en repo + política anti-flake (`maxDiffPixelRatio`, `--update-snapshots`)
+- [ ] **QA-VIS-04**: Job CI obligatorio en PRs para regresión visual
+- [ ] **QA-CI-06**: Integración visual sin romper `test:e2e` / `test:e2e:ci` existentes
+- [ ] **DOCS-04/05/06**: Mission 18, docs tests visual, NOTEBOOK v2.2
 
 ### Out of Scope
 
@@ -135,6 +137,8 @@ The lab is organized around a learning route:
 - `docker-compose.yml` — optional Postgres + API + dashboard stack.
 
 **v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
+
+**v2.1 milestone shipped 2026-06-16:** 4 phases, 8 plans, 8/8 requirements.
 
 **v2.0 milestone shipped 2026-06-15:** 4 phases, 8 plans, 12/12 requirements (tag `v2.0`, PR #8).
 
@@ -211,4 +215,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-15 — milestone v2.1 Advanced E2E started*
+*Last updated: 2026-06-16 — milestone v2.2 Visual Regression started*

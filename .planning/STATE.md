@@ -1,17 +1,16 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.1
-milestone_name: Advanced E2E
-status: completed
-stopped_at: Milestone v2.1 shipped
-last_updated: "2026-06-16T08:55:41Z"
-last_activity: 2026-06-16 -- Phase 33 verified and v2.1 shipped
+milestone: v2.2
+milestone_name: Visual Regression
+status: planning
+last_updated: "2026-06-16T11:07:43.601Z"
+last_activity: 2026-06-16
 progress:
   total_phases: 4
-  completed_phases: 4
+  completed_phases: 0
   total_plans: 8
-  completed_plans: 8
-  percent: 100
+  completed_plans: 0
+  percent: 0
 ---
 
 # Project State
@@ -22,21 +21,20 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v2.1 Advanced E2E — shipped
+**Current focus:** Milestone v2.2 Visual Regression — defining requirements
 
 ## Current Position
 
-Phase: 33 — COMPLETE
-Plan: 2/2 complete  
-Status: Phase 33 verified
-Last activity: 2026-06-16 -- Phase 33 verified and v2.1 shipped
-
-**Current focus:** Cerrar milestone v2.1 y preparar siguiente milestone
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-06-16 — Milestone v2.2 started
 
 ## Milestone Status
 
 | Milestone | Status | Shipped / Started |
 |-----------|--------|---------------------|
+| v2.2 Visual Regression | Planning | 2026-06-16 |
 | v2.1 Advanced E2E | Shipped | 2026-06-16 |
 | v2.0 Quality & CI | Shipped | 2026-06-15 |
 | v1.6 Framework Auth & CI | Shipped | 2026-06-14 |
@@ -50,18 +48,17 @@ Last activity: 2026-06-16 -- Phase 33 verified and v2.1 shipped
 ## Session Continuity
 
 Last session: 2026-06-16  
-Stopped at: Milestone v2.1 shipped  
-Next suggested command: `/gsd-new-milestone`
+Stopped at: Milestone v2.2 started  
+Next suggested command: `/gsd-discuss-phase 34`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
-| Visual regression (QA-VIS-01) | Post-v2.1 milestone | Deferred |
 | OAuth / refresh tokens | Auth milestone | Deferred |
 | Let's Encrypt automation | PROD milestone | Deferred |
 | nginx /api proxy in Compose | PROD-02 | Deferred |
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-16 — Phase 33 verified, milestone v2.1 shipped*
+*Last updated: 2026-06-16 — Milestone v2.2 Visual Regression started*
