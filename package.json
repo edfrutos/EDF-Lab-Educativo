@@ -13,6 +13,7 @@
     "test:e2e:ci": "playwright test --config=e2e/playwright.config.js --project=vanilla-chromium --project=react-chromium --project=vue-chromium --project=vanilla-firefox --project=react-firefox --project=vue-firefox",
     "test:e2e:firefox": "playwright test --config=e2e/playwright.config.js --project=vanilla-firefox --project=react-firefox --project=vue-firefox",
     "test:e2e:pg": "playwright test --config=e2e/playwright.config.pg.js",
+    "test:visual": "playwright test --config=e2e/playwright.config.js --project=vanilla-chromium-visual",
     "test:e2e:ui": "playwright test --config=e2e/playwright.config.js --ui --project=vanilla-chromium --project=react-chromium --project=vue-chromium",
     "test:e2e:headed": "playwright test --config=e2e/playwright.config.js --headed --project=vanilla-chromium --project=react-chromium --project=vue-chromium",
     "playwright:install": "playwright install chromium",

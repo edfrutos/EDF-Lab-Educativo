@@ -47,6 +47,17 @@ const projects = dashboards.flatMap((dashboard) =>
   }))
 );
 
+// Suite visual separada de los E2E funcionales.
+projects.push({
+  name: 'vanilla-chromium-visual',
+  testMatch: /visual\.vanilla\.spec\.js/,
+  use: {
+    ...devices['Desktop Chrome'],
+    baseURL: 'http://localhost:5173',
+    viewport: { width: 1280, height: 720 }
+  }
+});
+
 // WebKit solo local — ver docs/10-tests.md (no forma parte de test:e2e:ci)
 projects.push({
   name: 'vanilla-webkit',
@@ -64,6 +75,8 @@ module.exports = defineConfig({
     trace: 'on-first-retry',
     screenshot: 'only-on-failure'
   },
+  // Baselines visuales versionadas en e2e/__snapshots__.
+  snapshotPathTemplate: '{testDir}/../__snapshots__/{testFilePath}/{arg}-{projectName}-{platform}{ext}',
   webServer: [
     {
       command: 'npm start',

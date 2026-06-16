@@ -48,6 +48,7 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Chromium; SQLite) |
 | `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (12 tests; usa CI) |
 | `npm run test:e2e:firefox` | Solo Firefox (6 tests; opt-in local) |
+| `npm run test:visual` | Regresión visual vanilla (Chromium, baseline snapshot) |
 | `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
@@ -100,6 +101,17 @@ npx playwright test crud.vue --config=e2e/playwright.config.js --project=vue-chr
 - El delete del dashboard usa `confirm()` — el helper registra `page.once('dialog', accept)` antes del click en «Eliminar».
 - Usa `#login-email` para el operador y `#user-email-input` para el usuario CRUD (no `getByLabel('Email')` global — ver `NOTEBOOK.md`, sección Quality & CI v2.0).
 - React/Vue recibieron los mismos `id` que vanilla en `UserForm` y `UsersTable` para reutilizar el helper sin duplicar aserciones.
+
+### Regresión visual (vanilla, borrador fase 34)
+
+La suite visual añade una puerta de calidad enfocada en cambios de UI intencionales: compara un snapshot del panel autenticado y falla si el diff supera el threshold configurado.
+
+- Comando: `npm run test:visual`
+- Captura: `#dashboard-panel` post-login (`dashboard-post-login.png`)
+- Masks anti-flake: `#health-timestamp`, `#users-table-body`
+- Threshold inicial: `maxDiffPixelRatio: 0.01`
+- Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
+- Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
 
 ### E2E contra Postgres
 

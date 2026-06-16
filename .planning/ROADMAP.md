@@ -27,11 +27,11 @@
 Plans:
 **Wave 1**
 
-- [ ] 34-01-PLAN.md — Helper `visual-flow.js`, spec `visual.vanilla.spec.js`, `snapshotPathTemplate`
+- [x] 34-01-PLAN.md — Helper `visual-flow.js`, spec `visual.vanilla.spec.js`, `snapshotPathTemplate`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 34-02-PLAN.md — Config Playwright visual, `maxDiffPixelRatio`, docs borrador y verificación local
+- [x] 34-02-PLAN.md — Config Playwright visual, `maxDiffPixelRatio`, docs borrador y verificación local
 
 **Success criteria:**
 
@@ -142,7 +142,7 @@ See `.planning/milestones/` archives.
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 34 | v2.2 | 0/2 | Not started | — |
+| 34 | v2.2 | 2/2 | Complete   | 2026-06-16 |
 | 35 | v2.2 | 0/2 | Not started | — |
 | 36 | v2.2 | 0/2 | Not started | — |
 | 37 | v2.2 | 0/2 | Not started | — |
