@@ -39,6 +39,7 @@ export default function UserForm({
           <span className="mb-1 block font-medium text-slate-700">Nombre</span>
           <input
             type="text"
+            id="user-name-input"
             name="name"
             value={name}
             onChange={(event) => onNameChange(event.target.value)}
@@ -53,6 +54,7 @@ export default function UserForm({
           <span className="mb-1 block font-medium text-slate-700">Email</span>
           <input
             type="email"
+            id="user-email-input"
             name="email"
             value={email}
             onChange={(event) => onEmailChange(event.target.value)}
@@ -72,6 +74,7 @@ export default function UserForm({
       <div className="flex flex-wrap gap-2">
         <button
           type="submit"
+          id="user-submit-button"
           disabled={isFormBusy}
           className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
         >
@@ -80,6 +83,7 @@ export default function UserForm({
         {showCancel ? (
           <button
             type="button"
+            id="cancel-edit-button"
             disabled={isFormBusy}
             onClick={onCancel}
             className="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:opacity-50"

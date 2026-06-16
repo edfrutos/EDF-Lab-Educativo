@@ -49,6 +49,7 @@ function onSubmit(event) {
       <label class="block text-sm">
         <span class="mb-1 block font-medium text-slate-700">Nombre</span>
         <input
+          id="user-name-input"
           type="text"
           name="name"
           :value="name"
@@ -63,6 +64,7 @@ function onSubmit(event) {
       <label class="block text-sm">
         <span class="mb-1 block font-medium text-slate-700">Email</span>
         <input
+          id="user-email-input"
           type="email"
           name="email"
           :value="email"
@@ -81,6 +83,7 @@ function onSubmit(event) {
 
     <div class="flex flex-wrap gap-2">
       <button
+        id="user-submit-button"
         type="submit"
         :disabled="isFormBusy"
         class="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 disabled:opacity-50"
@@ -89,6 +92,7 @@ function onSubmit(event) {
       </button>
       <button
         v-if="showCancel"
+        id="cancel-edit-button"
         type="button"
         :disabled="isFormBusy"
         class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-800 hover:bg-slate-50 disabled:opacity-50"

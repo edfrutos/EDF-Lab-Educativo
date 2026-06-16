@@ -105,9 +105,9 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 - [x] **QA-ADV-01**: Vanilla CRUD E2E + helper compartido — Phase 30 ✓
 - [x] **QA-ADV-02**: React/Vue CRUD E2E — Phase 31
 - [x] **QA-ADV-03**: E2E contra API Postgres — Phase 32
-- [ ] **QA-ADV-04**: Multi-browser en CI — Phase 33
+- [x] **QA-ADV-04**: Multi-browser en CI — Phase 33
 - [x] **QA-CI-05**: BD Postgres aislada para E2E — Phase 32
-- [ ] **DOCS-01/02/03**: Mission 17, docs tests, NOTEBOOK v2.1 — Phase 33
+- [x] **DOCS-01/02/03**: Mission 17, docs tests, NOTEBOOK v2.1 — Phase 33
 
 ### Out of Scope
 

@@ -25,7 +25,7 @@ const emit = defineEmits(['edit', 'delete']);
           </td>
         </tr>
       </tbody>
-      <tbody v-else class="divide-y divide-slate-100">
+      <tbody v-else id="users-table-body" class="divide-y divide-slate-100">
         <tr v-for="user in users" :key="user.id" class="bg-white">
           <td class="px-4 py-2">{{ user.id }}</td>
           <td class="px-4 py-2">{{ user.name }}</td>

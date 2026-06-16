@@ -34,7 +34,7 @@ export default function UsersTable({ users, onEdit, onDelete, isFormBusy }) {
             <th className="px-4 py-2 font-medium">Acciones</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-100">
+        <tbody id="users-table-body" className="divide-y divide-slate-100">
           {users.map((user) => (
             <tr key={user.id} className="bg-white">
               <td className="px-4 py-2">{user.id}</td>

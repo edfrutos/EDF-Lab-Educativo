@@ -12,7 +12,7 @@
 - ✅ **v1.5 Production Auth & Deployment** — Phases 18–21 (shipped 2026-06-02)
 - ✅ **v1.6 Framework Auth & CI** — Phases 22–25 (shipped 2026-06-14, tag `v1.6`)
 - ✅ **v2.0 Quality & CI** — Phases 26–29 (shipped 2026-06-15, tag `v2.0`)
-- 🚧 **v2.1 Advanced E2E** — Phases 30–33 (planning)
+- ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 
 ## Phases
 
@@ -95,7 +95,7 @@ Plans:
 **Goal:** CI cubre más de un motor de navegador y el alumno tiene misión + NOTEBOOK para la puerta E2E avanzada.  
 **Depends on:** Phase 32  
 **Requirements:** QA-ADV-04, DOCS-01, DOCS-02, DOCS-03  
-**Plans:** 2/2 complete — executed 2026-06-15
+**Plans:** 2/2 complete — **Verified 2026-06-16** (`33-VERIFICATION.md`, passed 7/7)
 
 Plans:
 **Wave 1**
@@ -144,7 +144,7 @@ See `.planning/milestones/` archives.
 | 30 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 31 | v2.1 | 2/2 | Complete | 2026-06-15 |
 | 32 | v2.1 | 2/2 | Complete | 2026-06-15 |
-| 33 | v2.1 | 2/2 | Executed | 2026-06-15 |
+| 33 | v2.1 | 2/2 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 | 22–25 | v1.6 | 8/8 | Complete | 2026-06-14 |
 

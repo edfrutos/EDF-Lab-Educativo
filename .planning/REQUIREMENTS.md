@@ -15,14 +15,14 @@ Requirements for **Advanced E2E**. Phases 30–33.
 ### Postgres & Multi-browser E2E
 
 - [x] **QA-ADV-03**: Playwright `webServer` can start the API with `DATABASE_URL` against an isolated Postgres test DB; auth smoke (and CRUD smoke if PG-stable) passes without SQLite `DB_FILE`.
-- [ ] **QA-ADV-04**: CI E2E job runs Chromium and Firefox; WebKit runs locally or via documented optional CI step (no silent skip without doc).
+- [x] **QA-ADV-04**: CI E2E job runs Chromium and Firefox; WebKit runs locally or via documented optional CI step (no silent skip without doc).
 - [x] **QA-CI-05**: Postgres E2E uses a dedicated test database name (e.g. `edf_lab_e2e`), never the dev `edf_lab` volume.
 
 ### Learning Documentation
 
-- [ ] **DOCS-01**: `docs/10-tests.md` documents CRUD E2E flow, Postgres E2E env, and multi-browser matrix (local vs CI).
-- [ ] **DOCS-02**: Mission 17 guides running CRUD E2E locally and debugging a failing create/edit/delete step (trace + Network).
-- [ ] **DOCS-03**: At least two real v2.1 friction entries in `NOTEBOOK.md` (CRUD E2E, Postgres E2E, or multi-browser).
+- [x] **DOCS-01**: `docs/10-tests.md` documents CRUD E2E flow, Postgres E2E env, and multi-browser matrix (local vs CI).
+- [x] **DOCS-02**: Mission 17 guides running CRUD E2E locally and debugging a failing create/edit/delete step (trace + Network).
+- [x] **DOCS-03**: At least two real v2.1 friction entries in `NOTEBOOK.md` (CRUD E2E, Postgres E2E, or multi-browser).
 
 ## Future Requirements (post-v2.1)
 
@@ -60,10 +60,10 @@ Requirements for **Advanced E2E**. Phases 30–33.
 | QA-ADV-02 | Phase 31 | Complete |
 | QA-ADV-03 | Phase 32 | Complete |
 | QA-CI-05 | Phase 32 | Complete |
-| QA-ADV-04 | Phase 33 | Pending |
-| DOCS-01 | Phase 33 | Pending |
-| DOCS-02 | Phase 33 | Pending |
-| DOCS-03 | Phase 33 | Pending |
+| QA-ADV-04 | Phase 33 | Complete |
+| DOCS-01 | Phase 33 | Complete |
+| DOCS-02 | Phase 33 | Complete |
+| DOCS-03 | Phase 33 | Complete |
 
 **Coverage:**
 - v2.1 requirements: 8 total

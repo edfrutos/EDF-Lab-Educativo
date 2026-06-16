@@ -2,12 +2,13 @@
 gsd_state_version: 1.0
 milestone: v2.1
 milestone_name: Advanced E2E
-status: executing
-last_updated: "2026-06-15T18:49:00Z"
-last_activity: 2026-06-15 -- Phase 33 executed (12/12 E2E CI passed)
+status: completed
+stopped_at: Milestone v2.1 shipped
+last_updated: "2026-06-16T08:55:41Z"
+last_activity: 2026-06-16 -- Phase 33 verified and v2.1 shipped
 progress:
   total_phases: 4
-  completed_phases: 3
+  completed_phases: 4
   total_plans: 8
   completed_plans: 8
   percent: 100
@@ -21,22 +22,22 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v2.1 Advanced E2E — verify Phase 33 (última fase)
+**Current focus:** Milestone v2.1 Advanced E2E — shipped
 
 ## Current Position
 
-Phase: **33 — Multi-browser CI y material didáctico**  
+Phase: 33 — COMPLETE
 Plan: 2/2 complete  
-Status: Executed — pending verification  
-Last activity: 2026-06-15 — Phase 33 executed (6 chromium + 12 CI multi-browser)
+Status: Phase 33 verified
+Last activity: 2026-06-16 -- Phase 33 verified and v2.1 shipped
 
-**Current focus:** Verify Phase 33 → ship v2.1
+**Current focus:** Cerrar milestone v2.1 y preparar siguiente milestone
 
 ## Milestone Status
 
 | Milestone | Status | Shipped / Started |
 |-----------|--------|---------------------|
-| v2.1 Advanced E2E | Executed (pending verify) | 2026-06-15 |
+| v2.1 Advanced E2E | Shipped | 2026-06-16 |
 | v2.0 Quality & CI | Shipped | 2026-06-15 |
 | v1.6 Framework Auth & CI | Shipped | 2026-06-14 |
 | v1.5 Production Auth & Deployment | Shipped | 2026-06-02 |
@@ -48,9 +49,9 @@ Last activity: 2026-06-15 — Phase 33 executed (6 chromium + 12 CI multi-browse
 
 ## Session Continuity
 
-Last session: 2026-06-15  
-Stopped at: Phase 33 executed  
-Next suggested command: `/gsd-verify-phase 33`
+Last session: 2026-06-16  
+Stopped at: Milestone v2.1 shipped  
+Next suggested command: `/gsd-new-milestone`
 
 ## Deferred Items
 
@@ -63,4 +64,4 @@ Next suggested command: `/gsd-verify-phase 33`
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-15 — Phase 33 executed*
+*Last updated: 2026-06-16 — Phase 33 verified, milestone v2.1 shipped*
