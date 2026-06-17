@@ -163,6 +163,21 @@ const response = await fetch(url, {
 
 La interfaz muestra un formulario de **Iniciar sesión** antes del panel CRUD. Tras login correcto, se cargan health, metadatos y usuarios.
 
+### Login clásico vs OAuth mock
+
+| Ruta | Cuándo usarla | Qué hace en UI |
+|------|---------------|----------------|
+| **Login clásico** | Tienes email/contraseña del operador | Formulario **Entrar** → `POST /auth/login` |
+| **OAuth mock** | Quieres practicar el handoff OAuth sin proveedor externo | Botón **Continuar con OAuth mock** → `GET /auth/oauth/start` + callback con `authUrl` |
+
+El dashboard vanilla completa OAuth mock **en la misma página**: llama a `/auth/oauth/start`, consume la `authUrl` devuelta con `credentials: 'include'` y reutiliza el bootstrap actual para cargar `/users`. No necesitas navegar manualmente al JSON del callback en `:3100`.
+
+Errores frecuentes en UI:
+
+- **State inválido:** el callback se ejecutó sin la cookie `edf_oauth_state` del start previo.
+- **401 tras OAuth:** la API no está en `:3100` o CORS/cookies no están habilitados.
+- **Mezclar rutas:** OAuth mock no sustituye refresh/password; son flujos complementarios del mismo operador.
+
 Lectura relacionada: [`04-dashboard-fetch.md`](./04-dashboard-fetch.md) (patrón `fetch` y estados de carga).
 
 ---

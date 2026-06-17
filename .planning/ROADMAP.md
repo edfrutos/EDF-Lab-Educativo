@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v2.4 OAuth Foundation (Phase 40+)
+**Current Milestone:** v2.4 OAuth Foundation (Phases 40-41) — **SHIPPED**
 
 ## Milestones
 
@@ -15,7 +15,7 @@
 - ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
 - ✅ **v2.3 Auth Advanced** — Phases 38–39 (shipped 2026-06-17)
-- 🚧 **v2.4 OAuth Foundation** — Phase 40 en progreso
+- ✅ **v2.4 OAuth Foundation** — Phases 40-41 shipped 2026-06-17
 
 ## Phases
 
@@ -194,6 +194,31 @@ Plans:
 
 ---
 
+### Phase 41: OAuth dashboard integration foundation
+
+**Goal:** El alumno/operador puede activar el flujo OAuth mock desde el dashboard y completar un recorrido auth visible sin romper login clásico ni contratos backend existentes.  
+**Depends on:** Phase 40  
+**Requirements:** AUTH-ADV-01  
+**Plans:** 2/2
+
+Plans:
+**Wave 1**
+
+- [x] 41-01-PLAN.md — integración OAuth en dashboard (entry point + handoff) y validación de continuidad auth
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 41-02-PLAN.md — alineación docs/misiones/NOTEBOOK y verificación didáctica de la fase
+
+**Success criteria:**
+
+1. Dashboard expone un camino OAuth mock visible y ejecutable.
+2. El flujo OAuth desde UI termina en sesión válida para rutas protegidas.
+3. Login clásico y refresh/password previos no regresionan.
+4. Documentación y misiones distinguen claramente login clásico vs OAuth mock.
+
+---
+
 <details>
 <summary>✅ v2.1 Advanced E2E (Phases 30–33) — SHIPPED 2026-06-16</summary>
 
@@ -226,6 +251,7 @@ See `.planning/milestones/` archives.
 | 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
 | 39 | v2.3 | 2/2 | Complete | 2026-06-17 |
 | 40 | v2.4 | 2/2 | Complete | 2026-06-17 |
+| 41 | v2.4 | 2/2 | Complete | 2026-06-17 |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

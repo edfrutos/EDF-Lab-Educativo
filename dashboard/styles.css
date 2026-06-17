@@ -167,7 +167,22 @@ h2 {
 }
 
 .login-hint {
-  margin-bottom: 0;
+  margin-top: 12px;
+}
+
+.oauth-divider {
+  margin: 20px 0 12px;
+  text-align: center;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.oauth-mock-button {
+  width: 100%;
+}
+
+.oauth-hint {
+  margin-top: 12px;
 }
 
 .dashboard-panel[hidden] {

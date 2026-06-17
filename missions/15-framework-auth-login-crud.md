@@ -123,6 +123,12 @@ Practicar el flujo completo de **autenticación** en un dashboard con framework 
 
    Verifica que `state` inválido devuelve 400.
 
+11. **OAuth mock desde dashboard (fase 41)**
+
+    Con API y dashboard en marcha, abre `http://localhost:5173` y usa **Continuar con OAuth mock**. Debe mostrar la tabla de usuarios sin contraseña. Cierra sesión y repite con login clásico para confirmar que ambas rutas conviven.
+
+    El dashboard vanilla completa el handoff con `fetch` y `credentials: 'include'` (no redirige al JSON del callback en `:3100`).
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -133,6 +139,7 @@ Puedes explicar en tus palabras:
 4. Por qué `PATCH /auth/password` exige contraseña actual además de sesión válida.
 5. Cómo `POST /auth/refresh` endurece la sesión sin introducir OAuth todavía.
 6. Cómo `GET /auth/oauth/start` y `GET /auth/oauth/callback` se integran sin romper login clásico.
+7. Por qué el dashboard vanilla consume OAuth mock con `fetch` en lugar de navegar al callback en `:3100`.
 
 ## Reto extra
 

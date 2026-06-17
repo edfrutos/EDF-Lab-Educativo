@@ -9,7 +9,9 @@ const COOKIE_NAME = 'edf_session';
 const REFRESH_COOKIE_NAME = 'edf_refresh';
 const OAUTH_STATE_COOKIE_NAME = 'edf_oauth_state';
 const DEFAULT_ADMIN_EMAIL = 'admin@lab.local';
-const DEFAULT_CORS_ORIGINS = 'http://localhost:5173,http://localhost:5174,http://localhost:5175';
+const DEFAULT_CORS_ORIGINS =
+  'http://localhost:5173,http://localhost:5174,http://localhost:5175,' +
+  'http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175';
 const DEFAULT_JWT_EXPIRES_IN = '24h';
 const DEFAULT_REFRESH_EXPIRES_IN = '7d';
 const COOKIE_MAX_AGE_MS = 24 * 60 * 60 * 1000;

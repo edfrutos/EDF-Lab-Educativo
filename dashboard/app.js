@@ -11,6 +11,7 @@ const elements = {
   loginEmailInput: document.getElementById('login-email'),
   loginPasswordInput: document.getElementById('login-password'),
   loginError: document.getElementById('login-error'),
+  oauthMockButton: document.getElementById('oauth-mock-button'),
   dashboardPanel: document.getElementById('dashboard-panel'),
   statusDot: document.getElementById('status-dot'),
   connectionValue: document.getElementById('connection-value'),
@@ -35,6 +36,7 @@ elements.apiBaseUrl.textContent = API_BASE_URL;
 elements.reloadButton.addEventListener('click', loadDashboardData);
 elements.logoutButton.addEventListener('click', handleLogoutClick);
 elements.loginForm.addEventListener('submit', handleLoginSubmit);
+elements.oauthMockButton.addEventListener('click', handleOAuthMockClick);
 elements.userForm.addEventListener('submit', handleUserFormSubmit);
 elements.cancelEditButton.addEventListener('click', resetUserForm);
 elements.usersTableBody.addEventListener('click', handleUsersTableClick);
@@ -102,6 +104,29 @@ async function bootstrapAuth() {
 
     showLoginGate();
     showLoginError(error.message || 'No se ha podido comprobar la sesión.');
+  }
+}
+
+async function handleOAuthMockClick() {
+  clearLoginError();
+  elements.oauthMockButton.disabled = true;
+
+  try {
+    const start = await fetchJson('/auth/oauth/start?provider=mock');
+    const authPath = typeof start.authUrl === 'string' ? start.authUrl : '';
+
+    if (!authPath.startsWith('/auth/oauth/callback')) {
+      throw new Error('Respuesta OAuth inválida: falta authUrl de callback.');
+    }
+
+    await fetchJson(authPath);
+    clearLoginError();
+    showDashboardPanel();
+    await loadDashboardData();
+  } catch (error) {
+    showLoginError(error.message || 'No se ha podido completar OAuth mock.');
+  } finally {
+    elements.oauthMockButton.disabled = false;
   }
 }
 

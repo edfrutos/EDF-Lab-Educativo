@@ -34,6 +34,9 @@ app.use(cors({
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
+      console.warn(
+        `[cors] Origen rechazado: ${origin}. Permitidos: ${allowedOrigins.join(', ')}`
+      );
       callback(new Error('Origen no permitido por CORS'));
     }
   },

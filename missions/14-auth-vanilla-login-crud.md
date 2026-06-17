@@ -106,6 +106,22 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
 
    Si alteras `state`, debe responder **400**.
 
+11. **OAuth mock desde dashboard (fase 41)**
+
+    Con API (`:3100`) y dashboard (`:5173`) en marcha:
+
+    1. Abre `http://localhost:5173`.
+    2. Compara el formulario **login clásico** con el botón **Continuar con OAuth mock**.
+    3. Pulsa OAuth mock y confirma que aparece la tabla de usuarios sin introducir contraseña.
+    4. Cierra sesión y repite el login clásico para verificar que ambas rutas conviven.
+
+    Verificación automatizada:
+
+    ```bash
+    npx playwright test --config=e2e/playwright.config.js --project=vanilla-chromium e2e/tests/auth-smoke.vanilla.spec.js
+    cd api && npm run test:sqlite
+    ```
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -116,6 +132,7 @@ Puedes explicar en tus palabras:
 4. Qué diferencia hay entre **cambiar contraseña** (requiere sesión + contraseña actual) y **hacer login**.
 5. Qué significa **rotación de refresh token** y por qué reusar uno viejo debe fallar.
 6. Por qué el parámetro `state` en OAuth protege frente a callbacks no válidos.
+7. Cuándo usar **login clásico** frente a **OAuth mock** en el dashboard vanilla.
 
 ## Reto extra
 

@@ -23,4 +23,19 @@ async function runAuthSmokeFlow(page, { email, password }) {
   await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeHidden();
 }
 
-module.exports = { runAuthSmokeFlow };
+async function runOAuthMockSmokeFlow(page) {
+  await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeHidden();
+
+  await page.getByRole('button', { name: 'Continuar con OAuth mock' }).click();
+
+  await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible();
+  await expect(page.getByRole('table')).toBeVisible();
+  await expect(page.getByText('John Doe')).toBeVisible();
+
+  await page.getByRole('button', { name: 'Cerrar sesión' }).click();
+  await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeHidden();
+}
+
+module.exports = { runAuthSmokeFlow, runOAuthMockSmokeFlow };

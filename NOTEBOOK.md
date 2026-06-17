@@ -424,6 +424,24 @@ Errores y patrones al introducir flujo social `start/callback` con proveedor `mo
 
 ---
 
+## OAuth dashboard integration (fase 41)
+
+Errores y patrones al conectar el flujo OAuth mock del backend con la UI del dashboard vanilla.
+
+### Redirigir al callback OAuth deja al usuario en una página JSON
+
+**Síntoma:** Tras pulsar «Continuar con OAuth mock», el navegador termina en `http://localhost:3100/auth/oauth/callback?...` mostrando JSON crudo en lugar del panel CRUD.
+
+**Causa:** El callback OAuth devuelve JSON (sesión emitida), no HTML. `window.location = authUrl` navega al origen de la API (`:3100`), no al dashboard (`:5173`).
+
+**Solución:** Completar el handoff con `fetch(authUrl, { credentials: 'include' })` desde `dashboard/app.js`, validar la respuesta y reutilizar `showDashboardPanel()` + `loadDashboardData()` como tras login clásico.
+
+**Aprendizaje:** OAuth en SPAs estáticos no siempre implica «redirigir y volver»: si el callback es API JSON, la UI debe consumirlo con `fetch` y cookies, no con navegación completa.
+
+*Error real (fase 41).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

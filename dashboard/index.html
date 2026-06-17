@@ -32,6 +32,9 @@
         <p class="hint">
           La API guarda la sesión en una cookie httpOnly. Necesitas iniciar sesión para ver y gestionar usuarios.
         </p>
+        <p class="hint">
+          <strong>Login clásico:</strong> email y contraseña del operador de laboratorio.
+        </p>
         <form id="login-form">
           <label class="field-group" for="login-email">
             <span>Email</span>
@@ -43,6 +46,13 @@
           </label>
           <button type="submit">Entrar</button>
         </form>
+        <p class="oauth-divider" aria-hidden="true">o</p>
+        <button type="button" class="secondary-button oauth-mock-button" id="oauth-mock-button">
+          Continuar con OAuth mock
+        </button>
+        <p class="hint oauth-hint">
+          <strong>OAuth mock (laboratorio):</strong> inicia <code>/auth/oauth/start</code> y completa el callback sin proveedor externo.
+        </p>
         <p class="login-error" id="login-error" role="alert" aria-live="polite" hidden></p>
         <p class="hint login-hint">
           Credenciales de laboratorio: <code>admin@lab.local</code> / <code>changeme</code>
