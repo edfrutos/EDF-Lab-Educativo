@@ -15,8 +15,8 @@ Requirements for **Visual Regression**. Phases 34–37.
 
 ### CI Integration
 
-- [ ] **QA-VIS-04**: A dedicated CI job runs visual regression on every PR (Chromium minimum); failure artifacts (diff images) are retained or documented for review.
-- [ ] **QA-CI-06**: Visual job reuses the existing quad `webServer` pattern and does not break `test:e2e`, `test:e2e:ci`, or `test:e2e:pg`.
+- [x] **QA-VIS-04**: A dedicated CI job runs visual regression on every PR (Chromium minimum); failure artifacts (diff images) are retained or documented for review.
+- [x] **QA-CI-06**: Visual job reuses the existing quad `webServer` pattern and does not break `test:e2e`, `test:e2e:ci`, or `test:e2e:pg`.
 
 ### Learning Documentation
 
@@ -59,8 +59,8 @@ Requirements for **Visual Regression**. Phases 34–37.
 | QA-VIS-01 | Phase 34 | Complete |
 | QA-VIS-03 | Phase 34 | Complete |
 | QA-VIS-02 | Phase 35 | Complete |
-| QA-VIS-04 | Phase 36 | Pending |
-| QA-CI-06 | Phase 36 | Pending |
+| QA-VIS-04 | Phase 36 | Complete |
+| QA-CI-06 | Phase 36 | Complete |
 | DOCS-04 | Phase 37 | Pending |
 | DOCS-05 | Phase 37 | Pending |
 | DOCS-06 | Phase 37 | Pending |

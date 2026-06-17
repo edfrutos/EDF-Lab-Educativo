@@ -2,16 +2,16 @@
 gsd_state_version: 1.0
 milestone: v2.2
 milestone_name: Visual Regression
-status: verifying
-last_updated: "2026-06-17T08:12:00.000Z"
-last_activity: 2026-06-17 -- Phase 36 execution complete
+status: ready_to_plan
+last_updated: "2026-06-17T08:29:00.000Z"
+last_activity: 2026-06-17 -- Phase 36 verification passed
 progress:
   total_phases: 4
   completed_phases: 3
   total_plans: 6
   completed_plans: 6
   percent: 75
-stopped_at: Phase 36 complete (2/2) — ready for verification
+stopped_at: Phase 36 verified — ready to discuss/plan Phase 37
 ---
 
 # Project State
@@ -22,14 +22,14 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Phase 36 — CI visual regression
+**Current focus:** Phase 37 — material didáctico visual
 
 ## Current Position
 
-Phase: 36
-Plan: 2 of 2
-Status: Phase complete — ready for verification
-Last activity: 2026-06-17 -- Phase 36 execution complete
+Phase: 37
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-06-17 -- Phase 36 verification passed
 
 ## Milestone Status
 
@@ -48,9 +48,9 @@ Last activity: 2026-06-17 -- Phase 36 execution complete
 
 ## Session Continuity
 
-Last session: 2026-06-17T08:12:00.000Z
-Stopped at: Phase 36 complete (2/2) — ready for verification
-Next suggested command: `/gsd-verify-phase 36`
+Last session: 2026-06-17T08:29:00.000Z
+Stopped at: Phase 36 verified — ready to discuss/plan Phase 37
+Next suggested command: `/gsd-discuss-phase 37`
 
 ## Deferred Items
 
@@ -62,4 +62,4 @@ Next suggested command: `/gsd-verify-phase 36`
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-17 — Phase 36 executed*
+*Last updated: 2026-06-17 — Phase 36 verified*
