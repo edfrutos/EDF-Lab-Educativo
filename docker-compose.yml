@@ -50,5 +50,18 @@ services:
     depends_on:
       - edf-lab-api
 
+  # Edge proxy TLS — solo perfil prod (único puerto :443 en host)
+  edf-lab-proxy:
+    build: ./proxy
+    profiles:
+      - prod
+    ports:
+      - "443:443"
+    volumes:
+      - ./deploy/certs:/etc/nginx/certs:ro
+    depends_on:
+      - edf-lab-api
+      - edf-lab-dashboard
+
 volumes:
   postgres_data:

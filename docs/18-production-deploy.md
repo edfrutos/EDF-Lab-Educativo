@@ -13,7 +13,71 @@ En un despliegue real:
 1. Los **secretos** (JWT, contraseñas de operador, URL de base de datos) viven en archivos o gestores de secretos **fuera** del repositorio y de las imágenes Docker.
 2. El **TLS** (HTTPS) suele terminarse en un **proxy inverso** (nginx, Caddy, Traefik). Node y nginx del dashboard sirven HTTP **dentro** de la red privada; el usuario solo ve `https://` hacia el proxy.
 
-Este laboratorio no automatiza certificados ni Kubernetes; enseña el **patrón** que luego escalarás en v1.6+.
+Este laboratorio no automatizaba certificados ni Kubernetes; en **v2.5 fase 42** el perfil Compose `prod` implementa el patrón con `edf-lab-proxy`. Let's Encrypt y endurecimiento TLS siguen en fases 43–44.
+
+---
+
+## Perfil Compose `prod` (fase 42)
+
+Un único origen HTTPS en el host; la API se alcanza bajo **`/api`** sin cambiar rutas en Express.
+
+```txt
+                    Host
+                      |
+                      |  HTTPS :443
+                      v
+              +-------------------+
+              | edf-lab-proxy     |
+              | (nginx edge TLS)  |
+              +-------------------+
+                   |         |
+         strip /api|         | HTTP :5173
+                   v         v
+            +-----------+  +------------------+
+            | edf-lab-  |  | edf-lab-         |
+            | api       |  | dashboard        |
+            | :3100 int |  | (nginx estático) |
+            +-----------+  +------------------+
+                   |
+                   v
+            +------------------+
+            | edf-lab-postgres |
+            +------------------+
+```
+
+### Arranque
+
+```bash
+cp api/.env.example api/.env   # JWT_SECRET, DATABASE_URL para Compose
+./scripts/generate-dev-tls.sh  # deploy/certs/lab.crt + lab.key (gitignored)
+npm run compose:prod
+./scripts/smoke-prod-proxy.sh
+```
+
+- **`npm run compose:up`** (sin profile) sigue publicando `:3100` y `:5173` — misiones 11/12 intactas.
+- **`npm run compose:prod`** no publica `:3100`/`:5173`; solo **`:443`** vía proxy.
+- Certs **autofirmados**: `curl` requiere `-k`; el navegador muestra advertencia hasta fase 43/44.
+- Dashboard prod usa **`API_BASE_URL='/api'`** (build-arg en imagen); dev host sigue `http://localhost:3100` en `dashboard/app.js`.
+
+### Enrutado nginx (implementado)
+
+`proxy/nginx.conf`:
+
+```nginx
+location /api/ {
+    proxy_pass http://edf-lab-api:3100/;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto https;
+}
+
+location / {
+    proxy_pass http://edf-lab-dashboard:5173;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto https;
+}
+```
+
+OAuth y login usan el mismo prefijo: `/api/auth/login`, `/api/auth/oauth/start`, etc.
 
 ---
 
@@ -99,40 +163,13 @@ Las credenciales de Postgres en el servicio `edf-lab-postgres` siguen siendo **f
 
 ## TLS en nginx (terminación)
 
-En producción, el navegador habla HTTPS con el proxy. El proxy reenvía HTTP a los contenedores:
+En producción, el navegador habla HTTPS con el proxy. El proxy reenvía HTTP a los contenedores. En este repo, el servicio **`edf-lab-proxy`** (perfil `prod`) implementa ese patrón — ver [Perfil Compose `prod`](#perfil-compose-prod-fase-42) arriba.
 
-```txt
-                    Internet
-                        |
-                        |  HTTPS :443
-                        v
-              +-------------------+
-              |  nginx (proxy)    |
-              |  TLS terminado    |
-              +-------------------+
-                   |         |
-         HTTP :3100|         |HTTP :5173
-                   v         v
-            +-----------+  +------------------+
-            | edf-lab-  |  | edf-lab-         |
-            | api       |  | dashboard        |
-            | (Express) |  | (nginx estático) |
-            +-----------+  +------------------+
-                   |
-                   |  red Docker interna
-                   v
-            +------------------+
-            | edf-lab-postgres |
-            +------------------+
-```
+**Por qué importa para auth:** la cookie `edf_session` usa el flag `Secure` cuando `NODE_ENV=production`. El navegador **solo** la envía por HTTPS. La verificación completa de login Secure en prod es **fase 43**; la fase 42 valida enrutado y reachability vía `scripts/smoke-prod-proxy.sh`.
 
-**Por qué importa para auth:** la cookie `edf_session` usa el flag `Secure` cuando `NODE_ENV=production`. El navegador **solo** la envía por HTTPS. Sin TLS delante, el login en “modo producción” no se comporta como en un entorno real.
+### Snippet nginx educativo (referencia histórica)
 
-Para una demo local con HTTPS puedes usar un certificado autofirmado en nginx; este lab no incluye scripts de Let's Encrypt (ver REQUIREMENTS.md — diferido a v1.6+).
-
-### Snippet nginx educativo (no production-ready)
-
-Fragmento mínimo para ilustrar terminación TLS y proxy hacia la API:
+Fragmento mínimo que ilustraba terminación TLS antes de implementar `edf-lab-proxy`:
 
 ```nginx
 server {

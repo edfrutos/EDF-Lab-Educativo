@@ -200,14 +200,14 @@ Plans:
 **Goal:** El operador puede levantar un perfil Compose `prod` con nginx como único origen HTTPS que enruta `/api` a Express y sirve el dashboard estático, sin romper el modo dev en host.  
 **Depends on:** Phase 41 (auth/OAuth estable)  
 **Requirements:** PROD-02, PROD-04, PROD-06  
-**Plans:** 2/2 planned
+**Plans:** 2/2 complete
 
 Plans:
 **Wave 1**
 
 - [x] 42-01-PLAN.md — perfil Compose prod, nginx `/api` + static, `API_BASE_URL` relativa en dashboard
 
-**Wave 2** *(blocked on Wave 1 completion)*
+**Wave 2**
 
 - [x] 42-02-PLAN.md — verificación modo dual (dev host intacto) y smoke básico del perfil prod
 

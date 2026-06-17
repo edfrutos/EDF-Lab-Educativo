@@ -5,6 +5,8 @@
   "scripts": {
     "compose:up": "docker compose up --build",
     "compose:down": "docker compose down",
+    "compose:prod": "docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up --build",
+    "compose:prod:down": "docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod down",
     "compose:logs": "docker compose logs -f",
     "test": "npm test --prefix api",
     "test:pg": "npm run test:pg --prefix api",

@@ -93,6 +93,18 @@ Para parar el stack:
 npm run compose:down
 ```
 
+### Modo prod (un solo origen HTTPS)
+
+Perfil **`prod`**: nginx edge (`edf-lab-proxy`) en **`:443`**, dashboard en `/` y API en **`/api`** (strip en el proxy). El modo dev en host (`:3100` + `:5173`) no cambia.
+
+```bash
+./scripts/generate-dev-tls.sh   # certs autofirmados en deploy/certs/ (una vez)
+npm run compose:prod            # levanta stack sin publicar :3100/:5173
+./scripts/smoke-prod-proxy.sh   # curl -k contra https://localhost/api/health
+```
+
+Abre https://localhost en el navegador (acepta la advertencia del certificado de laboratorio). Detalle: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+
 Dashboard: http://localhost:5173 — API: http://localhost:3100 — PostgreSQL: `localhost:5432`
 
 En **v1.3**, `npm run compose:up` levanta **tres servicios** (Postgres + API + dashboard). La API usa **PostgreSQL** vía `DATABASE_URL`; los datos persisten en el volumen Docker `postgres_data`. En el host, `cd api && npm start` **sin** `DATABASE_URL` sigue usando SQLite en `api/data/users.db`.

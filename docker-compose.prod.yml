@@ -1,0 +1,12 @@
+# Override prod: mismo stack sin publicar :3100/:5173 en el host.
+# Uso: npm run compose:prod
+services:
+  edf-lab-api:
+    ports: !reset []
+
+  edf-lab-dashboard:
+    build:
+      context: ./dashboard
+      args:
+        DASHBOARD_API_BASE_URL: /api
+    ports: !reset []
