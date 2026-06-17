@@ -52,7 +52,7 @@ Last activity: 2026-06-17 — Milestone v2.5 requirements and roadmap defined
 
 Last session: 2026-06-17T11:42:10.111Z
 Stopped at: Phase 42 context gathered
-Next suggested command: `/gsd-discuss-phase 42`
+Next suggested command: `/gsd-execute-phase 42`
 
 ## Deferred Items
 
