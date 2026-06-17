@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v2.3 Auth Advanced (Phases 38–39)
+**Current Milestone:** v2.4 OAuth Foundation (Phase 40+)
 
 ## Milestones
 
@@ -15,6 +15,7 @@
 - ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
 - ✅ **v2.3 Auth Advanced** — Phases 38–39 (shipped 2026-06-17)
+- 🚧 **v2.4 OAuth Foundation** — Phase 40 en progreso
 
 ## Phases
 
@@ -168,6 +169,31 @@ Plans:
 
 ---
 
+### Phase 40: OAuth social login foundation
+
+**Goal:** El operador puede iniciar un flujo OAuth/social de forma controlada y didáctica sin romper el contrato auth vigente.  
+**Depends on:** Phase 39  
+**Requirements:** AUTH-ADV-01  
+**Plans:** 0/2 (to define)
+
+Plans:
+**Wave 1**
+
+- [ ] 40-01-PLAN.md — contrato OAuth backend (start/callback) + tests base
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 40-02-PLAN.md — docs/misiones/NOTEBOOK y verificación de fase
+
+**Success criteria:**
+
+1. Existe contrato backend para iniciar y completar flujo OAuth.
+2. El flujo OAuth emite sesión compatible con rutas protegidas actuales.
+3. Login clásico y refresh rotation previos siguen estables.
+4. Documentación auth refleja claramente cuándo usar login clásico vs social.
+
+---
+
 <details>
 <summary>✅ v2.1 Advanced E2E (Phases 30–33) — SHIPPED 2026-06-16</summary>
 
@@ -199,6 +225,7 @@ See `.planning/milestones/` archives.
 | 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
 | 39 | v2.3 | 2/2 | Complete | 2026-06-17 |
+| 40 | v2.4 | 0/2 | Ready to plan | — |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

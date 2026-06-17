@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.3
-milestone_name: Auth Advanced
-status: ready
-last_updated: "2026-06-17T09:41:00.000Z"
-last_activity: 2026-06-17 -- Phase 39 verified (passed)
+milestone: v2.4
+milestone_name: OAuth Foundation
+status: planning
+last_updated: "2026-06-17T09:44:00.000Z"
+last_activity: 2026-06-17 -- Phase 40 context gathered
 progress:
-  total_phases: 6
+  total_phases: 7
   completed_phases: 6
   total_plans: 12
   completed_plans: 12
   percent: 100
-stopped_at: Phase 39 verified (passed)
+stopped_at: Phase 40 context gathered
 ---
 
 # Project State
@@ -22,20 +22,21 @@ See: `.planning/PROJECT.md` (updated 2026-06-15)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Phase 39 — refresh token rotation foundation (verified)
+**Current focus:** Phase 40 — OAuth social login foundation
 
 ## Current Position
 
-Phase: 39
-Plan: 39-02
-Status: Complete (verified)
-Last activity: 2026-06-17 -- Phase 39 verified (passed)
+Phase: 40
+Plan: Not started
+Status: Ready to plan
+Last activity: 2026-06-17 -- Phase 40 context gathered
 
 ## Milestone Status
 
 | Milestone | Status | Shipped / Started |
 |-----------|--------|---------------------|
 | v2.2 Visual Regression | Shipped | 2026-06-17 |
+| v2.4 OAuth Foundation | In progress | 2026-06-17 |
 | v2.3 Auth Advanced | Shipped | 2026-06-17 |
 | v2.1 Advanced E2E | Shipped | 2026-06-16 |
 | v2.0 Quality & CI | Shipped | 2026-06-15 |
@@ -49,18 +50,18 @@ Last activity: 2026-06-17 -- Phase 39 verified (passed)
 
 ## Session Continuity
 
-Last session: 2026-06-17T09:41:00.000Z
-Stopped at: Phase 39 verified (passed)
-Next suggested command: `/gsd-discuss-phase 40`
+Last session: 2026-06-17T09:44:00.000Z
+Stopped at: Phase 40 context gathered
+Next suggested command: `/gsd-plan-phase 40`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
-| OAuth / social login | Auth milestone | Deferred |
+| OAuth / social login | Auth milestone | In progress (phase 40) |
 | Let's Encrypt automation | PROD milestone | Deferred |
 | nginx /api proxy in Compose | PROD-02 | Deferred |
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-17 — Phase 39 verified*
+*Last updated: 2026-06-17 — Phase 40 context gathered*
