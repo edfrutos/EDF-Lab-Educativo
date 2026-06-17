@@ -1,5 +1,24 @@
 # Milestones
 
+## v2.4 OAuth Foundation (Shipped: 2026-06-17)
+
+**Phases completed:** 2 phases, 4 plans  
+**Timeline:** 2026-06-17  
+**Tag:** `v2.4`  
+**Known deferred items at close:** Real Google/GitHub providers; OAuth UI in React/Vue dashboards
+
+**Key accomplishments:**
+
+- Backend OAuth mock: `GET /auth/oauth/start`, `GET /auth/oauth/callback`, validación `state`, sesión compatible
+- Dashboard vanilla: botón «Continuar con OAuth mock», handoff con `fetch` + `credentials: 'include'`
+- E2E: `runOAuthMockSmokeFlow` en `auth-smoke.vanilla.spec.js` (2 tests auth vanilla)
+- Docs/misiones/NOTEBOOK: login clásico vs OAuth mock; fricciones `state` y redirección al JSON
+- CORS por defecto acepta `localhost` y `127.0.0.1` en puertos 5173–5175
+
+**Delivered:** Learners can complete OAuth mock from the vanilla dashboard UI, compare it with classic login, and debug real CORS/origin friction documented in NOTEBOOK.
+
+---
+
 ## v2.0 Quality & CI (Shipped: 2026-06-15)
 
 **Phases completed:** 4 phases, 8 plans  

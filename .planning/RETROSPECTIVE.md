@@ -213,6 +213,42 @@
 
 ---
 
+## Milestone: v2.4 — OAuth Foundation
+
+**Shipped:** 2026-06-17  
+**Phases:** 2 | **Plans:** 4
+
+### What Was Built
+
+- OAuth mock backend contract (start/callback) with anti-CSRF `state` cookie
+- Vanilla dashboard OAuth entry point and fetch-based callback handoff
+- E2E smoke for OAuth mock path alongside classic login
+- Auth docs/missions distinguishing classic login vs OAuth mock
+
+### What Worked
+
+- Reusing existing session cookie issuance for OAuth callback kept backend additive
+- Documenting fetch-vs-redirect friction in NOTEBOOK turned a UI bug into curriculum
+- Phase 41 consumed phase 40 contract without backend changes (clean dependency)
+
+### What Was Inefficient
+
+- CORS whitelist missed `127.0.0.1` — common local dev pitfall caught in UAT
+- E2E grep mismatch (`auth smoke vanilla` vs actual describe title) slowed verification
+
+### Patterns Established
+
+- OAuth mock in lab: API returns JSON callback; UI completes with `fetch`, not navigation
+- Dual auth gate in vanilla: classic form + OAuth mock button for explicit comparison
+
+### Key Lessons
+
+1. `localhost` and `127.0.0.1` are different origins for CORS — whitelist both in dev
+2. OAuth in static SPAs: if callback is JSON API, stay on dashboard origin after handoff
+3. Keep OAuth scope to mock provider until learners understand classic session flow
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -226,6 +262,7 @@
 | v1.4 | ~1 | 3 | Parallel framework dashboards; docs-only close |
 | v1.5 | ~2 | 4 | Auth + deploy as advanced track; 4-phase milestone |
 | v2.0 | ~2 | 4 | Playwright E2E + Postgres CI; docs close milestone |
+| v2.4 | ~1 | 2 | OAuth mock backend + dashboard UI; CORS 127.0.0.1 fix |
 
 ### Cumulative Quality
 
@@ -238,6 +275,7 @@
 | v1.4 | 32 API tests | Three-dashboard UAT | Vite + React/Vue |
 | v1.5 | 46 API tests | 19-UAT + 21-UAT | bcrypt, jsonwebtoken, cookie-parser |
 | v2.0 | 47 API + 3 E2E | CI 3 jobs on PR | `@playwright/test` |
+| v2.4 | 36 API + 7 E2E | OAuth mock + visual CI | cors whitelist expanded |
 
 ### Top Lessons (Verified Across Milestones)
 

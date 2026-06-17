@@ -10,32 +10,38 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: v2.2 Visual Regression
+## Current Milestone
 
-**Goal:** Añadir regresión visual con Playwright (`toHaveScreenshot`) en los tres dashboards, con job CI obligatorio en PRs y material didáctico sobre baselines, diffs y política anti-flake.
+**Status:** v2.4 OAuth Foundation shipped 2026-06-17 — planning next milestone.
 
-**Target features:**
-- Snapshots visuales en vanilla, React y Vue (misma superficie que E2E CRUD)
-- Playwright nativo (sin servicio externo)
-- Job CI obligatorio + flujo documentado para actualizar baselines
-- Mission 18 + NOTEBOOK v2.2 + ampliación de `docs/10-tests.md`
+Use `/gsd-new-milestone` to define the next learning route.
 
-## Current State (v2.1 shipped 2026-06-16)
+## Current State (v2.4 shipped 2026-06-17)
 
-**Stack:** Express + auth + `node:sqlite` / `pg` + vanilla / React / Vue dashboards + Playwright E2E  
+**Stack:** Express + auth (login, refresh, OAuth mock) + `node:sqlite` / `pg` + vanilla / React / Vue dashboards + Playwright E2E + visual regression  
 **Persistence:** SQLite host dev; PostgreSQL in Compose; E2E SQLite `e2e.users.db` + Postgres `edf_lab_e2e`  
-**Tests:** `test:sqlite` 24 · `test:pg` 23 · `test:e2e` 6 Chromium · `test:e2e:ci` 12 Chromium+Firefox · `test:e2e:pg`  
-**CI:** Four parallel jobs — `test-sqlite`, `test-postgres`, `e2e-smoke` (Chromium+Firefox), `e2e-postgres`  
-**Frontends:** `:5173` vanilla · `:5174` React · `:5175` Vue — login gate + CRUD E2E alineado  
-**Docs:** Mission 17 (CRUD E2E); `docs/10-tests.md` matriz multi-browser + Postgres E2E; NOTEBOOK Advanced E2E (v2.1)  
+**Tests:** `test:sqlite` 36 · `test:pg` (when Postgres up) · `test:e2e` 7 Chromium · `test:e2e:ci` · `test:visual` 3 dashboards  
+**CI:** Jobs — `test-sqlite`, `test-postgres`, `e2e-smoke`, `e2e-postgres`, `visual-regression`  
+**Frontends:** `:5173` vanilla (OAuth mock UI) · `:5174` React · `:5175` Vue — login gate + CRUD E2E alineado  
+**Auth:** Login clásico + refresh rotation + OAuth mock (`/auth/oauth/start` → callback); CORS `localhost` y `127.0.0.1`  
+**Docs:** `docs/17-autenticacion.md` (clásico vs OAuth mock); Mission 14/15; NOTEBOOK OAuth fases 40–41  
 **Compose:** `npm run compose:up` — Postgres + API + dashboard nginx
 
 <details>
-<summary>Previous milestone: v1.6 (archived)</summary>
+<summary>Previous milestone: v2.2 Visual Regression (archived)</summary>
 
-**Shipped 2026-06-14:** React/Vue auth parity, CI SQLite 24 tests, rate limit, Mission 15.
+**Shipped 2026-06-17:** Playwright `toHaveScreenshot` en 3 dashboards, job CI visual, Mission 18.
 
-See `.planning/milestones/v1.6-ROADMAP.md`.
+See `.planning/milestones/` and phases 34–37 in ROADMAP.
+
+</details>
+
+<details>
+<summary>Previous milestone: v2.1 (archived)</summary>
+
+**Shipped 2026-06-16:** CRUD E2E, Postgres E2E, multi-browser CI, Mission 17.
+
+See `.planning/milestones/v2.1-ROADMAP.md` when archived.
 
 </details>
 
@@ -101,19 +107,19 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 - ✓ CRUD E2E React/Vue con ids alineados — v2.1 Phase 31
 - ✓ E2E Postgres aislado (`edf_lab_e2e`) — v2.1 Phase 32
 - ✓ Multi-browser CI (Chromium+Firefox) + Mission 17 — v2.1 Phase 33
+- ✓ Playwright visual snapshots vanilla/React/Vue + CI job — v2.2 Phases 34–37
+- ✓ Password change API (`PATCH /auth/password`) — v2.3 Phase 38
+- ✓ Refresh token rotation (`POST /auth/refresh`) — v2.3 Phase 39
+- ✓ OAuth mock backend start/callback + tests — v2.4 Phase 40
+- ✓ OAuth mock dashboard UI + E2E smoke — v2.4 Phase 41
 
 ### Active
 
-- [ ] **QA-VIS-01**: Snapshots Playwright en dashboard vanilla (estado estable post-login)
-- [ ] **QA-VIS-02**: Snapshots en React y Vue con viewport y flujo auth alineados
-- [ ] **QA-VIS-03**: Baselines en repo + política anti-flake (`maxDiffPixelRatio`, `--update-snapshots`)
-- [ ] **QA-VIS-04**: Job CI obligatorio en PRs para regresión visual
-- [ ] **QA-CI-06**: Integración visual sin romper `test:e2e` / `test:e2e:ci` existentes
-- [ ] **DOCS-04/05/06**: Mission 18, docs tests visual, NOTEBOOK v2.2
+(Define next milestone with `/gsd-new-milestone`.)
 
 ### Out of Scope
 
-- OAuth / social providers — email/password + JWT cookie remains the teaching baseline (v2).
+- Real Google/GitHub OAuth providers — mock suffices for teaching handoff (deferred post-v2.4)
 - Let's Encrypt automation — manual TLS pattern in doc 18; scripts deferred to v2.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
 - nginx reverse proxy `/api` in Compose — documented as advanced reto only.
@@ -137,6 +143,8 @@ The lab is organized around a learning route:
 - `docker-compose.yml` — optional Postgres + API + dashboard stack.
 
 **v1.3 milestone shipped 2026-06-01:** 3 phases, 8 plans, 18/18 requirements.
+
+**v2.4 milestone shipped 2026-06-17:** 2 phases, 4 plans, AUTH-ADV-01 (OAuth mock backend + dashboard UI).
 
 **v2.1 milestone shipped 2026-06-16:** 4 phases, 8 plans, 8/8 requirements.
 
@@ -209,10 +217,12 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 | E2E login via UI only (no `AUTH_DISABLED`) | Didactic: browser path ≠ supertest shortcut | ✓ Good — v2.0 |
 | Global quad `webServer` in Playwright | Avoid port 3100 races with parallel workers | ✓ Good — v2.0 |
 | Postgres CI mandatory on PRs | Catch PG-only regressions before merge | ✓ Good — v2.0 |
+| OAuth mock via fetch not redirect | Callback returns JSON on :3100; SPA stays on :5173 | ✓ Good — v2.4 |
+| CORS whitelist includes 127.0.0.1 | localhost ≠ 127.0.0.1 for browsers | ✓ Good — v2.4 |
 
 ## Evolution
 
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-16 — milestone v2.2 Visual Regression started*
+*Last updated: 2026-06-17 after v2.4 milestone*

@@ -1,43 +1,43 @@
 ---
 gsd_state_version: 1.0
-milestone: v2.4
-milestone_name: OAuth Foundation
-status: shipped
-last_updated: "2026-06-17T12:45:00.000Z"
-last_activity: 2026-06-17 -- Phase 41 executed and verified
+milestone: none
+milestone_name: —
+status: planning
+last_updated: "2026-06-17T13:00:00.000Z"
+last_activity: 2026-06-17 -- Milestone v2.4 archived and tagged
 progress:
-  total_phases: 8
-  completed_phases: 8
-  total_plans: 16
-  completed_plans: 16
-  percent: 100
-stopped_at: Milestone v2.4 OAuth Foundation shipped
+  total_phases: 0
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
+stopped_at: Milestone v2.4 closed — ready for new milestone
 ---
 
 # Project State
 
 ## Project Reference
 
-See: `.planning/PROJECT.md` (updated 2026-06-15)
+See: `.planning/PROJECT.md` (updated 2026-06-17)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v2.4 OAuth Foundation — shipped
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 41 (complete)
-Plan: 41-02 complete
-Status: Milestone v2.4 shipped
-Last activity: 2026-06-17 -- Phase 41 executed and verified
+Phase: —
+Plan: —
+Status: Milestone v2.4 shipped; awaiting `/gsd-new-milestone`
+Last activity: 2026-06-17 -- Milestone v2.4 archived and tagged
 
 ## Milestone Status
 
 | Milestone | Status | Shipped / Started |
 |-----------|--------|---------------------|
 | v2.4 OAuth Foundation | Shipped | 2026-06-17 |
-| v2.2 Visual Regression | Shipped | 2026-06-17 |
 | v2.3 Auth Advanced | Shipped | 2026-06-17 |
+| v2.2 Visual Regression | Shipped | 2026-06-17 |
 | v2.1 Advanced E2E | Shipped | 2026-06-16 |
 | v2.0 Quality & CI | Shipped | 2026-06-15 |
 | v1.6 Framework Auth & CI | Shipped | 2026-06-14 |
@@ -50,19 +50,19 @@ Last activity: 2026-06-17 -- Phase 41 executed and verified
 
 ## Session Continuity
 
-Last session: 2026-06-17T12:45:00.000Z
-Stopped at: Milestone v2.4 OAuth Foundation shipped
-Next suggested command: `/gsd-complete-milestone` or `/gsd-new-milestone`
+Last session: 2026-06-17T13:00:00.000Z
+Stopped at: Milestone v2.4 closed — ready for new milestone
+Next suggested command: `/gsd-new-milestone`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
-| OAuth / social login | Auth milestone | Shipped (phases 40-41) |
-| Real Google/GitHub providers | Out of scope v2.4 | Deferred |
+| Real Google/GitHub OAuth | Out of scope v2.4 | Deferred |
+| OAuth UI in React/Vue dashboards | Vanilla-first teaching | Deferred |
 | Let's Encrypt automation | PROD milestone | Deferred |
 | nginx /api proxy in Compose | PROD-02 | Deferred |
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-17 — Phase 41 executed and verified; v2.4 shipped*
+*Last updated: 2026-06-17 — v2.4 milestone archived; tag v2.4*
