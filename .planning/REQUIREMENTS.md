@@ -64,6 +64,7 @@ Requirements for **Visual Regression**. Phases 34–37.
 | DOCS-04 | Phase 37 | Complete |
 | DOCS-05 | Phase 37 | Complete |
 | DOCS-06 | Phase 37 | Complete |
+| AUTH-ADV-03 | Phase 38 | Complete |
 
 **Coverage:**
 - v2.2 requirements: 8 total
