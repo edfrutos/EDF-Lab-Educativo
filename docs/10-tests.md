@@ -49,6 +49,7 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (12 tests; usa CI) |
 | `npm run test:e2e:firefox` | Solo Firefox (6 tests; opt-in local) |
 | `npm run test:visual` | Regresión visual en vanilla, React y Vue (3 tests Chromium) |
+| `npm run test:visual:ci` | Regresión visual para CI (job `visual-regression`, 3 tests Chromium) |
 | `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
@@ -113,6 +114,20 @@ La suite visual compara snapshots del panel autenticado en cada dashboard. Cada 
 - Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
 - Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
 - IDs visuales en React/Vue: `#dashboard-panel`, `#login-gate`, `#health-timestamp` (paridad con vanilla para `visual-flow.js`)
+
+#### Visual en CI (fase 36)
+
+- Job dedicado: `visual-regression` en `.github/workflows/ci.yml`
+- Comando CI: `npm run test:visual:ci` (misma matriz visual Chromium de 3 dashboards)
+- Si falla snapshot, el job publica artefactos (`test-results`, `playwright-report`) para revisar diffs desde el PR
+
+Flujo recomendado cuando el cambio visual es intencional:
+
+1. Ejecutar local: `npm run test:visual -- --update-snapshots`
+2. Revisar los PNG cambiados por dashboard/spec (no aceptar cambios ciegamente)
+3. Commit de baselines junto con el cambio UI y nota en el PR explicando por qué cambió la referencia
+
+Este gate visual es **aditivo**: `test:e2e`, `test:e2e:ci` y `test:e2e:pg` siguen siendo la validación funcional principal.
 
 ### E2E contra Postgres
 

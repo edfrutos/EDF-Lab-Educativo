@@ -125,3 +125,41 @@ jobs:
           E2E_OPERATOR_PASSWORD: changeme
           LOGIN_RATE_LIMIT_MAX: '1000'
           E2E_JWT_SECRET: e2e-ci-secret-not-for-production
+
+  visual-regression:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            api/package-lock.json
+            dashboard-react/package-lock.json
+            dashboard-vue/package-lock.json
+      - run: npm ci
+      - run: npm ci
+        working-directory: api
+      - run: npm ci
+        working-directory: dashboard-react
+      - run: npm ci
+        working-directory: dashboard-vue
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:visual:ci
+        env:
+          CI: true
+          E2E_OPERATOR_EMAIL: admin@lab.local
+          E2E_OPERATOR_PASSWORD: changeme
+          LOGIN_RATE_LIMIT_MAX: '1000'
+          E2E_JWT_SECRET: e2e-ci-secret-not-for-production
+      - name: Upload visual regression artifacts
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-artifacts
+          path: |
+            test-results
+            playwright-report
+          if-no-files-found: ignore

@@ -72,16 +72,16 @@ Plans:
 **Goal:** CI ejecuta regresión visual en cada PR sin romper los jobs E2E existentes.  
 **Depends on:** Phase 35  
 **Requirements:** QA-VIS-04, QA-CI-06  
-**Plans:** 0/2
+**Plans:** 2/2
 
 Plans:
 **Wave 1**
 
-- [ ] 36-01-PLAN.md — Job `visual-regression` en `.github/workflows/ci.yml`, script `test:visual:ci`
+- [x] 36-01-PLAN.md — Job `visual-regression` en `.github/workflows/ci.yml`, script `test:visual:ci`
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 36-02-PLAN.md — Artefactos diff en fallo, docs flujo baseline update en PR, verificación CI
+- [x] 36-02-PLAN.md — Artefactos diff en fallo, docs flujo baseline update en PR, verificación CI
 
 **Success criteria:**
 
@@ -144,7 +144,7 @@ See `.planning/milestones/` archives.
 |-------|-----------|----------------|--------|-----------|
 | 34 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 35 | v2.2 | 2/2 | Complete    | 2026-06-16 |
-| 36 | v2.2 | 0/2 | Not started | — |
+| 36 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 37 | v2.2 | 0/2 | Not started | — |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
