@@ -1,17 +1,17 @@
 ---
 gsd_state_version: 1.0
-milestone: none
-milestone_name: —
+milestone: v2.5
+milestone_name: Production Deploy
 status: planning
-last_updated: "2026-06-17T13:00:00.000Z"
-last_activity: 2026-06-17 -- Milestone v2.4 archived and tagged
+last_updated: "2026-06-17T13:30:00.000Z"
+last_activity: 2026-06-17 -- Milestone v2.5 requirements and roadmap defined
 progress:
-  total_phases: 0
+  total_phases: 4
   completed_phases: 0
-  total_plans: 0
+  total_plans: 8
   completed_plans: 0
   percent: 0
-stopped_at: Milestone v2.4 closed — ready for new milestone
+stopped_at: Milestone v2.5 planned — ready for phase 42
 ---
 
 # Project State
@@ -22,19 +22,20 @@ See: `.planning/PROJECT.md` (updated 2026-06-17)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Planning next milestone
+**Current focus:** Milestone v2.5 Production Deploy — Phase 42 next
 
 ## Current Position
 
-Phase: —
+Phase: 42 (not started)
 Plan: —
-Status: Milestone v2.4 shipped; awaiting `/gsd-new-milestone`
-Last activity: 2026-06-17 -- Milestone v2.4 archived and tagged
+Status: Roadmap defined — ready to discuss/plan phase 42
+Last activity: 2026-06-17 — Milestone v2.5 requirements and roadmap defined
 
 ## Milestone Status
 
 | Milestone | Status | Shipped / Started |
 |-----------|--------|---------------------|
+| v2.5 Production Deploy | In progress | 2026-06-17 |
 | v2.4 OAuth Foundation | Shipped | 2026-06-17 |
 | v2.3 Auth Advanced | Shipped | 2026-06-17 |
 | v2.2 Visual Regression | Shipped | 2026-06-17 |
@@ -50,19 +51,18 @@ Last activity: 2026-06-17 -- Milestone v2.4 archived and tagged
 
 ## Session Continuity
 
-Last session: 2026-06-17T13:00:00.000Z
-Stopped at: Milestone v2.4 closed — ready for new milestone
-Next suggested command: `/gsd-new-milestone`
+Last session: 2026-06-17T13:30:00.000Z
+Stopped at: Milestone v2.5 planned — ready for phase 42
+Next suggested command: `/gsd-discuss-phase 42`
 
 ## Deferred Items
 
 | Item | Reason | Status |
 |------|--------|--------|
+| Kubernetes manifests (PROD-07) | Post-v2.5 | Deferred |
 | Real Google/GitHub OAuth | Out of scope v2.4 | Deferred |
 | OAuth UI in React/Vue dashboards | Vanilla-first teaching | Deferred |
-| Let's Encrypt automation | PROD milestone | Deferred |
-| nginx /api proxy in Compose | PROD-02 | Deferred |
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-17 — v2.4 milestone archived; tag v2.4*
+*Last updated: 2026-06-17 — v2.5 Production Deploy initialized*

@@ -10,11 +10,16 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone
+## Current Milestone: v2.5 Production Deploy
 
-**Status:** v2.4 OAuth Foundation shipped 2026-06-17 — planning next milestone.
+**Goal:** Enseñar despliegue production-minded con TLS y proxy inverso sin romper el flujo dev actual (API `:3100` + dashboard `:5173`).
 
-Use `/gsd-new-milestone` to define the next learning route.
+**Target features:**
+- Perfil Compose `prod` con nginx como único punto HTTPS (dashboard + `/api` → Express)
+- HTTPS local con certificados autofirmados para probar cookies `Secure` y `NODE_ENV=production`
+- Scripts y documentación Let's Encrypt (certbot) para despliegue en VPS con dominio real
+- Modo dual: desarrollo en host intacto + stack prod opcional vía Compose
+- Material didáctico: ampliar `docs/18`, misión nueva y NOTEBOOK con fricciones reales
 
 ## Current State (v2.4 shipped 2026-06-17)
 
@@ -115,11 +120,18 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 
 ### Active
 
-(Define next milestone with `/gsd-new-milestone`.)
+- [ ] **PROD-01**: Scripts/documentación Let's Encrypt (certbot) para despliegue con dominio real
+- [ ] **PROD-02**: Proxy inverso nginx en Compose (`/api` → API, `/` → dashboard)
+- [ ] **PROD-03**: Stack HTTPS local con certificados autofirmados y verificación de cookies `Secure`
+- [ ] **PROD-04**: Modo dual documentado: dev host (`:3100`/`:5173`) + perfil Compose prod
+- [ ] **PROD-05**: API respeta `X-Forwarded-Proto` / confianza de proxy en producción
+- [ ] **DOCS-07**: `docs/18-production-deploy.md` actualizado con perfil prod y troubleshooting
+- [ ] **DOCS-08**: Misión práctica de despliegue prod (objetivo, pasos, reto)
+- [ ] **DOCS-09**: NOTEBOOK v2.5 con ≥2 fricciones reales (certs, proxy, CORS same-origin)
 
 ### Out of Scope
 
-- Real Google/GitHub OAuth providers — mock suffices for teaching handoff (deferred post-v2.4)
+- Kubernetes / cert-manager en cluster (PROD-03 legacy — diferido)
 - Let's Encrypt automation — manual TLS pattern in doc 18; scripts deferred to v2.
 - Kubernetes / Swarm — Compose is the beginner orchestration step.
 - nginx reverse proxy `/api` in Compose — documented as advanced reto only.
@@ -225,4 +237,4 @@ See `.planning/milestones/v1.4-ROADMAP.md`.
 This document evolves at phase transitions and milestone boundaries.
 
 ---
-*Last updated: 2026-06-17 after v2.4 milestone*
+*Last updated: 2026-06-17 — milestone v2.5 Production Deploy started*
