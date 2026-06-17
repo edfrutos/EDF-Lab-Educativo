@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** None — v2.4 shipped; planning next milestone
+**Current Milestone:** v2.5 Production Deploy (Phases 42–45) — **PLANNING**
 
 ## Milestones
 
@@ -16,6 +16,7 @@
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
 - ✅ **v2.3 Auth Advanced** — Phases 38–39 (shipped 2026-06-17)
 - ✅ **v2.4 OAuth Foundation** — Phases 40-41 shipped 2026-06-17
+- 🚧 **v2.5 Production Deploy** — Phases 42–45 (planning)
 
 ## Phases
 
@@ -194,6 +195,102 @@ Plans:
 
 ---
 
+### Phase 42: Compose prod profile & reverse proxy
+
+**Goal:** El operador puede levantar un perfil Compose `prod` con nginx como único origen HTTPS que enruta `/api` a Express y sirve el dashboard estático, sin romper el modo dev en host.  
+**Depends on:** Phase 41 (auth/OAuth estable)  
+**Requirements:** PROD-02, PROD-04, PROD-06  
+**Plans:** 0/2
+
+Plans:
+**Wave 1**
+
+- [ ] 42-01-PLAN.md — perfil Compose prod, nginx `/api` + static, `API_BASE_URL` relativa en dashboard
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 42-02-PLAN.md — verificación modo dual (dev host intacto) y smoke básico del perfil prod
+
+**Success criteria:**
+
+1. `docker compose --profile prod up` expone HTTPS en un solo puerto/origen.
+2. Peticiones del dashboard a `/api/*` llegan a Express sin CORS cross-origin en prod.
+3. `cd api && PORT=3100 npm start` + `python3 -m http.server 5173` siguen funcionando como antes.
+
+---
+
+### Phase 43: TLS local & proxy trust
+
+**Goal:** El operador prueba HTTPS local con certificados autofirmados y login con cookie `Secure` bajo `NODE_ENV=production`, con la API confiando en el proxy.  
+**Depends on:** Phase 42  
+**Requirements:** PROD-03, PROD-05  
+**Plans:** 0/2
+
+Plans:
+**Wave 1**
+
+- [ ] 43-01-PLAN.md — generación certs autofirmados, nginx TLS, arranque prod con `NODE_ENV=production`
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 43-02-PLAN.md — `trust proxy` / `X-Forwarded-Proto` en API + verificación login Secure
+
+**Success criteria:**
+
+1. Login operador funciona por HTTPS local (cert autofirmado documentado).
+2. Cookie `edf_session` se emite con `Secure` en producción y persiste en el flujo CRUD.
+3. La API no asume HTTPS directo cuando está detrás de nginx.
+
+---
+
+### Phase 44: Let's Encrypt automation
+
+**Goal:** El operador dispone de scripts y guía para obtener y renovar certificados Let's Encrypt en un VPS con dominio real.  
+**Depends on:** Phase 43  
+**Requirements:** PROD-01  
+**Plans:** 0/2
+
+Plans:
+**Wave 1**
+
+- [ ] 44-01-PLAN.md — scripts certbot (obtener/renovar), plantillas de dominio y volúmenes certs
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 44-02-PLAN.md — guía VPS en docs, variables de entorno prod y checklist de despliegue
+
+**Success criteria:**
+
+1. Scripts documentados ejecutables para emisión inicial y renovación de certs.
+2. Flujo descrito de punta a punta: dominio → certbot → nginx prod → health check HTTPS.
+3. Sin credenciales reales en el repositorio.
+
+---
+
+### Phase 45: Material didáctico production deploy
+
+**Goal:** El alumno tiene docs, misión y NOTEBOOK para reproducir el despliegue prod y aprender de fricciones reales.  
+**Depends on:** Phase 44  
+**Requirements:** DOCS-07, DOCS-08, DOCS-09  
+**Plans:** 0/2
+
+Plans:
+**Wave 1**
+
+- [ ] 45-01-PLAN.md — ampliar `docs/18-production-deploy.md`, misión nueva, enlaces en índice/README
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 45-02-PLAN.md — NOTEBOOK v2.5 (≥2 fricciones), verificación milestone v2.5
+
+**Success criteria:**
+
+1. `docs/18-production-deploy.md` cubre modo dual, TLS local y LE.
+2. Misión publicada con objetivo, pasos, resultado y reto extra.
+3. NOTEBOOK v2.5 con ≥2 entradas de error real (certs, proxy, CORS same-origin).
+
+---
+
 <details>
 <summary>✅ v2.4 OAuth Foundation (Phases 40–41) — SHIPPED 2026-06-17</summary>
 
@@ -239,6 +336,10 @@ See `.planning/milestones/` archives.
 | 39 | v2.3 | 2/2 | Complete | 2026-06-17 |
 | 40 | v2.4 | 2/2 | Complete | 2026-06-17 |
 | 41 | v2.4 | 2/2 | Complete | 2026-06-17 |
+| 42 | v2.5 | 0/2 | Not started | - |
+| 43 | v2.5 | 0/2 | Not started | - |
+| 44 | v2.5 | 0/2 | Not started | - |
+| 45 | v2.5 | 0/2 | Not started | - |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 
