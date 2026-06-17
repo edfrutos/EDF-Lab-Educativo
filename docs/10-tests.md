@@ -112,6 +112,7 @@ La suite visual compara snapshots del panel autenticado en cada dashboard. Cada 
 - Masks anti-flake: `#health-timestamp`, `#users-table-body`
 - Threshold inicial: `maxDiffPixelRatio: 0.01`
 - Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
+- **Plataforma:** Playwright versiona baselines por SO (`-darwin` en macOS, `-linux` en CI). Tras `--update-snapshots` en Mac, commitea también los `-linux.png` (generados en CI o con contenedor Linux) para que pase `visual-regression`.
 - Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
 - IDs visuales en React/Vue: `#dashboard-panel`, `#login-gate`, `#health-timestamp` (paridad con vanilla para `visual-flow.js`)
 
@@ -149,6 +150,7 @@ Este gate visual es **aditivo**: `test:e2e`, `test:e2e:ci` y `test:e2e:pg` sigue
 - **Mismatch en timestamp o filas variables:** confirma que la captura usa máscaras en `#health-timestamp` y `#users-table-body`.
 - **Diff pequeño de renderizado:** revisa si es anti-aliasing; el umbral base es `maxDiffPixelRatio: 0.01`.
 - **Fallo por baseline desactualizada:** solo usa `--update-snapshots` cuando el cambio UI es intencional y revisado.
+- **`A snapshot doesn't exist … -linux.png`:** faltan baselines de CI; descarga artefactos del job `visual-regression` o regenera en Linux y commitea los tres `-linux.png` en `e2e/__snapshots__/`.
 - **Fallo aislado de un dashboard:** revisa IDs de contrato visual (`#dashboard-panel`, `#login-gate`, `#health-timestamp`) antes de actualizar snapshots.
 
 ### E2E contra Postgres
