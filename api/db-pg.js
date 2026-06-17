@@ -63,11 +63,27 @@ async function findAccountByEmail(email) {
   return rows[0] || null;
 }
 
+async function findAccountById(id) {
+  const { rows } = await pool.query(
+    'SELECT id, email, password_hash FROM accounts WHERE id = $1',
+    [id]
+  );
+  return rows[0] || null;
+}
+
 async function insertAccount(email, passwordHash) {
   await pool.query(
     'INSERT INTO accounts (email, password_hash) VALUES ($1, $2)',
     [email, passwordHash]
   );
+}
+
+async function updateAccountPassword(id, passwordHash) {
+  const { rowCount } = await pool.query(
+    'UPDATE accounts SET password_hash = $1 WHERE id = $2',
+    [passwordHash, id]
+  );
+  return rowCount > 0;
 }
 
 async function resetUsersForTests() {
@@ -145,5 +161,7 @@ module.exports = {
   deleteUser,
   countAccounts,
   findAccountByEmail,
-  insertAccount
+  findAccountById,
+  insertAccount,
+  updateAccountPassword
 };

@@ -94,6 +94,46 @@ async function loginHandler(req, res) {
   return res.json({ message: 'Sesión iniciada', email: account.email });
 }
 
+async function changePasswordHandler(req, res) {
+  const accountId = Number(req.auth?.sub);
+  if (!Number.isInteger(accountId) || accountId <= 0) {
+    return res.status(401).json({ error: 'Sesión no válida o expirada. Inicia sesión.' });
+  }
+
+  const { currentPassword, newPassword } = req.body || {};
+  if (
+    typeof currentPassword !== 'string'
+    || currentPassword === ''
+    || typeof newPassword !== 'string'
+    || newPassword === ''
+  ) {
+    return res.status(400).json({
+      error: 'Los campos "currentPassword" y "newPassword" son obligatorios.'
+    });
+  }
+
+  if (newPassword.length < 8) {
+    return res.status(400).json({
+      error: 'La nueva contraseña debe tener al menos 8 caracteres.'
+    });
+  }
+
+  const account = await Promise.resolve(accountsDb.findAccountById(accountId));
+  if (!account) {
+    return res.status(401).json({ error: 'Sesión no válida o expirada. Inicia sesión.' });
+  }
+
+  const currentPasswordMatches = await bcrypt.compare(currentPassword, account.password_hash);
+  if (!currentPasswordMatches) {
+    return res.status(403).json({ error: 'La contraseña actual es incorrecta.' });
+  }
+
+  const newPasswordHash = await bcrypt.hash(newPassword, 10);
+  await Promise.resolve(accountsDb.updateAccountPassword(accountId, newPasswordHash));
+
+  return res.json({ message: 'Contraseña actualizada correctamente.' });
+}
+
 function logoutHandler(req, res) {
   res.clearCookie(COOKIE_NAME, {
     httpOnly: true,
@@ -125,6 +165,7 @@ module.exports = {
   getCookieOptions,
   requireAuth,
   loginHandler,
+  changePasswordHandler,
   logoutHandler,
   createLoginRateLimiter
 };

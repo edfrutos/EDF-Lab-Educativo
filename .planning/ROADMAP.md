@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v2.2 Visual Regression (Phases 34–37)
+**Current Milestone:** v2.3 Auth Advanced (Phase 38+)
 
 ## Milestones
 
@@ -14,6 +14,7 @@
 - ✅ **v2.0 Quality & CI** — Phases 26–29 (shipped 2026-06-15, tag `v2.0`)
 - ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
+- 🚧 **v2.3 Auth Advanced** — Phase 38 en progreso
 
 ## Phases
 
@@ -117,6 +118,31 @@ Plans:
 
 ---
 
+### Phase 38: Auth advanced foundation
+
+**Goal:** El operador autenticado puede cambiar su contraseña con validaciones claras sin romper login/logout ni el flujo CRUD protegido.  
+**Depends on:** v2.2 (auth/cookies + tests consolidados)  
+**Requirements:** AUTH-ADV-03  
+**Plans:** 2/2
+
+Plans:
+**Wave 1**
+
+- [x] 38-01-PLAN.md — Endpoint `PATCH /auth/password`, validaciones y tests API
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [x] 38-02-PLAN.md — docs auth, misiones y NOTEBOOK alineados al nuevo flujo
+
+**Success criteria:**
+
+1. Endpoint autenticado `PATCH /auth/password` disponible y aditivo.
+2. Cambio exige `currentPassword` válida y `newPassword` con validación básica.
+3. Suite SQLite pasa con cobertura de password change (sin romper auth previa).
+4. `docs/17-autenticacion.md`, misiones 14/15 y `NOTEBOOK.md` reflejan fase 38.
+
+---
+
 <details>
 <summary>✅ v2.1 Advanced E2E (Phases 30–33) — SHIPPED 2026-06-16</summary>
 
@@ -146,6 +172,7 @@ See `.planning/milestones/` archives.
 | 35 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 36 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
+| 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

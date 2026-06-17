@@ -30,7 +30,7 @@ Requirements for **Visual Regression**. Phases 34–37.
 
 - **AUTH-ADV-01**: OAuth / social login providers
 - **AUTH-ADV-02**: Refresh tokens and token rotation
-- **AUTH-ADV-03**: Password change API for operator accounts
+- [x] **AUTH-ADV-03**: Password change API for operator accounts
 
 ### Production Deploy
 

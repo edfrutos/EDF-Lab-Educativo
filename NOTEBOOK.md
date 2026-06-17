@@ -362,6 +362,32 @@ En validaciones CI-like locales: `CI=true npm run test:visual:ci`.
 
 ---
 
+## Auth Advanced Foundation (fase 38)
+
+Errores y patrones de la fase 38: endpoint `PATCH /auth/password` para cuentas operador con sesión activa.
+
+### Cambio de contraseña falla con 400 por payload antiguo
+
+**Síntoma:** Al probar el endpoint nuevo con payload estilo login (`{ "password": "..." }`), la API responde **400**.
+
+**Causa:** El contrato de fase 38 exige dos campos explícitos: `currentPassword` y `newPassword` (no reutiliza el payload de `/auth/login`).
+
+**Solución:**
+
+```bash
+curl -b /tmp/edf-cj -X PATCH http://localhost:3100/auth/password \
+  -H 'Content-Type: application/json' \
+  -d '{"currentPassword":"changeme","newPassword":"changeme-2026"}'
+```
+
+Si `newPassword` tiene menos de 8 caracteres también devuelve 400.
+
+**Aprendizaje:** En auth avanzada conviene separar claramente contratos de **login** y **gestión de credenciales** para evitar ambiguedad y tests frágiles.
+
+*Error real (fase 38).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

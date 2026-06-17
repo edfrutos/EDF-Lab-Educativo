@@ -10,6 +10,7 @@ GET /
 GET /about
 GET /time
 POST /auth/login
+PATCH /auth/password
 POST /auth/logout
 ```
 
@@ -109,6 +110,16 @@ Cerrar sesión:
 curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/logout
 ```
 
+Cambiar contraseña del operador autenticado:
+
+```bash
+curl -b /tmp/edf-cj -X PATCH http://localhost:3100/auth/password \
+  -H 'Content-Type: application/json' \
+  -d '{"currentPassword":"changeme","newPassword":"changeme-2026"}'
+```
+
+Si `currentPassword` no coincide, responde **403**. Si faltan campos o `newPassword` tiene menos de 8 caracteres, responde **400**.
+
 ---
 
 ## Dashboard vanilla
@@ -166,6 +177,8 @@ Más contexto: [`05-cors-explicado.md`](./05-cors-explicado.md).
 `npm test` en `api/` define `AUTH_DISABLED=1` para los **16 tests CRUD** de SQLite y los **16** de Postgres.
 
 El bloque **«Autenticación API»** (7 tests) desactiva `AUTH_DISABLED` y comprueba login, logout, 401 y cookie.
+
+Desde fase 38, ese bloque también valida `PATCH /auth/password` (sin sesión, payload inválido, contraseña actual incorrecta y login con contraseña nueva).
 
 No uses `AUTH_DISABLED` en un servidor real. Ver [`10-tests.md`](./10-tests.md).
 

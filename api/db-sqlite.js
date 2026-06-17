@@ -69,8 +69,22 @@ function findAccountByEmail(email) {
   return row || null;
 }
 
+function findAccountById(id) {
+  const row = getDb()
+    .prepare('SELECT id, email, password_hash FROM accounts WHERE id = ?')
+    .get(id);
+  return row || null;
+}
+
 function insertAccount(email, passwordHash) {
   getDb().prepare('INSERT INTO accounts (email, password_hash) VALUES (?, ?)').run(email, passwordHash);
+}
+
+function updateAccountPassword(id, passwordHash) {
+  const result = getDb()
+    .prepare('UPDATE accounts SET password_hash = ? WHERE id = ?')
+    .run(passwordHash, id);
+  return result.changes > 0;
 }
 
 async function getAllUsers() {
@@ -139,5 +153,7 @@ module.exports = {
   deleteUser,
   countAccounts,
   findAccountByEmail,
-  insertAccount
+  findAccountById,
+  insertAccount,
+  updateAccountPassword
 };

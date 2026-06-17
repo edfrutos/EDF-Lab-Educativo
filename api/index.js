@@ -14,6 +14,7 @@ const {
   getAllowedOrigins,
   requireAuth,
   loginHandler,
+  changePasswordHandler,
   logoutHandler,
   createLoginRateLimiter
 } = require('./auth');
@@ -68,6 +69,7 @@ app.get('/', (req, res) => {
       'GET /',
       'GET /health',
       'POST /auth/login',
+      'PATCH /auth/password',
       'POST /auth/logout',
       'GET /users',
       'GET /users/:id',
@@ -81,6 +83,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/auth/login', loginRateLimiter, loginHandler);
+app.patch('/auth/password', requireAuth, changePasswordHandler);
 app.post('/auth/logout', logoutHandler);
 
 app.use('/users', requireAuth);

@@ -86,6 +86,22 @@ Practicar el flujo completo de **autenticación** en un dashboard con framework 
    # → 401
    ```
 
+8. **Cambio de contraseña del operador (fase 38)**
+
+   Repite el flujo con cookie de sesión activa:
+
+   ```bash
+   curl -c /tmp/edf-cj -X POST http://localhost:3100/auth/login \
+     -H 'Content-Type: application/json' \
+     -d '{"email":"admin@lab.local","password":"changeme"}'
+
+   curl -b /tmp/edf-cj -X PATCH http://localhost:3100/auth/password \
+     -H 'Content-Type: application/json' \
+     -d '{"currentPassword":"changeme","newPassword":"changeme-2026"}'
+   ```
+
+   Verifica que el login antiguo falla (403) y el nuevo funciona.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -93,6 +109,7 @@ Puedes explicar en tus palabras:
 1. Diferencia entre **operador** (`accounts`) y **usuarios CRUD** (`users`).
 2. Por qué `fetch` necesita `credentials: 'include'` (ver [`docs/17-autenticacion.md`](../docs/17-autenticacion.md)).
 3. Si elegiste **Vue**: cómo `LoginGate` usa **`emit('login')`** y el padre escucha `@login`. Si elegiste **React**: cómo `LoginGate` recibe la prop **`onLogin`** — contraste didáctico en [`docs/16-frameworks.md`](../docs/16-frameworks.md).
+4. Por qué `PATCH /auth/password` exige contraseña actual además de sesión válida.
 
 ## Reto extra
 

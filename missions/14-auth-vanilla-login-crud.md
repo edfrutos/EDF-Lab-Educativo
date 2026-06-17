@@ -73,6 +73,18 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
      # → 401
      ```
 
+8. **Cambio de contraseña del operador (fase 38)**
+
+   Con sesión activa, prueba el endpoint nuevo:
+
+   ```bash
+   curl -b /tmp/edf-cj -X PATCH http://localhost:3100/auth/password \
+     -H 'Content-Type: application/json' \
+     -d '{"currentPassword":"changeme","newPassword":"changeme-2026"}'
+   ```
+
+   Luego cierra sesión y vuelve a iniciar con la contraseña nueva para confirmar el cambio.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -80,6 +92,7 @@ Puedes explicar en tus palabras:
 1. Diferencia entre **operador** (`accounts`) y **usuarios CRUD** (`users`).
 2. Qué hace `POST /auth/login` y por qué las peticiones siguientes llevan `Cookie`.
 3. Por qué `fetch` necesita `credentials: 'include'` (ver [`docs/17-autenticacion.md`](../docs/17-autenticacion.md)).
+4. Qué diferencia hay entre **cambiar contraseña** (requiere sesión + contraseña actual) y **hacer login**.
 
 ## Reto extra
 
