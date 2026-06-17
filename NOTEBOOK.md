@@ -406,6 +406,24 @@ Errores y patrones al introducir `POST /auth/refresh` con rotación mínima de t
 
 ---
 
+## OAuth foundation (fase 40)
+
+Errores y patrones al introducir flujo social `start/callback` con proveedor `mock`.
+
+### Callback OAuth rechazado por state inválido
+
+**Síntoma:** `GET /auth/oauth/callback` devolvía **400** aun usando `code=mock-admin`.
+
+**Causa:** El parámetro `state` no coincidía con la cookie `edf_oauth_state` emitida por `/auth/oauth/start` (o faltaba cookie por no conservar sesión entre requests).
+
+**Solución:** Ejecutar start y callback preservando cookies, y reutilizar el `state` exacto generado en start.
+
+**Aprendizaje:** En OAuth, `state` no es decorativo: protege contra callbacks no solicitados (CSRF). Si no se valida estrictamente, el flujo es inseguro.
+
+*Error real (fase 40).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

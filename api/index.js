@@ -16,6 +16,8 @@ const {
   loginHandler,
   changePasswordHandler,
   refreshHandler,
+  oauthStartHandler,
+  oauthCallbackHandler,
   logoutHandler,
   createLoginRateLimiter
 } = require('./auth');
@@ -70,6 +72,8 @@ app.get('/', (req, res) => {
       'GET /',
       'GET /health',
       'POST /auth/login',
+      'GET /auth/oauth/start',
+      'GET /auth/oauth/callback',
       'POST /auth/refresh',
       'PATCH /auth/password',
       'POST /auth/logout',
@@ -85,6 +89,8 @@ app.get('/', (req, res) => {
 });
 
 app.post('/auth/login', loginRateLimiter, loginHandler);
+app.get('/auth/oauth/start', oauthStartHandler);
+app.get('/auth/oauth/callback', oauthCallbackHandler);
 app.post('/auth/refresh', refreshHandler);
 app.patch('/auth/password', requireAuth, changePasswordHandler);
 app.post('/auth/logout', logoutHandler);

@@ -7,11 +7,14 @@ const rateLimit = require('express-rate-limit');
 
 const COOKIE_NAME = 'edf_session';
 const REFRESH_COOKIE_NAME = 'edf_refresh';
+const OAUTH_STATE_COOKIE_NAME = 'edf_oauth_state';
+const DEFAULT_ADMIN_EMAIL = 'admin@lab.local';
 const DEFAULT_CORS_ORIGINS = 'http://localhost:5173,http://localhost:5174,http://localhost:5175';
 const DEFAULT_JWT_EXPIRES_IN = '24h';
 const DEFAULT_REFRESH_EXPIRES_IN = '7d';
 const COOKIE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
 const REFRESH_COOKIE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+const OAUTH_STATE_COOKIE_MAX_AGE_MS = 5 * 60 * 1000;
 
 const accountsDb = process.env.DATABASE_URL
   ? require('./db-pg')
@@ -47,6 +50,15 @@ function getRefreshCookieOptions() {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
     maxAge: REFRESH_COOKIE_MAX_AGE_MS
+  };
+}
+
+function getOAuthStateCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: OAUTH_STATE_COOKIE_MAX_AGE_MS
   };
 }
 
@@ -116,6 +128,20 @@ function clearAuthCookies(res) {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production'
   });
+  res.clearCookie(OAUTH_STATE_COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
+}
+
+function issueSessionCookies(res, account) {
+  const sessionToken = signSessionToken(account);
+  const refreshToken = signRefreshToken(account);
+  return persistRefreshToken(account.id, refreshToken).then(() => {
+    res.cookie(COOKIE_NAME, sessionToken, getCookieOptions());
+    res.cookie(REFRESH_COOKIE_NAME, refreshToken, getRefreshCookieOptions());
+  });
 }
 
 async function loginHandler(req, res) {
@@ -135,11 +161,7 @@ async function loginHandler(req, res) {
     return res.status(403).json({ error: 'Credenciales inválidas' });
   }
 
-  const token = signSessionToken(account);
-  const refreshToken = signRefreshToken(account);
-  await persistRefreshToken(account.id, refreshToken);
-  res.cookie(COOKIE_NAME, token, getCookieOptions());
-  res.cookie(REFRESH_COOKIE_NAME, refreshToken, getRefreshCookieOptions());
+  await issueSessionCookies(res, account);
   return res.json({ message: 'Sesión iniciada', email: account.email });
 }
 
@@ -224,13 +246,54 @@ async function refreshHandler(req, res) {
     return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
   }
 
-  const nextSessionToken = signSessionToken(account);
-  const nextRefreshToken = signRefreshToken(account);
-  await persistRefreshToken(account.id, nextRefreshToken);
-
-  res.cookie(COOKIE_NAME, nextSessionToken, getCookieOptions());
-  res.cookie(REFRESH_COOKIE_NAME, nextRefreshToken, getRefreshCookieOptions());
+  await issueSessionCookies(res, account);
   return res.json({ message: 'Sesión renovada' });
+}
+
+function oauthStartHandler(req, res) {
+  const provider = (req.query.provider || 'mock').toString();
+  if (provider !== 'mock') {
+    return res.status(400).json({ error: 'Proveedor OAuth no soportado en este laboratorio.' });
+  }
+
+  const state = crypto.randomUUID();
+  res.cookie(OAUTH_STATE_COOKIE_NAME, state, getOAuthStateCookieOptions());
+  return res.json({
+    provider,
+    state,
+    authUrl: `/auth/oauth/callback?provider=mock&code=mock-admin&state=${encodeURIComponent(state)}`
+  });
+}
+
+async function oauthCallbackHandler(req, res) {
+  const provider = (req.query.provider || 'mock').toString();
+  const code = typeof req.query.code === 'string' ? req.query.code : '';
+  const state = typeof req.query.state === 'string' ? req.query.state : '';
+  const expectedState = req.cookies[OAUTH_STATE_COOKIE_NAME];
+
+  if (provider !== 'mock') {
+    return res.status(400).json({ error: 'Proveedor OAuth no soportado en este laboratorio.' });
+  }
+  if (!expectedState || !state || state !== expectedState) {
+    return res.status(400).json({ error: 'State OAuth inválido o ausente.' });
+  }
+  if (code !== 'mock-admin') {
+    return res.status(403).json({ error: 'Código OAuth inválido.' });
+  }
+
+  const adminEmail = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL).trim();
+  const account = await Promise.resolve(accountsDb.findAccountByEmail(adminEmail));
+  if (!account) {
+    return res.status(404).json({ error: 'Cuenta operador no disponible para OAuth mock.' });
+  }
+
+  await issueSessionCookies(res, account);
+  res.clearCookie(OAUTH_STATE_COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
+  return res.json({ message: 'Sesión iniciada con OAuth mock', email: account.email });
 }
 
 async function logoutHandler(req, res) {
@@ -269,13 +332,17 @@ function createLoginRateLimiter() {
 module.exports = {
   COOKIE_NAME,
   REFRESH_COOKIE_NAME,
+  OAUTH_STATE_COOKIE_NAME,
   getAllowedOrigins,
   getCookieOptions,
   getRefreshCookieOptions,
+  getOAuthStateCookieOptions,
   requireAuth,
   loginHandler,
   changePasswordHandler,
   refreshHandler,
+  oauthStartHandler,
+  oauthCallbackHandler,
   logoutHandler,
   createLoginRateLimiter
 };

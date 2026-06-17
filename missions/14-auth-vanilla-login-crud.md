@@ -95,6 +95,17 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
 
    Repite el mismo comando usando una cookie de refresh antigua (si la guardaste antes de rotar): debe responder **401**.
 
+10. **OAuth mock foundation (fase 40)**
+
+   Inicia y completa flujo OAuth local:
+
+   ```bash
+   curl -i "http://localhost:3100/auth/oauth/start?provider=mock"
+   curl -i "http://localhost:3100/auth/oauth/callback?provider=mock&code=mock-admin&state=<STATE>"
+   ```
+
+   Si alteras `state`, debe responder **400**.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -104,6 +115,7 @@ Puedes explicar en tus palabras:
 3. Por qué `fetch` necesita `credentials: 'include'` (ver [`docs/17-autenticacion.md`](../docs/17-autenticacion.md)).
 4. Qué diferencia hay entre **cambiar contraseña** (requiere sesión + contraseña actual) y **hacer login**.
 5. Qué significa **rotación de refresh token** y por qué reusar uno viejo debe fallar.
+6. Por qué el parámetro `state` en OAuth protege frente a callbacks no válidos.
 
 ## Reto extra
 

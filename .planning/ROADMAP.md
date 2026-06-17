@@ -174,16 +174,16 @@ Plans:
 **Goal:** El operador puede iniciar un flujo OAuth/social de forma controlada y didáctica sin romper el contrato auth vigente.  
 **Depends on:** Phase 39  
 **Requirements:** AUTH-ADV-01  
-**Plans:** 0/2 (to define)
+**Plans:** 2/2
 
 Plans:
 **Wave 1**
 
-- [ ] 40-01-PLAN.md — contrato OAuth backend (start/callback) + tests base
+- [x] 40-01-PLAN.md — contrato OAuth backend (start/callback) + tests base
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 40-02-PLAN.md — docs/misiones/NOTEBOOK y verificación de fase
+- [x] 40-02-PLAN.md — docs/misiones/NOTEBOOK y verificación de fase
 
 **Success criteria:**
 
@@ -225,7 +225,7 @@ See `.planning/milestones/` archives.
 | 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
 | 39 | v2.3 | 2/2 | Complete | 2026-06-17 |
-| 40 | v2.4 | 0/2 | Ready to plan | — |
+| 40 | v2.4 | 2/2 | Complete | 2026-06-17 |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

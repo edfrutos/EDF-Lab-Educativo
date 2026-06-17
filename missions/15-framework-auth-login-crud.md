@@ -112,6 +112,17 @@ Practicar el flujo completo de **autenticación** en un dashboard con framework 
 
    Debe devolver 200 y renovar cookies. Si reusas un refresh previo, debe devolver 401.
 
+10. **OAuth mock foundation (fase 40)**
+
+   Ejecuta flujo social local:
+
+   ```bash
+   curl -i "http://localhost:3100/auth/oauth/start?provider=mock"
+   curl -i "http://localhost:3100/auth/oauth/callback?provider=mock&code=mock-admin&state=<STATE>"
+   ```
+
+   Verifica que `state` inválido devuelve 400.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -121,6 +132,7 @@ Puedes explicar en tus palabras:
 3. Si elegiste **Vue**: cómo `LoginGate` usa **`emit('login')`** y el padre escucha `@login`. Si elegiste **React**: cómo `LoginGate` recibe la prop **`onLogin`** — contraste didáctico en [`docs/16-frameworks.md`](../docs/16-frameworks.md).
 4. Por qué `PATCH /auth/password` exige contraseña actual además de sesión válida.
 5. Cómo `POST /auth/refresh` endurece la sesión sin introducir OAuth todavía.
+6. Cómo `GET /auth/oauth/start` y `GET /auth/oauth/callback` se integran sin romper login clásico.
 
 ## Reto extra
 

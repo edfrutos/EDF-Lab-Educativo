@@ -10,6 +10,8 @@ GET /
 GET /about
 GET /time
 POST /auth/login
+GET /auth/oauth/start
+GET /auth/oauth/callback
 POST /auth/refresh
 PATCH /auth/password
 POST /auth/logout
@@ -57,6 +59,8 @@ Tras un login válido, la API firma un **JWT** con `JWT_SECRET` y lo envía en l
 **No** guardamos el JWT en `localStorage` ni en cabecera `Authorization` en este laboratorio v1.5: el navegador gestiona la cookie si el cliente pide credenciales.
 
 Desde fase 39, además de `edf_session`, la API emite `edf_refresh` y aplica rotación: cada `POST /auth/refresh` devuelve un refresh nuevo e invalida el anterior.
+
+Desde fase 40, existe una base didáctica de OAuth social con proveedor `mock` para practicar el flujo `start` + `callback` sin depender de internet.
 
 ---
 
@@ -120,6 +124,18 @@ curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/refresh
 ```
 
 Si reutilizas un refresh ya rotado o inválido, responde **401** y obliga a iniciar sesión de nuevo.
+
+OAuth mock start/callback (foundation):
+
+```bash
+# 1) inicia flujo OAuth mock y obtén state
+curl -i "http://localhost:3100/auth/oauth/start?provider=mock"
+
+# 2) completa callback con code mock-admin y el state devuelto
+curl -i "http://localhost:3100/auth/oauth/callback?provider=mock&code=mock-admin&state=<STATE>"
+```
+
+Si `state` no coincide con la cookie `edf_oauth_state`, el callback responde **400**.
 
 Cambiar contraseña del operador autenticado:
 
@@ -193,6 +209,7 @@ Desde fase 38/39, ese bloque también valida:
 
 - `PATCH /auth/password` (sin sesión, payload inválido, contraseña actual incorrecta y login con contraseña nueva)
 - `POST /auth/refresh` (sin cookie, refresh válido con rotación, reuse inválido, invalidación en logout)
+- `GET /auth/oauth/start|callback` (state generado, callback inválido por state, callback mock exitoso con sesión)
 
 No uses `AUTH_DISABLED` en un servidor real. Ver [`10-tests.md`](./10-tests.md).
 

@@ -27,6 +27,10 @@ function refreshCookieFromResponse(res) {
   return cookieByNameFromResponse(res, 'edf_refresh');
 }
 
+function oauthStateCookieFromResponse(res) {
+  return cookieByNameFromResponse(res, 'edf_oauth_state');
+}
+
 function registerAuthApiTests({ describe, it, before, after, assert, app, request }) {
   describe('Autenticación API', () => {
     before(() => {
@@ -85,6 +89,42 @@ function registerAuthApiTests({ describe, it, before, after, assert, app, reques
       assert.equal(logout.status, 200);
       const res = await agent.get('/users');
       assert.equal(res.status, 401);
+    });
+
+    it('GET /auth/oauth/start devuelve state y cookie oauth', async () => {
+      const res = await request(app).get('/auth/oauth/start?provider=mock');
+      assert.equal(res.status, 200);
+      assert.equal(res.body.provider, 'mock');
+      assert.ok(typeof res.body.state === 'string' && res.body.state.length > 0);
+      assert.match(res.body.authUrl, /\/auth\/oauth\/callback\?/);
+      const stateCookie = oauthStateCookieFromResponse(res);
+      assert.ok(stateCookie && stateCookie.includes('edf_oauth_state='), 'debe incluir cookie oauth state');
+    });
+
+    it('GET /auth/oauth/callback con state inválido responde 400', async () => {
+      const start = await request(app).get('/auth/oauth/start?provider=mock');
+      const stateCookie = oauthStateCookieFromResponse(start);
+      const res = await request(app)
+        .get('/auth/oauth/callback?provider=mock&code=mock-admin&state=state-invalido')
+        .set('Cookie', stateCookie);
+      assert.equal(res.status, 400);
+      assert.equal(res.body.error, 'State OAuth inválido o ausente.');
+    });
+
+    it('GET /auth/oauth/callback válido emite sesión usable para /users', async () => {
+      const start = await request(app).get('/auth/oauth/start?provider=mock');
+      const stateCookie = oauthStateCookieFromResponse(start);
+      const callback = await request(app)
+        .get(`/auth/oauth/callback?provider=mock&code=mock-admin&state=${encodeURIComponent(start.body.state)}`)
+        .set('Cookie', stateCookie);
+      assert.equal(callback.status, 200);
+      assert.equal(callback.body.email, ADMIN_EMAIL);
+      const sessionCookie = sessionCookieFromResponse(callback);
+      assert.ok(sessionCookie, 'debe emitir sesión');
+
+      const users = await request(app).get('/users').set('Cookie', sessionCookie);
+      assert.equal(users.status, 200);
+      assert.ok(Array.isArray(users.body));
     });
 
     it('POST /auth/refresh sin cookie responde 401', async () => {
