@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v2.3 Auth Advanced (Phase 38+)
+**Current Milestone:** v2.3 Auth Advanced (Phases 38–39)
 
 ## Milestones
 
@@ -14,7 +14,7 @@
 - ✅ **v2.0 Quality & CI** — Phases 26–29 (shipped 2026-06-15, tag `v2.0`)
 - ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
-- 🚧 **v2.3 Auth Advanced** — Phase 38 en progreso
+- 🚧 **v2.3 Auth Advanced** — Phases 38–39 completadas, cierre de milestone pendiente
 
 ## Phases
 
@@ -148,16 +148,16 @@ Plans:
 **Goal:** El operador mantiene sesión renovable con rotación de refresh token, sin romper login/logout ni el acceso protegido actual.  
 **Depends on:** Phase 38  
 **Requirements:** AUTH-ADV-02  
-**Plans:** 0/2 (to define)
+**Plans:** 2/2
 
 Plans:
 **Wave 1**
 
-- [ ] 39-01-PLAN.md — contrato backend refresh + persistencia mínima + tests auth
+- [x] 39-01-PLAN.md — contrato backend refresh + persistencia mínima + tests auth
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 39-02-PLAN.md — alineación docs/misiones/NOTEBOOK + verificación de fase
+- [x] 39-02-PLAN.md — alineación docs/misiones/NOTEBOOK + verificación de fase
 
 **Success criteria:**
 
@@ -198,7 +198,7 @@ See `.planning/milestones/` archives.
 | 36 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
-| 39 | v2.3 | 0/2 | Ready to plan | — |
+| 39 | v2.3 | 2/2 | Complete | 2026-06-17 |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

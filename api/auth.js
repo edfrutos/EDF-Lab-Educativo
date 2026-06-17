@@ -1,13 +1,17 @@
 'use strict';
 
 const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const rateLimit = require('express-rate-limit');
 
 const COOKIE_NAME = 'edf_session';
+const REFRESH_COOKIE_NAME = 'edf_refresh';
 const DEFAULT_CORS_ORIGINS = 'http://localhost:5173,http://localhost:5174,http://localhost:5175';
 const DEFAULT_JWT_EXPIRES_IN = '24h';
+const DEFAULT_REFRESH_EXPIRES_IN = '7d';
 const COOKIE_MAX_AGE_MS = 24 * 60 * 60 * 1000;
+const REFRESH_COOKIE_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
 
 const accountsDb = process.env.DATABASE_URL
   ? require('./db-pg')
@@ -34,6 +38,15 @@ function getCookieOptions() {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
     maxAge: COOKIE_MAX_AGE_MS
+  };
+}
+
+function getRefreshCookieOptions() {
+  return {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+    maxAge: REFRESH_COOKIE_MAX_AGE_MS
   };
 }
 
@@ -72,6 +85,39 @@ function requireAuth(req, res, next) {
   }
 }
 
+function signRefreshToken(account) {
+  return jwt.sign(
+    { sub: account.id, type: 'refresh', jti: crypto.randomUUID() },
+    getJwtSecret(),
+    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || DEFAULT_REFRESH_EXPIRES_IN }
+  );
+}
+
+function verifyRefreshToken(token) {
+  return jwt.verify(token, getJwtSecret());
+}
+
+function hashRefreshToken(token) {
+  return crypto.createHash('sha256').update(token).digest('hex');
+}
+
+async function persistRefreshToken(accountId, refreshToken) {
+  await Promise.resolve(accountsDb.upsertRefreshToken(accountId, hashRefreshToken(refreshToken)));
+}
+
+function clearAuthCookies(res) {
+  res.clearCookie(COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
+  res.clearCookie(REFRESH_COOKIE_NAME, {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production'
+  });
+}
+
 async function loginHandler(req, res) {
   const { email, password } = req.body || {};
 
@@ -90,7 +136,10 @@ async function loginHandler(req, res) {
   }
 
   const token = signSessionToken(account);
+  const refreshToken = signRefreshToken(account);
+  await persistRefreshToken(account.id, refreshToken);
   res.cookie(COOKIE_NAME, token, getCookieOptions());
+  res.cookie(REFRESH_COOKIE_NAME, refreshToken, getRefreshCookieOptions());
   return res.json({ message: 'Sesión iniciada', email: account.email });
 }
 
@@ -130,16 +179,74 @@ async function changePasswordHandler(req, res) {
 
   const newPasswordHash = await bcrypt.hash(newPassword, 10);
   await Promise.resolve(accountsDb.updateAccountPassword(accountId, newPasswordHash));
+  await Promise.resolve(accountsDb.deleteRefreshTokenByAccountId(accountId));
 
   return res.json({ message: 'Contraseña actualizada correctamente.' });
 }
 
-function logoutHandler(req, res) {
-  res.clearCookie(COOKIE_NAME, {
-    httpOnly: true,
-    sameSite: 'lax',
-    secure: process.env.NODE_ENV === 'production'
-  });
+async function refreshHandler(req, res) {
+  const refreshToken = req.cookies[REFRESH_COOKIE_NAME];
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  let payload;
+  try {
+    payload = verifyRefreshToken(refreshToken);
+  } catch {
+    clearAuthCookies(res);
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  if (payload.type !== 'refresh') {
+    clearAuthCookies(res);
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  const accountId = Number(payload.sub);
+  if (!Number.isInteger(accountId) || accountId <= 0) {
+    clearAuthCookies(res);
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  const storedHash = await Promise.resolve(accountsDb.getRefreshTokenHashByAccountId(accountId));
+  const incomingHash = hashRefreshToken(refreshToken);
+  if (!storedHash || storedHash !== incomingHash) {
+    await Promise.resolve(accountsDb.deleteRefreshTokenByAccountId(accountId));
+    clearAuthCookies(res);
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  const account = await Promise.resolve(accountsDb.findAccountById(accountId));
+  if (!account) {
+    await Promise.resolve(accountsDb.deleteRefreshTokenByAccountId(accountId));
+    clearAuthCookies(res);
+    return res.status(401).json({ error: 'Refresh token no válido o expirado. Inicia sesión.' });
+  }
+
+  const nextSessionToken = signSessionToken(account);
+  const nextRefreshToken = signRefreshToken(account);
+  await persistRefreshToken(account.id, nextRefreshToken);
+
+  res.cookie(COOKIE_NAME, nextSessionToken, getCookieOptions());
+  res.cookie(REFRESH_COOKIE_NAME, nextRefreshToken, getRefreshCookieOptions());
+  return res.json({ message: 'Sesión renovada' });
+}
+
+async function logoutHandler(req, res) {
+  const refreshToken = req.cookies[REFRESH_COOKIE_NAME];
+  if (refreshToken) {
+    try {
+      const payload = verifyRefreshToken(refreshToken);
+      const accountId = Number(payload?.sub);
+      if (Number.isInteger(accountId) && accountId > 0) {
+        await Promise.resolve(accountsDb.deleteRefreshTokenByAccountId(accountId));
+      }
+    } catch {
+      // Logout debe ser idempotente: limpiar cookies aunque el refresh no sea válido.
+    }
+  }
+  clearAuthCookies(res);
   return res.json({ message: 'Sesión cerrada' });
 }
 
@@ -161,11 +268,14 @@ function createLoginRateLimiter() {
 
 module.exports = {
   COOKIE_NAME,
+  REFRESH_COOKIE_NAME,
   getAllowedOrigins,
   getCookieOptions,
+  getRefreshCookieOptions,
   requireAuth,
   loginHandler,
   changePasswordHandler,
+  refreshHandler,
   logoutHandler,
   createLoginRateLimiter
 };

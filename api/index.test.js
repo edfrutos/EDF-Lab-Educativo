@@ -16,6 +16,7 @@ process.env.DB_FILE = TEST_DB;
 // Tests SQLite: no usar Postgres aunque DATABASE_URL esté en el shell o en Compose.
 delete process.env.DATABASE_URL;
 process.env.AUTH_DISABLED = '1';
+process.env.LOGIN_RATE_LIMIT_MAX = '1000';
 
 const app = require('./index.js');
 const request = require('supertest');

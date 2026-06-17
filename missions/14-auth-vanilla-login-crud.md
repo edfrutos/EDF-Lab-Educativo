@@ -85,6 +85,16 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
 
    Luego cierra sesión y vuelve a iniciar con la contraseña nueva para confirmar el cambio.
 
+9. **Refresh token rotation (fase 39)**
+
+   Con login activo, renueva sesión:
+
+   ```bash
+   curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/refresh
+   ```
+
+   Repite el mismo comando usando una cookie de refresh antigua (si la guardaste antes de rotar): debe responder **401**.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -93,6 +103,7 @@ Puedes explicar en tus palabras:
 2. Qué hace `POST /auth/login` y por qué las peticiones siguientes llevan `Cookie`.
 3. Por qué `fetch` necesita `credentials: 'include'` (ver [`docs/17-autenticacion.md`](../docs/17-autenticacion.md)).
 4. Qué diferencia hay entre **cambiar contraseña** (requiere sesión + contraseña actual) y **hacer login**.
+5. Qué significa **rotación de refresh token** y por qué reusar uno viejo debe fallar.
 
 ## Reto extra
 

@@ -388,6 +388,24 @@ Si `newPassword` tiene menos de 8 caracteres también devuelve 400.
 
 ---
 
+## Refresh token rotation (fase 39)
+
+Errores y patrones al introducir `POST /auth/refresh` con rotación mínima de token.
+
+### Test de rotación no fallaba por refresh idéntico
+
+**Síntoma:** El test de "refresh rotado" no detectaba cambio y el test de reuse podía pasar indebidamente.
+
+**Causa:** El refresh token se firmaba con payload estable (`sub`, `type`) y, dentro del mismo segundo, podía generar el mismo JWT.
+
+**Solución:** Añadir `jti` aleatorio (`crypto.randomUUID()`) al payload de refresh para garantizar unicidad por emisión.
+
+**Aprendizaje:** En rotación de tokens no basta con reemitir; necesitas un identificador único por token para que la invalidación del anterior tenga efecto real.
+
+*Error real (fase 39).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

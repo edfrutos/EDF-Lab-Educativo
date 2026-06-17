@@ -86,6 +86,33 @@ async function updateAccountPassword(id, passwordHash) {
   return rowCount > 0;
 }
 
+async function upsertRefreshToken(accountId, tokenHash) {
+  await pool.query(
+    `INSERT INTO account_refresh_tokens (account_id, token_hash)
+     VALUES ($1, $2)
+     ON CONFLICT (account_id) DO UPDATE
+       SET token_hash = EXCLUDED.token_hash,
+           created_at = NOW()`,
+    [accountId, tokenHash]
+  );
+}
+
+async function getRefreshTokenHashByAccountId(accountId) {
+  const { rows } = await pool.query(
+    'SELECT token_hash FROM account_refresh_tokens WHERE account_id = $1',
+    [accountId]
+  );
+  return rows[0]?.token_hash || null;
+}
+
+async function deleteRefreshTokenByAccountId(accountId) {
+  const { rowCount } = await pool.query(
+    'DELETE FROM account_refresh_tokens WHERE account_id = $1',
+    [accountId]
+  );
+  return rowCount > 0;
+}
+
 async function resetUsersForTests() {
   if (!pool) {
     throw new Error('Pool no inicializado. Llama a initDb() antes de resetUsersForTests().');
@@ -163,5 +190,8 @@ module.exports = {
   findAccountByEmail,
   findAccountById,
   insertAccount,
-  updateAccountPassword
+  updateAccountPassword,
+  upsertRefreshToken,
+  getRefreshTokenHashByAccountId,
+  deleteRefreshTokenByAccountId
 };

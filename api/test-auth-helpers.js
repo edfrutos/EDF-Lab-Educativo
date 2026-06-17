@@ -4,13 +4,27 @@ const ADMIN_EMAIL = 'admin@lab.local';
 const ADMIN_PASSWORD = 'changeme';
 const ADMIN_PASSWORD_NEXT = 'changeme-2026';
 
-function sessionCookieFromResponse(res) {
+function cookieByNameFromResponse(res, name) {
   const raw = res.headers['set-cookie'];
   if (!raw) {
     return null;
   }
-  const first = Array.isArray(raw) ? raw[0] : String(raw).split(',')[0];
-  return first.split(';')[0];
+  const values = Array.isArray(raw) ? raw : [raw];
+  for (const entry of values) {
+    const cookie = String(entry).split(';')[0];
+    if (cookie.startsWith(`${name}=`)) {
+      return cookie;
+    }
+  }
+  return null;
+}
+
+function sessionCookieFromResponse(res) {
+  return cookieByNameFromResponse(res, 'edf_session');
+}
+
+function refreshCookieFromResponse(res) {
+  return cookieByNameFromResponse(res, 'edf_refresh');
 }
 
 function registerAuthApiTests({ describe, it, before, after, assert, app, request }) {
@@ -35,8 +49,10 @@ function registerAuthApiTests({ describe, it, before, after, assert, app, reques
         .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
       assert.equal(res.status, 200);
       assert.equal(res.body.email, ADMIN_EMAIL);
-      const cookie = sessionCookieFromResponse(res);
-      assert.ok(cookie && cookie.includes('edf_session='), 'debe incluir cookie de sesión');
+      const sessionCookie = sessionCookieFromResponse(res);
+      const refreshCookie = refreshCookieFromResponse(res);
+      assert.ok(sessionCookie && sessionCookie.includes('edf_session='), 'debe incluir cookie de sesión');
+      assert.ok(refreshCookie && refreshCookie.includes('edf_refresh='), 'debe incluir cookie de refresh');
     });
 
     it('GET /users con cookie de login responde 200', async () => {
@@ -69,6 +85,65 @@ function registerAuthApiTests({ describe, it, before, after, assert, app, reques
       assert.equal(logout.status, 200);
       const res = await agent.get('/users');
       assert.equal(res.status, 401);
+    });
+
+    it('POST /auth/refresh sin cookie responde 401', async () => {
+      const res = await request(app).post('/auth/refresh');
+      assert.equal(res.status, 401);
+      assert.match(res.body.error, /refresh token/i);
+    });
+
+    it('POST /auth/refresh válido rota refresh token', async () => {
+      const login = await request(app)
+        .post('/auth/login')
+        .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+      const previousRefreshCookie = refreshCookieFromResponse(login);
+      assert.ok(previousRefreshCookie, 'debe existir refresh cookie en login');
+
+      const refresh = await request(app)
+        .post('/auth/refresh')
+        .set('Cookie', previousRefreshCookie);
+      assert.equal(refresh.status, 200);
+      assert.equal(refresh.body.message, 'Sesión renovada');
+
+      const nextRefreshCookie = refreshCookieFromResponse(refresh);
+      const nextSessionCookie = sessionCookieFromResponse(refresh);
+      assert.ok(nextSessionCookie, 'debe incluir nueva sesión');
+      assert.ok(nextRefreshCookie, 'debe incluir refresh rotado');
+      assert.notEqual(nextRefreshCookie, previousRefreshCookie, 'refresh token debe rotar');
+    });
+
+    it('POST /auth/refresh con token reusado responde 401', async () => {
+      const login = await request(app)
+        .post('/auth/login')
+        .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+      const previousRefreshCookie = refreshCookieFromResponse(login);
+      assert.ok(previousRefreshCookie, 'debe existir refresh cookie en login');
+
+      const firstRefresh = await request(app)
+        .post('/auth/refresh')
+        .set('Cookie', previousRefreshCookie);
+      assert.equal(firstRefresh.status, 200);
+
+      const reused = await request(app)
+        .post('/auth/refresh')
+        .set('Cookie', previousRefreshCookie);
+      assert.equal(reused.status, 401);
+      assert.match(reused.body.error, /refresh token/i);
+    });
+
+    it('POST /auth/logout invalida también el refresh token', async () => {
+      const agent = request.agent(app);
+      const login = await agent
+        .post('/auth/login')
+        .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
+      assert.equal(login.status, 200);
+
+      const logout = await agent.post('/auth/logout');
+      assert.equal(logout.status, 200);
+
+      const refresh = await agent.post('/auth/refresh');
+      assert.equal(refresh.status, 401);
     });
 
     it('PATCH /auth/password sin cookie responde 401', async () => {
@@ -165,5 +240,6 @@ module.exports = {
   ADMIN_EMAIL,
   ADMIN_PASSWORD,
   sessionCookieFromResponse,
+  refreshCookieFromResponse,
   registerAuthApiTests
 };

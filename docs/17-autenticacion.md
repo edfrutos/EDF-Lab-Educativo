@@ -10,6 +10,7 @@ GET /
 GET /about
 GET /time
 POST /auth/login
+POST /auth/refresh
 PATCH /auth/password
 POST /auth/logout
 ```
@@ -54,6 +55,8 @@ Tras un login válido, la API firma un **JWT** con `JWT_SECRET` y lo envía en l
 - **`secure` en producción:** con `NODE_ENV=production`, la cookie solo viaja por HTTPS — necesitas TLS delante (ver despliegue abajo).
 
 **No** guardamos el JWT en `localStorage` ni en cabecera `Authorization` en este laboratorio v1.5: el navegador gestiona la cookie si el cliente pide credenciales.
+
+Desde fase 39, además de `edf_session`, la API emite `edf_refresh` y aplica rotación: cada `POST /auth/refresh` devuelve un refresh nuevo e invalida el anterior.
 
 ---
 
@@ -109,6 +112,14 @@ Cerrar sesión:
 ```bash
 curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/logout
 ```
+
+Renovar sesión con refresh token (rotación):
+
+```bash
+curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/refresh
+```
+
+Si reutilizas un refresh ya rotado o inválido, responde **401** y obliga a iniciar sesión de nuevo.
 
 Cambiar contraseña del operador autenticado:
 
@@ -178,7 +189,10 @@ Más contexto: [`05-cors-explicado.md`](./05-cors-explicado.md).
 
 El bloque **«Autenticación API»** (7 tests) desactiva `AUTH_DISABLED` y comprueba login, logout, 401 y cookie.
 
-Desde fase 38, ese bloque también valida `PATCH /auth/password` (sin sesión, payload inválido, contraseña actual incorrecta y login con contraseña nueva).
+Desde fase 38/39, ese bloque también valida:
+
+- `PATCH /auth/password` (sin sesión, payload inválido, contraseña actual incorrecta y login con contraseña nueva)
+- `POST /auth/refresh` (sin cookie, refresh válido con rotación, reuse inválido, invalidación en logout)
 
 No uses `AUTH_DISABLED` en un servidor real. Ver [`10-tests.md`](./10-tests.md).
 

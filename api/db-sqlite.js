@@ -87,6 +87,30 @@ function updateAccountPassword(id, passwordHash) {
   return result.changes > 0;
 }
 
+function upsertRefreshToken(accountId, tokenHash) {
+  getDb().prepare(
+    `INSERT INTO account_refresh_tokens (account_id, token_hash)
+     VALUES (?, ?)
+     ON CONFLICT(account_id) DO UPDATE SET
+       token_hash = excluded.token_hash,
+       created_at = datetime('now')`
+  ).run(accountId, tokenHash);
+}
+
+function getRefreshTokenHashByAccountId(accountId) {
+  const row = getDb()
+    .prepare('SELECT token_hash FROM account_refresh_tokens WHERE account_id = ?')
+    .get(accountId);
+  return row?.token_hash || null;
+}
+
+function deleteRefreshTokenByAccountId(accountId) {
+  const result = getDb()
+    .prepare('DELETE FROM account_refresh_tokens WHERE account_id = ?')
+    .run(accountId);
+  return result.changes > 0;
+}
+
 async function getAllUsers() {
   return getDb()
     .prepare('SELECT id, name, email FROM users ORDER BY name')
@@ -155,5 +179,8 @@ module.exports = {
   findAccountByEmail,
   findAccountById,
   insertAccount,
-  updateAccountPassword
+  updateAccountPassword,
+  upsertRefreshToken,
+  getRefreshTokenHashByAccountId,
+  deleteRefreshTokenByAccountId
 };

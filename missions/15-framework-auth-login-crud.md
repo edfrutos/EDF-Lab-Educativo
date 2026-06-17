@@ -102,6 +102,16 @@ Practicar el flujo completo de **autenticación** en un dashboard con framework 
 
    Verifica que el login antiguo falla (403) y el nuevo funciona.
 
+9. **Refresh token rotation (fase 39)**
+
+   Tras login, ejecuta:
+
+   ```bash
+   curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/refresh
+   ```
+
+   Debe devolver 200 y renovar cookies. Si reusas un refresh previo, debe devolver 401.
+
 ## Resultado esperado
 
 Puedes explicar en tus palabras:
@@ -110,6 +120,7 @@ Puedes explicar en tus palabras:
 2. Por qué `fetch` necesita `credentials: 'include'` (ver [`docs/17-autenticacion.md`](../docs/17-autenticacion.md)).
 3. Si elegiste **Vue**: cómo `LoginGate` usa **`emit('login')`** y el padre escucha `@login`. Si elegiste **React**: cómo `LoginGate` recibe la prop **`onLogin`** — contraste didáctico en [`docs/16-frameworks.md`](../docs/16-frameworks.md).
 4. Por qué `PATCH /auth/password` exige contraseña actual además de sesión válida.
+5. Cómo `POST /auth/refresh` endurece la sesión sin introducir OAuth todavía.
 
 ## Reto extra
 

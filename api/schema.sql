@@ -13,3 +13,11 @@ CREATE TABLE IF NOT EXISTS accounts (
   email         TEXT NOT NULL UNIQUE,
   password_hash TEXT NOT NULL
 );
+
+-- Refresh token activo por operador (rotación mínima: un único token vigente).
+CREATE TABLE IF NOT EXISTS account_refresh_tokens (
+  account_id  INTEGER PRIMARY KEY,
+  token_hash  TEXT NOT NULL,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (account_id) REFERENCES accounts(id) ON DELETE CASCADE
+);
