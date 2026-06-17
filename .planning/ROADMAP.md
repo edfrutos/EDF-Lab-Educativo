@@ -143,6 +143,31 @@ Plans:
 
 ---
 
+### Phase 39: Refresh token rotation foundation
+
+**Goal:** El operador mantiene sesión renovable con rotación de refresh token, sin romper login/logout ni el acceso protegido actual.  
+**Depends on:** Phase 38  
+**Requirements:** AUTH-ADV-02  
+**Plans:** 0/2 (to define)
+
+Plans:
+**Wave 1**
+
+- [ ] 39-01-PLAN.md — contrato backend refresh + persistencia mínima + tests auth
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
+- [ ] 39-02-PLAN.md — alineación docs/misiones/NOTEBOOK + verificación de fase
+
+**Success criteria:**
+
+1. Endpoint de refresh con rotación e invalidación del token previo.
+2. Tests auth cubren refresh válido, refresh inválido y reuse/revocación básica.
+3. Flujo login/logout actual sigue estable.
+4. `docs/17-autenticacion.md` y misión auth reflejan el nuevo ciclo de sesión.
+
+---
+
 <details>
 <summary>✅ v2.1 Advanced E2E (Phases 30–33) — SHIPPED 2026-06-16</summary>
 
@@ -173,6 +198,7 @@ See `.planning/milestones/` archives.
 | 36 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 38 | v2.3 | 2/2 | Complete    | 2026-06-17 |
+| 39 | v2.3 | 0/2 | Ready to plan | — |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 
