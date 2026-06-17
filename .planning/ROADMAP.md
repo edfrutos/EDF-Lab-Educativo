@@ -97,16 +97,16 @@ Plans:
 **Goal:** El alumno tiene misión, NOTEBOOK y docs para la puerta de regresión visual.  
 **Depends on:** Phase 36  
 **Requirements:** DOCS-04, DOCS-05, DOCS-06  
-**Plans:** 0/2
+**Plans:** 2/2
 
 Plans:
 **Wave 1**
 
-- [ ] 37-01-PLAN.md — Mission 18, ampliación `docs/10-tests.md`, índice/README
+- [x] 37-01-PLAN.md — Mission 18, ampliación `docs/10-tests.md`, índice/README
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 37-02-PLAN.md — NOTEBOOK v2.2 (≥2 fricciones reales), verificación milestone
+- [x] 37-02-PLAN.md — NOTEBOOK v2.2 (≥2 fricciones reales), verificación milestone
 
 **Success criteria:**
 
@@ -145,7 +145,7 @@ See `.planning/milestones/` archives.
 | 34 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 35 | v2.2 | 2/2 | Complete    | 2026-06-16 |
 | 36 | v2.2 | 2/2 | Complete    | 2026-06-17 |
-| 37 | v2.2 | 0/2 | Not started | — |
+| 37 | v2.2 | 2/2 | Complete    | 2026-06-17 |
 | 30–33 | v2.1 | 8/8 | Complete | 2026-06-16 |
 | 26–29 | v2.0 | 8/8 | Complete | 2026-06-15 |
 

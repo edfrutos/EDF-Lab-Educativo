@@ -139,6 +139,14 @@ Tras v2.0:
 2. [`missions/17-crud-e2e-playwright.md`](./missions/17-crud-e2e-playwright.md) — CRUD E2E, trace y Network.
 3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Advanced E2E (v2.1).
 
+### Ruta avanzada v2.2 (Visual Regression)
+
+Tras v2.1:
+
+1. [`docs/10-tests.md`](./docs/10-tests.md#regresión-visual-tres-dashboards-fase-35) — flujo visual local/CI, baseline update y troubleshooting.
+2. [`missions/18-visual-regression-playwright.md`](./missions/18-visual-regression-playwright.md) — práctica guiada de snapshot mismatch, diff review y actualización intencional.
+3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Visual Regression (v2.2) con fricciones reales y aprendizajes.
+
 Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 
 ### Opcional (avanzado): dashboard React

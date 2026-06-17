@@ -20,9 +20,9 @@ Requirements for **Visual Regression**. Phases 34–37.
 
 ### Learning Documentation
 
-- [ ] **DOCS-04**: `docs/10-tests.md` documents visual regression setup, baseline updates, flake troubleshooting, and relationship to functional E2E.
-- [ ] **DOCS-05**: Mission 18 guides running visual tests locally, reviewing a failed screenshot diff, and updating baselines deliberately.
-- [ ] **DOCS-06**: At least two real v2.2 friction entries in `NOTEBOOK.md` (font/OS rendering, dynamic data masking, or CI snapshot drift).
+- [x] **DOCS-04**: `docs/10-tests.md` documents visual regression setup, baseline updates, flake troubleshooting, and relationship to functional E2E.
+- [x] **DOCS-05**: Mission 18 guides running visual tests locally, reviewing a failed screenshot diff, and updating baselines deliberately.
+- [x] **DOCS-06**: At least two real v2.2 friction entries in `NOTEBOOK.md` (font/OS rendering, dynamic data masking, or CI snapshot drift).
 
 ## Future Requirements (post-v2.2)
 
@@ -61,9 +61,9 @@ Requirements for **Visual Regression**. Phases 34–37.
 | QA-VIS-02 | Phase 35 | Complete |
 | QA-VIS-04 | Phase 36 | Complete |
 | QA-CI-06 | Phase 36 | Complete |
-| DOCS-04 | Phase 37 | Pending |
-| DOCS-05 | Phase 37 | Pending |
-| DOCS-06 | Phase 37 | Pending |
+| DOCS-04 | Phase 37 | Complete |
+| DOCS-05 | Phase 37 | Complete |
+| DOCS-06 | Phase 37 | Complete |
 
 **Coverage:**
 - v2.2 requirements: 8 total

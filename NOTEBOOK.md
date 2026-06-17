@@ -309,6 +309,59 @@ npm run test:e2e:firefox
 
 ---
 
+## Visual Regression (v2.2)
+
+Errores y patrones de las fases 34–36: snapshots Playwright, baselines por dashboard y puerta visual en CI. Guías: [`docs/10-tests.md`](./docs/10-tests.md), [`missions/18-visual-regression-playwright.md`](./missions/18-visual-regression-playwright.md).
+
+### Playwright visual falla: `Executable doesn't exist`
+
+**Síntoma:** `npm run test:visual` o `test:visual:ci` falla al arrancar con mensaje de Playwright indicando que no existe el ejecutable de Chromium.
+
+**Causa:** En entornos efímeros/sandbox, los binarios de navegador no están instalados aunque el proyecto tenga Playwright configurado.
+
+**Solución:**
+
+```bash
+npx playwright install chromium
+npm run test:visual
+```
+
+En validaciones CI-like locales: `CI=true npm run test:visual:ci`.
+
+**Aprendizaje:** La suite visual depende de binarios del navegador, no solo de `node_modules`. En entorno temporal, instalar Chromium es parte del setup.
+
+*Error real (fases 34–36).*
+
+---
+
+### Snapshot flake por contenido dinámico (timestamp/filas)
+
+**Síntoma:** Snapshot mismatch intermitente aun sin cambios de UI intencionales.
+
+**Causa:** Elementos dinámicos (`timestamp`, filas de tabla variables) cambian entre ejecuciones y generan diff visual no semántico.
+
+**Solución:** Mantener máscaras visuales en `#health-timestamp` y `#users-table-body`, junto con `maxDiffPixelRatio: 0.01`, y actualizar baselines solo con cambios intencionales.
+
+**Aprendizaje:** En visual regression, estabilidad de estado importa tanto como el assert. Sin control de zonas dinámicas, el snapshot gate pierde señal.
+
+*Error real (fases 34–35).*
+
+---
+
+### Fallo en `visual-regression` sin contexto suficiente
+
+**Síntoma:** El job CI visual falla pero no queda claro qué cambió en la UI desde el log de consola.
+
+**Causa:** El mensaje de error textual no siempre muestra la diferencia visual completa.
+
+**Solución:** Revisar artefactos del job `visual-regression` en GitHub Actions (`test-results`, `playwright-report`) antes de decidir update de baseline.
+
+**Aprendizaje:** El diagnóstico de regresión visual en PR debe apoyarse en artefactos de diff; actualizar snapshot sin revisarlos puede ocultar regresiones reales.
+
+*Error real (fase 36).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

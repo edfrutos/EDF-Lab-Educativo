@@ -115,6 +115,21 @@ La suite visual compara snapshots del panel autenticado en cada dashboard. Cada 
 - Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
 - IDs visuales en React/Vue: `#dashboard-panel`, `#login-gate`, `#health-timestamp` (paridad con vanilla para `visual-flow.js`)
 
+Setup mínimo recomendado (local):
+
+```bash
+npm run playwright:install
+cd api && npm ci && cd ..
+cd dashboard-react && npm ci && cd ..
+cd dashboard-vue && npm ci && cd ..
+```
+
+Si Playwright falla por navegador ausente en entorno efímero:
+
+```bash
+npx playwright install chromium
+```
+
 #### Visual en CI (fase 36)
 
 - Job dedicado: `visual-regression` en `.github/workflows/ci.yml`
@@ -128,6 +143,13 @@ Flujo recomendado cuando el cambio visual es intencional:
 3. Commit de baselines junto con el cambio UI y nota en el PR explicando por qué cambió la referencia
 
 Este gate visual es **aditivo**: `test:e2e`, `test:e2e:ci` y `test:e2e:pg` siguen siendo la validación funcional principal.
+
+#### Troubleshooting visual (flake vs cambio intencional)
+
+- **Mismatch en timestamp o filas variables:** confirma que la captura usa máscaras en `#health-timestamp` y `#users-table-body`.
+- **Diff pequeño de renderizado:** revisa si es anti-aliasing; el umbral base es `maxDiffPixelRatio: 0.01`.
+- **Fallo por baseline desactualizada:** solo usa `--update-snapshots` cuando el cambio UI es intencional y revisado.
+- **Fallo aislado de un dashboard:** revisa IDs de contrato visual (`#dashboard-panel`, `#login-gate`, `#health-timestamp`) antes de actualizar snapshots.
 
 ### E2E contra Postgres
 

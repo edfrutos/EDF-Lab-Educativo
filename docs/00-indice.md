@@ -60,6 +60,14 @@ Tras v2.0, cuando quieras CRUD E2E, Postgres y multi-browser:
 2. [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md) — `runCrudFlow`, trace y Network.
 3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Advanced E2E (v2.1)**.
 
+### Ruta avanzada v2.2 (Visual Regression)
+
+Tras v2.1, para practicar snapshot testing y puerta visual en CI:
+
+1. [`10-tests.md`](./10-tests.md#regresión-visual-tres-dashboards-fase-35) — contrato visual local/CI, baseline update y troubleshooting.
+2. [`missions/18-visual-regression-playwright.md`](../missions/18-visual-regression-playwright.md) — ejecutar visual, provocar mismatch y actualizar baseline intencionalmente.
+3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Visual Regression (v2.2)** con fricciones reales.
+
 ## Documentos
 
 1. [`01-arquitectura.md`](./01-arquitectura.md)  
@@ -143,3 +151,4 @@ Tras v2.0, cuando quieras CRUD E2E, Postgres y multi-browser:
 - [`missions/15-framework-auth-login-crud.md`](../missions/15-framework-auth-login-crud.md) — Mismo flujo en React `:5174` o Vue `:5175` (v1.6). *(avanzado, opcional)*
 - [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — Smoke E2E con Playwright (tres dashboards, traces). *(avanzado, v2.0)*
 - [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md) — CRUD E2E, trace y depuración Network (v2.1). *(avanzado, v2.1)*
+- [`missions/18-visual-regression-playwright.md`](../missions/18-visual-regression-playwright.md) — Snapshot testing visual, diff review y baseline update en PRs (v2.2). *(avanzado, v2.2)*
