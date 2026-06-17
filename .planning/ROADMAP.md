@@ -14,7 +14,7 @@
 - ✅ **v2.0 Quality & CI** — Phases 26–29 (shipped 2026-06-15, tag `v2.0`)
 - ✅ **v2.1 Advanced E2E** — Phases 30–33 (shipped 2026-06-16)
 - ✅ **v2.2 Visual Regression** — Phases 34–37 (shipped 2026-06-17)
-- 🚧 **v2.3 Auth Advanced** — Phases 38–39 completadas, cierre de milestone pendiente
+- ✅ **v2.3 Auth Advanced** — Phases 38–39 (shipped 2026-06-17)
 
 ## Phases
 
