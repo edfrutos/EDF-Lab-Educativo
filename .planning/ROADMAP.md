@@ -248,16 +248,16 @@ Plans:
 **Goal:** El operador dispone de scripts y guía para obtener y renovar certificados Let's Encrypt en un VPS con dominio real.  
 **Depends on:** Phase 43  
 **Requirements:** PROD-01  
-**Plans:** 0/2
+**Plans:** 2/2 planned
 
 Plans:
 **Wave 1**
 
-- [ ] 44-01-PLAN.md — scripts certbot (obtener/renovar), plantillas de dominio y volúmenes certs
+- [ ] 44-01-PLAN.md — scripts certbot (obtain/renew/render), plantillas deploy/letsencrypt, override compose LE
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 44-02-PLAN.md — guía VPS en docs, variables de entorno prod y checklist de despliegue
+- [ ] 44-02-PLAN.md — guía VPS en docs/18, README `compose:prod:le`, CORS dominio
 
 **Success criteria:**
 
