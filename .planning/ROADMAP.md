@@ -224,16 +224,16 @@ Plans:
 **Goal:** El operador prueba HTTPS local con certificados autofirmados y login con cookie `Secure` bajo `NODE_ENV=production`, con la API confiando en el proxy.  
 **Depends on:** Phase 42  
 **Requirements:** PROD-03, PROD-05  
-**Plans:** 0/2
+**Plans:** 2/2 complete
 
 Plans:
 **Wave 1**
 
-- [ ] 43-01-PLAN.md — generación certs autofirmados, nginx TLS, arranque prod con `NODE_ENV=production`
+- [x] 43-01-PLAN.md — `NODE_ENV=production` en override prod, prerequisitos `.env`, doc runtime
 
-**Wave 2** *(blocked on Wave 1 completion)*
+**Wave 2**
 
-- [ ] 43-02-PLAN.md — `trust proxy` / `X-Forwarded-Proto` en API + verificación login Secure
+- [x] 43-02-PLAN.md — `TRUST_PROXY` + `trust proxy`, smoke login Secure + `/users`, doc trust/TLS
 
 **Success criteria:**
 

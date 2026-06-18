@@ -56,7 +56,8 @@ services:
     profiles:
       - prod
     ports:
-      - "443:443"
+      # Si :443 está ocupado en el host: PROD_HTTPS_PORT=8443 en .env (raíz del repo)
+      - "${PROD_HTTPS_PORT:-443}:443"
     volumes:
       - ./deploy/certs:/etc/nginx/certs:ro
     depends_on:

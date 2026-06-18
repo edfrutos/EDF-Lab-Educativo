@@ -11,11 +11,8 @@ Requirements for **Production Deploy**. Phases 42–45.
 
 - [ ] **PROD-02**: Perfil Compose `prod` expone un único punto de entrada HTTPS con nginx que enruta `/api` a Express y `/` al dashboard estático.
 - [ ] **PROD-04**: El flujo de desarrollo en host (`:3100` API + `:5173` dashboard Python) permanece intacto y documentado como modo dual frente al perfil prod.
-- [ ] **PROD-05**: La API confía en cabeceras de proxy (`X-Forwarded-Proto`, `trust proxy`) cuando corre detrás de nginx en producción.
-
-### TLS & Certificates
-
-- [ ] **PROD-03**: El operador puede levantar HTTPS local con certificados autofirmados y verificar login con cookie `Secure` bajo `NODE_ENV=production`.
+- [x] **PROD-03**: El operador puede levantar HTTPS local con certificados autofirmados y verificar login con cookie `Secure` bajo `NODE_ENV=production`.
+- [x] **PROD-05**: La API confía en cabeceras de proxy (`X-Forwarded-Proto`, `trust proxy`) cuando corre detrás de nginx en producción.
 - [ ] **PROD-01**: Existen scripts y documentación para obtener/renovar certificados Let's Encrypt (certbot) en un VPS con dominio real.
 
 ### Dashboard & CORS (prod mode)
@@ -61,8 +58,8 @@ Requirements for **Production Deploy**. Phases 42–45.
 | PROD-02 | Phase 42 | Pending |
 | PROD-04 | Phase 42 | Pending |
 | PROD-06 | Phase 42 | Pending |
-| PROD-03 | Phase 43 | Pending |
-| PROD-05 | Phase 43 | Pending |
+| PROD-03 | Phase 43 | Complete |
+| PROD-05 | Phase 43 | Complete |
 | PROD-01 | Phase 44 | Pending |
 | DOCS-07 | Phase 45 | Pending |
 | DOCS-08 | Phase 45 | Pending |

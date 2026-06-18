@@ -442,6 +442,173 @@ Errores y patrones al conectar el flujo OAuth mock del backend con la UI del das
 
 ---
 
+## Production Deploy (v2.5)
+
+Errores y patrones de las fases 42–43: perfil `compose:prod`, TLS autofirmado, cookies `Secure` y proxy nginx. Guía: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+
+### MongoDB Atlas en `DATABASE_URL` — no aplica a este lab
+
+**Síntoma:** Se pega una URI `mongodb+srv://...` en `api/.env` esperando que la API use Atlas (`edf-lab-educativo`).
+
+**Causa:** Este repositorio usa **PostgreSQL** (`pg`) o **SQLite** según `DATABASE_URL`. No hay driver ni rutas para MongoDB.
+
+**Solución:** En Compose prod, descomenta en `api/.env`:
+
+```txt
+DATABASE_URL=postgresql://edf_lab:edf_lab_dev@edf-lab-postgres:5432/edf_lab
+```
+
+El hostname `edf-lab-postgres` es el **nombre del servicio** Docker, no `localhost` ni Atlas. Para dev sin Docker, omite `DATABASE_URL` y usa SQLite en `api/data/users.db`.
+
+**Aprendizaje:** `DATABASE_URL` no es un nombre genérico “base de datos en la nube” — el **esquema de la URL** (`postgresql://`, `mongodb://`, …) determina qué motor usa el código.
+
+*Error real (sesión operador 2026-06-17).*
+
+---
+
+### Crear `JWT_SECRET` para `compose:prod`
+
+**Síntoma:** La API en prod no arranca o el smoke/login fallan tras activar `NODE_ENV=production`.
+
+**Causa:** Sin `JWT_SECRET` en `api/.env`, el fail-fast de fase 20 termina el proceso.
+
+**Solución:**
+
+```bash
+openssl rand -base64 48
+# Pegar el resultado en api/.env (variable JWT_SECRET — solo en archivo gitignored)
+```
+
+Nunca subas `api/.env` a git. No reutilices claves de otros proyectos.
+
+**Aprendizaje:** `JWT_SECRET` firma la cookie `edf_session`; en prod es obligatorio por diseño.
+
+*Patrón documentado (fase 20, aplicado en prod v2.5).*
+
+---
+
+### Puertos 443 y 8443 ocupados al levantar `compose:prod`
+
+**Síntoma:**
+
+```txt
+Bind for 0.0.0.0:443 failed: address already in use
+# o
+Bind for 0.0.0.0:8443 failed: port is already allocated
+```
+
+**Causa:** Otro servicio en el Mac (p. ej. Apache, VPN) o otro contenedor (p. ej. `gestor-tareas-caddy-1` en `8443→443`) ya usa esos puertos.
+
+**Solución:** Crea `.env` en la **raíz del repo** (gitignored) con un puerto libre:
+
+```env
+PROD_HTTPS_PORT=9443
+```
+
+`docker-compose.yml` mapea `${PROD_HTTPS_PORT:-443}:443`. Abre **`https://localhost:9443`** (no olvides el puerto). El script `scripts/smoke-prod-proxy.sh` lee ese valor si existe.
+
+Para diagnosticar:
+
+```bash
+netstat -an | grep LISTEN | grep '\.443 '
+docker ps --format '{{.Names}} {{.Ports}}'
+```
+
+**Aprendizaje:** El proxy del lab escucha **443 dentro del contenedor**; el puerto en el **host** puede ser otro sin romper el patrón didáctico.
+
+*Error real (sesión operador 2026-06-17).*
+
+---
+
+### «La conexión no es privada» (`NET::ERR_CERT_AUTHORITY_INVALID`)
+
+**Síntoma:** Chrome muestra pantalla roja al abrir `https://localhost` o `https://localhost:9443` antes de ver el dashboard.
+
+**Causa:** Certificado **autofirmado** generado por `./scripts/generate-dev-tls.sh` — el navegador no confía en la CA.
+
+**Solución:**
+
+1. Usa la URL con puerto correcto: `https://localhost:9443` si definiste `PROD_HTTPS_PORT=9443`.
+2. **Avanzado** → **Acceder a localhost (no seguro)**.
+3. En Chrome, si no aparece el enlace: escribe `thisisunsafe` (atajo oculto de desarrollo).
+
+`curl` usa `-k` en el smoke; el navegador exige aceptación manual.
+
+**Aprendizaje:** TLS terminado en nginx con cert de laboratorio es **normal** en local; Let's Encrypt (fase 44) es para dominio real en VPS.
+
+*Error real (sesión operador 2026-06-17).*
+
+---
+
+### Login prod: «Something went wrong!» — CORS rechaza `https://localhost:9443`
+
+**Síntoma:** Tras aceptar el certificado, el formulario de login muestra:
+
+```txt
+La petición a /api/auth/login ha fallado: Something went wrong!
+```
+
+`curl -k` a `/api/auth/login` devuelve 200; en logs de la API:
+
+```txt
+[cors] Origen rechazado: https://localhost:9443. Permitidos: http://localhost:5173, ...
+```
+
+**Causa:** En prod el dashboard y la API son **mismo origen** (`/api`), pero el navegador envía cabecera `Origin` en POST con cookies. El middleware `cors()` solo permitía orígenes HTTP de dev (`:5173`–`:5175`), no `https://localhost:9443`. Express lanzaba error → middleware 500 genérico.
+
+**Solución (fase 43):** Con `TRUST_PROXY=1`, permitir orígenes `https://localhost` y `https://127.0.0.1` (cualquier puerto). Recrear la API:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d --build edf-lab-api
+```
+
+Puedes ejecutarlo en **otro terminal** sin parar el que muestra logs de `compose:prod`.
+
+**Aprendizaje:** Same-origin en prod **no elimina** la cabecera `Origin`; la whitelist CORS debe incluir el origen HTTPS del proxy o relajarse de forma acotada detrás de `TRUST_PROXY`.
+
+*Error real (fase 43 / sesión 2026-06-17).*
+
+---
+
+### Secretos pegados por error en `api/.env.example`
+
+**Síntoma:** Aparecen `MONGO_URI`, `SECRET_KEY` u otras claves reales al inicio de `api/.env.example`.
+
+**Causa:** Copiar/pegar desde otro proyecto o `.env` personal en el archivo de plantilla trackeado por git.
+
+**Solución:** Quitar valores reales de `.env.example`; rotar contraseñas en servicios externos si llegaron a commitearse. Los secretos viven **solo** en `api/.env` (gitignored).
+
+**Aprendizaje:** `.env.example` documenta **nombres** de variables, no credenciales de producción.
+
+*Error real (sesión operador 2026-06-17).*
+
+---
+
+### Recrear solo la API con `compose:prod` en marcha
+
+**Síntoma:** Dudas si hay que hacer `Ctrl+C` en la terminal de `npm run compose:prod` para aplicar cambios en `api/index.js` o `docker-compose.prod.yml`.
+
+**Causa:** La imagen del contenedor API queda desactualizada hasta un rebuild.
+
+**Solución:** En **otra terminal**, desde la raíz del repo:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod up -d --build edf-lab-api
+```
+
+La terminal con logs adjuntos mostrará el reinicio de `edf-lab-api`. Verificación:
+
+```bash
+./scripts/smoke-prod-proxy.sh
+# o PROD_PROXY_URL=https://localhost:9443 ./scripts/smoke-prod-proxy.sh
+```
+
+**Aprendizaje:** Docker gestiona contenedores en segundo plano; `-d` en el rebuild no sustituye al `compose:prod` foreground, pero sí actualiza el servicio.
+
+*Patrón documentado (sesión operador 2026-06-17).*
+
+---
+
 ## 2026-06-01 · PostgreSQL v1.3 — errores de integración
 
 ### Connection refused al conectar a Postgres

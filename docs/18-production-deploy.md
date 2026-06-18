@@ -13,7 +13,7 @@ En un despliegue real:
 1. Los **secretos** (JWT, contraseñas de operador, URL de base de datos) viven en archivos o gestores de secretos **fuera** del repositorio y de las imágenes Docker.
 2. El **TLS** (HTTPS) suele terminarse en un **proxy inverso** (nginx, Caddy, Traefik). Node y nginx del dashboard sirven HTTP **dentro** de la red privada; el usuario solo ve `https://` hacia el proxy.
 
-Este laboratorio no automatizaba certificados ni Kubernetes; en **v2.5 fase 42** el perfil Compose `prod` implementa el patrón con `edf-lab-proxy`. Let's Encrypt y endurecimiento TLS siguen en fases 43–44.
+Este laboratorio no automatizaba certificados ni Kubernetes; en **v2.5 fase 42** el perfil Compose `prod` implementa el patrón con `edf-lab-proxy`. La **fase 43** activa `NODE_ENV=production`, cookies `Secure` y `trust proxy`. Let's Encrypt sigue en fase 44.
 
 ---
 
@@ -48,16 +48,46 @@ Un único origen HTTPS en el host; la API se alcanza bajo **`/api`** sin cambiar
 ### Arranque
 
 ```bash
-cp api/.env.example api/.env   # JWT_SECRET, DATABASE_URL para Compose
+cp api/.env.example api/.env   # JWT_SECRET + DATABASE_URL (edf-lab-postgres)
 ./scripts/generate-dev-tls.sh  # deploy/certs/lab.crt + lab.key (gitignored)
 npm run compose:prod
-./scripts/smoke-prod-proxy.sh
+./scripts/smoke-prod-proxy.sh  # detecta PROD_HTTPS_PORT en .env raíz si aplica
 ```
 
 - **`npm run compose:up`** (sin profile) sigue publicando `:3100` y `:5173` — misiones 11/12 intactas.
-- **`npm run compose:prod`** no publica `:3100`/`:5173`; solo **`:443`** vía proxy.
-- Certs **autofirmados**: `curl` requiere `-k`; el navegador muestra advertencia hasta fase 43/44.
+- **`npm run compose:prod`** no publica `:3100`/`:5173`; solo HTTPS vía proxy (por defecto **`:443`** en el host).
+- Si **`:443` está ocupado**, crea `.env` en la **raíz del repo** con `PROD_HTTPS_PORT=9443` (u otro puerto libre) y abre `https://localhost:9443`.
+- Certs **autofirmados**: `curl` requiere `-k`; el navegador muestra advertencia — acéptala para probar login.
 - Dashboard prod usa **`API_BASE_URL='/api'`** (build-arg en imagen); dev host sigue `http://localhost:3100` en `dashboard/app.js`.
+
+### Modo production en `compose:prod` (fase 43)
+
+`docker-compose.prod.yml` inyecta en el contenedor API:
+
+| Variable | Valor | Efecto |
+|----------|-------|--------|
+| `NODE_ENV` | `production` | Cookies `Secure`; fail-fast sin `JWT_SECRET` |
+| `TRUST_PROXY` | `1` | Express confía en un salto nginx (`X-Forwarded-Proto`) |
+
+**No** se activa en `npm start` en el host ni en `compose:up` sin perfil prod — el flujo dev HTTP en `:3100`/`:5173 no cambia.
+
+### Trust proxy y cookies Secure
+
+nginx envía `X-Forwarded-Proto: https` hacia Express. Con `TRUST_PROXY=1`, la API no asume que el cliente habla HTTPS directamente con Node (solo HTTP interno en `:3100`).
+
+La cookie `edf_session` lleva `Secure` cuando `NODE_ENV=production`. El navegador **solo** la envía por HTTPS terminada en el proxy.
+
+**Checklist manual:** abre `https://localhost` (o tu puerto `PROD_HTTPS_PORT`, p. ej. `https://localhost:9443`). El navegador mostrará **«La conexión no es privada»** con cert autofirmado — en Chrome: *Avanzado* → *Acceder a localhost (no seguro)*. Luego inicia sesión en el dashboard y comprueba que el CRUD carga.
+
+**Checklist automatizada:**
+
+```bash
+./scripts/smoke-prod-proxy.sh
+# o, si usas puerto distinto:
+PROD_PROXY_URL=https://localhost:9443 ./scripts/smoke-prod-proxy.sh
+```
+
+El smoke verifica login, flag `Secure` en `Set-Cookie` y `GET /api/users` autenticado.
 
 ### Enrutado nginx (implementado)
 
@@ -165,7 +195,7 @@ Las credenciales de Postgres en el servicio `edf-lab-postgres` siguen siendo **f
 
 En producción, el navegador habla HTTPS con el proxy. El proxy reenvía HTTP a los contenedores. En este repo, el servicio **`edf-lab-proxy`** (perfil `prod`) implementa ese patrón — ver [Perfil Compose `prod`](#perfil-compose-prod-fase-42) arriba.
 
-**Por qué importa para auth:** la cookie `edf_session` usa el flag `Secure` cuando `NODE_ENV=production`. El navegador **solo** la envía por HTTPS. La verificación completa de login Secure en prod es **fase 43**; la fase 42 valida enrutado y reachability vía `scripts/smoke-prod-proxy.sh`.
+**Por qué importa para auth:** la cookie `edf_session` usa el flag `Secure` cuando `NODE_ENV=production` (activo en `compose:prod`). El navegador **solo** la envía por HTTPS. Verificación automatizada: `scripts/smoke-prod-proxy.sh` (fase 43).
 
 ### Snippet nginx educativo (referencia histórica)
 

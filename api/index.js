@@ -24,14 +24,31 @@ const {
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+if (process.env.TRUST_PROXY === '1') {
+  app.set('trust proxy', 1);
+}
+
 const loginRateLimiter = createLoginRateLimiter();
 
 const allowedOrigins = getAllowedOrigins();
 
+function isProdProxyLocalOrigin(origin) {
+  if (process.env.TRUST_PROXY !== '1' || !origin) {
+    return false;
+  }
+  try {
+    const { protocol, hostname } = new URL(origin);
+    return protocol === 'https:' && (hostname === 'localhost' || hostname === '127.0.0.1');
+  } catch {
+    return false;
+  }
+}
+
 // Middleware
 app.use(cors({
   origin(origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
+    if (!origin || allowedOrigins.includes(origin) || isProdProxyLocalOrigin(origin)) {
       callback(null, true);
     } else {
       console.warn(
