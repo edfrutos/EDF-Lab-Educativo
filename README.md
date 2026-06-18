@@ -35,6 +35,7 @@ Interfaz visual
 EDF-Lab-Educativo/
 ├── README.md
 ├── NOTEBOOK.md
+├── docker-compose.vps.yml   # override VPS (Postgres sin :5432 en host)
 ├── ROADMAP.md
 ├── AGENTS.md
 ├── CHANGELOG.md
@@ -104,6 +105,20 @@ npm run compose:prod            # levanta stack sin publicar :3100/:5173
 ```
 
 Abre https://localhost en el navegador (acepta la advertencia del certificado de laboratorio). Detalle: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+
+### Despliegue en VPS (Plesk + Docker)
+
+Instancia pública operativa: **https://lab.edefrutos2020.com** (TLS en Plesk; stack Docker en `127.0.0.1:9443`).
+
+En el servidor, con puertos `:5432`/`:443` ocupados por Plesk:
+
+```bash
+cp api/.env.example api/.env   # JWT_SECRET, DATABASE_URL, ADMIN_*, CORS_ORIGINS con tu dominio HTTPS
+echo 'PROD_HTTPS_PORT=127.0.0.1:9443' > .env
+npm run compose:prod:vps
+```
+
+Proxy inverso Plesk → `https://127.0.0.1:9443`. Runbook y errores reales (CORS dominio, seed operador, nginx duplicate `location /`): [`NOTEBOOK.md`](./NOTEBOOK.md) — sección *Production Deploy (v2.5)*. Guía: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md#variante-vps-con-plesk-despliegue-real).
 
 Dashboard: http://localhost:5173 — API: http://localhost:3100 — PostgreSQL: `localhost:5432`
 

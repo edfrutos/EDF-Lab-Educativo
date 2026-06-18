@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v2.5
 milestone_name: Production Deploy
 status: ready
-last_updated: "2026-06-17T18:15:00.000Z"
-last_activity: 2026-06-17 -- Phase 43 executed
+last_updated: "2026-05-31T12:00:00.000Z"
+last_activity: 2026-05-31 -- Production VPS documented (Plesk + lab.edefrutos2020.com)
 progress:
   total_phases: 4
   completed_phases: 2
-  total_plans: 10
+  total_plans: 12
   completed_plans: 4
-  percent: 40
-stopped_at: Phase 43 complete — ready for phase 44
+  percent: 33
+stopped_at: Phase 44 planned — prod live on Plesk variant (certbot optional)
 ---
 
 # Project State
@@ -22,14 +22,25 @@ See: `.planning/PROJECT.md` (updated 2026-06-17)
 
 **Core value:** Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-**Current focus:** Milestone v2.5 Production Deploy — Phase 44 next
+**Current focus:** Milestone v2.5 — prod stack live at `https://lab.edefrutos2020.com` (Plesk LE + Docker); phase 44 certbot scripts optional for this host
+
+## Production deployment (operator)
+
+| Item | Value |
+|------|--------|
+| URL | https://lab.edefrutos2020.com |
+| VPS path | `/var/www/vhosts/edefrutos2020.com/lab.edefrutos2020.com/edf-lab/` |
+| Compose | `npm run compose:prod:vps` (or three-file compose with `--profile prod`) |
+| TLS edge | Plesk Let's Encrypt |
+| TLS internal | `127.0.0.1:9443` (edf-lab-proxy, autofirmado) |
+| Docs | [`NOTEBOOK.md`](../NOTEBOOK.md) — *Production Deploy v2.5*; [`docs/18-production-deploy.md`](../docs/18-production-deploy.md) |
 
 ## Current Position
 
 Phase: 44
-Plan: —
-Status: Ready to plan
-Last activity: 2026-06-17 — Phase 43 complete
+Plan: 44-01 (wave 1)
+Status: Planned — 2/2 plans (certbot path; **not required** for current Plesk deployment)
+Last activity: 2026-05-31 — NOTEBOOK + docker-compose.vps.yml + README VPS section
 
 ## Milestone Status
 
@@ -51,9 +62,9 @@ Last activity: 2026-06-17 — Phase 43 complete
 
 ## Session Continuity
 
-Last session: 2026-06-17T17:00:00.000Z
-Stopped at: Phase 43 complete — ready for phase 44
-Next suggested command: `/gsd-plan-phase 44`
+Last session: 2026-05-31
+Stopped at: Production documented — login + CRUD OK on lab.edefrutos2020.com
+Next suggested command: `/gsd-execute-phase 44` (optional; Plesk already provides LE) or `/gsd-execute-phase 45` (docs/misión milestone close)
 
 ## Deferred Items
 
@@ -65,4 +76,4 @@ Next suggested command: `/gsd-plan-phase 44`
 | Phase 11 UAT artifact | Pre-existing | Open |
 
 ---
-*Last updated: 2026-06-17 — Phase 43 complete*
+*Last updated: 2026-05-31 — prod VPS documented; phase 44 optional for Plesk hosts*

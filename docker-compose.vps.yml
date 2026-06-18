@@ -1,0 +1,17 @@
+# Override VPS (Plesk u host con puertos ocupados).
+# Postgres solo en red Docker — no publicar :5432 en el host.
+#
+# Uso en servidor:
+#   docker compose \
+#     -f docker-compose.yml \
+#     -f docker-compose.prod.yml \
+#     -f docker-compose.vps.yml \
+#     --profile prod up -d --build
+#
+# En la raíz del repo, crea .env (gitignored) con, por ejemplo:
+#   PROD_HTTPS_PORT=127.0.0.1:9443
+# si :443/:8443 del host ya están en uso. Plesk hace proxy a ese puerto.
+
+services:
+  edf-lab-postgres:
+    ports: !reset []

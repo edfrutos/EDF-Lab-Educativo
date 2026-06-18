@@ -131,7 +131,7 @@ Edita `.env` en local. **Nunca** lo subas a git (está en `.gitignore`).
 | `JWT_SECRET` | Firma de la cookie de sesión — obligatoria si `NODE_ENV=production` |
 | `JWT_EXPIRES_IN` | Duración del token (p. ej. `24h`) |
 | `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Operador inicial si la tabla `accounts` está vacía |
-| `CORS_ORIGINS` | Orígenes del dashboard (5173, 5174, 5175) con cookies |
+| `CORS_ORIGINS` | Orígenes del dashboard (dev `:5173`–`:5175`) **y el dominio HTTPS público** en VPS (p. ej. `https://lab.edefrutos2020.com`) |
 | `DATABASE_URL` | Postgres en Compose o en host |
 | `AUTH_DISABLED` | **Solo tests** — nunca en producción |
 
@@ -218,6 +218,19 @@ server {
 ```
 
 El dashboard estático podría exponerse en otro `server` o `location` con `proxy_pass http://edf-lab-dashboard:5173`. Ajusta nombres de host según tu red Compose o swarm.
+
+---
+
+## Variante VPS con Plesk (despliegue real)
+
+En un servidor con **Plesk** y Let's Encrypt ya gestionado en el panel, **no hace falta** la fase 44 (certbot del repo). Patrón aplicado en **`https://lab.edefrutos2020.com`**:
+
+1. Stack Compose prod + [`docker-compose.vps.yml`](../docker-compose.vps.yml) (Postgres sin `:5432` en host).
+2. `.env` raíz con `PROD_HTTPS_PORT=127.0.0.1:9443` si `:443`/`:8443` están ocupados.
+3. `api/.env` con `CORS_ORIGINS` incluyendo el dominio público HTTPS.
+4. Proxy inverso Plesk → `https://127.0.0.1:9443` (TLS interno autofirmado; LE en el edge).
+
+Runbook completo, fricciones y comandos: sección **«Estado actual — producción lab.edefrutos2020.com»** en [`NOTEBOOK.md`](../NOTEBOOK.md) (apartado *Production Deploy v2.5*).
 
 ---
 

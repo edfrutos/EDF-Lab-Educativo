@@ -68,6 +68,14 @@ Tras v2.1, para practicar snapshot testing y puerta visual en CI:
 2. [`missions/18-visual-regression-playwright.md`](../missions/18-visual-regression-playwright.md) — ejecutar visual, provocar mismatch y actualizar baseline intencionalmente.
 3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Visual Regression (v2.2)** con fricciones reales.
 
+### Ruta avanzada v2.5 (Production Deploy)
+
+Tras v2.4, para perfil `compose:prod`, TLS y despliegue en VPS:
+
+1. [`18-production-deploy.md`](./18-production-deploy.md) — secretos, proxy nginx, variante Plesk.
+2. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Production Deploy (v2.5)** (puertos ocupados, CORS dominio público, seed operador, Plesk).
+3. [`docker-compose.vps.yml`](../docker-compose.vps.yml) — override Postgres sin `:5432` en host.
+
 ## Documentos
 
 1. [`01-arquitectura.md`](./01-arquitectura.md)  

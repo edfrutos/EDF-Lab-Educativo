@@ -4,6 +4,29 @@ Registro de cambios relevantes del laboratorio.
 
 ---
 
+## v2.5 · Production Deploy (en curso)
+
+**Milestone:** Perfil `compose:prod`, TLS proxy, despliegue real en VPS.
+
+### Desplegado y documentado (operador VPS)
+
+- Instancia pública **https://lab.edefrutos2020.com** — Plesk (Let's Encrypt) → Docker en `127.0.0.1:9443`.
+- [`docker-compose.vps.yml`](./docker-compose.vps.yml) — Postgres solo en red Docker (evita conflicto `:5432` con Plesk).
+- Scripts `npm run compose:prod:vps` / `compose:prod:vps:down`.
+- [`NOTEBOOK.md`](./NOTEBOOK.md): sección *Production Deploy (v2.5)* con runbook Plesk, CORS dominio público, seed operador, fricciones reales.
+- [`docs/18-production-deploy.md`](./docs/18-production-deploy.md): variante VPS Plesk; `CORS_ORIGINS` con dominio HTTPS en prod.
+
+### Implementado en repo (fases 42–43)
+
+- Perfil Compose `prod`, `edf-lab-proxy`, `NODE_ENV=production`, `TRUST_PROXY=1`, CORS `https://localhost` en prod local.
+
+### Pendiente en milestone
+
+- Fase 44 (certbot automatizado) — opcional si el panel ya gestiona LE (caso Plesk actual).
+- Fase 45 (misión + cierre documental milestone).
+
+---
+
 ## v2.0 · Quality & CI (en curso)
 
 **Milestone:** Playwright smoke E2E (3 dashboards) + Postgres CI obligatorio en PRs.

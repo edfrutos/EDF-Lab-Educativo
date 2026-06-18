@@ -444,7 +444,256 @@ Errores y patrones al conectar el flujo OAuth mock del backend con la UI del das
 
 ## Production Deploy (v2.5)
 
-Errores y patrones de las fases 42–43: perfil `compose:prod`, TLS autofirmado, cookies `Secure` y proxy nginx. Guía: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+Errores y patrones de las fases 42–45: perfil `compose:prod`, TLS, cookies `Secure`, proxy nginx y **despliegue real en VPS con Plesk**. Guía base: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).
+
+### Estado actual — producción `https://lab.edefrutos2020.com`
+
+**Estado (operativo):** stack Docker prod detrás de Plesk (Let's Encrypt en Plesk, **sin** certbot del repo). Login operador y CRUD verificados en navegador.
+
+**Arquitectura:**
+
+```txt
+Navegador → https://lab.edefrutos2020.com (TLS Plesk / LE)
+         → proxy Plesk (nginx o Apache según vhost)
+         → https://127.0.0.1:9443 (edf-lab-proxy, cert autofirmado interno)
+         → /api → edf-lab-api:3100
+         → /    → edf-lab-dashboard:5173
+         → edf-lab-postgres (solo red Docker)
+```
+
+**Ruta en el VPS:**
+
+```txt
+/var/www/vhosts/edefrutos2020.com/lab.edefrutos2020.com/edf-lab/
+```
+
+**Arranque (tras `git pull` o reinicio del servidor):**
+
+```bash
+cd /var/www/vhosts/edefrutos2020.com/lab.edefrutos2020.com/edf-lab
+
+docker compose \
+  -f docker-compose.yml \
+  -f docker-compose.prod.yml \
+  -f docker-compose.vps.yml \
+  --profile prod up -d --build
+```
+
+**Archivos solo en servidor (además de `api/.env`):**
+
+| Archivo | Contenido |
+|---------|-----------|
+| `.env` (raíz) | `PROD_HTTPS_PORT=127.0.0.1:9443` — proxy interno en localhost |
+| `docker-compose.vps.yml` | Quita `:5432` publicado de Postgres (ver [`docker-compose.vps.yml`](./docker-compose.vps.yml)) |
+| `api/.env` | `JWT_SECRET`, `DATABASE_URL`, `ADMIN_EMAIL`, `ADMIN_PASSWORD`, **`CORS_ORIGINS`** con el dominio público |
+
+**`api/.env` mínimo en producción (valores reales solo en el VPS, gitignored):**
+
+```env
+# JWT_SECRET — cadena larga (p. ej. salida de: openssl rand -base64 48)
+DATABASE_URL=postgresql://edf_lab:edf_lab_dev@edf-lab-postgres:5432/edf_lab
+ADMIN_EMAIL=<email operador>
+ADMIN_PASSWORD="<contraseña; comillas si hay #, $ o espacios>"
+CORS_ORIGINS=http://localhost:5173,http://localhost:5174,http://localhost:5175,http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175,https://lab.edefrutos2020.com
+```
+
+**Comprobaciones rápidas:**
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml ps
+curl -k https://127.0.0.1:9443/api/health
+curl -fsS https://lab.edefrutos2020.com/api/health
+```
+
+**Plesk:** TLS y certificado en el panel; el lab usa certs autofirmados **solo** entre Plesk y `127.0.0.1:9443` (`proxy_ssl_verify off` / `SSLProxyVerify none`). La fase 44 del repo (certbot) **no se usó** en este host.
+
+**Variante elegida vs fase 44:** certbot automatizado en el repo queda para VPS sin panel; aquí Plesk ya gestiona LE en el dominio.
+
+*Estado documentado tras despliegue operador VPS — sesión 2026-05/06.*
+
+---
+
+### VPS Plesk: puerto 5432 del host ocupado
+
+**Síntoma:**
+
+```txt
+Bind for 0.0.0.0:5432 failed: port is already allocated
+```
+
+**Causa:** Postgres de Plesk u otro servicio ya escucha en `:5432`. La API en Compose **no necesita** publicar Postgres al host — se conecta por hostname `edf-lab-postgres` en la red Docker.
+
+**Solución:** Usar [`docker-compose.vps.yml`](./docker-compose.vps.yml) con `ports: !reset []` en `edf-lab-postgres` y el comando de compose de tres ficheros (ver sección «Estado actual» arriba).
+
+**Aprendizaje:** Publicar `:5432` en el compose base es didáctico para `psql` desde el host en el Mac; en un VPS compartido suele chocar con el Postgres del panel.
+
+*Error real (despliegue Plesk).*
+
+---
+
+### VPS Plesk: puertos 443 y 8443 ocupados — proxy en `127.0.0.1:9443`
+
+**Síntoma:** `compose:prod` falla al publicar `:443` o `:8443` en el host.
+
+**Causa:** Plesk, Apache u otros vhosts ya usan esos puertos.
+
+**Solución:** En `.env` de la **raíz del repo** en el VPS:
+
+```env
+PROD_HTTPS_PORT=127.0.0.1:9443
+```
+
+El contenedor `edf-lab-proxy` escucha `:443` **interno**; en el host solo `127.0.0.1:9443`. Plesk hace proxy inverso a esa URL.
+
+**Aprendizaje:** En producción con panel, el único puerto HTTPS público suele ser el del panel; el stack del lab puede vivir en localhost.
+
+*Error real (despliegue Plesk).*
+
+---
+
+### Plesk: `duplicate location "/"` en nginx
+
+**Síntoma:**
+
+```txt
+nginx: [emerg] duplicate location "/" in .../vhost_nginx.conf
+```
+
+**Causa:** Plesk ya define `location /` en el vhost; pegar otro bloque `location /` en «Directivas adicionales de nginx» duplica la directiva.
+
+**Solución (una de dos):**
+
+1. **Apache proxy (HTTPS)** — «Directivas adicionales para HTTPS»:
+
+```apache
+<IfModule mod_proxy.c>
+    ProxyRequests Off
+    ProxyPreserveHost On
+    SSLProxyEngine On
+    SSLProxyVerify none
+    SSLProxyCheckPeerCN off
+    SSLProxyCheckPeerName off
+    ProxyPass / https://127.0.0.1:9443/
+    ProxyPassReverse / https://127.0.0.1:9443/
+    RequestHeader set X-Forwarded-Proto "https"
+    RequestHeader set X-Forwarded-Port "443"
+</IfModule>
+```
+
+2. **Solo nginx** — no añadir `location /` duplicado; usar las opciones de proxy del panel o directivas que no redefinan `/` (depende de la versión de Plesk).
+
+**Aprendizaje:** El proxy del lab es **interno**; Plesk es el edge TLS real hacia Internet.
+
+*Error real (despliegue Plesk).*
+
+---
+
+### Docker Compose v1 en Ubuntu 20.04 — instalar plugin v2
+
+**Síntoma:** `docker-compose` 1.25 instalado; el proyecto usa `docker compose` (v2), perfiles `--profile prod` y `!reset` en YAML.
+
+**Solución:**
+
+```bash
+sudo apt update
+sudo apt install -y docker-compose-plugin
+docker compose version
+```
+
+Si el paquete no existe, instalar el plugin manualmente desde releases de Compose v2 (ver documentación Docker).
+
+**Aprendizaje:** `docker-compose` (binario v1) y `docker compose` (plugin v2) no son intercambiables en este repo.
+
+*Error real (despliegue Plesk).*
+
+---
+
+### Cuenta operador: email en DB distinto al `.env` / contraseña no actualiza
+
+**Síntoma:** Cambias `ADMIN_EMAIL` y `ADMIN_PASSWORD` en `api/.env` del VPS y recreas la API, pero el login sigue fallando o el email en base de datos no coincide.
+
+**Causa:** `seedAdminIfEmptyAccounts` en `api/seed.js` **solo inserta** si `accounts` está vacía. Si la fila ya existía (primer arranque con otro `.env`), cambiar variables **no** actualiza `password_hash` ni `email`. Ejemplo real: primer seed con `edfrutosgmail.com` (sin `@`) mientras el `.env` corregido tenía `edfrutos@gmail.com`.
+
+**Diagnóstico:**
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml \
+  exec edf-lab-postgres psql -U edf_lab -d edf_lab -c "SELECT id, email FROM accounts;"
+
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml \
+  exec edf-lab-api node -e 'console.log("EMAIL:", process.env.ADMIN_EMAIL); console.log("PASS len:", (process.env.ADMIN_PASSWORD||"").length);'
+```
+
+**Solución:** Tras corregir `api/.env`:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml \
+  exec edf-lab-postgres psql -U edf_lab -d edf_lab -c "DELETE FROM accounts;"
+
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml \
+  up -d --force-recreate edf-lab-api
+```
+
+Busca en logs: `[seed] Cuenta operador creada`.
+
+**Aprendizaje:** `.env` define la semilla **inicial**, no un sincronizador continuo. Para rotar operador con datos ya creados: borrar fila + re-seed, o `PATCH /auth/password` estando logueado.
+
+*Error real (despliegue Plesk).*
+
+---
+
+### Login prod: «Something went wrong!» — CORS rechaza el dominio público
+
+**Síntoma:** En `https://lab.edefrutos2020.com`, el indicador «API conectada» está en verde (`GET /api/health` OK), pero el login muestra:
+
+```txt
+La petición a /api/auth/login ha fallado: Something went wrong!
+```
+
+`curl` sin cabecera `Origin` puede devolver 200 o `Credenciales inválidas`; en logs de la API:
+
+```txt
+[cors] Origen rechazado: https://lab.edefrutos2020.com. Permitidos: http://localhost:5173, ...
+```
+
+**Causa:** Igual que con `https://localhost:9443` (entrada siguiente): el navegador envía `Origin` en `POST` con cookies. `CORS_ORIGINS` en `api/.env` solo listaba puertos de desarrollo; el dominio de producción no estaba en la whitelist → middleware CORS lanza error → respuesta 500 genérica.
+
+**Solución:** Añadir el origen HTTPS público a `CORS_ORIGINS` en `api/.env` (sin barra final):
+
+```env
+CORS_ORIGINS=...,https://lab.edefrutos2020.com
+```
+
+Recrear la API:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml \
+  up -d --force-recreate edf-lab-api
+```
+
+**Aprendizaje:** Tras el fix de fase 43, `https://localhost` y `https://127.0.0.1` se permiten con `TRUST_PROXY=1`; **cada dominio real** debe añadirse explícitamente a `CORS_ORIGINS` (o ampliar la política en código en una fase futura).
+
+*Error real (despliegue Plesk — resuelto).*
+
+---
+
+### Bash `!` en scripts `docker exec` — `event not found`
+
+**Síntoma:** Al pegar un `node -e "..."` con `if (!acc.length)`, bash responde `event not found` y Node muestra `SyntaxError`.
+
+**Causa:** En comillas dobles, `!` activa la expansión de historial de bash.
+
+**Solución:** Usar comillas simples en el `-e`, heredoc con `exec -T`, o escribir `acc.length === 0` en lugar de `!acc.length`.
+
+```bash
+docker compose ... exec -T edf-lab-api node <<'EOF'
+// script aquí
+EOF
+```
+
+**Aprendizaje:** Diagnósticos multilínea en servidor SSH requieren cuidado con quoting; comandos cortos (`psql`, `node -e` con comillas simples) suelen bastar.
+
+*Error real (despliegue Plesk).*
 
 ### MongoDB Atlas en `DATABASE_URL` — no aplica a este lab
 
@@ -565,6 +814,8 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml --profile prod u
 Puedes ejecutarlo en **otro terminal** sin parar el que muestra logs de `compose:prod`.
 
 **Aprendizaje:** Same-origin en prod **no elimina** la cabecera `Origin`; la whitelist CORS debe incluir el origen HTTPS del proxy o relajarse de forma acotada detrás de `TRUST_PROXY`.
+
+En dominio real (p. ej. `https://lab.edefrutos2020.com`), añade ese origen a `CORS_ORIGINS` — ver entrada **«CORS rechaza el dominio público»** en esta misma sección v2.5.
 
 *Error real (fase 43 / sesión 2026-06-17).*
 
