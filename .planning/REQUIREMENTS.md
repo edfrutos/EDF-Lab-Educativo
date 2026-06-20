@@ -27,12 +27,12 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 
 ### Production & Learning Material
 
-- [ ] **DEPLOY-01**: `docs/17-autenticacion.md` explains JWT flow, public vs protected routes, 401, and token storage with repo excerpts.
-- [ ] **DEPLOY-02**: `docs/18-despliegue.md` covers env vars, secrets, CORS hardening, TLS overview (reverse proxy), and a production checklist.
-- [ ] **DEPLOY-03**: `missions/14-login-y-token.md` — login, CRUD with token, Network tab inspection of Bearer header; reto extra for React/Vue.
+- [x] **DEPLOY-01**: `docs/17-autenticacion.md` explains JWT flow, public vs protected routes, 401, and token storage with repo excerpts.
+- [x] **DEPLOY-02**: `docs/18-despliegue.md` covers env vars, secrets, CORS hardening, TLS overview (reverse proxy), and a production checklist.
+- [x] **DEPLOY-03**: `missions/14-login-y-token.md` — login, CRUD with token, Network tab inspection of Bearer header; reto extra for React/Vue.
 - [x] **DEPLOY-04**: `api/.env.example` documents `AUTH_ENABLED`, `AUTH_USER`, `AUTH_PASSWORD`, `JWT_SECRET` with security warnings.
-- [ ] **DEPLOY-05**: Real auth/deploy integration errors recorded in `NOTEBOOK.md` (CORS + Authorization, wrong secret, expired token).
-- [ ] **DEPLOY-06**: OpenAPI spec updated with `/auth/login` and `securitySchemes` for Bearer JWT on protected routes.
+- [x] **DEPLOY-05**: Real auth/deploy integration errors recorded in `NOTEBOOK.md` (CORS + Authorization, wrong secret, expired token).
+- [x] **DEPLOY-06**: OpenAPI spec updated with `/auth/login` and `securitySchemes` for Bearer JWT on protected routes.
 
 ## Traceability
 
@@ -50,14 +50,14 @@ Requirements for the **Authentication & Production Readiness** milestone. Phases
 | AUTH-10 | Phase 19 | Complete |
 | AUTH-11 | Phase 19 | Complete |
 | AUTH-12 | Phase 19 | Complete |
-| DEPLOY-01 | Phase 20 | Pending |
-| DEPLOY-02 | Phase 20 | Pending |
-| DEPLOY-03 | Phase 20 | Pending |
+| DEPLOY-01 | Phase 20 | Complete |
+| DEPLOY-02 | Phase 20 | Complete |
+| DEPLOY-03 | Phase 20 | Complete |
 | DEPLOY-04 | Phase 18 | Complete |
-| DEPLOY-05 | Phase 20 | Pending |
-| DEPLOY-06 | Phase 20 | Pending |
+| DEPLOY-05 | Phase 20 | Complete |
+| DEPLOY-06 | Phase 20 | Complete |
 
-**Coverage:** 13/18 requirements complete (Phases 18–19 shipped)
+**Coverage:** 18/18 requirements complete — **v1.5 milestone ready to ship**
 
 ## Out of Scope (v1.5)
 

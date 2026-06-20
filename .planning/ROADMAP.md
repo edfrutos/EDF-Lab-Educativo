@@ -1,6 +1,6 @@
 # Roadmap: EDF Lab Educativo
 
-**Current Milestone:** v1.5 Authentication & Production Readiness (defined 2026-06-10)
+**Current Milestone:** v1.5 Authentication & Production Readiness (shipped 2026-06-20)
 
 ## Milestones
 
@@ -81,13 +81,13 @@ See [.planning/milestones/v1.0-ROADMAP.md](milestones/v1.0-ROADMAP.md) for full 
 
 ## Progress
 
-**Overall:** 17/20 phases complete across all milestones (v1.5 in progress)
+**Overall:** 20/20 phases complete across all milestones (v1.5 shipped)
 
 | Phase | Milestone | Plans | Status | Completed |
 |-------|-----------|-------|--------|-----------|
 | 18. API Authentication Layer | v1.5 | 3/3 | Complete | 2026-06-10 |
 | 19. Dashboard Login Flow | v1.5 | 3/3 | Complete | 2026-06-10 |
-| 20. Auth & Production Learning Material | v1.5 | 0/2 | Planned | — |
+| 20. Auth & Production Learning Material | v1.5 | 2/2 | Complete | 2026-06-20 |
 | 1. API Foundation | v1.0 | 3/3 | Complete | 2026-05-26 |
 | 2. Dashboard Fetch | v1.0 | 2/2 | Complete | 2026-05-26 |
 | 3. API CRUD | v1.0 | 3/3 | Complete | 2026-05-27 |

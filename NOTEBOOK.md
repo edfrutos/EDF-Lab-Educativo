@@ -834,6 +834,67 @@ Ver la solución implementada en `docs/08-memoria-vs-persistencia.md`.
 
 ---
 
+## Autenticación y despliegue (v1.5)
+
+### 2026-06-20 · 502 en lab.edefrutos2020.com — contenedores parados
+
+**Síntoma:** `https://lab.edefrutos2020.com/` devuelve **502 Bad Gateway**. `curl` a `127.0.0.1:5173` y `9443` → código **000**.
+
+**Causa:** Los cuatro contenedores Docker (`edf-lab-postgres`, `edf-lab-api`, `edf-lab-dashboard`, `edf-lab-proxy`) en estado `Exited (255)` tras reinicio del VPS (~7 h antes). Nginx de Plesk seguía vivo pero el upstream no.
+
+**Solución:**
+
+```bash
+cd .../edf-lab
+docker compose --profile prod up -d
+```
+
+**Aprendizaje:** Añadir `restart: unless-stopped` en `docker-compose.yml` y comprobar `docker compose ps` tras cada reinicio del servidor. Ver [`docs/18-despliegue.md`](docs/18-despliegue.md).
+
+---
+
+### 2026-06-20 · Postgres Compose: puerto 5432 ocupado en Plesk
+
+**Síntoma:** `docker compose up -d` falla con `bind: address already in use` en `0.0.0.0:5432`.
+
+**Causa:** El VPS ya ejecuta PostgreSQL del sistema (habitual en Plesk). El compose publicaba `5432:5432`.
+
+**Solución:** Quitar el bloque `ports` del servicio `edf-lab-postgres`. La API sigue conectando por red Docker (`edf-lab-postgres:5432`).
+
+**Aprendizaje:** En producción no hace falta publicar Postgres al host; en local sí puede ser útil para `psql` didáctico.
+
+---
+
+### 2026-06-20 · Plesk: duplicate location "/" en nginx
+
+**Síntoma:** Al guardar configuración nginx en Plesk: `duplicate location "/" in vhost_nginx.conf`.
+
+**Causa:** Modo proxy del panel **y** directivas nginx adicionales con el mismo `location /`.
+
+**Solución:** Un solo `location /` — o solo panel, o solo directivas manuales hacia `https://127.0.0.1:9443`.
+
+---
+
+### 2026-06-20 · Docker: invalid IP address 127.0.0.1:127.0.0.1
+
+**Síntoma:** `docker compose up` → `invalid IP address: 127.0.0.1:127.0.0.1`.
+
+**Causa:** En `.env`, `PROD_HTTPS_PORT=127.0.0.1:9443` (o `127.0.0.1`) combinado con `ports: "127.0.0.1:${PROD_HTTPS_PORT}:443"` en el compose.
+
+**Solución:** `.env` debe tener solo `PROD_HTTPS_PORT=9443`.
+
+---
+
+### 2026-06-10 · AUTH_ENABLED=true sin JWT_SECRET — API no arranca
+
+**Síntoma:** `npm start` o contenedor API sale con error en consola sobre variables faltantes.
+
+**Causa:** `validateAuthConfig()` en `api/auth.js` hace fail-fast si faltan `JWT_SECRET`, `AUTH_USER` o `AUTH_PASSWORD`.
+
+**Solución:** Completar `api/.env` según `api/.env.example` o poner `AUTH_ENABLED=false` para desarrollo abierto.
+
+---
+
 ## Criterio para nuevas entradas
 
 **NOTEBOOK = errores reales + decisiones no obvias.** Si algo te sorprendió, causó un bug, o requirió una decisión que no es evidente leyendo el código, va aquí.

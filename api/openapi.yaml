@@ -44,7 +44,6 @@ paths:
       description: |
         Devuelve un token Bearer cuando AUTH_ENABLED=true.
         Si AUTH_ENABLED=false, responde 404.
-        securitySchemes en rutas /users — Fase 20 (DEPLOY-06).
       requestBody:
         required: true
         content:
@@ -108,7 +107,11 @@ paths:
   /users:
     get:
       summary: Obtener lista de usuarios
-      description: Devuelve todos los usuarios ordenados alfabéticamente por nombre.
+      description: |
+        Devuelve todos los usuarios ordenados alfabéticamente por nombre.
+        Requiere Bearer JWT cuando AUTH_ENABLED=true en el servidor.
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Lista de usuarios
@@ -118,9 +121,24 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/User"
+        "401":
+          description: Token no proporcionado o inválido (solo con AUTH_ENABLED=true)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+              examples:
+                missing:
+                  value:
+                    error: Token no proporcionado.
+                invalid:
+                  value:
+                    error: Token inválido o caducado.
     post:
       summary: Crear un usuario
-      description: Crea un usuario nuevo y lo persiste en la base de datos SQLite.
+      description: Crea un usuario nuevo y lo persiste en la base de datos.
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -149,6 +167,12 @@ paths:
                   summary: Campo email vacío o ausente
                   value:
                     error: El campo "email" es obligatorio y debe ser texto.
+        "401":
+          description: Token no proporcionado o inválido (solo con AUTH_ENABLED=true)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: Email duplicado
           content:
@@ -177,6 +201,8 @@ paths:
           example: 1
     get:
       summary: Obtener un usuario por ID
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Usuario encontrado
@@ -200,8 +226,16 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: Usuario no encontrado.
+        "401":
+          description: Token no proporcionado o inválido (solo con AUTH_ENABLED=true)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
     put:
       summary: Actualizar un usuario
+      security:
+        - bearerAuth: []
       requestBody:
         required: true
         content:
@@ -238,6 +272,12 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: Usuario no encontrado.
+        "401":
+          description: Token no proporcionado o inválido (solo con AUTH_ENABLED=true)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: Email duplicado
           content:
@@ -256,6 +296,8 @@ paths:
                 error: No se pudo persistir el cambio. Comprueba los permisos del archivo.
     delete:
       summary: Eliminar un usuario
+      security:
+        - bearerAuth: []
       responses:
         "200":
           description: Usuario eliminado
@@ -288,6 +330,12 @@ paths:
                 $ref: "#/components/schemas/Error"
               example:
                 error: Usuario no encontrado.
+        "401":
+          description: Token no proporcionado o inválido (solo con AUTH_ENABLED=true)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Error al persistir en disco
           content:
@@ -344,6 +392,15 @@ paths:
                     format: date-time
                     example: "2026-05-29T19:00:00.000Z"
 components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        Token obtenido con POST /auth/login cuando AUTH_ENABLED=true.
+        Enviar como Authorization: Bearer <token>.
+        Con AUTH_ENABLED=false las rutas /users no exigen token (el esquema documenta el modo protegido).
   schemas:
     User:
       type: object

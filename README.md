@@ -119,6 +119,18 @@ Abre **http://localhost:5175**. Detalle: [`dashboard-vue/README.md`](./dashboard
 
 Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks.md`](./docs/16-frameworks.md). Misión práctica con pestaña Network: [`missions/13-frameworks-network-tab.md`](./missions/13-frameworks-network-tab.md).
 
+### Opcional (avanzado): autenticación JWT (v1.5)
+
+Por defecto la API está **abierta**. Para activar login y rutas `/users` protegidas:
+
+```bash
+cd api
+cp .env.example .env   # editar AUTH_ENABLED, AUTH_USER, AUTH_PASSWORD, JWT_SECRET
+PORT=3100 npm start
+```
+
+Guía: [`docs/17-autenticacion.md`](./docs/17-autenticacion.md). Misión: [`missions/14-login-y-token.md`](./missions/14-login-y-token.md). Despliegue: [`docs/18-despliegue.md`](./docs/18-despliegue.md).
+
 ---
 
 ## Qué aprenderás
@@ -131,6 +143,7 @@ Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks
 - Cómo depurar errores de conexión, puertos y rutas.
 - Cómo documentar decisiones técnicas.
 - Cómo evolucionar una demo hacia un proyecto educativo completo.
+- Autenticación JWT opcional (`AUTH_ENABLED`) — ver [`docs/17-autenticacion.md`](./docs/17-autenticacion.md).
 
 ---
 
@@ -150,6 +163,7 @@ Comparativa de estado y formularios entre los tres paneles: [`docs/16-frameworks
 ```txt
 GET /
 GET /health
+POST /auth/login
 GET /users
 GET /users/:id
 POST /users

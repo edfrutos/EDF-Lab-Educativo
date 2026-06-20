@@ -22,6 +22,8 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 14. [`14-docker-compose.md`](./14-docker-compose.md) para orquestar API + dashboard + Postgres con Compose. *(avanzado, opcional)*
 15. [`15-postgresql.md`](./15-postgresql.md) para PostgreSQL: conexión, esquema, `psql` y tests. *(avanzado, opcional)*
 16. [`16-frameworks.md`](./16-frameworks.md) para comparar vanilla, React y Vue (estado, formularios, `fetch`). *(avanzado, opcional)*
+17. [`17-autenticacion.md`](./17-autenticacion.md) para JWT, `AUTH_ENABLED` y login en el dashboard. *(avanzado, opcional)*
+18. [`18-despliegue.md`](./18-despliegue.md) para variables de entorno, proxy y checklist de producción. *(avanzado, opcional)*
 
 **Rutas opcionales (frameworks):** [`dashboard-react/`](../dashboard-react/) en el puerto **5174** y [`dashboard-vue/`](../dashboard-vue/) en el **5175**, además del dashboard vanilla en **5173**.
 
@@ -75,6 +77,12 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 16. [`16-frameworks.md`](./16-frameworks.md) *(avanzado, opcional)*  
     Compara estado, formularios, HTTP y estilos entre `dashboard/`, `dashboard-react/` y `dashboard-vue/` con excerpts del repo.
 
+17. [`17-autenticacion.md`](./17-autenticacion.md) *(avanzado, opcional)*  
+    Explica JWT, rutas públicas vs protegidas, `sessionStorage` y el flujo login → Bearer en este repo.
+
+18. [`18-despliegue.md`](./18-despliegue.md) *(avanzado, opcional)*  
+    Variables de entorno, secretos, proxy TLS, Plesk y checklist de despliegue.
+
 ## Misiones prácticas
 
 - [`missions/10-inspeccionar-sqlite.md`](../missions/10-inspeccionar-sqlite.md) — Inspecciona `users.db`, observa la migración desde JSON y verifica persistencia tras reinicio.
@@ -86,3 +94,4 @@ Si es tu primera vez en el proyecto, sigue este recorrido:
 - [`missions/11-arrancar-con-compose.md`](../missions/11-arrancar-con-compose.md) — Arranca el stack Compose, verifica CRUD y el bind mount `./api/data`. *(avanzado, opcional)*
 - [`missions/12-postgres-compose-crud.md`](../missions/12-postgres-compose-crud.md) — Stack Compose con Postgres: CRUD, `psql` y persistencia en `postgres_data`. *(avanzado, opcional)*
 - [`missions/13-frameworks-network-tab.md`](../missions/13-frameworks-network-tab.md) — API + React o Vue: CRUD e inspección en pestaña Network. *(avanzado, opcional)*
+- [`missions/14-login-y-token.md`](../missions/14-login-y-token.md) — Auth JWT: login, CRUD con Bearer e inspección Network. *(avanzado, opcional)*
