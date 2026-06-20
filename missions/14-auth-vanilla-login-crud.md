@@ -167,12 +167,12 @@ Desde el dashboard (`:5173`):
 2. Pulsa OAuth mock y confirma que aparece la tabla de usuarios sin contraseña.
 3. Cierra sesión y repite el login clásico para verificar que ambas rutas conviven.
 
-Verificación automatizada:
+    Verificación automatizada (espera `# pass 36` al final; tarda unos segundos por bcrypt):
 
-```bash
-npx playwright test --config=e2e/playwright.config.js --project=vanilla-chromium e2e/tests/auth-smoke.vanilla.spec.js
-cd api && npm run test:sqlite
-```
+    ```bash
+    cd api && npm install && npm run test:sqlite
+    npx playwright test --config=e2e/playwright.config.js --project=vanilla-chromium e2e/tests/auth-smoke.vanilla.spec.js
+    ```
 
 ### Resultado esperado (anexo)
 

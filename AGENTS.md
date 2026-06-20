@@ -127,7 +127,7 @@ Usa sesiones **tmux** para procesos en segundo plano (API y servidor estático).
 Comandos estándar en `README.md` y `CLAUDE.md`:
 
 - Sintaxis: `node --check index.js` (api), `node --check app.js` (dashboard)
-- Tests SQLite (16): `cd api && npm run test:sqlite`
+- Tests SQLite (**36**): `cd api && npm install && npm run test:sqlite`
 - Tests PostgreSQL (32 total): requieren Postgres en marcha (`npm run test:db:prepare` desde la raíz, luego `cd api && npm test`)
 
 ### Opcional (no necesario para el flujo principal)

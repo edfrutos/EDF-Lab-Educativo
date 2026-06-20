@@ -388,7 +388,7 @@ node --check index.js
 npm audit --audit-level=high
 ```
 
-**Tests automáticos** — por cada backend: 16 tests CRUD + 7 de autenticación; SQLite añade 1 test de rate limit en login:
+**Tests automáticos** — por cada backend: 16 tests CRUD + 19 de autenticación; SQLite añade 1 test de rate limit en login:
 
 ```bash
 npm test
@@ -398,8 +398,8 @@ Requisitos para la suite completa: Postgres en `localhost:5432` y base de test c
 
 | Script | Qué hace |
 |--------|----------|
-| `npm test` | SQLite + Postgres (**47 tests** si Postgres está en marcha) |
-| `npm run test:sqlite` | Solo SQLite (**24 tests**, no requiere Postgres) |
+| `npm test` | SQLite + Postgres (**71 tests** si Postgres está en marcha) |
+| `npm run test:sqlite` | Solo SQLite (**36 tests**, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`, 23 tests) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` si no existe |
 

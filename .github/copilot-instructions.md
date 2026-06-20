@@ -37,7 +37,7 @@ npm audit --audit-level=high
 
 ```bash
 cd api
-npm run test:sqlite   # 24 tests — suite usada en CI
+npm run test:sqlite   # 36 tests — suite usada en CI
 npm test              # SQLite + Postgres (47 si PG disponible)
 ```
 

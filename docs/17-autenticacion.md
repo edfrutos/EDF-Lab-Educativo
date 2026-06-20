@@ -218,7 +218,7 @@ Más contexto: [`05-cors-explicado.md`](./05-cors-explicado.md).
 
 `npm test` en `api/` define `AUTH_DISABLED=1` para los **16 tests CRUD** de SQLite y los **16** de Postgres.
 
-El bloque **«Autenticación API»** (7 tests) desactiva `AUTH_DISABLED` y comprueba login, logout, 401 y cookie.
+El bloque **«Autenticación API»** (19 tests) desactiva `AUTH_DISABLED` y comprueba login, logout, 401, cookie, refresh, OAuth mock y cambio de contraseña.
 
 Desde fase 38/39, ese bloque también valida:
 

@@ -28,12 +28,12 @@ npm test
 | Bloque | Archivo | Tests | Backend |
 |--------|---------|-------|---------|
 | CRUD + validación | `index.test.js` | 16 | SQLite (`DB_FILE` → `users.test.db`) |
-| Autenticación | `index.test.js` (final) | 7 | SQLite |
+| Autenticación | `index.test.js` (final) | 19 | SQLite |
 | Rate limiting login | `rate-limit.test.js` | 1 | SQLite |
 | CRUD + validación | `index.pg.test.js` | 16 | PostgreSQL (`edf_lab_test`) |
-| Autenticación | `index.pg.test.js` (final) | 7 | PostgreSQL |
+| Autenticación | `index.pg.test.js` (final) | 19 | PostgreSQL |
 
-**Total con Postgres en marcha: 47 tests** (24 + 23).
+**Total con Postgres en marcha: 71 tests** (36 + 35).
 
 Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable la define el script en `package.json`). El bloque «Autenticación API» **sí** prueba login, cookies y 401 reales.
 
@@ -42,7 +42,7 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | Script | Qué hace |
 |--------|----------|
 | `npm test` | SQLite + Postgres (46 si PG disponible) |
-| `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
+| `npm run test:sqlite` | Solo SQLite (**36 tests**, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` y `edf_lab_e2e` si no existen |
 | `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Chromium; SQLite) |
@@ -264,7 +264,7 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
 3. **Cuatro jobs en paralelo** (todos obligatorios en PRs a `main`):
-   - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
+   - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (36 tests)
    - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
    - **`e2e-smoke`** — Chromium + Firefox; `npm run test:e2e:ci` (12 tests: smoke auth + CRUD × 3 dashboards × 2 browsers; SQLite; **sin** `AUTH_DISABLED`)
    - **`e2e-postgres`** — mismo setup que `e2e-smoke` pero `npm run test:e2e:pg` contra `edf_lab_e2e` (servicio Postgres con `POSTGRES_DB: edf_lab_e2e`)
