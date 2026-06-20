@@ -7,7 +7,7 @@ Servir el frontend estático y abrirlo en el navegador.
 ## Pasos
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard
+cd dashboard
 python3 -m http.server 5173
 ```
 

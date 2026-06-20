@@ -43,3 +43,11 @@ Crea tests para comprobar:
 - `POST /users`,
 - `PUT /users/:id`,
 - `DELETE /users/:id`.
+
+## Reto 7 *(avanzado, v1.5)*
+
+Completa la misión guiada de autenticación:
+
+- [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md)
+
+Objetivo: login de operador, CRUD con cookie `edf_session`, inspección en DevTools y logout. Guía conceptual: [`docs/17-autenticacion.md`](./17-autenticacion.md).

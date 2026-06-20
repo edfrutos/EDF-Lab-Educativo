@@ -181,7 +181,7 @@ Tras v2.1:
 Misma API, stack React para comparar estado y componentes con vanilla:
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-react
+cd dashboard-react
 npm install
 npm run dev
 ```
@@ -193,7 +193,7 @@ Abre **http://localhost:5174**. Detalle: [`dashboard-react/README.md`](./dashboa
 Misma API, stack Vue para comparar `ref()` y reactividad del template:
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/dashboard-vue
+cd dashboard-vue
 npm install
 npm run dev
 ```
