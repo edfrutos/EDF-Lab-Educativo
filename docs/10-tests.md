@@ -289,8 +289,8 @@ Los cuatro jobs corren **en paralelo**; el tiempo de wall-clock lo marca el más
 
 | Job | Alcance | Tiempo típico (GitHub Actions) |
 |-----|---------|--------------------------------|
-| `test-sqlite` | 24 tests API (SQLite) | ~20–40 s |
-| `test-postgres` | 23 tests API (Postgres 16) | ~40–90 s |
+| `test-sqlite` | 36 tests API (SQLite) | ~3–5 s |
+| `test-postgres` | 35 tests API (Postgres 16) | ~40–90 s |
 | `e2e-smoke` | 12 specs Playwright Chromium + Firefox (SQLite) | ~3–10 min |
 | `e2e-postgres` | 6 specs Playwright Chromium (Postgres `edf_lab_e2e`) | ~2–8 min |
 

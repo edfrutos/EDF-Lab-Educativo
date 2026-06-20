@@ -30,6 +30,14 @@ En `.env`, define una clave larga para firmar JWT (comentario en la plantilla). 
 PORT=3100 npm start
 ```
 
+Debes ver en consola `Servidor arrancado en http://localhost:3100`. Comprueba que la API es la actual:
+
+```bash
+curl -s http://localhost:3100/ | grep auth/logout
+```
+
+Si el login pide **`username`** en lugar de **email**, o `POST /auth/logout` devuelve 404, **detén el proceso** (`Ctrl+C`) y vuelve a arrancar: suele quedar un `npm start` antiguo en segundo plano.
+
 ### 2. Arranca el dashboard vanilla (terminal 2)
 
 ```bash

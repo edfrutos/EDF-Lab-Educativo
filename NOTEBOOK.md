@@ -48,6 +48,27 @@ Errores y patrones de las fases 18–21: sesión del operador, cookies, secretos
 
 ---
 
+### API antigua en segundo plano (Misión 14)
+
+**Síntoma:** `POST /auth/login` responde 400 pidiendo **`username`**; `POST /auth/logout` → 404; `GET /` lista ~10 endpoints sin `/auth/refresh`.
+
+**Causa:** Quedó un `npm start` de una versión anterior (JWT Bearer / `AUTH_ENABLED`) escuchando en `:3100`.
+
+**Solución:** Localiza y detén el proceso (`lsof -i :3100` en macOS, luego `kill`). Arranca de nuevo desde `api/` con el código actual. Comprueba:
+
+```bash
+curl -s http://localhost:3100/ | grep auth/logout
+curl -c /tmp/cj -X POST http://localhost:3100/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin@lab.local","password":"changeme"}'
+```
+
+**Aprendizaje:** Antes de depurar CORS o cookies, verifica que el **binario en marcha** coincide con el repo que tienes abierto.
+
+*Error real (Misión 14 / UAT 2026-06-20).*
+
+---
+
 ### Fail-fast sin JWT_SECRET en producción
 
 **Síntoma:** Al arrancar con `NODE_ENV=production`, la consola muestra `[fatal] JWT_SECRET es obligatorio...` y el proceso termina.
