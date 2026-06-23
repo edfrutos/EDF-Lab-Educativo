@@ -17,6 +17,7 @@ async function prepareVisualState(page, { email, password }) {
   await expect(panel).toBeVisible();
   await expect(page.getByText('John Doe')).toBeVisible();
 
+  // Altura fija = viewport: evita mismatch de dimensiones entre runners Linux (1614–1657px).
   await page.addStyleTag({
     content: `
       *,
@@ -24,6 +25,12 @@ async function prepareVisualState(page, { email, password }) {
       *::after {
         animation: none !important;
         transition: none !important;
+      }
+      #dashboard-panel {
+        height: 720px !important;
+        max-height: 720px !important;
+        overflow: hidden !important;
+        box-sizing: border-box;
       }
     `
   });
