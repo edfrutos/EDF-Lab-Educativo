@@ -14,6 +14,7 @@
     "test:pg": "npm run test:pg --prefix api",
     "test:db:prepare": "npm run test:db:prepare --prefix api",
     "test:e2e": "playwright test --config=e2e/playwright.config.js --project=vanilla-chromium --project=react-chromium --project=vue-chromium",
+    "test:e2e:crud": "playwright test crud --config=e2e/playwright.config.js --project=vanilla-chromium --project=react-chromium --project=vue-chromium",
     "test:e2e:ci": "playwright test --config=e2e/playwright.config.js --project=vanilla-chromium --project=react-chromium --project=vue-chromium --project=vanilla-firefox --project=react-firefox --project=vue-firefox",
     "test:e2e:firefox": "playwright test --config=e2e/playwright.config.js --project=vanilla-firefox --project=react-firefox --project=vue-firefox",
     "test:e2e:pg": "playwright test --config=e2e/playwright.config.pg.js",

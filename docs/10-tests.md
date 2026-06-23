@@ -45,12 +45,13 @@ Los 16 tests CRUD de cada archivo se ejecutan con `AUTH_DISABLED=1` (la variable
 | `npm run test:sqlite` | Solo SQLite (24 tests, no requiere Postgres) |
 | `npm run test:pg` | Solo Postgres (`edf_lab_test`) |
 | `npm run test:db:prepare` | Crea `edf_lab_test` y `edf_lab_e2e` si no existen |
-| `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (6 tests Chromium; SQLite) |
-| `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (12 tests; usa CI) |
-| `npm run test:e2e:firefox` | Solo Firefox (6 tests; opt-in local) |
+| `npm run test:e2e` | Smoke auth + CRUD en los 3 dashboards (**7** tests Chromium; SQLite) |
+| `npm run test:e2e:crud` | Solo los 3 specs CRUD (vanilla, React, Vue) |
+| `npm run test:e2e:ci` | Mismos specs en Chromium + Firefox (**14** tests; job `e2e-smoke`) |
+| `npm run test:e2e:firefox` | Solo Firefox (**7** tests; opt-in local) |
 | `npm run test:visual` | Regresión visual en vanilla, React y Vue (3 tests Chromium) |
 | `npm run test:visual:ci` | Regresión visual para CI (job `visual-regression`, 3 tests Chromium) |
-| `npm run test:e2e:pg` | Mismos 6 tests contra API Postgres (`edf_lab_e2e`) |
+| `npm run test:e2e:pg` | Mismos **7** tests contra API Postgres (`edf_lab_e2e`) |
 | `npm run test:e2e:ui` | Modo UI Playwright para depurar |
 | `npm run playwright:install` | Instala Chromium (una vez, desde la raíz) |
 | `npm run playwright:install:ci` | Instala Chromium + Firefox (CI / multi-browser local) |
@@ -83,10 +84,16 @@ Mismo ciclo en vanilla (`:5173`), React (`:5174`) y Vue (`:5175`): login UI → 
 
 | Pieza | Ubicación |
 |-------|-----------|
-| Helper | `e2e/helpers/crud-flow.js` — `runCrudFlow`, `buildCrudTestUser` |
+| Helper | `e2e/helpers/crud-flow.js` — `runCrudFlow`, `buildCrudTestUser` (login vía `e2e/helpers/login-ui.js`) |
 | Spec vanilla | `e2e/tests/crud.vanilla.spec.js` |
 | Spec React | `e2e/tests/crud.react.spec.js` |
 | Spec Vue | `e2e/tests/crud.vue.spec.js` |
+
+Ejecutar los tres CRUD:
+
+```bash
+npm run test:e2e:crud
+```
 
 Ejecutar solo un spec CRUD:
 
@@ -191,16 +198,17 @@ Los proyectos Playwright siguen el patrón `{dashboard}-{browser}` en `e2e/playw
 
 | Motor | Local | CI `e2e-smoke` | CI `e2e-postgres` |
 |-------|-------|----------------|-------------------|
-| **Chromium** | `npm run test:e2e` (6 tests) | ✓ vía `test:e2e:ci` | ✓ `test:e2e:pg` (6 tests) |
-| **Firefox** | `npm run test:e2e:firefox` (6 tests) | ✓ vía `test:e2e:ci` | — |
+| **Chromium** | `npm run test:e2e` (**7** tests) | ✓ vía `test:e2e:ci` | ✓ `test:e2e:pg` (**7** tests) |
+| **Firefox** | `npm run test:e2e:firefox` (**7** tests) | ✓ vía `test:e2e:ci` | — |
 | **WebKit** | `npx playwright install webkit` + `--project=vanilla-webkit` | — (documentado) | — |
 
 Comandos útiles:
 
 ```bash
-npm run test:e2e              # 6 tests Chromium (SQLite)
-npm run test:e2e:ci           # 12 tests Chromium + Firefox (como CI e2e-smoke)
-npm run test:e2e:firefox      # 6 tests Firefox
+npm run test:e2e              # 7 tests Chromium (SQLite)
+npm run test:e2e:crud         # 3 tests CRUD only
+npm run test:e2e:ci           # 14 tests Chromium + Firefox (job e2e-smoke)
+npm run test:e2e:firefox      # 7 tests Firefox
 npx playwright install webkit
 npx playwright test --config=e2e/playwright.config.js --project=vanilla-webkit
 ```
@@ -214,7 +222,7 @@ Resumen v2.1: **CRUD** (`runCrudFlow`, tres dashboards) + **Postgres E2E** (`tes
 | Contexto | `AUTH_DISABLED` | Autenticación |
 |----------|-----------------|---------------|
 | Tests API (`npm run test:sqlite`) | Sí (CRUD sin cookie) | Bloque «Autenticación API» prueba login real |
-| Smoke E2E (`npm run test:e2e`) | **No** | Login UI + CRUD en 3 dashboards (6 tests Playwright) |
+| Smoke E2E (`npm run test:e2e`) | **No** | Login UI + CRUD en 3 dashboards (**7** tests Playwright) |
 
 Más contexto: [`17-autenticacion.md`](./17-autenticacion.md).
 
@@ -265,10 +273,10 @@ Cada **push** o **pull request** a la rama `main` ejecuta el workflow [`.github/
 
 1. Checkout del repositorio
 2. Node.js 22 con caché de `npm` (requerido por `node:sqlite` en los tests)
-3. **Cuatro jobs en paralelo** (todos obligatorios en PRs a `main`):
+3. **Cuatro jobs en paralelo** (más `visual-regression` en PRs a `main`):
    - **`test-sqlite`** — `npm ci` y `npm run test:sqlite` dentro de `api/` (24 tests)
    - **`test-postgres`** — servicio `postgres:16`, healthcheck `pg_isready -d edf_lab_test`, `npm run test:pg` (23 tests; `AUTH_DISABLED=1` solo en este job API)
-   - **`e2e-smoke`** — Chromium + Firefox; `npm run test:e2e:ci` (12 tests: smoke auth + CRUD × 3 dashboards × 2 browsers; SQLite; **sin** `AUTH_DISABLED`)
+   - **`e2e-smoke`** — Chromium + Firefox; `npm run test:e2e:ci` (**14** tests; SQLite; **sin** `AUTH_DISABLED`)
    - **`e2e-postgres`** — mismo setup que `e2e-smoke` pero `npm run test:e2e:pg` contra `edf_lab_e2e` (servicio Postgres con `POSTGRES_DB: edf_lab_e2e`)
 
 La matriz didáctica completa está en las secciones siguientes. Misión práctica: [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md).
@@ -304,9 +312,9 @@ Primera ejecución en un PR nuevo puede tardar más (caché fría, `playwright i
 |------|---------------|-----------------|------------|
 | API SQLite | `npm run test:sqlite` / `test-sqlite` | Sí en bloque CRUD | Lógica HTTP, validación, auth en supertest |
 | API Postgres | `npm run test:pg` / `test-postgres` | Sí en bloque CRUD (script) | Lo mismo contra `edf_lab_test` |
-| Browser E2E (SQLite, CI) | `npm run test:e2e:ci` / `e2e-smoke` | **Nunca** | 12 tests Chromium + Firefox |
-| Browser E2E (SQLite, local) | `npm run test:e2e` | **Nunca** | 6 tests Chromium |
-| Browser E2E (Postgres) | `npm run test:e2e:pg` / `e2e-postgres` | **Nunca** | Mismos 6 tests con API en `edf_lab_e2e` |
+| Browser E2E (SQLite, CI) | `npm run test:e2e:ci` / `e2e-smoke` | **Nunca** | **14** tests Chromium + Firefox |
+| Browser E2E (SQLite, local) | `npm run test:e2e` | **Nunca** | **7** tests Chromium |
+| Browser E2E (Postgres) | `npm run test:e2e:pg` / `e2e-postgres` | **Nunca** | **7** tests con API en `edf_lab_e2e` |
 
 `AUTH_DISABLED=1` acelera tests CRUD en supertest **sin** simular al operador en el navegador. E2E enseña el camino que ve el alumno: formulario → cookie → tabla → logout.
 
