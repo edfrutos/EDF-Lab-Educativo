@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 5174,
-    strictPort: true
+    strictPort: true,
+    host: process.env.VITE_DEV_HOST || 'localhost'
   }
 });

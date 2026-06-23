@@ -209,6 +209,30 @@ Errores y patrones de las fases 26–29: Playwright E2E, tres dashboards en CI y
 
 ---
 
+### Playwright: auth-smoke React/Vue — «Cerrar sesión» no visible tras login
+
+**Síntoma:** `auth-smoke.react` o `auth-smoke.vue` falla en `getByRole('button', { name: 'Cerrar sesión' })` tras pulsar **Entrar**, mientras `crud.react` / `crud.vue` pasan con la misma contraseña.
+
+**Causas habituales:**
+
+1. **`localhost:3100` lento o colgado en macOS** — `curl http://localhost:3100` timeout pero `http://127.0.0.1:3100` responde. React/Vue en E2E usan **el mismo host** (`127.0.0.1`) para panel y API (`VITE_DEV_HOST` + `VITE_API_BASE_URL` en `e2e/playwright.config.js`).
+2. **Mezclar `localhost` (panel) con `127.0.0.1` (API)** — el login puede devolver 200 pero `GET /users` responde 401 y el gate vuelve con «Sesión no válida»; el spec falla en **Cerrar sesión**.
+3. **Contraseña E2E ≠ hash en `api/data/e2e.users.db`** — la semilla del operador solo se crea si la tabla `accounts` está vacía.
+4. **API stale en `:3100`** — `reuseExistingServer` reutiliza un proceso sin `LOGIN_RATE_LIMIT_MAX=1000` → **429** en logins paralelos. Mata procesos en `:3100` o ejecuta `CI=true npm run test:e2e`.
+
+**Solución:**
+
+- E2E inyecta `VITE_API_BASE_URL=http://127.0.0.1:3100` y los proyectos React/Vue usan `baseURL` en `127.0.0.1` (mismo host que la API; mezclar `localhost` en el panel y `127.0.0.1` en la API rompe la cookie de sesión).
+- Helper compartido [`e2e/helpers/login-ui.js`](./e2e/helpers/login-ui.js): espera fin de bootstrap, verifica inputs, POST `/auth/login` OK y GET `/users` OK antes de asertar **Cerrar sesión**.
+- Reset opcional: `rm -f api/data/e2e.users.db` y vuelve a ejecutar con la contraseña deseada en `E2E_OPERATOR_PASSWORD`.
+- Local con muchos cores: Playwright limita a **3 workers** fuera de CI para reducir carga paralela sobre la API.
+
+**Aprendizaje:** Un fallo en la línea del botón **Cerrar sesión** casi siempre es login incompleto (red o credenciales), no un selector distinto en React/Vue.
+
+*Error real (Misión 16 / Mac Studio, jun 2026).*
+
+---
+
 ### Playwright: `ERR_CONNECTION_REFUSED` con tres proyectos en paralelo
 
 **Síntoma:** Los tres specs (`vanilla`, `react`, `vue`) fallan al instante con `net::ERR_CONNECTION_REFUSED` en `:5173`, `:5174` o `:5175`.

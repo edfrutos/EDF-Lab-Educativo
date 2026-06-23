@@ -6,6 +6,8 @@ const { defineConfig, devices } = require('@playwright/test');
 const repoRoot = path.join(__dirname, '..');
 const isCI = !!process.env.CI;
 
+const apiBaseUrl = process.env.E2E_API_BASE_URL || 'http://127.0.0.1:3100';
+
 const apiEnv = {
   PORT: '3100',
   JWT_SECRET: process.env.E2E_JWT_SECRET || 'e2e-local-secret-not-for-production',
@@ -13,7 +15,14 @@ const apiEnv = {
   ADMIN_EMAIL: process.env.E2E_OPERATOR_EMAIL || 'admin@lab.local',
   ADMIN_PASSWORD: process.env.E2E_OPERATOR_PASSWORD || 'changeme',
   LOGIN_RATE_LIMIT_MAX: process.env.LOGIN_RATE_LIMIT_MAX || '1000',
-  CORS_ORIGINS: 'http://localhost:5173,http://localhost:5174,http://localhost:5175'
+  CORS_ORIGINS:
+    'http://localhost:5173,http://localhost:5174,http://localhost:5175,' +
+    'http://127.0.0.1:5173,http://127.0.0.1:5174,http://127.0.0.1:5175'
+};
+
+const dashboardDevEnv = {
+  VITE_API_BASE_URL: apiBaseUrl,
+  VITE_DEV_HOST: '127.0.0.1'
 };
 
 const dashboards = [
@@ -24,12 +33,12 @@ const dashboards = [
   },
   {
     id: 'react',
-    baseURL: 'http://localhost:5174',
+    baseURL: 'http://127.0.0.1:5174',
     testMatch: /(auth-smoke|crud)\.react\.spec\.js/
   },
   {
     id: 'vue',
-    baseURL: 'http://localhost:5175',
+    baseURL: 'http://127.0.0.1:5175',
     testMatch: /(auth-smoke|crud)\.vue\.spec\.js/
   }
 ];
@@ -90,7 +99,7 @@ module.exports = defineConfig({
   testDir: path.join(__dirname, 'tests'),
   forbidOnly: isCI,
   retries: isCI ? 1 : 0,
-  workers: isCI ? 1 : undefined,
+  workers: isCI ? 1 : 3,
   reporter: isCI ? [['github'], ['list']] : 'list',
   use: {
     trace: 'on-first-retry',
@@ -102,7 +111,7 @@ module.exports = defineConfig({
     {
       command: 'npm start',
       cwd: path.join(repoRoot, 'api'),
-      url: 'http://localhost:3100/health',
+      url: `${apiBaseUrl}/health`,
       timeout: 60_000,
       reuseExistingServer: !isCI,
       env: apiEnv
@@ -117,16 +126,18 @@ module.exports = defineConfig({
     {
       command: 'npm run dev',
       cwd: path.join(repoRoot, 'dashboard-react'),
-      url: 'http://localhost:5174',
+      url: 'http://127.0.0.1:5174',
       timeout: 120_000,
-      reuseExistingServer: !isCI
+      reuseExistingServer: !isCI,
+      env: dashboardDevEnv
     },
     {
       command: 'npm run dev',
       cwd: path.join(repoRoot, 'dashboard-vue'),
-      url: 'http://localhost:5175',
+      url: 'http://127.0.0.1:5175',
       timeout: 120_000,
-      reuseExistingServer: !isCI
+      reuseExistingServer: !isCI,
+      env: dashboardDevEnv
     }
   ],
   projects

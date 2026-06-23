@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('@playwright/test');
+const { loginViaUi } = require('./login-ui.js');
 
 /**
  * Flujo CRUD compartido: login UI → crear → editar → eliminar usuario con email único.
@@ -29,11 +30,8 @@ function buildCrudTestUser() {
 }
 
 async function runCrudFlow(page, { operatorEmail, operatorPassword, user = buildCrudTestUser() }) {
-  await page.locator('#login-email').fill(operatorEmail);
-  await page.locator('#login-password').fill(operatorPassword);
-  await page.getByRole('button', { name: 'Entrar' }).click();
+  await loginViaUi(page, { email: operatorEmail, password: operatorPassword });
 
-  await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible();
   await expect(page.getByRole('table')).toBeVisible();
 
   await page.locator('#user-name-input').fill(user.name);

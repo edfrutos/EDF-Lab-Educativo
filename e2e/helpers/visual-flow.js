@@ -1,6 +1,7 @@
 'use strict';
 
 const { expect } = require('@playwright/test');
+const { loginViaUi } = require('./login-ui.js');
 
 /**
  * Prepara un estado visual estable tras login para snapshots del dashboard.
@@ -9,13 +10,9 @@ const { expect } = require('@playwright/test');
  */
 async function prepareVisualState(page, { email, password }) {
   await page.goto('/');
-  await page.locator('#login-email').fill(email);
-  await page.locator('#login-password').fill(password);
-  await page.getByRole('button', { name: 'Entrar' }).click();
+  await loginViaUi(page, { email, password });
 
-  await expect(page.locator('#dashboard-panel')).toBeVisible();
   await expect(page.locator('#login-gate')).toBeHidden();
-  await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible();
   await expect(page.getByText('John Doe')).toBeVisible();
 
   await page.setViewportSize({ width: 1280, height: 720 });

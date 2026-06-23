@@ -6,6 +6,7 @@ export default defineConfig({
   plugins: [vue(), tailwindcss()],
   server: {
     port: 5175,
-    strictPort: true
+    strictPort: true,
+    host: process.env.VITE_DEV_HOST || 'localhost'
   }
 });

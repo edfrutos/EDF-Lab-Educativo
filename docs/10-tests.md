@@ -99,6 +99,8 @@ npx playwright test crud.vue --config=e2e/playwright.config.js --project=vue-chr
 **Notas didácticas:**
 
 - Cada ejecución genera emails `@lab.local` únicos para evitar duplicados en `api/data/e2e.users.db`.
+- Credenciales E2E: `E2E_OPERATOR_EMAIL` / `E2E_OPERATOR_PASSWORD` (por defecto `admin@lab.local` / `changeme`). Si cambias la contraseña, borra `api/data/e2e.users.db` o alinea el hash del operador — ver `NOTEBOOK.md` (auth-smoke React/Vue).
+- E2E inyecta `VITE_API_BASE_URL=http://127.0.0.1:3100` y abre React/Vue en `http://127.0.0.1:5174` / `:5175` (mismo host que la API — las cookies no cruzan bien entre `localhost` y `127.0.0.1`). Vanilla sigue en `localhost`.
 - El delete del dashboard usa `confirm()` — el helper registra `page.once('dialog', accept)` antes del click en «Eliminar».
 - Usa `#login-email` para el operador y `#user-email-input` para el usuario CRUD (no `getByLabel('Email')` global — ver `NOTEBOOK.md`, sección Quality & CI v2.0).
 - React/Vue recibieron los mismos `id` que vanilla en `UserForm` y `UsersTable` para reutilizar el helper sin duplicar aserciones.
