@@ -218,7 +218,7 @@ Errores y patrones de las fases 26–29: Playwright E2E, tres dashboards en CI y
 1. **`localhost:3100` lento o colgado en macOS** — `curl http://localhost:3100` timeout pero `http://127.0.0.1:3100` responde. React/Vue en E2E usan **el mismo host** (`127.0.0.1`) para panel y API (`VITE_DEV_HOST` + `VITE_API_BASE_URL` en `e2e/playwright.config.js`).
 2. **Mezclar `localhost` (panel) con `127.0.0.1` (API)** — el login puede devolver 200 pero `GET /users` responde 401 y el gate vuelve con «Sesión no válida»; el spec falla en **Cerrar sesión**.
 3. **Contraseña E2E ≠ hash en `api/data/e2e.users.db`** — la semilla del operador solo se crea si la tabla `accounts` está vacía.
-4. **API stale en `:3100`** — `reuseExistingServer` reutiliza un proceso sin `LOGIN_RATE_LIMIT_MAX=1000` → **429** en logins paralelos. Mata procesos en `:3100` o ejecuta `CI=true npm run test:e2e`.
+4. **API stale en `:3100`** — Playwright **no** reutiliza la API E2E. Si queda un `npm start` manual en `:3100`, o bien falla el arranque E2E, o bien (versiones anteriores) reutilizaba el proceso y el login respondía **429** por rate-limit bajo (10) con workers paralelos. Solución: `kill $(lsof -ti :3100)` y reintenta.
 
 **Solución:**
 

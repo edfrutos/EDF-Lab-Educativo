@@ -222,9 +222,9 @@ La matriz CI completa (sqlite + postgres + e2e en PRs) está en [CI en GitHub Ac
 
 ### Troubleshooting E2E
 
-- **Puertos ocupados:** `lsof -i :3100 -i :5173 -i :5174 -i :5175` — cierra procesos viejos antes de `npm run test:e2e`.
+- **Puertos ocupados:** `lsof -i :3100 -i :5173 -i :5174 -i :5175` — cierra procesos viejos antes de `npm run test:e2e`. **`:3100` no se reutiliza**: un `npm start` manual provoca 429 en login o error al arrancar E2E.
 - **Estado raro en SQLite E2E:** borra `api/data/e2e.users.db` y vuelve a ejecutar.
-- **CI:** con `CI=true`, Playwright no reutiliza servidores locales (`reuseExistingServer: false`).
+- **CI:** con `CI=true`, Playwright no reutiliza servidores locales en dashboards; la API en `:3100` **nunca** se reutiliza (siempre arranca con `LOGIN_RATE_LIMIT_MAX=1000` y `data/e2e.users.db`).
 
 Antes de la suite Postgres:
 

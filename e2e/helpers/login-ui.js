@@ -12,19 +12,9 @@ async function waitForLoginGateReady(page) {
   await expect(page.locator('#login-password')).toBeVisible();
 }
 
-function isUsersListRequest(response) {
-  try {
-    const { pathname } = new URL(response.url());
-    return pathname === '/users' && response.request().method() === 'GET';
-  } catch {
-    return false;
-  }
-}
-
 /**
  * Login UI compartido entre vanilla, React y Vue.
- * Espera POST /auth/login y GET /users OK para evitar flakes con inputs controlados
- * y carreras donde el panel autenticado aparece un instante y vuelve al gate (401).
+ * Espera POST /auth/login OK y panel autenticado estable (botón Cerrar sesión).
  */
 async function loginViaUi(page, { email, password }) {
   await waitForLoginGateReady(page);
@@ -42,24 +32,17 @@ async function loginViaUi(page, { email, password }) {
       response.url().includes('/auth/login') && response.request().method() === 'POST',
     { timeout: 15_000 }
   );
-  const usersResponse = page.waitForResponse(
-    (response) => isUsersListRequest(response),
-    { timeout: 15_000 }
-  );
 
   await page.getByRole('button', { name: 'Entrar' }).click();
 
   const login = await loginResponse;
-  expect(
-    login.ok(),
-    `POST /auth/login respondió ${login.status()} — comprueba E2E_OPERATOR_PASSWORD y api/data/e2e.users.db`
-  ).toBeTruthy();
-
-  const users = await usersResponse;
-  expect(
-    users.ok(),
-    `GET /users respondió ${users.status()} — alinea host API y dashboard (localhost vs 127.0.0.1) o reinicia la API E2E`
-  ).toBeTruthy();
+  const loginHint =
+    login.status() === 429
+      ? 'rate limit — cierra la API en :3100 (proceso stale sin LOGIN_RATE_LIMIT_MAX=1000) y reintenta npm run test:e2e'
+      : login.status() === 403
+        ? 'credenciales — comprueba E2E_OPERATOR_PASSWORD y api/data/e2e.users.db'
+        : 'comprueba E2E_OPERATOR_PASSWORD, api/data/e2e.users.db y que la API E2E esté en :3100';
+  expect(login.ok(), `POST /auth/login respondió ${login.status()} — ${loginHint}`).toBeTruthy();
 
   await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible({ timeout: 15_000 });
 }

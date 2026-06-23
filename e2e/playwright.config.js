@@ -113,7 +113,8 @@ module.exports = defineConfig({
       cwd: path.join(repoRoot, 'api'),
       url: `${apiBaseUrl}/health`,
       timeout: 60_000,
-      reuseExistingServer: !isCI,
+      // Nunca reutilizar :3100 — un `npm start` manual usa rate-limit bajo (10) y DB distinta.
+      reuseExistingServer: false,
       env: apiEnv
     },
     {

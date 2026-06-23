@@ -27,13 +27,13 @@ cd dashboard-vue && npm ci && cd ..
 
 ### 2. Libera puertos
 
-Playwright necesita `:3100`, `:5173`, `:5174` y `:5175` libres:
+Playwright necesita `:3100`, `:5173`, `:5174` y `:5175` libres. **`:3100` es obligatorio** — si queda un `npm start` manual, Playwright no puede arrancar la API E2E (rate-limit alto + `e2e.users.db`):
 
 ```bash
 lsof -i :3100 -i :5173 -i :5174 -i :5175
+# Cierra procesos viejos (tmux, npm start, npm run dev). Ejemplo en macOS:
+kill $(lsof -ti :3100) 2>/dev/null
 ```
-
-Cierra procesos viejos (tmux, `npm start`, `npm run dev`) si los hay.
 
 ### 3. Ejecuta la suite completa
 
@@ -41,7 +41,7 @@ Cierra procesos viejos (tmux, `npm start`, `npm run dev`) si los hay.
 npm run test:e2e
 ```
 
-Debes ver **6 tests passed** (proyectos `vanilla-chromium`, `react-chromium`, `vue-chromium`: smoke auth + CRUD). Playwright arranca la API y los tres frontends vía `e2e/playwright.config.js`.
+Debes ver **7 tests passed** (proyectos `vanilla-chromium`, `react-chromium`, `vue-chromium`: smoke auth + CRUD + oauth mock vanilla). Playwright arranca la API y los tres frontends vía `e2e/playwright.config.js`.
 
 ### 4. Un solo dashboard (opcional)
 
