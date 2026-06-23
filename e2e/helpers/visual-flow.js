@@ -9,13 +9,13 @@ const { loginViaUi } = require('./login-ui.js');
  * Aplica mitigaciones anti-flake: viewport fijo, desactivar animaciones y masks.
  */
 async function prepareVisualState(page, { email, password }) {
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page.goto('/');
   await loginViaUi(page, { email, password });
 
-  await expect(page.locator('#login-gate')).toBeHidden();
+  const panel = page.locator('#dashboard-panel');
+  await expect(panel).toBeVisible();
   await expect(page.getByText('John Doe')).toBeVisible();
-
-  await page.setViewportSize({ width: 1280, height: 720 });
 
   await page.addStyleTag({
     content: `

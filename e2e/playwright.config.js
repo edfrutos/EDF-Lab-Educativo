@@ -25,20 +25,26 @@ const dashboardDevEnv = {
   VITE_DEV_HOST: '127.0.0.1'
 };
 
+const dashboardBaseUrls = {
+  vanilla: 'http://localhost:5173',
+  react: 'http://127.0.0.1:5174',
+  vue: 'http://127.0.0.1:5175'
+};
+
 const dashboards = [
   {
     id: 'vanilla',
-    baseURL: 'http://localhost:5173',
+    baseURL: dashboardBaseUrls.vanilla,
     testMatch: /(auth-smoke|crud)\.vanilla\.spec\.js/
   },
   {
     id: 'react',
-    baseURL: 'http://127.0.0.1:5174',
+    baseURL: dashboardBaseUrls.react,
     testMatch: /(auth-smoke|crud)\.react\.spec\.js/
   },
   {
     id: 'vue',
-    baseURL: 'http://127.0.0.1:5175',
+    baseURL: dashboardBaseUrls.vue,
     testMatch: /(auth-smoke|crud)\.vue\.spec\.js/
   }
 ];
@@ -62,7 +68,7 @@ projects.push({
   testMatch: /visual\.vanilla\.spec\.js/,
   use: {
     ...devices['Desktop Chrome'],
-    baseURL: 'http://localhost:5173',
+    baseURL: dashboardBaseUrls.vanilla,
     viewport: { width: 1280, height: 720 }
   }
 });
@@ -73,7 +79,7 @@ projects.push({
   testMatch: /visual\.react\.spec\.js/,
   use: {
     ...devices['Desktop Chrome'],
-    baseURL: 'http://localhost:5174',
+    baseURL: dashboardBaseUrls.react,
     viewport: { width: 1280, height: 720 }
   }
 });
@@ -83,7 +89,7 @@ projects.push({
   testMatch: /visual\.vue\.spec\.js/,
   use: {
     ...devices['Desktop Chrome'],
-    baseURL: 'http://localhost:5175',
+    baseURL: dashboardBaseUrls.vue,
     viewport: { width: 1280, height: 720 }
   }
 });
