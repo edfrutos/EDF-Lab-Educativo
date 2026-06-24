@@ -68,6 +68,14 @@ Tras v2.1, para practicar snapshot testing y puerta visual en CI:
 2. [`missions/18-visual-regression-playwright.md`](../missions/18-visual-regression-playwright.md) — ejecutar visual, provocar mismatch y actualizar baseline intencionalmente.
 3. [`NOTEBOOK.md`](../NOTEBOOK.md) — sección **Visual Regression (v2.2)** con fricciones reales.
 
+### Ruta consolidada post-visual (Misión 19)
+
+Tras v2.2, un solo recorrido ordenado:
+
+1. [`missions/19-ruta-post-visual.md`](../missions/19-ruta-post-visual.md) — Firefox + Postgres E2E → `compose:prod` → auth/OAuth → reto de [`07-retos.md`](./07-retos.md).
+2. [`18-production-deploy.md`](./18-production-deploy.md) y [`NOTEBOOK.md`](../NOTEBOOK.md) — bloque producción.
+3. [`missions/14-auth-vanilla-login-crud.md`](../missions/14-auth-vanilla-login-crud.md) — pasos 8–11 (auth avanzada).
+
 ### Ruta avanzada v2.5 (Production Deploy)
 
 Tras v2.4, para perfil `compose:prod`, TLS y despliegue en VPS:
@@ -160,3 +168,4 @@ Tras v2.4, para perfil `compose:prod`, TLS y despliegue en VPS:
 - [`missions/16-smoke-e2e-playwright.md`](../missions/16-smoke-e2e-playwright.md) — Smoke E2E con Playwright (tres dashboards, traces). *(avanzado, v2.0)*
 - [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md) — CRUD E2E, trace y depuración Network (v2.1). *(avanzado, v2.1)*
 - [`missions/18-visual-regression-playwright.md`](../missions/18-visual-regression-playwright.md) — Snapshot testing visual, diff review y baseline update en PRs (v2.2). *(avanzado, v2.2)*
+- [`missions/19-ruta-post-visual.md`](../missions/19-ruta-post-visual.md) — Firefox/Postgres E2E, prod local, auth/OAuth y reto de extensión (post-v2.2). *(avanzado)*

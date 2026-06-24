@@ -218,6 +218,8 @@ npx playwright test --config=e2e/playwright.config.js --project=vanilla-webkit
 
 Misión CRUD E2E y depuración con trace: [`missions/17-crud-e2e-playwright.md`](../missions/17-crud-e2e-playwright.md).
 
+Ruta post-visual (Firefox, Postgres, prod, auth): [`missions/19-ruta-post-visual.md`](../missions/19-ruta-post-visual.md).
+
 Resumen v2.1: **CRUD** (`runCrudFlow`, tres dashboards) + **Postgres E2E** (`test:e2e:pg`, `edf_lab_e2e`) + **multi-browser** (Chromium/Firefox en CI).
 
 ### Auth en tests API vs E2E

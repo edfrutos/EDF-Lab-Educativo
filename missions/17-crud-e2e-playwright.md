@@ -127,7 +127,7 @@ Puedes explicar en tus palabras:
 ## Reto extra
 
 1. Ejecuta `npm run test:e2e:firefox` (instala Firefox antes: `npx playwright install firefox`).
-2. Con Postgres en marcha: `npm run test:db:prepare` y `npm run test:e2e:pg` (6 tests CRUD+smoke, sin oauth mock).
+2. Con Postgres en marcha: `npm run test:db:prepare` y `npm run test:e2e:pg` (**7** tests Chromium + Postgres, incluye oauth mock vanilla).
 3. En un PR, localiza los jobs CI: `test-sqlite`, `test-postgres`, `e2e-smoke`, `e2e-postgres`, `visual-regression`.
 
 ## Enlaces

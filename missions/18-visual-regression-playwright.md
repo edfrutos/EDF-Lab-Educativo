@@ -153,3 +153,4 @@ Puedes explicar con tus palabras:
   - [`e2e/tests/visual.vue.spec.js`](../e2e/tests/visual.vue.spec.js)
 - Workflow CI: [`.github/workflows/ci.yml`](../.github/workflows/ci.yml)
 - Misión CRUD: [`17-crud-e2e-playwright.md`](./17-crud-e2e-playwright.md)
+- Siguiente: [`19-ruta-post-visual.md`](./19-ruta-post-visual.md)

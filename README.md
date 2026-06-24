@@ -174,6 +174,14 @@ Tras v2.1:
 2. [`missions/18-visual-regression-playwright.md`](./missions/18-visual-regression-playwright.md) — práctica guiada de snapshot mismatch, diff review y actualización intencional.
 3. [`NOTEBOOK.md`](./NOTEBOOK.md) — sección Visual Regression (v2.2) con fricciones reales y aprendizajes.
 
+### Ruta consolidada post-visual (Misión 19)
+
+Tras v2.2, recorre en un solo hilo Firefox/Postgres E2E, prod local, auth avanzada y un reto de código:
+
+1. [`missions/19-ruta-post-visual.md`](./missions/19-ruta-post-visual.md) — cuatro bloques ordenados (prioridad 1 → 4).
+2. [`docs/18-production-deploy.md`](./docs/18-production-deploy.md) — referencia del bloque prod.
+3. [`docs/07-retos.md`](./docs/07-retos.md) — catálogo del bloque final.
+
 Índice completo: [`docs/00-indice.md`](./docs/00-indice.md).
 
 ### Opcional (avanzado): dashboard React
