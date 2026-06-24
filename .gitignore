@@ -34,3 +34,5 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.auth/
+# Baselines macOS: generar en local con npm run test:visual -- --update-snapshots
+e2e/__snapshots__/**/*-darwin.png

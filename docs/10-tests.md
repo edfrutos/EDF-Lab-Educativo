@@ -121,7 +121,7 @@ La suite visual compara snapshots del panel autenticado en cada dashboard. Cada 
 - Masks anti-flake: `#health-timestamp`, `#users-table-body`
 - Threshold inicial: `maxDiffPixelRatio: 0.01`
 - Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
-- **Plataforma:** Playwright versiona baselines por SO (`-darwin` en macOS, `-linux` en CI). Tras `--update-snapshots` en Mac, commitea también los `-linux.png` (generados en CI o con contenedor Linux) para que pase `visual-regression`.
+- **Plataforma:** CI compara contra `*-linux.png` (versionados en el repo). En macOS, Playwright usa `*-darwin.png` **generados en tu máquina** (gitignored). Tras `git pull` con cambios en `visual-flow.js`, ejecuta `npm run test:visual -- --update-snapshots` una vez en Mac.
 - Relación con E2E funcional: la regresión visual **no** reemplaza smoke auth ni CRUD; las complementa
 - IDs visuales en React/Vue: `#dashboard-panel`, `#login-gate`, `#health-timestamp` (paridad con vanilla para `visual-flow.js`)
 
@@ -162,7 +162,8 @@ Este gate visual es **aditivo**: `test:e2e`, `test:e2e:ci` y `test:e2e:pg` sigue
 - **Mismatch de dimensiones** (`Expected an image …px by …px, received …px`): la altura del panel variaba entre runners Linux; el helper fija `#dashboard-panel` a 720px. Si persiste tras un cambio UI, regenera `-linux.png` desde artefactos del job `visual-regression` en GHA (`dashboard-post-login-actual.png` → renombrar a la ruta `-linux.png` correspondiente).
 - **`A snapshot doesn't exist … -linux.png`:** faltan baselines de CI; descarga artefactos del job `visual-regression` o regenera en Linux y commitea los tres `-linux.png` en `e2e/__snapshots__/`.
 - **Fallo aislado de un dashboard:** revisa IDs de contrato visual (`#dashboard-panel`, `#login-gate`, `#health-timestamp`) antes de actualizar snapshots.
-- **Mac verde pero CI rojo:** `--update-snapshots` en macOS solo actualiza `-darwin.png`; commitea también los `-linux.png` (CI, contenedor Linux o artefactos GHA).
+- **Mac verde pero CI rojo:** `--update-snapshots` en macOS solo actualiza `-darwin.png` (local); commitea los `-linux.png` (CI, contenedor Linux o artefactos GHA).
+- **Mac: 3 failed tras `git pull` (fix 720px):** las `-darwin.png` locales o del repo estaban obsoletas (p. ej. 1482px vs 720px). Borra las tres si quedaron en disco, libera `:3100`, y regenera: `npm run test:visual -- --update-snapshots`. No uses `CI=true` en Mac salvo para el reto extra de la Misión 18.
 
 ### E2E contra Postgres
 
