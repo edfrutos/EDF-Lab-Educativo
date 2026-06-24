@@ -51,7 +51,19 @@ npx playwright install chromium
 npm run test:visual
 ```
 
-Resultado esperado: **3 passed** — un snapshot por dashboard (`visual.vanilla`, `visual.react`, `visual.vue`).
+Resultado esperado: **3 passed** — un snapshot por dashboard.
+
+> **Tras el fix de altura 720px en `main`:** si fallan los tres tests con mismatch de dimensiones (`Expected … 1482px, received … 720px`), tus `-darwin.png` están obsoletas. Regenera una vez:
+>
+> ```bash
+> rm -f e2e/__snapshots__/visual.*.spec.js/*-darwin.png
+> kill $(lsof -ti :3100) 2>/dev/null
+> rm -f api/data/e2e.users.db
+> npm run test:visual -- --update-snapshots
+> npm run test:visual
+> ```
+>
+> Los `-darwin.png` son locales (gitignored); CI sigue usando `-linux.png` del repo.
 
 En macOS Playwright compara contra `e2e/__snapshots__/…/*-darwin.png`. En Linux/CI usa `*-linux.png`.
 

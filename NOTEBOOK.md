@@ -404,6 +404,30 @@ En validaciones CI-like locales: `CI=true npm run test:visual:ci`.
 
 ---
 
+### Mac: `test:visual` falla en los 3 dashboards tras `git pull`
+
+**Síntoma:** Los tres tests `visual.*` fallan en macOS. En el log: `Expected an image … 1482px` (o `1050px`) `, received … 720px`, o muchos píxeles distintos.
+
+**Causa:** El fix de CI fijó el panel a 720px y actualizó solo `*-linux.png`. Las `*-darwin.png` locales o versionadas seguían con la altura antigua del panel completo.
+
+**Solución:**
+
+```bash
+rm -f e2e/__snapshots__/visual.*.spec.js/*-darwin.png
+kill $(lsof -ti :3100) 2>/dev/null
+rm -f api/data/e2e.users.db
+npm run test:visual -- --update-snapshots
+npm run test:visual
+```
+
+No ejecutes `CI=true npm run test:visual:ci` en Mac para la práctica habitual — compara contra `-linux.png` de GHA.
+
+**Aprendizaje:** En macOS las baselines `-darwin` son locales (gitignored); el repo versiona `-linux` para CI. Tras cambios en `visual-flow.js`, regenera `-darwin` en tu Mac.
+
+*Error real (jun 2026 — Misión 18).*
+
+---
+
 ## Auth Advanced Foundation (fase 38)
 
 Errores y patrones de la fase 38: endpoint `PATCH /auth/password` para cuentas operador con sesión activa.
