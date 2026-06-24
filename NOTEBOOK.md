@@ -386,6 +386,24 @@ En validaciones CI-like locales: `CI=true npm run test:visual:ci`.
 
 ---
 
+### Mismatch de dimensiones en `visual-regression` (altura del panel)
+
+**Síntoma:** CI falla con `Expected an image 1024px by 1657px, received 1024px by 1616px` (o alturas similares distintas en vanilla/React/Vue). A veces el ratio de píxeles supera `0.01` aunque las dimensiones coincidan.
+
+**Causa:** `toHaveScreenshot` capturaba el `#dashboard-panel` completo; la altura del elemento depende de métricas de fuente del runner Linux (cloud agent vs `ubuntu-latest` en GHA). Playwright rechaza el diff si las dimensiones del PNG no coinciden, aunque el contenido sea parecido.
+
+**Solución:**
+
+1. El helper [`e2e/helpers/visual-flow.js`](./e2e/helpers/visual-flow.js) fija el panel a **720px** (altura del viewport) con `overflow: hidden` antes de capturar.
+2. Regenera los tres `*-linux.png` en el mismo entorno que CI o copia `dashboard-post-login-actual.png` desde artefactos del job `visual-regression`.
+3. Commitea baselines junto con el cambio UI o el fix del helper.
+
+**Aprendizaje:** En visual regression multi-runner, estabilizar **dimensiones** del screenshot es tan importante como enmascarar contenido dinámico. Sin altura fija, actualizar baselines en un runner no garantiza verde en GHA.
+
+*Error real (jun 2026 — PR visual-regression).*
+
+---
+
 ## Auth Advanced Foundation (fase 38)
 
 Errores y patrones de la fase 38: endpoint `PATCH /auth/password` para cuentas operador con sesión activa.

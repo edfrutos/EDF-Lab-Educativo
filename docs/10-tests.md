@@ -117,7 +117,7 @@ npx playwright test crud.vue --config=e2e/playwright.config.js --project=vue-chr
 La suite visual compara snapshots del panel autenticado en cada dashboard. Cada framework tiene su **baseline propia** (no se espera pixel-idéntico entre vanilla, React y Vue).
 
 - Comando: `npm run test:visual` — **3 tests** (vanilla `:5173`, React `:5174`, Vue `:5175`)
-- Captura: `#dashboard-panel` post-login (`dashboard-post-login.png` por spec)
+- Captura: `#dashboard-panel` post-login (`dashboard-post-login.png` por spec); el helper fija el panel a **720px** de alto (viewport) antes de capturar — ver `visual-flow.js`
 - Masks anti-flake: `#health-timestamp`, `#users-table-body`
 - Threshold inicial: `maxDiffPixelRatio: 0.01`
 - Actualizar baseline: `npm run test:visual -- --update-snapshots` (solo cuando el cambio visual es intencional)
@@ -159,8 +159,10 @@ Este gate visual es **aditivo**: `test:e2e`, `test:e2e:ci` y `test:e2e:pg` sigue
 - **Mismatch en timestamp o filas variables:** confirma que la captura usa máscaras en `#health-timestamp` y `#users-table-body`.
 - **Diff pequeño de renderizado:** revisa si es anti-aliasing; el umbral base es `maxDiffPixelRatio: 0.01`.
 - **Fallo por baseline desactualizada:** solo usa `--update-snapshots` cuando el cambio UI es intencional y revisado.
+- **Mismatch de dimensiones** (`Expected an image …px by …px, received …px`): la altura del panel variaba entre runners Linux; el helper fija `#dashboard-panel` a 720px. Si persiste tras un cambio UI, regenera `-linux.png` desde artefactos del job `visual-regression` en GHA (`dashboard-post-login-actual.png` → renombrar a la ruta `-linux.png` correspondiente).
 - **`A snapshot doesn't exist … -linux.png`:** faltan baselines de CI; descarga artefactos del job `visual-regression` o regenera en Linux y commitea los tres `-linux.png` en `e2e/__snapshots__/`.
 - **Fallo aislado de un dashboard:** revisa IDs de contrato visual (`#dashboard-panel`, `#login-gate`, `#health-timestamp`) antes de actualizar snapshots.
+- **Mac verde pero CI rojo:** `--update-snapshots` en macOS solo actualiza `-darwin.png`; commitea también los `-linux.png` (CI, contenedor Linux o artefactos GHA).
 
 ### E2E contra Postgres
 
