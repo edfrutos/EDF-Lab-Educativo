@@ -14,7 +14,7 @@ Practicar el flujo CRUD completo desde el dashboard:
 1. Arranca la API:
 
    ```bash
-   cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+   cd api
    PORT=3100 npm start
    ```
 

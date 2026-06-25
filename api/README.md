@@ -13,20 +13,16 @@ Esta API sirve como base para aprender:
 - CRUD con persistencia SQLite (`users.db`),
 - consumo desde un frontend separado.
 
-La API vive en:
-
-```txt
-/Users/edefrutos/Desktop/EDF-Lab-Educativo/api
-```
+La API vive en la carpeta `api/` (desde la raíz del repositorio).
 
 ---
 
 ## Arranque
 
-Desde esta carpeta:
+Desde la raíz del repo:
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+cd api
 PORT=3100 npm start
 ```
 
@@ -60,7 +56,7 @@ Las rutas `/users` requieren sesión de **operador** (tabla `accounts`, distinta
 1. Copia la plantilla de variables:
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo/api
+cd api
 cp .env.example .env
 ```
 
@@ -137,7 +133,6 @@ En Docker Compose, el mismo archivo `api/.env` se carga con `env_file` (ver plan
 Desde la **raíz del repositorio** (no desde `api/`):
 
 ```bash
-cd /Users/edefrutos/Desktop/EDF-Lab-Educativo
 npm run compose:up
 ```
 

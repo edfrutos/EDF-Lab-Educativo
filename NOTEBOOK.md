@@ -1675,6 +1675,32 @@ Ver la solución implementada en `docs/08-memoria-vs-persistencia.md`.
 
 ---
 
+## Migración local del repositorio (jun 2026)
+
+### Mover el lab de Desktop al volumen ESSAGER
+
+**Contexto:** el proyecto pasó de `~/Desktop/EDF-Lab-Educativo` a `/Volumes/ESSAGER/__01.-Proyectos/EDF-Lab_Educativo` (mismo repo Git, nueva ruta en disco).
+
+**Pasos recomendados en macOS:**
+
+1. Parar servicios: `kill $(lsof -ti :3100) 2>/dev/null`, `kill $(lsof -ti :5173) 2>/dev/null`, `npm run compose:prod:down`, `docker compose stop`.
+2. Copiar o mover (conserva `.git`, `.env`, `api/data`, `node_modules` si quieres evitar reinstalar):
+
+   ```bash
+   mkdir -p "/Volumes/ESSAGER/__01.-Proyectos"
+   rsync -a "/Users/edefrutos/Desktop/EDF-Lab-Educativo/" \
+     "/Volumes/ESSAGER/__01.-Proyectos/EDF-Lab_Educativo/"
+   ```
+
+   Tras verificar, puedes borrar la copia en Desktop.
+
+3. Abrir la carpeta nueva en el IDE: `cd "/Volumes/ESSAGER/__01.-Proyectos/EDF-Lab_Educativo"`.
+4. Los **volúmenes Docker** (`postgres_data`, etc.) no dependen de la ruta del repo; los **bind mounts** (`./api/data`) sí — van con la carpeta al migrar.
+
+**Aprendizaje:** la documentación del lab usa rutas **relativas** (`cd api`, `cd dashboard`) para no atar el proyecto a un directorio fijo del Mac.
+
+---
+
 ## Criterio para nuevas entradas
 
 **NOTEBOOK = errores reales + decisiones no obvias.** Si algo te sorprendió, causó un bug, o requirió una decisión que no es evidente leyendo el código, va aquí.
