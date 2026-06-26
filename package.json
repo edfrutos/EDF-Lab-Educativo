@@ -10,6 +10,7 @@
     "compose:prod:vps": "docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml --profile prod up --build",
     "compose:prod:vps:down": "docker compose -f docker-compose.yml -f docker-compose.prod.yml -f docker-compose.vps.yml --profile prod down",
     "compose:logs": "docker compose logs -f",
+    "clean:local": "bash scripts/clean-local-dev.sh",
     "test": "npm test --prefix api",
     "test:pg": "npm run test:pg --prefix api",
     "test:db:prepare": "npm run test:db:prepare --prefix api",

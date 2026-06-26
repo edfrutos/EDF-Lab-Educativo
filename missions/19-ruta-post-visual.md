@@ -154,7 +154,27 @@ Contrato y errores: [`docs/17-autenticacion.md`](../docs/17-autenticacion.md).
 Verificación rápida E2E oauth:
 
 ```bash
+# Playwright levanta su propia API en :3100 — detén npm start manual antes:
+kill $(lsof -ti :3100) 2>/dev/null
+
 npx playwright test e2e/tests/auth-smoke.vanilla.spec.js --config=e2e/playwright.config.js --project=vanilla-chromium
+```
+
+Resultado esperado: **2 passed** (login clásico + OAuth mock). Luego vuelve a `PORT=3100 npm start` si quieres seguir con `curl`.
+
+### Problemas frecuentes (bloque 3)
+
+| Síntoma | Causa habitual | Qué hacer |
+|---------|----------------|-----------|
+| Login con `changeme` → **403** credenciales inválidas | Ya completaste el paso 8, prod o E2E con otra contraseña | Prueba `changeme-2026` o resetea `accounts` (ver [`NOTEBOOK.md`](../NOTEBOOK.md)) |
+| `POST /auth/refresh` → **401** en todos los intentos | No hubo login exitoso; `/tmp/edf-cj` vacío | Primero `POST /auth/login` con `-c /tmp/edf-cj`; guarda `cp /tmp/edf-cj /tmp/edf-cj-old` **antes** de rotar |
+| Playwright: `:3100` already used | API manual ocupando el puerto | `kill $(lsof -ti :3100)` y relanza el test |
+| OAuth `start` OK pero callback **400** | `state` distinto o sin cookie del `start` | Usa la misma cookie jar (`-c`/`-b`) y el `state` exacto del JSON |
+
+Limpieza de artefactos locales entre bloques:
+
+```bash
+./scripts/clean-local-dev.sh
 ```
 
 ### Checkpoint bloque 3

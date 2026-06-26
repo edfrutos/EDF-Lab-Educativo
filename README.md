@@ -92,6 +92,7 @@ Para parar el stack:
 
 ```bash
 npm run compose:down
+npm run clean:local   # opcional: artefactos Playwright y SQLite runtime (api/data/*.db)
 ```
 
 ### Modo prod (un solo origen HTTPS)

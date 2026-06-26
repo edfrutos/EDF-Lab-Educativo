@@ -508,6 +508,66 @@ Errores y patrones al conectar el flujo OAuth mock del backend con la UI del das
 
 ---
 
+## Misión 19 — Bloque 3 (auth avanzada en dev)
+
+Errores reales al practicar pasos 8–11 tras prod o E2E.
+
+### Login con `changeme` falla tras haber completado el paso 8
+
+**Síntoma:** `POST /auth/login` con `"password":"changeme"` devuelve `{"error":"Credenciales inválidas"}`.
+
+**Causa:** El hash en `accounts` ya no coincide con la semilla. Tras `PATCH /auth/password` (Bloque 3, prod smoke o práctica anterior), la contraseña activa pasa a ser la nueva (p. ej. `changeme-2026`). Cambiar `ADMIN_PASSWORD` en `.env` **no** actualiza filas existentes.
+
+**Solución:**
+
+```bash
+curl -c /tmp/edf-cj -X POST http://localhost:3100/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"email":"admin@lab.local","password":"changeme-2026"}'
+```
+
+Reset completo en SQLite host: `./scripts/clean-local-dev.sh` y reiniciar API (operador vuelve a `changeme` si `accounts` estaba vacía al arrancar).
+
+**Aprendizaje:** La semilla del `.env` es **inicial**, no un sincronizador continuo. Ver también *Cuenta operador: email en DB distinto al `.env`*.
+
+*Error real (jun 2026 — Misión 19 bloque 3).*
+
+---
+
+### Refresh 401 antes de login exitoso
+
+**Síntoma:** `POST /auth/refresh` responde `Refresh token no válido o expirado` incluso al copiar `/tmp/edf-cj-old`.
+
+**Causa:** El login falló (contraseña antigua), así que el jar de cookies no contiene `edf_refresh`. Copiar un jar vacío no crea sesión.
+
+**Solución:** Login OK primero; luego `cp /tmp/edf-cj /tmp/edf-cj-old` **antes** del primer refresh; el segundo refresh con `-b /tmp/edf-cj-old` debe dar **401**.
+
+**Aprendizaje:** Refresh **renueva** una sesión existente; no sustituye al login.
+
+*Error real (jun 2026 — Misión 19 bloque 3).*
+
+---
+
+### Playwright auth-smoke con API manual en :3100
+
+**Síntoma:** `Error: http://127.0.0.1:3100/health is already used`.
+
+**Causa:** `e2e/playwright.config.js` fija `reuseExistingServer: false` para la API (DB E2E y rate-limit distintos).
+
+**Solución:**
+
+```bash
+kill $(lsof -ti :3100)
+npx playwright test e2e/tests/auth-smoke.vanilla.spec.js \
+  --config=e2e/playwright.config.js --project=vanilla-chromium
+```
+
+**Aprendizaje:** Para curl manual usa `npm start`; para E2E deja que Playwright levante la API o detén la manual antes.
+
+*Error real (jun 2026 — Misión 19 bloque 3).*
+
+---
+
 ## Production Deploy (v2.5)
 
 Errores y patrones de las fases 42–45: perfil `compose:prod`, TLS, cookies `Secure`, proxy nginx y **despliegue real en VPS con Plesk**. Guía base: [`docs/18-production-deploy.md`](./docs/18-production-deploy.md).

@@ -240,6 +240,24 @@ Misión guiada con login real: [`missions/14-auth-vanilla-login-crud.md`](../mis
 
 ---
 
+## Depuración rápida (bloque 3 / misión 19)
+
+| Síntoma | Causa | Acción |
+|---------|-------|--------|
+| `changeme` → credenciales inválidas | Contraseña ya rotada con `PATCH /auth/password` | Login con `changeme-2026` o reset de `accounts` |
+| Refresh → 401 siempre | Sin login previo o cookie jar vacío | `curl -c /tmp/edf-cj` en login; `cp` antes de rotar |
+| Playwright: puerto `:3100` en uso | `npm start` manual + config E2E (`reuseExistingServer: false` para API) | `kill $(lsof -ti :3100)` y relanza el test |
+| `.env` no cambia la contraseña | `seedAdminIfEmptyAccounts` solo inserta si `accounts` está vacía | `DELETE FROM accounts` + reinicio, o `PATCH /auth/password` logueado |
+
+Reset SQLite en desarrollo host (solo laboratorio):
+
+```bash
+./scripts/clean-local-dev.sh
+cd api && PORT=3100 npm start   # recrea users.db y operador desde .env
+```
+
+---
+
 ## Resumen
 
 - **Operador** ≠ usuarios CRUD.

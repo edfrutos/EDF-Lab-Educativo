@@ -45,6 +45,8 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
    - Email: `admin@lab.local`
    - Contraseña: `changeme` (valores por defecto del laboratorio)
 
+   > Si ya completaste el **paso 8** en otra sesión (prod, E2E o Bloque 3 de la misión 19), la contraseña activa suele ser **`changeme-2026`**, no `changeme`. Ver [`NOTEBOOK.md`](../NOTEBOOK.md) — *Misión 19 bloque 3*.
+
    Tras **Entrar**, el panel principal debe cargar health, metadatos de la API y la lista de usuarios.
 
 5. **CRUD protegido (smoke test)**
@@ -75,6 +77,14 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
 
 8. **Cambio de contraseña del operador (fase 38)**
 
+   Obtén sesión y cookie (ajusta la contraseña si ya la rotaste):
+
+   ```bash
+   curl -c /tmp/edf-cj -X POST http://localhost:3100/auth/login \
+     -H 'Content-Type: application/json' \
+     -d '{"email":"admin@lab.local","password":"changeme"}'
+   ```
+
    Con sesión activa, prueba el endpoint nuevo:
 
    ```bash
@@ -87,13 +97,20 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
 
 9. **Refresh token rotation (fase 39)**
 
-   Con login activo, renueva sesión:
+   Requiere un login exitoso previo (paso 4 u 8). Si `/tmp/edf-cj` no tiene cookies, `POST /auth/refresh` responderá **401** — es normal.
+
+   Guarda la cookie **antes** de rotar y renueva sesión:
 
    ```bash
+   cp /tmp/edf-cj /tmp/edf-cj-old
    curl -b /tmp/edf-cj -c /tmp/edf-cj -X POST http://localhost:3100/auth/refresh
    ```
 
-   Repite el mismo comando usando una cookie de refresh antigua (si la guardaste antes de rotar): debe responder **401**.
+   Repite usando la cookie antigua: debe responder **401**.
+
+   ```bash
+   curl -b /tmp/edf-cj-old -X POST http://localhost:3100/auth/refresh
+   ```
 
 10. **OAuth mock foundation (fase 40)**
 
@@ -118,6 +135,7 @@ Practicar el flujo completo de **autenticación** en el dashboard vanilla: login
     Verificación automatizada:
 
     ```bash
+    kill $(lsof -ti :3100) 2>/dev/null   # Playwright no reutiliza :3100 con npm start manual
     npx playwright test --config=e2e/playwright.config.js --project=vanilla-chromium e2e/tests/auth-smoke.vanilla.spec.js
     cd api && npm run test:sqlite
     ```
