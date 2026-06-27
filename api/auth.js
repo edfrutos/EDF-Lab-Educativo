@@ -22,6 +22,12 @@ const accountsDb = process.env.DATABASE_URL
   ? require('./db-pg')
   : require('./db-sqlite');
 
+const {
+  registerLearnerAccount,
+  findLearnerByEmail,
+  DuplicateLearnerEmailError
+} = require('./db');
+
 const FATAL_JWT_SECRET_MESSAGE =
   '[fatal] JWT_SECRET es obligatorio cuando NODE_ENV=production. Copia api/.env.example a api/.env y define una clave larga.';
 
@@ -69,9 +75,22 @@ function getAllowedOrigins() {
   return raw.split(',').map((origin) => origin.trim()).filter(Boolean);
 }
 
-function signSessionToken(account) {
+function signSessionToken(principal) {
+  const payload = {
+    sub: principal.id,
+    email: principal.email,
+    role: principal.role || 'operator'
+  };
+
+  if (principal.tenantId) {
+    payload.tenantId = principal.tenantId;
+  }
+  if (principal.tenantSlug) {
+    payload.tenantSlug = principal.tenantSlug;
+  }
+
   return jwt.sign(
-    { sub: account.id, email: account.email },
+    payload,
     getJwtSecret(),
     { expiresIn: process.env.JWT_EXPIRES_IN || DEFAULT_JWT_EXPIRES_IN }
   );
@@ -138,12 +157,103 @@ function clearAuthCookies(res) {
 }
 
 function issueSessionCookies(res, account) {
-  const sessionToken = signSessionToken(account);
+  const sessionToken = signSessionToken({
+    id: account.id,
+    email: account.email,
+    role: 'operator'
+  });
   const refreshToken = signRefreshToken(account);
   return persistRefreshToken(account.id, refreshToken).then(() => {
     res.cookie(COOKIE_NAME, sessionToken, getCookieOptions());
     res.cookie(REFRESH_COOKIE_NAME, refreshToken, getRefreshCookieOptions());
   });
+}
+
+function issueLearnerSession(res, learner) {
+  const sessionToken = signSessionToken({
+    id: learner.id,
+    email: learner.email,
+    role: 'learner',
+    tenantId: learner.tenant_id,
+    tenantSlug: learner.tenant_slug
+  });
+  res.cookie(COOKIE_NAME, sessionToken, getCookieOptions());
+}
+
+function buildTenantSlug(email) {
+  const base = email.split('@')[0]
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 20) || 'alumno';
+  return `${base}-${crypto.randomBytes(3).toString('hex')}`;
+}
+
+function buildSandboxRedirect(tenantSlug) {
+  return {
+    sandboxPath: `/lab/${tenantSlug}/`,
+    sandboxQuery: `/?sandbox=${encodeURIComponent(tenantSlug)}`
+  };
+}
+
+async function registerHandler(req, res) {
+  const { email, password } = req.body || {};
+
+  if (typeof email !== 'string' || email.trim() === '' || typeof password !== 'string' || password === '') {
+    return res.status(400).json({ error: 'Los campos "email" y "password" son obligatorios.' });
+  }
+
+  if (password.length < 8) {
+    return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres.' });
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+
+  const existingOperator = await Promise.resolve(accountsDb.findAccountByEmail(normalizedEmail));
+  const existingLearner = await Promise.resolve(findLearnerByEmail(normalizedEmail));
+  if (existingOperator || existingLearner) {
+    return res.status(409).json({ error: 'Ya existe una cuenta con ese email.' });
+  }
+
+  const tenantId = crypto.randomUUID();
+  const tenantSlug = buildTenantSlug(normalizedEmail);
+  const passwordHash = await bcrypt.hash(password, 10);
+
+  try {
+    const learner = await registerLearnerAccount(normalizedEmail, passwordHash, tenantId, tenantSlug);
+    issueLearnerSession(res, learner);
+    const redirect = buildSandboxRedirect(tenantSlug);
+    return res.status(201).json({
+      message: 'Cuenta de alumno creada. Redirigiendo a tu sandbox.',
+      email: learner.email,
+      role: 'learner',
+      tenantSlug: learner.tenant_slug,
+      ...redirect
+    });
+  } catch (err) {
+    if (err instanceof DuplicateLearnerEmailError) {
+      return res.status(409).json({ error: err.message });
+    }
+    console.error('[error] registerLearnerAccount:', err.message);
+    return res.status(500).json({ error: 'No se pudo crear la cuenta de alumno.' });
+  }
+}
+
+async function meHandler(req, res) {
+  const role = req.auth.role || 'operator';
+  const body = {
+    email: req.auth.email,
+    role
+  };
+
+  if (role === 'learner' && req.auth.tenantSlug) {
+    const redirect = buildSandboxRedirect(req.auth.tenantSlug);
+    body.tenantSlug = req.auth.tenantSlug;
+    body.tenantId = req.auth.tenantId;
+    Object.assign(body, redirect);
+  }
+
+  return res.json(body);
 }
 
 async function loginHandler(req, res) {
@@ -153,21 +263,44 @@ async function loginHandler(req, res) {
     return res.status(400).json({ error: 'Los campos "email" y "password" son obligatorios.' });
   }
 
-  const account = await Promise.resolve(accountsDb.findAccountByEmail(email.trim()));
-  if (!account) {
+  const normalizedEmail = email.trim();
+  const account = await Promise.resolve(accountsDb.findAccountByEmail(normalizedEmail));
+  if (account) {
+    const passwordMatches = await bcrypt.compare(password, account.password_hash);
+    if (!passwordMatches) {
+      return res.status(403).json({ error: 'Credenciales inválidas' });
+    }
+
+    await issueSessionCookies(res, account);
+    return res.json({ message: 'Sesión iniciada', email: account.email, role: 'operator' });
+  }
+
+  const learner = await Promise.resolve(findLearnerByEmail(normalizedEmail.toLowerCase()));
+  if (!learner) {
     return res.status(403).json({ error: 'Credenciales inválidas' });
   }
 
-  const passwordMatches = await bcrypt.compare(password, account.password_hash);
-  if (!passwordMatches) {
+  const learnerPasswordMatches = await bcrypt.compare(password, learner.password_hash);
+  if (!learnerPasswordMatches) {
     return res.status(403).json({ error: 'Credenciales inválidas' });
   }
 
-  await issueSessionCookies(res, account);
-  return res.json({ message: 'Sesión iniciada', email: account.email });
+  issueLearnerSession(res, learner);
+  const redirect = buildSandboxRedirect(learner.tenant_slug);
+  return res.json({
+    message: 'Sesión iniciada',
+    email: learner.email,
+    role: 'learner',
+    tenantSlug: learner.tenant_slug,
+    ...redirect
+  });
 }
 
 async function changePasswordHandler(req, res) {
+  if (req.auth?.role === 'learner') {
+    return res.status(403).json({ error: 'Los alumnos no pueden cambiar contraseña desde este endpoint en v3.0a.' });
+  }
+
   const accountId = Number(req.auth?.sub);
   if (!Number.isInteger(accountId) || accountId <= 0) {
     return res.status(401).json({ error: 'Sesión no válida o expirada. Inicia sesión.' });
@@ -340,6 +473,8 @@ module.exports = {
   getRefreshCookieOptions,
   getOAuthStateCookieOptions,
   requireAuth,
+  registerHandler,
+  meHandler,
   loginHandler,
   changePasswordHandler,
   refreshHandler,

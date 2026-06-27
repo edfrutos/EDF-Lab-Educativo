@@ -28,14 +28,34 @@
       </section>
 
       <section class="login-gate card" id="login-gate" aria-labelledby="login-gate-title">
-        <h2 id="login-gate-title">Iniciar sesión</h2>
+        <h2 id="login-gate-title">Portal EDF Lab</h2>
         <p class="hint">
-          La API guarda la sesión en una cookie httpOnly. Necesitas iniciar sesión para ver y gestionar usuarios.
+          <strong>Alumnos:</strong> crea tu cuenta o accede para entrar en tu sandbox aislado.
+          <strong>Operadores:</strong> login clásico o OAuth mock más abajo.
         </p>
-        <p class="hint">
-          <strong>Login clásico:</strong> email y contraseña del operador de laboratorio.
-        </p>
-        <form id="login-form">
+
+        <div class="portal-tabs" role="tablist" aria-label="Acceso al laboratorio">
+          <button type="button" class="portal-tab is-active" id="portal-tab-register" role="tab" aria-selected="true">
+            Registrarme
+          </button>
+          <button type="button" class="portal-tab" id="portal-tab-login" role="tab" aria-selected="false">
+            Ya tengo cuenta
+          </button>
+        </div>
+
+        <form id="register-form" class="portal-panel">
+          <label class="field-group" for="register-email">
+            <span>Email</span>
+            <input id="register-email" name="email" type="email" autocomplete="email" required />
+          </label>
+          <label class="field-group" for="register-password">
+            <span>Contraseña (mín. 8 caracteres)</span>
+            <input id="register-password" name="password" type="password" autocomplete="new-password" required minlength="8" />
+          </label>
+          <button type="submit">Crear sandbox y empezar</button>
+        </form>
+
+        <form id="login-form" class="portal-panel" hidden>
           <label class="field-group" for="login-email">
             <span>Email</span>
             <input id="login-email" name="email" type="email" autocomplete="username" required />
@@ -46,7 +66,8 @@
           </label>
           <button type="submit">Entrar</button>
         </form>
-        <p class="oauth-divider" aria-hidden="true">o</p>
+
+        <p class="oauth-divider" aria-hidden="true">operador avanzado</p>
         <button type="button" class="secondary-button oauth-mock-button" id="oauth-mock-button">
           Continuar con OAuth mock
         </button>
@@ -55,11 +76,27 @@
         </p>
         <p class="login-error" id="login-error" role="alert" aria-live="polite" hidden></p>
         <p class="hint login-hint">
-          Credenciales de laboratorio: <code>admin@lab.local</code> / <code>changeme</code>
+          Operador de laboratorio: <code>admin@lab.local</code> / <code>changeme</code>
         </p>
       </section>
 
       <div class="dashboard-panel" id="dashboard-panel" hidden>
+      <section class="sandbox-banner card" id="sandbox-banner" hidden>
+        <p class="small-label">Tu sandbox</p>
+        <p><code id="sandbox-slug-label">-</code></p>
+        <p class="hint">Datos CRUD aislados por tenant. Ruta: <code id="sandbox-path-label">-</code></p>
+      </section>
+
+      <section class="learn-panel card" id="learn-panel" hidden aria-labelledby="learn-panel-title">
+        <header class="card-header">
+          <div>
+            <p class="small-label">Tutorial in situ</p>
+            <h2 id="learn-panel-title">Aprende</h2>
+          </div>
+        </header>
+        <p class="hint">Completa cada paso con el panel y pulsa <strong>Comprobar</strong>. No necesitas terminal.</p>
+        <div id="learn-missions-list" class="learn-missions"></div>
+      </section>
       <section class="toolbar" aria-label="Acciones del panel">
         <div>
           <p class="small-label">API base</p>

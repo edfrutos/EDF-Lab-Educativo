@@ -14,6 +14,8 @@ const {
   getAllowedOrigins,
   requireAuth,
   loginHandler,
+  registerHandler,
+  meHandler,
   changePasswordHandler,
   refreshHandler,
   oauthStartHandler,
@@ -21,6 +23,7 @@ const {
   logoutHandler,
   createLoginRateLimiter
 } = require('./auth');
+const { requireLearner, missionsHandler, checkStepHandler } = require('./learn');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -83,6 +86,13 @@ function validateUserPayload(body) {
   return null;
 }
 
+function getTenantScope(req) {
+  if (req.auth?.role === 'learner') {
+    return req.auth.tenantId;
+  }
+  return null;
+}
+
 // Routes
 app.get('/', (req, res) => {
   res.json({
@@ -92,6 +102,8 @@ app.get('/', (req, res) => {
       'GET /',
       'GET /health',
       'POST /auth/login',
+      'POST /auth/register',
+      'GET /auth/me',
       'GET /auth/oauth/start',
       'GET /auth/oauth/callback',
       'POST /auth/refresh',
@@ -103,22 +115,29 @@ app.get('/', (req, res) => {
       'PUT /users/:id',
       'DELETE /users/:id',
       'GET /about',
-      'GET /time'
+      'GET /time',
+      'GET /learn/missions',
+      'POST /learn/check/:missionId/:stepId'
     ]
   });
 });
 
 app.post('/auth/login', loginRateLimiter, loginHandler);
+app.post('/auth/register', loginRateLimiter, registerHandler);
+app.get('/auth/me', requireAuth, meHandler);
 app.get('/auth/oauth/start', oauthStartHandler);
 app.get('/auth/oauth/callback', oauthCallbackHandler);
 app.post('/auth/refresh', refreshHandler);
 app.patch('/auth/password', requireAuth, changePasswordHandler);
 app.post('/auth/logout', logoutHandler);
 
+app.get('/learn/missions', requireAuth, requireLearner, missionsHandler);
+app.post('/learn/check/:missionId/:stepId', requireAuth, requireLearner, checkStepHandler);
+
 app.use('/users', requireAuth);
 
 app.get('/users', async (req, res) => {
-  res.json(await getAllUsers());
+  res.json(await getAllUsers(getTenantScope(req)));
 });
 
 app.get('/users/:id', async (req, res) => {
@@ -128,7 +147,7 @@ app.get('/users/:id', async (req, res) => {
     return res.status(400).json({ error: 'El parámetro ":id" debe ser un número entero.' });
   }
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId, getTenantScope(req));
 
   if (!user) {
     return res.status(404).json({ error: 'Usuario no encontrado.' });
@@ -145,7 +164,7 @@ app.post('/users', async (req, res) => {
   }
 
   try {
-    const user = await createUser(req.body.name.trim(), req.body.email.trim());
+    const user = await createUser(req.body.name.trim(), req.body.email.trim(), getTenantScope(req));
     res.status(201).json(user);
   } catch (err) {
     if (err instanceof DuplicateEmailError) {
@@ -169,14 +188,14 @@ app.put('/users/:id', async (req, res) => {
     return res.status(400).json({ error: validationError });
   }
 
-  const existingUser = await getUserById(userId);
+  const existingUser = await getUserById(userId, getTenantScope(req));
 
   if (!existingUser) {
     return res.status(404).json({ error: 'Usuario no encontrado.' });
   }
 
   try {
-    const user = await updateUser(userId, req.body.name.trim(), req.body.email.trim());
+    const user = await updateUser(userId, req.body.name.trim(), req.body.email.trim(), getTenantScope(req));
     res.json(user);
   } catch (err) {
     if (err instanceof DuplicateEmailError) {
@@ -195,7 +214,7 @@ app.delete('/users/:id', async (req, res) => {
   }
 
   try {
-    const deletedUser = await deleteUser(userId);
+    const deletedUser = await deleteUser(userId, getTenantScope(req));
 
     if (!deletedUser) {
       return res.status(404).json({ error: 'Usuario no encontrado.' });

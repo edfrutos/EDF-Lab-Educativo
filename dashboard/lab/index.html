@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="refresh" content="0; url=../?sandbox=" />
+    <script>
+      (function redirectLabPath() {
+        const parts = window.location.pathname.split('/').filter(Boolean);
+        const slug = parts[parts.length - 1] || '';
+        const target = slug ? '../?sandbox=' + encodeURIComponent(slug) : '../';
+        window.location.replace(target);
+      })();
+    </script>
+    <title>Redirigiendo a tu sandbox…</title>
+  </head>
+  <body>
+    <p>Redirigiendo a tu sandbox…</p>
+  </body>
+</html>

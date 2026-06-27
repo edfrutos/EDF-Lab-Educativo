@@ -98,6 +98,33 @@ async function seedAdminIfEmptyAccounts({ countAccounts, insertAccount }) {
   console.log('[seed] Cuenta operador creada');
 }
 
+function buildTenantSeedUsers(tenantSlug) {
+  return [
+    { name: 'John Doe', email: `john.${tenantSlug}@sandbox.lab.local` },
+    { name: 'Jane Smith', email: `jane.${tenantSlug}@sandbox.lab.local` }
+  ];
+}
+
+function seedTenantUsersSqlite(getDb, tenantId, tenantSlug) {
+  const users = buildTenantSeedUsers(tenantSlug);
+  const insert = getDb().prepare('INSERT INTO users (name, email, tenant_id) VALUES (?, ?, ?)');
+  for (const user of users) {
+    insert.run(user.name, user.email, tenantId);
+  }
+  return users.length;
+}
+
+async function seedTenantUsersPg(pool, tenantId, tenantSlug) {
+  const users = buildTenantSeedUsers(tenantSlug);
+  for (const user of users) {
+    await pool.query(
+      'INSERT INTO users (name, email, tenant_id) VALUES ($1, $2, $3)',
+      [user.name, user.email, tenantId]
+    );
+  }
+  return users.length;
+}
+
 module.exports = {
   DEFAULT_SEED,
   USERS_JSON_PATH,
@@ -105,5 +132,7 @@ module.exports = {
   resolveSeedUsers,
   populateIfEmptySqlite,
   populateIfEmptyPg,
-  seedAdminIfEmptyAccounts
+  seedAdminIfEmptyAccounts,
+  seedTenantUsersSqlite,
+  seedTenantUsersPg
 };

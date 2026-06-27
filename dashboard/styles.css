@@ -185,6 +185,64 @@ h2 {
   margin-top: 12px;
 }
 
+.portal-tabs {
+  display: flex;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.portal-tab {
+  flex: 1;
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.portal-tab.is-active {
+  border-color: var(--accent);
+  background: rgba(37, 99, 235, 0.08);
+}
+
+.sandbox-banner {
+  margin-bottom: 20px;
+  border-left: 4px solid var(--accent);
+}
+
+.learn-panel {
+  margin-bottom: 24px;
+}
+
+.learn-mission {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+  margin-top: 16px;
+}
+
+.learn-mission:first-child {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.learn-step {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.learn-step.is-complete strong {
+  color: var(--success);
+}
+
+.learn-step button {
+  flex-shrink: 0;
+}
+
 .dashboard-panel[hidden] {
   display: none;
 }

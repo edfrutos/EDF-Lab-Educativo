@@ -1,17 +1,29 @@
 const API_BASE_URL = 'http://localhost:3100';
 let currentUsers = [];
 let editingUserId = null;
+let currentAuthRole = null;
+let currentTenantSlug = resolveSandboxSlug();
 
 const elements = {
   apiBaseUrl: document.getElementById('api-base-url'),
   reloadButton: document.getElementById('reload-button'),
   logoutButton: document.getElementById('logout-button'),
   loginGate: document.getElementById('login-gate'),
+  registerForm: document.getElementById('register-form'),
+  registerEmailInput: document.getElementById('register-email'),
+  registerPasswordInput: document.getElementById('register-password'),
+  portalTabRegister: document.getElementById('portal-tab-register'),
+  portalTabLogin: document.getElementById('portal-tab-login'),
   loginForm: document.getElementById('login-form'),
   loginEmailInput: document.getElementById('login-email'),
   loginPasswordInput: document.getElementById('login-password'),
   loginError: document.getElementById('login-error'),
   oauthMockButton: document.getElementById('oauth-mock-button'),
+  sandboxBanner: document.getElementById('sandbox-banner'),
+  sandboxSlugLabel: document.getElementById('sandbox-slug-label'),
+  sandboxPathLabel: document.getElementById('sandbox-path-label'),
+  learnPanel: document.getElementById('learn-panel'),
+  learnMissionsList: document.getElementById('learn-missions-list'),
   dashboardPanel: document.getElementById('dashboard-panel'),
   statusDot: document.getElementById('status-dot'),
   connectionValue: document.getElementById('connection-value'),
@@ -35,13 +47,169 @@ const elements = {
 elements.apiBaseUrl.textContent = API_BASE_URL;
 elements.reloadButton.addEventListener('click', loadDashboardData);
 elements.logoutButton.addEventListener('click', handleLogoutClick);
+elements.registerForm.addEventListener('submit', handleRegisterSubmit);
 elements.loginForm.addEventListener('submit', handleLoginSubmit);
+elements.portalTabRegister.addEventListener('click', () => showPortalTab('register'));
+elements.portalTabLogin.addEventListener('click', () => showPortalTab('login'));
 elements.oauthMockButton.addEventListener('click', handleOAuthMockClick);
 elements.userForm.addEventListener('submit', handleUserFormSubmit);
 elements.cancelEditButton.addEventListener('click', resetUserForm);
 elements.usersTableBody.addEventListener('click', handleUsersTableClick);
 
 bootstrapAuth();
+
+function resolveSandboxSlug() {
+  const fromQuery = new URLSearchParams(window.location.search).get('sandbox');
+  if (fromQuery) {
+    return fromQuery;
+  }
+
+  const match = window.location.pathname.match(/^\/lab\/([^/]+)\/?$/);
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function redirectToLearnerSandbox(tenantSlug) {
+  const target = `${window.location.origin}/?sandbox=${encodeURIComponent(tenantSlug)}`;
+  if (window.location.href !== target) {
+    window.location.replace(target);
+  }
+}
+
+function showPortalTab(tab) {
+  const isRegister = tab === 'register';
+  elements.registerForm.hidden = !isRegister;
+  elements.loginForm.hidden = isRegister;
+  elements.portalTabRegister.classList.toggle('is-active', isRegister);
+  elements.portalTabLogin.classList.toggle('is-active', !isRegister);
+  elements.portalTabRegister.setAttribute('aria-selected', String(isRegister));
+  elements.portalTabLogin.setAttribute('aria-selected', String(!isRegister));
+  clearLoginError();
+}
+
+function showSandboxBanner(tenantSlug) {
+  if (!tenantSlug) {
+    elements.sandboxBanner.hidden = true;
+    return;
+  }
+
+  elements.sandboxBanner.hidden = false;
+  elements.sandboxSlugLabel.textContent = tenantSlug;
+  elements.sandboxPathLabel.textContent = `/lab/${tenantSlug}/`;
+}
+
+function showLearnPanel(show) {
+  elements.learnPanel.hidden = !show;
+}
+
+async function handleRegisterSubmit(event) {
+  event.preventDefault();
+  clearLoginError();
+
+  const email = elements.registerEmailInput.value.trim();
+  const password = elements.registerPasswordInput.value;
+
+  try {
+    const result = await fetchJson('/auth/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    });
+
+    currentAuthRole = result.role || 'learner';
+    currentTenantSlug = result.tenantSlug;
+    clearLoginError();
+    redirectToLearnerSandbox(result.tenantSlug);
+  } catch (error) {
+    showLoginError(error.message || 'No se ha podido crear la cuenta.');
+  }
+}
+
+async function loadLearnMissions() {
+  if (currentAuthRole !== 'learner') {
+    showLearnPanel(false);
+    return;
+  }
+
+  showLearnPanel(true);
+
+  try {
+    const payload = await fetchJson('/learn/missions');
+    renderLearnMissions(payload.missions || []);
+  } catch (error) {
+    elements.learnMissionsList.innerHTML = `<p class="hint">${error.message}</p>`;
+  }
+}
+
+function renderLearnMissions(missions) {
+  elements.learnMissionsList.replaceChildren(
+    ...missions.map((mission) => {
+      const article = document.createElement('article');
+      article.className = 'learn-mission';
+
+      const title = document.createElement('h3');
+      title.textContent = mission.title;
+
+      const summary = document.createElement('p');
+      summary.className = 'hint';
+      summary.textContent = mission.summary;
+
+      article.append(title, summary);
+
+      for (const step of mission.steps) {
+        const row = document.createElement('div');
+        row.className = `learn-step${step.completed ? ' is-complete' : ''}`;
+
+        const label = document.createElement('div');
+        label.innerHTML = `<strong>${step.completed ? '✓' : '○'}</strong> ${step.title}`;
+
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'secondary-button';
+        button.textContent = step.completed ? 'Completado' : 'Comprobar';
+        button.disabled = step.completed;
+        button.addEventListener('click', () => checkLearnStep(mission.id, step.id, button, row));
+
+        row.append(label, button);
+        article.append(row);
+      }
+
+      return article;
+    })
+  );
+}
+
+async function checkLearnStep(missionId, stepId, button, row) {
+  button.disabled = true;
+  button.textContent = 'Comprobando...';
+
+  try {
+    await fetchJson(`/learn/check/${missionId}/${stepId}`, { method: 'POST' });
+    row.classList.add('is-complete');
+    button.textContent = 'Completado';
+    await loadLearnMissions();
+  } catch (error) {
+    button.disabled = false;
+    button.textContent = 'Comprobar';
+    showMutationFeedback(error.message || 'Paso pendiente.', 'error');
+  }
+}
+
+async function syncAuthContext() {
+  try {
+    const me = await fetchJson('/auth/me');
+    currentAuthRole = me.role || 'operator';
+    currentTenantSlug = me.tenantSlug || currentTenantSlug;
+
+    if (currentAuthRole === 'learner' && me.tenantSlug) {
+      showSandboxBanner(me.tenantSlug);
+      if (currentTenantSlug && !new URLSearchParams(window.location.search).get('sandbox')) {
+        redirectToLearnerSandbox(me.tenantSlug);
+      }
+    }
+  } catch {
+    currentAuthRole = null;
+  }
+}
 
 function showLoginGate() {
   elements.loginGate.hidden = false;
@@ -94,8 +262,10 @@ async function bootstrapAuth() {
 
   try {
     await fetchJson('/users');
+    await syncAuthContext();
     showDashboardPanel();
     await loadDashboardData();
+    await loadLearnMissions();
   } catch (error) {
     if (error.status === 401) {
       showLoginGate();
@@ -146,9 +316,17 @@ async function handleLoginSubmit(event) {
       body: JSON.stringify({ email, password })
     });
 
+    await syncAuthContext();
     clearLoginError();
+
+    if (currentAuthRole === 'learner' && currentTenantSlug) {
+      redirectToLearnerSandbox(currentTenantSlug);
+      return;
+    }
+
     showDashboardPanel();
     await loadDashboardData();
+    await loadLearnMissions();
   } catch (error) {
     if (error.status === 403) {
       showLoginError(error.message || 'Credenciales inválidas');
@@ -168,6 +346,10 @@ async function handleLogoutClick() {
 
   clearDashboardData();
   elements.loginForm.reset();
+  elements.registerForm.reset();
+  currentAuthRole = null;
+  showLearnPanel(false);
+  elements.sandboxBanner.hidden = true;
   clearLoginError();
   showLoginGate();
 }
@@ -331,6 +513,9 @@ async function handleUserFormSubmit(event) {
     resetUserForm();
     showMutationFeedback(successFeedback, 'success');
     await loadDashboardData();
+    if (currentAuthRole === 'learner') {
+      await loadLearnMissions();
+    }
   } catch (error) {
     if (handleAuthRequiredError(error)) {
       return;

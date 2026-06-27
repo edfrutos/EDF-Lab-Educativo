@@ -10,7 +10,34 @@ The lab includes a working API with **dual persistence** (SQLite on host dev, Po
 
 Make the backend -> JSON -> frontend flow visible, executable, and teachable, turning real errors into documented learning.
 
-## Current Milestone: v2.5 Production Deploy
+## Current Milestone: v3.0 Escuela (tutorial in situ)
+
+**Goal:** Usuarios externos se registran online, entran en **su sandbox** (aislamiento por tenant) y completan misiones **dentro de la app** — sin depender de terminal ni `missions/*.md`.
+
+**Piloto:** hasta **10 alumnos concurrentes** en una instancia (fase B1 lógica); escalera hacia sandbox Compose por alumno (B3).
+
+**v3.0a shipped (foundation):**
+- `POST /auth/register` — cuenta `learners` + `tenant_id` + semilla CRUD aislada
+- JWT con rol `learner` | `operator`; CRUD filtrado por tenant
+- Panel **Aprende** (3 misiones auto-comprobables) en dashboard vanilla
+- Redirect portal → `/?sandbox={slug}` (prod: `/lab/{slug}/` vía nginx)
+- Guía: [`docs/19-escuela-online.md`](../docs/19-escuela-online.md)
+
+**Next (v3.0b–v3.2):**
+- Retos `docs/07-retos.md` como misiones in-app desbloqueables
+- B2: base Postgres por tenant al provisionar
+- B3: orquestación async (1 stack plantilla por alumno, sleep/destroy, cuotas)
+
+<details>
+<summary>Previous milestone: v2.5 Production Deploy</summary>
+
+**Goal:** Enseñar despliegue production-minded con TLS y proxy inverso sin romper el flujo dev actual (API `:3100` + dashboard `:5173`).
+
+</details>
+
+## Previous planning header (v2.5 detail)
+
+## Current Milestone (archived label): v2.5 Production Deploy
 
 **Goal:** Enseñar despliegue production-minded con TLS y proxy inverso sin romper el flujo dev actual (API `:3100` + dashboard `:5173`).
 

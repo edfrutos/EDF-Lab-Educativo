@@ -231,3 +231,6 @@ describe('Email duplicado', () => {
 });
 
 registerAuthApiTests({ describe, it, before, after, assert, app, request });
+
+const { registerSchoolApiTests } = require('./test-school');
+registerSchoolApiTests({ describe, it, before, after, assert, app, request });
