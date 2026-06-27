@@ -72,6 +72,28 @@ function redirectToLearnerSandbox(tenantSlug) {
   const target = `${window.location.origin}/?sandbox=${encodeURIComponent(tenantSlug)}`;
   if (window.location.href !== target) {
     window.location.replace(target);
+    return true;
+  }
+  return false;
+}
+
+async function enterLearnerDashboard() {
+  try {
+    await syncAuthContext();
+    showSandboxBanner(currentTenantSlug);
+    showDashboardPanel();
+    await loadDashboardData();
+    await loadLearnMissions();
+  } catch (error) {
+    if (error.status === 401) {
+      showLoginGate();
+      showLoginError(
+        'La sesión no se guardó en el navegador. Quita NODE_ENV=production de api/.env en dev HTTP ' +
+          'o usa HTTPS (compose:prod).'
+      );
+      return;
+    }
+    throw error;
   }
 }
 
@@ -118,7 +140,10 @@ async function handleRegisterSubmit(event) {
     currentAuthRole = result.role || 'learner';
     currentTenantSlug = result.tenantSlug;
     clearLoginError();
-    redirectToLearnerSandbox(result.tenantSlug);
+    if (redirectToLearnerSandbox(result.tenantSlug)) {
+      return;
+    }
+    await enterLearnerDashboard();
   } catch (error) {
     showLoginError(error.message || 'No se ha podido crear la cuenta.');
   }
@@ -277,6 +302,10 @@ async function bootstrapAuth() {
       showLoginGate();
       if (sandboxFromUrl) {
         showPortalTab('login');
+        showLoginError(
+          `Sandbox «${sandboxFromUrl}»: inicia sesión con tu email de alumno. ` +
+            'Si curl entra pero el navegador no, revisa NODE_ENV=production en api/.env.'
+        );
       }
       return;
     }
@@ -330,7 +359,10 @@ async function handleLoginSubmit(event) {
     clearLoginError();
 
     if (currentAuthRole === 'learner' && currentTenantSlug) {
-      redirectToLearnerSandbox(currentTenantSlug);
+      if (redirectToLearnerSandbox(currentTenantSlug)) {
+        return;
+      }
+      await enterLearnerDashboard();
       return;
     }
 
@@ -339,6 +371,13 @@ async function handleLoginSubmit(event) {
     await loadDashboardData();
     await loadLearnMissions();
   } catch (error) {
+    if (error.status === 401) {
+      showLoginError(
+        'Login respondió OK pero la cookie no se guardó. ' +
+          'En dev local no uses NODE_ENV=production en api/.env (cookie Secure sin HTTPS).'
+      );
+      return;
+    }
     if (error.status === 403) {
       showLoginError(error.message || 'Credenciales inválidas');
       return;

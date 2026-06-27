@@ -185,6 +185,10 @@ h2 {
   margin-top: 12px;
 }
 
+.portal-panel[hidden] {
+  display: none !important;
+}
+
 .portal-tabs {
   display: flex;
   gap: 8px;
