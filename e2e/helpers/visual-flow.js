@@ -44,7 +44,11 @@ function getVisualScreenshotOptions(page) {
   return {
     maxDiffPixelRatio: 0.01,
     animations: 'disabled',
-    mask: [page.locator('#health-timestamp'), page.locator('#users-table-body')]
+    mask: [
+      page.locator('#health-timestamp'),
+      page.locator('#users-table-body'),
+      page.locator('#endpoint-list')
+    ]
   };
 }
 
