@@ -61,11 +61,11 @@ bootstrapAuth();
 function resolveSandboxSlug() {
   const fromQuery = new URLSearchParams(window.location.search).get('sandbox');
   if (fromQuery) {
-    return fromQuery;
+    return fromQuery.trim();
   }
 
   const match = window.location.pathname.match(/^\/lab\/([^/]+)\/?$/);
-  return match ? decodeURIComponent(match[1]) : null;
+  return match ? decodeURIComponent(match[1]).trim() : null;
 }
 
 function redirectToLearnerSandbox(tenantSlug) {
@@ -246,6 +246,12 @@ async function bootstrapAuth() {
   hideError();
   clearLoginError();
 
+  const sandboxFromUrl = resolveSandboxSlug();
+  if (sandboxFromUrl) {
+    currentTenantSlug = sandboxFromUrl;
+    showPortalTab('login');
+  }
+
   try {
     const health = await fetchJson('/health');
     renderHealth(health);
@@ -269,6 +275,9 @@ async function bootstrapAuth() {
   } catch (error) {
     if (error.status === 401) {
       showLoginGate();
+      if (sandboxFromUrl) {
+        showPortalTab('login');
+      }
       return;
     }
 
