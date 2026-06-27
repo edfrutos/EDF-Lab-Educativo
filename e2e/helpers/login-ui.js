@@ -3,11 +3,28 @@
 const { expect } = require('@playwright/test');
 
 /**
+ * Portal v3 (vanilla) vs login clásico (React/Vue).
+ */
+async function expectLoginGateHeading(page) {
+  const portalHeading = page.getByRole('heading', { name: 'Portal EDF Lab' });
+  const classicHeading = page.getByRole('heading', { name: 'Iniciar sesión' });
+  await expect(portalHeading.or(classicHeading)).toBeVisible();
+  return portalHeading;
+}
+
+/**
  * Espera a que React/Vue terminen bootstrapAuth (vanilla no muestra este texto).
+ * En vanilla v3.0 el registro es la pestaña activa: hay que abrir «Ya tengo cuenta».
  */
 async function waitForLoginGateReady(page) {
   await expect(page.getByText(/Comprobando sesión/)).toHaveCount(0, { timeout: 30_000 });
-  await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+
+  const portalHeading = await expectLoginGateHeading(page);
+
+  if (await portalHeading.isVisible()) {
+    await page.getByRole('tab', { name: 'Ya tengo cuenta' }).click();
+  }
+
   await expect(page.locator('#login-email')).toBeVisible();
   await expect(page.locator('#login-password')).toBeVisible();
 }
@@ -47,4 +64,4 @@ async function loginViaUi(page, { email, password }) {
   await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible({ timeout: 15_000 });
 }
 
-module.exports = { waitForLoginGateReady, loginViaUi };
+module.exports = { expectLoginGateHeading, waitForLoginGateReady, loginViaUi };

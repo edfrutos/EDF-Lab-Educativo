@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('@playwright/test');
-const { loginViaUi, waitForLoginGateReady } = require('./login-ui.js');
+const { expectLoginGateHeading, loginViaUi, waitForLoginGateReady } = require('./login-ui.js');
 
 /**
  * Smoke auth compartido: gate → login UI → tabla con datos → logout → gate.
@@ -17,7 +17,7 @@ async function runAuthSmokeFlow(page, { email, password }) {
   await expect(page.getByText('John Doe')).toBeVisible();
 
   await page.getByRole('button', { name: 'Cerrar sesión' }).click();
-  await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  await expectLoginGateHeading(page);
   await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeHidden();
 }
 
@@ -33,7 +33,7 @@ async function runOAuthMockSmokeFlow(page) {
   await expect(page.getByText('John Doe')).toBeVisible();
 
   await page.getByRole('button', { name: 'Cerrar sesión' }).click();
-  await expect(page.getByRole('heading', { name: 'Iniciar sesión' })).toBeVisible();
+  await expectLoginGateHeading(page);
   await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeHidden();
 }
 
