@@ -85,8 +85,12 @@ async function checkStepHandler(req, res) {
   const passed = await runStepCheck(req, missionId, stepId);
 
   if (!passed) {
+    const hint = missionId === 'crud' && stepId === 'create'
+      ? 'Crea un usuario nuevo con el formulario CRUD (POST /users). Los usuarios John/Jane de demostración no cuentan.'
+      : 'Sigue las instrucciones e inténtalo de nuevo.';
+
     return res.status(400).json({
-      error: 'El paso aún no se cumple. Sigue las instrucciones e inténtalo de nuevo.',
+      error: `El paso aún no se cumple. ${hint}`,
       missionId,
       stepId,
       passed: false

@@ -62,6 +62,25 @@ function registerSchoolApiTests({ describe, it, before, after, assert, app, requ
       assert.equal(afterCreate.status, 200);
       assert.equal(afterCreate.body.passed, true);
     });
+
+    it('POST /auth/login prioriza alumno si el email también existe como operador', async () => {
+      const email = `dual-${Date.now()}@school.test`;
+      const learnerPassword = 'alumno-pass-9';
+
+      await request(app).post('/auth/register').send({ email, password: learnerPassword });
+
+      const bcrypt = require('bcrypt');
+      const { insertAccount } = require('./db-sqlite');
+      const operatorHash = await bcrypt.hash('operador-9', 10);
+      insertAccount(email, operatorHash);
+
+      const learnerLogin = await request(app)
+        .post('/auth/login')
+        .send({ email, password: learnerPassword });
+
+      assert.equal(learnerLogin.status, 200);
+      assert.equal(learnerLogin.body.role, 'learner');
+    });
   });
 }
 

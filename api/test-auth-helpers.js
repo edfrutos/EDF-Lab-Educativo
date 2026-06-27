@@ -77,7 +77,7 @@ function registerAuthApiTests({ describe, it, before, after, assert, app, reques
         .post('/auth/login')
         .send({ email: ADMIN_EMAIL, password: 'wrong-password' });
       assert.equal(res.status, 403);
-      assert.equal(res.body.error, 'Credenciales inválidas');
+      assert.match(res.body.error, /Credenciales inválidas/);
     });
 
     it('POST /auth/logout invalida la sesión', async () => {
@@ -252,7 +252,7 @@ function registerAuthApiTests({ describe, it, before, after, assert, app, reques
         .post('/auth/login')
         .send({ email: ADMIN_EMAIL, password: ADMIN_PASSWORD });
       assert.equal(oldLogin.status, 403);
-      assert.equal(oldLogin.body.error, 'Credenciales inválidas');
+      assert.match(oldLogin.body.error, /Credenciales inválidas/);
 
       const newLogin = await request(app)
         .post('/auth/login')

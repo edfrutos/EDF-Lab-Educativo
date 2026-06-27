@@ -66,7 +66,7 @@ async function countAccounts() {
 
 async function findAccountByEmail(email) {
   const { rows } = await pool.query(
-    'SELECT id, email, password_hash FROM accounts WHERE email = $1',
+    'SELECT id, email, password_hash FROM accounts WHERE lower(email) = lower($1)',
     [email]
   );
   return rows[0] || null;
@@ -201,7 +201,8 @@ async function deleteUser(id, tenantId = null) {
 
 async function findLearnerByEmail(email) {
   const { rows } = await pool.query(
-    'SELECT id, email, password_hash, tenant_id, tenant_slug, seeded_user_count FROM learners WHERE email = $1',
+    `SELECT id, email, password_hash, tenant_id, tenant_slug, seeded_user_count
+     FROM learners WHERE lower(email) = lower($1)`,
     [email]
   );
   return rows[0] || null;

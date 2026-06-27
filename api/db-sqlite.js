@@ -74,7 +74,7 @@ function countAccounts() {
 
 function findAccountByEmail(email) {
   const row = getDb()
-    .prepare('SELECT id, email, password_hash FROM accounts WHERE email = ?')
+    .prepare('SELECT id, email, password_hash FROM accounts WHERE lower(email) = lower(?)')
     .get(email);
   return row || null;
 }
@@ -188,7 +188,9 @@ async function deleteUser(id, tenantId = null) {
 
 function findLearnerByEmail(email) {
   return getDb()
-    .prepare('SELECT id, email, password_hash, tenant_id, tenant_slug, seeded_user_count FROM learners WHERE email = ?')
+    .prepare(
+      'SELECT id, email, password_hash, tenant_id, tenant_slug, seeded_user_count FROM learners WHERE lower(email) = lower(?)'
+    )
     .get(email) || null;
 }
 

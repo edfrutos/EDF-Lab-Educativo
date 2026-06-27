@@ -207,7 +207,7 @@ async function registerHandler(req, res) {
     return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres.' });
   }
 
-  const normalizedEmail = email.trim().toLowerCase();
+  const normalizedEmail = normalizeAuthEmail(email);
 
   const existingOperator = await Promise.resolve(accountsDb.findAccountByEmail(normalizedEmail));
   const existingLearner = await Promise.resolve(findLearnerByEmail(normalizedEmail));
@@ -256,6 +256,10 @@ async function meHandler(req, res) {
   return res.json(body);
 }
 
+function normalizeAuthEmail(email) {
+  return email.trim().toLowerCase();
+}
+
 async function loginHandler(req, res) {
   const { email, password } = req.body || {};
 
@@ -263,36 +267,36 @@ async function loginHandler(req, res) {
     return res.status(400).json({ error: 'Los campos "email" y "password" son obligatorios.' });
   }
 
-  const normalizedEmail = email.trim();
+  const normalizedEmail = normalizeAuthEmail(email);
+
+  // Alumnos primero: evita que ADMIN_EMAIL personal en .env bloquee re-login tras seed de operador.
+  const learner = await Promise.resolve(findLearnerByEmail(normalizedEmail));
+  if (learner) {
+    const learnerPasswordMatches = await bcrypt.compare(password, learner.password_hash);
+    if (learnerPasswordMatches) {
+      issueLearnerSession(res, learner);
+      const redirect = buildSandboxRedirect(learner.tenant_slug);
+      return res.json({
+        message: 'Sesión iniciada',
+        email: learner.email,
+        role: 'learner',
+        tenantSlug: learner.tenant_slug,
+        ...redirect
+      });
+    }
+  }
+
   const account = await Promise.resolve(accountsDb.findAccountByEmail(normalizedEmail));
   if (account) {
     const passwordMatches = await bcrypt.compare(password, account.password_hash);
-    if (!passwordMatches) {
-      return res.status(403).json({ error: 'Credenciales inválidas' });
+    if (passwordMatches) {
+      await issueSessionCookies(res, account);
+      return res.json({ message: 'Sesión iniciada', email: account.email, role: 'operator' });
     }
-
-    await issueSessionCookies(res, account);
-    return res.json({ message: 'Sesión iniciada', email: account.email, role: 'operator' });
   }
 
-  const learner = await Promise.resolve(findLearnerByEmail(normalizedEmail.toLowerCase()));
-  if (!learner) {
-    return res.status(403).json({ error: 'Credenciales inválidas' });
-  }
-
-  const learnerPasswordMatches = await bcrypt.compare(password, learner.password_hash);
-  if (!learnerPasswordMatches) {
-    return res.status(403).json({ error: 'Credenciales inválidas' });
-  }
-
-  issueLearnerSession(res, learner);
-  const redirect = buildSandboxRedirect(learner.tenant_slug);
-  return res.json({
-    message: 'Sesión iniciada',
-    email: learner.email,
-    role: 'learner',
-    tenantSlug: learner.tenant_slug,
-    ...redirect
+  return res.status(403).json({
+    error: 'Credenciales inválidas. Si te registraste como alumno, usa la misma contraseña del registro (≥ 8 caracteres).'
   });
 }
 

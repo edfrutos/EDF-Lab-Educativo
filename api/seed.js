@@ -91,7 +91,7 @@ async function seedAdminIfEmptyAccounts({ countAccounts, insertAccount }) {
     return;
   }
 
-  const email = process.env.ADMIN_EMAIL || 'admin@lab.local';
+  const email = (process.env.ADMIN_EMAIL || 'admin@lab.local').trim().toLowerCase();
   const password = process.env.ADMIN_PASSWORD || 'changeme';
   const passwordHash = await bcrypt.hash(password, BCRYPT_ROUNDS);
   await insertAccount(email, passwordHash);

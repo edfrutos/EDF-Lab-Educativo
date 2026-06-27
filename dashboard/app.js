@@ -308,7 +308,7 @@ async function handleLoginSubmit(event) {
   const password = elements.loginPasswordInput.value;
 
   try {
-    await fetchJson('/auth/login', {
+    const result = await fetchJson('/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -316,7 +316,8 @@ async function handleLoginSubmit(event) {
       body: JSON.stringify({ email, password })
     });
 
-    await syncAuthContext();
+    currentAuthRole = result.role || null;
+    currentTenantSlug = result.tenantSlug || currentTenantSlug;
     clearLoginError();
 
     if (currentAuthRole === 'learner' && currentTenantSlug) {
@@ -324,6 +325,7 @@ async function handleLoginSubmit(event) {
       return;
     }
 
+    await syncAuthContext();
     showDashboardPanel();
     await loadDashboardData();
     await loadLearnMissions();

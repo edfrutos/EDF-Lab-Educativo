@@ -47,6 +47,8 @@ cd dashboard && python3 -m http.server 5173
 
 Registro de prueba en http://localhost:5173 → contraseña mínimo 8 caracteres.
 
+> **Local + escuela:** en `api/.env` de desarrollo usa `ADMIN_EMAIL=admin@lab.local`. Si pones tu Gmail en `ADMIN_EMAIL`, tras `clean:local` el seed puede recrear un **operador** con ese email y bloquear el login de alumno (corregido en login: alumno primero; aun así, separa emails).
+
 ## Producción
 
 El proxy incluye redirect:
